@@ -20,9 +20,10 @@ public:
 
 	virtual void pause() = 0;
 	virtual void resume() = 0;
-
+	/*
 	bool changeState()const
 	{
 		return changeState;
 	}
+	*/
 };
