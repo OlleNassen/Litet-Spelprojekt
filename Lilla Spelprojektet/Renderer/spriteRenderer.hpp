@@ -1,9 +1,10 @@
 #pragma once
 #include"Shader.hpp"
 
-//Todo: Implement shader class before using this
-/*
 
+//Todo: Implement shader class before using this
+
+/*
 class SpriteRenderer
 {
 public:

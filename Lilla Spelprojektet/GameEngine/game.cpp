@@ -21,6 +21,7 @@ Game::Game()
 	luaL_dostring(L, "print('Lua Activated')");
 
 	lua_close(L);
+
 }
 
 Game::~Game()

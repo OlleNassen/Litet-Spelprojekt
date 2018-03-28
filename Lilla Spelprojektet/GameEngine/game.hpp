@@ -5,6 +5,7 @@
 #include <glm\glm.hpp>
 #include "gameState.hpp"
 #include <lua.hpp>
+#include <SOIL.h>
 
 class Game
 {
