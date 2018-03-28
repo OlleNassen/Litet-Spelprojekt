@@ -2,7 +2,7 @@
 #include <SFML\OpenGL.hpp>
 
 
-//Todo: Implement shader class
+//Todo: Implement shader class before using this
 /*
 
 class SpriteRenderer
