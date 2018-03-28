@@ -2,7 +2,6 @@
 #include "state.hpp"
 #include <SFML\Window.hpp>
 #include <SFML\OpenGL.hpp>
-#include <gl\glew.h>
 
 class MenuState :public State
 {
