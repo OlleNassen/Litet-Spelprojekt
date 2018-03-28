@@ -53,5 +53,13 @@
     <ClInclude Include="Logic\player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\FragmentShaderCore.glsl" />
+    <None Include="Resources\Shaders\GeometryShaderCore.glsl" />
+    <None Include="Resources\Shaders\VertexShaderCore.glsl" />
   </ItemGroup>
 </Project>

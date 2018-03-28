@@ -28,11 +28,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logic\player.hpp" />
+    <ClInclude Include="Renderer\Shader.hpp" />
     <ClInclude Include="Renderer\spriteRenderer.hpp" />
     <ClInclude Include="GameEngine\game.hpp" />
     <ClInclude Include="GameEngine\gameState.hpp" />
     <ClInclude Include="GameEngine\menuState.hpp" />
     <ClInclude Include="GameEngine\state.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\FragmentShaderCore.glsl" />
+    <None Include="Resources\Shaders\GeometryShaderCore.glsl" />
+    <None Include="Resources\Shaders\VertexShaderCore.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -119,10 +125,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Lilla Spelprojektet\External\SFML-2.4.2\include;$(SolutionDir)\Lilla Spelprojektet\External\compiled lua;$(SolutionDir)\Lilla Spelprojektet\External\glm-0.9.9-a2;$(SolutionDir)\Lilla Spelprojektet\External\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Lilla Spelprojektet\External\compiled lua;$(SolutionDir)\Lilla Spelprojektet\External\glew-2.1.0\lib\Release\Win32;$(SolutionDir)\Lilla Spelprojektet\External\SFML-2.4.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;glew32.lib;LuaLib-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

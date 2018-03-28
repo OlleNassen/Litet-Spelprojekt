@@ -1,6 +1,5 @@
 #pragma once
-#include <SFML\OpenGL.hpp>
-
+#include"Shader.hpp"
 
 //Todo: Implement shader class before using this
 /*
