@@ -1,11 +1,18 @@
 #pragma once
 #include "state.hpp"
+#include <SFML\Window.hpp>
+#include <SFML\OpenGL.hpp>
+#include <gl\glew.h>
 
-class GameState :public State
+class MenuState :public State
 {
 private:
+
 public:
-	void handleEvents() override;
+	MenuState();
+	~MenuState();
+
+	void handleEvents(sf::Window* window) override;
 	void handleInput() override;
 	void update() override;
 	void draw()const override;

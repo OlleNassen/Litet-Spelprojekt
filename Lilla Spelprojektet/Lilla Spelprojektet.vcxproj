@@ -19,14 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\game.cpp" />
-    <ClCompile Include="Source\gameState.cpp" />
-    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Logic\player.cpp" />
+    <ClCompile Include="Renderer\spriteRenderer.cpp" />
+    <ClCompile Include="GameEngine\game.cpp" />
+    <ClCompile Include="GameEngine\gameState.cpp" />
+    <ClCompile Include="GameEngine\main.cpp" />
+    <ClCompile Include="GameEngine\menuState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\game.hpp" />
-    <ClInclude Include="Source\gameState.hpp" />
-    <ClInclude Include="Source\state.hpp" />
+    <ClInclude Include="Logic\player.hpp" />
+    <ClInclude Include="Renderer\spriteRenderer.hpp" />
+    <ClInclude Include="GameEngine\game.hpp" />
+    <ClInclude Include="GameEngine\gameState.hpp" />
+    <ClInclude Include="GameEngine\menuState.hpp" />
+    <ClInclude Include="GameEngine\state.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

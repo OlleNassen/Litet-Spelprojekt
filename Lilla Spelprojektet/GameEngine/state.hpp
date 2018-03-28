@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML\Window.hpp>
 
 //Prototyp
 
@@ -8,12 +9,13 @@ class State
 {
 protected:
 	bool changeState;
+	bool running;
 
 public:
-	State() :changeState(false) {}
+	State() :changeState(false), running(true) {}
 	virtual ~State() {}
 
-	virtual void handleEvents() = 0;
+	virtual void handleEvents(sf::Window* window) = 0;
 	virtual void handleInput() = 0;
 	virtual void update() = 0;
 	virtual void draw()const = 0;
@@ -26,4 +28,9 @@ public:
 		return changeState;
 	}
 	*/
+
+	bool isRunning()const
+	{
+		return running;
+	}
 };

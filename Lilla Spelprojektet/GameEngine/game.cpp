@@ -10,6 +10,8 @@ Game::Game()
 	//Set clearing color to red
 	glClearColor(1, 0, 0, 1);
 
+	//Add game state
+	currentState.push(new GameState);
 
 	//Testing lua
 	lua_State* L = luaL_newstate();
@@ -23,35 +25,34 @@ Game::Game()
 
 Game::~Game()
 {
+	for (int i = 0; i < currentState.size(); i++)
+	{
+		delete currentState.top();
+		currentState.pop();
+	}
+
 	delete this->window;
 }
 
 void Game::run()
 {
 	// run the main loop
-	bool running = true;
-	while (running)
+	while (currentState.top()->isRunning())
 	{
-		// handle events
-		sf::Event event;
-		while (window->pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-			{
-				// end the program
-				running = false;
-			}
-			else if (event.type == sf::Event::Resized)
-			{
-				// adjust the viewport when the window is resized
-				glViewport(0, 0, event.size.width, event.size.height);
-			}
-		}
+		//handle input
+		this->handleInput();
+
+		//update
+		this->update();
+
+		//handle events
+		this->handleEvents();
 
 		// clear the buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// draw...
+		this->draw();
 
 		// end the current frame (internally swaps the front and back buffers)
 		window->display();
@@ -60,6 +61,22 @@ void Game::run()
 	// release resources...
 }
 
+void Game::handleInput()
+{
+	currentState.top()->handleInput();
+}
+
 void Game::handleEvents()
 {
+	currentState.top()->handleEvents(this->window);
+}
+
+void Game::draw()
+{
+	currentState.top()->draw();
+}
+
+void Game::update()
+{
+	currentState.top()->update();
 }
