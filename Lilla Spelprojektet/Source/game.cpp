@@ -7,7 +7,18 @@ Game::Game()
 	// activate the window
 	this->window->setActive(true);
 
+	//Set clearing color to red
 	glClearColor(1, 0, 0, 1);
+
+
+	//Testing lua
+	lua_State* L = luaL_newstate();
+
+	luaL_openlibs(L);
+
+	luaL_dostring(L, "print('Lua Activated')");
+
+	lua_close(L);
 }
 
 Game::~Game()

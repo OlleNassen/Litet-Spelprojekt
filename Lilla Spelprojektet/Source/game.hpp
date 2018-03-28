@@ -4,6 +4,7 @@
 #include <SFML\OpenGL.hpp>
 #include <glm\glm.hpp>
 #include "gameState.hpp"
+#include <lua.hpp>
 
 class Game
 {

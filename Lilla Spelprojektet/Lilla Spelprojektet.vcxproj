@@ -98,13 +98,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Lilla Spelprojektet\External\glew-2.1.0\include;..\Lilla Spelprojektet\External\SFML-2.4.2\include;..\Lilla Spelprojektet\External\glm-0.9.9-a2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Lilla Spelprojektet\External\glew-2.1.0\include;..\Lilla Spelprojektet\External\SFML-2.4.2\include;..\Lilla Spelprojektet\External\glm-0.9.9-a2;..\Lilla Spelprojektet\External\compiled lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>..\\Lilla Spelprojektet\External\\SFML-2.4.2\\lib\\;..\Lilla Spelprojektet\External\glew-2.1.0\lib\;..\Lilla Spelprojektet\External\glew-2.1.0\lib\Release\Win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glew32s.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\\Lilla Spelprojektet\External\\SFML-2.4.2\\lib\\;..\Lilla Spelprojektet\External\glew-2.1.0\lib\;..\Lilla Spelprojektet\External\glew-2.1.0\lib\Release\Win32\;..\Lilla Spelprojektet\External\compiled lua;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glew32s.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;glu32.lib;LuaLib-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
