@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML\Window.hpp>
+#include "../libs.h"
 
 //Prototyp
 

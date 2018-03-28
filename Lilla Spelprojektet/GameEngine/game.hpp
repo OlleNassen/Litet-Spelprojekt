@@ -1,11 +1,6 @@
 #pragma once
-#include <stack>
-#include <SFML\Window.hpp>
-#include <SFML\OpenGL.hpp>
-#include <glm\glm.hpp>
+#include "../libs.h"
 #include "gameState.hpp"
-#include <lua.hpp>
-#include <SOIL.h>
 
 class Game
 {
