@@ -1,10 +1,6 @@
 #pragma once
 
-#include<fstream>
-#include<iostream>
-#include<string>
-#include"GL\glew.h"
-#include"SFML\OpenGL.hpp"
+#include "../libs.h"
 
 class Shader
 {
@@ -22,7 +18,7 @@ private:
 			while (std::getline(in_file, line))
 			{
 				file += line + "\n";
-			}
+			}	
 		}
 		else
 			throw("SHADER::LOAD_FROM_FILE::COULD_NOT_OPEN_FILE");
@@ -37,10 +33,13 @@ private:
 		int success;
 		char infoLog[512];
 
+		std::string src_str = this->load_from_file(fileName);
+
 		GLuint shader = glCreateShader(type);
 
-		std::string src_str = this->load_from_file(fileName);
 		const GLchar* src = src_str.c_str();
+
+		std::cout << src << "\n";
 
 		glShaderSource(shader, 1, &src, NULL);
 		glCompileShader(shader);
@@ -53,6 +52,8 @@ private:
 			glGetShaderInfoLog(shader, 512, NULL, infoLog);
 			std::cout << infoLog << "\n";
 		}
+
+		return shader;
 	}
 
 public:

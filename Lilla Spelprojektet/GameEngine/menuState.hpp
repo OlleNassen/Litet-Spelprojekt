@@ -1,7 +1,5 @@
 #pragma once
 #include "state.hpp"
-#include <SFML\Window.hpp>
-#include <SFML\OpenGL.hpp>
 
 class MenuState :public State
 {

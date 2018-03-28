@@ -1,7 +1,6 @@
 #pragma once
 #include "state.hpp"
-#include <SFML\Window.hpp>
-#include <SFML\OpenGL.hpp>
+#include "../Renderer/spriteRenderer.hpp"
 
 class GameState :public State
 {

@@ -2,6 +2,7 @@
 
 GameState::GameState()
 {
+
 }
 
 GameState::~GameState()

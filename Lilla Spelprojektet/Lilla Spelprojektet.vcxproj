@@ -27,6 +27,7 @@
     <ClCompile Include="GameEngine\menuState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEngine\libs.h" />
     <ClInclude Include="Logic\player.hpp" />
     <ClInclude Include="Renderer\Shader.hpp" />
     <ClInclude Include="Renderer\spriteRenderer.hpp" />
