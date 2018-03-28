@@ -15,19 +15,19 @@ public:
 	State() :changeState(false), running(true) {}
 	virtual ~State() {}
 
-	virtual void handleEvents(sf::Window* window) = 0;
+	virtual void handleEvents(sf::Window** window) = 0;
 	virtual void handleInput() = 0;
 	virtual void update() = 0;
 	virtual void draw()const = 0;
 
 	virtual void pause() = 0;
 	virtual void resume() = 0;
-	/*
-	bool changeState()const
+	
+	bool getChangeState()const
 	{
 		return changeState;
 	}
-	*/
+	
 
 	bool isRunning()const
 	{

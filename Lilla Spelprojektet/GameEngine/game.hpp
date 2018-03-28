@@ -1,6 +1,7 @@
 #pragma once
 #include "../libs.h"
 #include "gameState.hpp"
+#include "menuState.hpp"
 
 class Game
 {
@@ -11,7 +12,6 @@ private:
 public:
 	Game();
 	~Game();
-
 	void run();
 private:
 	void handleInput();

@@ -11,7 +11,7 @@ Game::Game()
 	glClearColor(1, 0, 0, 1);
 
 	//Add game state
-	currentState.push(new GameState);
+	currentState.push(new MenuState);
 
 	//Testing lua
 	lua_State* L = luaL_newstate();
@@ -38,8 +38,24 @@ Game::~Game()
 void Game::run()
 {
 	// run the main loop
+	
+
 	while (currentState.top()->isRunning())
 	{
+		
+		if (currentState.top()->getChangeState())
+		{
+			//Change to the next state
+			State* ptr = nullptr;
+			ptr = dynamic_cast<MenuState*>(currentState.top());
+
+			if (ptr != nullptr)
+			{
+				currentState.push(new GameState);
+			}
+
+		}
+
 		//handle input
 		this->handleInput();
 
@@ -58,7 +74,6 @@ void Game::run()
 		// end the current frame (internally swaps the front and back buffers)
 		window->display();
 	}
-
 	// release resources...
 }
 
@@ -69,7 +84,7 @@ void Game::handleInput()
 
 void Game::handleEvents()
 {
-	currentState.top()->handleEvents(this->window);
+	currentState.top()->handleEvents(&this->window);
 }
 
 void Game::draw()

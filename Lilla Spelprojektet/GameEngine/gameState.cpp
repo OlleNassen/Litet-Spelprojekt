@@ -2,23 +2,23 @@
 
 GameState::GameState()
 {
-
+	glClearColor(0, 0, 1, 1);
 }
 
 GameState::~GameState()
 {
 }
 
-void GameState::handleEvents(sf::Window* window)
+void GameState::handleEvents(sf::Window** window)
 {
 	// handle events
 	sf::Event event;
-	while (window->pollEvent(event))
+	while ((*window)->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 		{
 			// end the program
-			window->close();
+			(*window)->close();
 		}
 		else if (event.type == sf::Event::Resized)
 		{

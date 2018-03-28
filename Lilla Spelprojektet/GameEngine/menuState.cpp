@@ -9,16 +9,16 @@ MenuState::~MenuState()
 {
 }
 
-void MenuState::handleEvents(sf::Window* window)
+void MenuState::handleEvents(sf::Window** window)
 {
 	// handle events
 	sf::Event event;
-	while (window->pollEvent(event))
+	while ((*window)->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 		{
 			// end the program
-			window->close();
+			(*window)->close();
 		}
 		else if (event.type == sf::Event::Resized)
 		{
@@ -30,6 +30,11 @@ void MenuState::handleEvents(sf::Window* window)
 
 void MenuState::handleInput()
 {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		// left key is pressed: move our character
+		changeState = true;
+	}
 }
 
 void MenuState::update()
