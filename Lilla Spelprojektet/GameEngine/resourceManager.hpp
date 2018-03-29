@@ -1,11 +1,12 @@
 #pragma once
 #include <vector>
+#include "..\Renderer\spriteRenderer.hpp"
 
 class ResourceManager
 {
 private:
 	//std::vector<2DTexture> gameTextures;
-	//std::vector<2DTexture> menuTextures;
+	std::vector<SpriteRenderer> menuTextures;
 
 	//std::vector<audioFiles>gameAudio;
 	//std::vector<audioFile>menuAudio;

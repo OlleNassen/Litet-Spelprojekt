@@ -16,4 +16,5 @@ public:
 
 	void pause() override;
 	void resume() override;
+
 };
