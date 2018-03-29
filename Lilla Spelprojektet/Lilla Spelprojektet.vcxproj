@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngine\resourceManager.cpp" />
     <ClCompile Include="Logic\player.cpp" />
     <ClCompile Include="Renderer\spriteRenderer.cpp" />
     <ClCompile Include="GameEngine\game.cpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\libs.h" />
+    <ClInclude Include="GameEngine\resourceManager.hpp" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="Logic\player.hpp" />
     <ClInclude Include="Renderer\Shader.hpp" />

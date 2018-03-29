@@ -1,5 +1,6 @@
 #pragma once
 #include "../libs.h"
+#include "resourceManager.hpp"
 
 //Prototyp
 
@@ -10,6 +11,7 @@ class State
 protected:
 	bool changeState;
 	bool running;
+	ResourceManager* resources;
 
 public:
 	State() :changeState(false), running(true) {}

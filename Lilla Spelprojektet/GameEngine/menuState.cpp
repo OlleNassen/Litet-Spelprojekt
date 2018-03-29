@@ -16,6 +16,7 @@ void MenuState::handleInput()
 		// left key is pressed: move our character
 		changeState = true;
 	}
+
 }
 
 void MenuState::update()
