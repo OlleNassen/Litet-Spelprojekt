@@ -18,4 +18,6 @@ private:
 	void handleEvents();
 	void draw();
 	void update();
+
+	void initWindow();
 };

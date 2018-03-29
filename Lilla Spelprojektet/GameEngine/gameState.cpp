@@ -3,6 +3,8 @@
 GameState::GameState()
 {
 	glClearColor(0, 0, 1, 1);
+
+	Shader shader("Resources/Shaders/VertexShaderCore.glsl", "Resources/Shaders/FragmentShaderCore.glsl");
 }
 
 GameState::~GameState()

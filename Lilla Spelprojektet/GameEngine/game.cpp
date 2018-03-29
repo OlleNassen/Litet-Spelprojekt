@@ -1,21 +1,8 @@
 #include "game.hpp"
 
 Game::Game()
-	:window(new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, sf::ContextSettings(32)))
 {
-	this->window->setVerticalSyncEnabled(true);
-	// activate the window
-	this->window->setActive(true);
-
-	glewExperimental = GL_TRUE;
-
-	if (glewInit() != GLEW_OK) //Error
-	{
-		std::cout << "ERROR::GAME::GLEW_INIT_FAILED" << "\n";
-	}
-
-	//Set clearing color to red
-	glClearColor(1, 0, 0, 1);
+	initWindow();
 
 	//Add game state
 	currentState.push(new MenuState);
@@ -46,7 +33,6 @@ void Game::run()
 {
 	// run the main loop
 	
-
 	while (currentState.top()->isRunning())
 	{
 		
@@ -114,4 +100,29 @@ void Game::draw()
 void Game::update()
 {
 	currentState.top()->update();
+}
+
+void Game::initWindow()
+{
+	sf::ContextSettings settings;
+	settings.depthBits = 24;
+	settings.stencilBits = 8;
+	settings.antialiasingLevel = 4;
+	settings.majorVersion = 4;
+	settings.minorVersion = 4;
+
+	window = new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
+	this->window->setVerticalSyncEnabled(true);
+	// activate the window
+	this->window->setActive(true);
+
+	glewExperimental = GL_TRUE;
+
+	if (glewInit() != GLEW_OK) //Error
+	{
+		std::cout << "ERROR::GAME::GLEW_INIT_FAILED" << "\n";
+	}
+
+	//Set clearing color to red
+	glClearColor(1, 0, 0, 1);
 }
