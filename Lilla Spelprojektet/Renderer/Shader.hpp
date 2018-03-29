@@ -138,6 +138,15 @@ public:
 		this->unuse();
 	}
 
+	inline void setFloat(const float value, const GLchar* name)
+	{
+		this->use();
+
+		glUniform1f(glGetUniformLocation(this->id, name), value);
+
+		this->unuse();
+	}
+
 	inline void setMatrix4fv(glm::mat4 value, const GLchar* name)
 	{
 		this->use();

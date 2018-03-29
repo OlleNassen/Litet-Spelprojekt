@@ -100,4 +100,16 @@ public:
 		SOIL_free_image_data(image);
 		glBindTexture(target, 0);
 	}
+
+	inline void bind(GLenum target = GL_TEXTURE_2D, GLenum unit = GL_TEXTURE0)
+	{
+		glActiveTexture(unit);
+		glBindTexture(target, this->texture);
+	}
+
+	inline void unbind(GLenum target = GL_TEXTURE_2D)
+	{
+		glActiveTexture(0);
+		glBindTexture(target, 0);
+	}
 };
