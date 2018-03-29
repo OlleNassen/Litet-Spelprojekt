@@ -10,7 +10,6 @@ public:
 	GameState();
 	~GameState();
 
-	void handleEvents(sf::Window** window) override;
 	void handleInput() override;
 	void update() override;
 	void draw()const override;

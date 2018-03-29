@@ -15,7 +15,6 @@ public:
 	State() :changeState(false), running(true) {}
 	virtual ~State() {}
 
-	virtual void handleEvents(sf::Window** window) = 0;
 	virtual void handleInput() = 0;
 	virtual void update() = 0;
 	virtual void draw()const = 0;

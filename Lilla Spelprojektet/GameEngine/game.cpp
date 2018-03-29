@@ -3,6 +3,8 @@
 Game::Game()
 	:window(new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, sf::ContextSettings(32)))
 {
+
+
 	this->window->setVerticalSyncEnabled(true);
 	// activate the window
 	this->window->setActive(true);
@@ -26,7 +28,7 @@ Game::Game()
 
 Game::~Game()
 {
-	for (int i = 0; i < currentState.size(); i++)
+	for (int i = 0; i < currentState.size(); ++i)
 	{
 		delete currentState.top();
 		currentState.pop();
@@ -45,9 +47,8 @@ void Game::run()
 		
 		if (currentState.top()->getChangeState())
 		{
-			//Change to the next state
-			State* ptr = nullptr;
-			ptr = dynamic_cast<MenuState*>(currentState.top());
+			//Change to the next state.. Remove this and add enums instead?
+			State* ptr = dynamic_cast<MenuState*>(currentState.top());
 
 			if (ptr != nullptr)
 			{
@@ -84,7 +85,20 @@ void Game::handleInput()
 
 void Game::handleEvents()
 {
-	currentState.top()->handleEvents(&this->window);
+	sf::Event event;
+	while (window->pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+		{
+			// end the program
+			window->close();
+		}
+		else if (event.type == sf::Event::Resized)
+		{
+			// adjust the viewport when the window is resized
+			glViewport(0, 0, event.size.width, event.size.height);
+		}
+	}
 }
 
 void Game::draw()
