@@ -10,18 +10,6 @@ SpriteRenderer::~SpriteRenderer()
 {
 }
 
-void SpriteRenderer::DrawSprite(glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color)
-{
-}
-
-void SpriteRenderer::DrawSprite(Texture2D & texture, glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color)
-{
-}
-
-void SpriteRenderer::initRenderData()
-{
-}
-
 void SpriteRenderer::initRenderData()
 {
 	// Configure VAO/VBO
@@ -51,11 +39,11 @@ void SpriteRenderer::initRenderData()
 }
 
 
-void SpriteRenderer::DrawSprite(Texture2D &texture, glm::vec2 position,
+void SpriteRenderer::drawSprite(Texture2D &texture, glm::vec2 position,
 	glm::vec2 size, GLfloat rotate, glm::vec3 color)
 {
 	// Prepare transformations
-	this->shader.Use();
+	shader->use();
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(position, 0.0f));
 
@@ -65,11 +53,10 @@ void SpriteRenderer::DrawSprite(Texture2D &texture, glm::vec2 position,
 
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
-	this->shader.SetMatrix4("model", model);
-	this->shader.SetVector3f("spriteColor", color);
+	this->shader->setMatrix4fv(model, "model");
+	this->shader->setVector3f(color, "spriteColor");
 
-	glActiveTexture(GL_TEXTURE0);
-	texture.Bind();
+	texture.bind();
 
 	glBindVertexArray(this->quadVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);

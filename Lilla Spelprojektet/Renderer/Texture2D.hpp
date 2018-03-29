@@ -13,12 +13,12 @@ public:
 		this->texture = 0;
 	}
 
-	Texture2D(char* fileName)
+	Texture2D(std::string fileName)
 	{
 		//load image
 		int width = 0;
 		int height = 0;
-		unsigned char* image = SOIL_load_image(fileName, &width, &height, NULL, SOIL_LOAD_RGBA);
+		unsigned char* image = SOIL_load_image(fileName.c_str(), &width, &height, NULL, SOIL_LOAD_RGBA);
 
 		GLenum target = GL_TEXTURE_2D;
 
@@ -39,7 +39,7 @@ public:
 		}
 		else //Error
 		{
-			std::cout << "ERROR::TEXTURE::FAILED_TO_LOAD_IMAGE_DATA::" << fileName << "\n";
+			std::cout << "ERROR::TEXTURE::FAILED_TO_LOAD_IMAGE_DATA::" << fileName.c_str() << "\n";
 			glDeleteTextures(1, &this->texture);
 		}
 
