@@ -23,3 +23,6 @@
 //LUA
 #include <lua.hpp>
 
+//SOIL2
+#include"SOIL2.h"
+
