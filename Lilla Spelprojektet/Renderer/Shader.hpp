@@ -113,4 +113,56 @@ public:
 	{
 		return this->id;
 	}
+
+	inline void use()
+	{
+		if(this->id)
+			glUseProgram(this->id);
+		else
+		{
+			std::cout << "ERROR::SHADER::USE::PROGRAM_NOT_INITIALIZED" << "\n";
+		}
+	}
+
+	inline void unuse()
+	{
+		glUseProgram(0);
+	}
+
+	inline void setInt(const int value, const GLchar* name)
+	{
+		this->use();
+
+		glUniform1i(glGetUniformLocation(this->id, name), value);
+
+		this->unuse();
+	}
+
+	inline void setMatrix4fv(glm::mat4 value, const GLchar* name)
+	{
+		this->use();
+
+		glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, GL_FALSE, glm::value_ptr(value));
+
+		this->unuse();
+	}
+
+	inline void setVector3f(glm::vec3 value, const GLchar* name)
+	{
+		this->use();
+
+		glUniform3fv(glGetUniformLocation(this->id, name), 1, glm::value_ptr(value));
+
+		this->unuse();
+	}
+
+	inline void setVector2f(glm::vec3 value, const GLchar* name)
+	{
+		this->use();
+
+		glUniform2fv(glGetUniformLocation(this->id, name), 1, glm::value_ptr(value));
+
+		this->unuse();
+	}
+
 };
