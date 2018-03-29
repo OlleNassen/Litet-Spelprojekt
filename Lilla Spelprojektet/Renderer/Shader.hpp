@@ -21,8 +21,11 @@ private:
 			}	
 		}
 		else
+		{
+			std::cout << "SHADER::LOAD_FROM_FILE::COULD_NOT_OPEN_FILE" << fileName << "\n";
 			throw("SHADER::LOAD_FROM_FILE::COULD_NOT_OPEN_FILE");
-
+		}
+			
 		in_file.close();
 
 		return file;

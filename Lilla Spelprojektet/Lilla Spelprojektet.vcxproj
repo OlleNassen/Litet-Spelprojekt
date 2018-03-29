@@ -36,6 +36,7 @@
     <ClInclude Include="GameEngine\gameState.hpp" />
     <ClInclude Include="GameEngine\menuState.hpp" />
     <ClInclude Include="GameEngine\state.hpp" />
+    <ClInclude Include="Renderer\Texture2D.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShaderCore.glsl" />
