@@ -13,6 +13,14 @@ GameState::~GameState()
 
 void GameState::handleInput()
 {
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		// left key is pressed: move our character
+		running = false;
+	}
+
+	
 }
 
 void GameState::update()
