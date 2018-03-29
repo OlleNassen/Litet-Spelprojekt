@@ -3,11 +3,16 @@
 Game::Game()
 	:window(new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, sf::ContextSettings(32)))
 {
-
-
 	this->window->setVerticalSyncEnabled(true);
 	// activate the window
 	this->window->setActive(true);
+
+	glewExperimental = GL_TRUE;
+
+	if (glewInit() != GLEW_OK) //Error
+	{
+		std::cout << "ERROR::GAME::GLEW_INIT_FAILED" << "\n";
+	}
 
 	//Set clearing color to red
 	glClearColor(1, 0, 0, 1);
