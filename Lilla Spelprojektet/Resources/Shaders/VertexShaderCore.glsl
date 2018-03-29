@@ -16,5 +16,5 @@ void main()
 	vs_normal = vertex_normal;
 	vs_texcoord = vec2(vertex_texcoord.x, vertex_texcoord.y * -1.f);
 
-	gl_Position = vertex_position;
+	gl_Position = vec4(vertex_position, 1.0f);
 }

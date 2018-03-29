@@ -110,5 +110,4 @@ public:
 	{
 		return this->id;
 	}
-
 };
