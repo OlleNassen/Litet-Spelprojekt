@@ -9,6 +9,7 @@ SpriteRenderer::SpriteRenderer(Shader &shader)
 
 SpriteRenderer::~SpriteRenderer()
 {
+	//Do not delete shader, it will be deleted by ResourceManager
 }
 
 void SpriteRenderer::initRenderData()
@@ -72,7 +73,6 @@ void SpriteRenderer::drawSprite(Texture2D &texture, glm::vec2 position,
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
 	this->shader->setMatrix4fv(model, "model");
-	this->shader->setVector3f(color, "spriteColor");
 
 	texture.bind();
 

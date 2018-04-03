@@ -1,5 +1,7 @@
 #include "menuState.hpp"
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 MenuState::MenuState()
 {
@@ -30,12 +32,11 @@ void MenuState::update()
 void MenuState::draw() const
 {
 	//Fix this and put it somewhere else:
-	/*
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width),
-		static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
-	ResourceManager::GetShader("sprite").Use().SetInteger("image", 0);
-	ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
-	*/
+	glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+
+	resources->getShader("sprite")->setInt(0, "image");
+	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
+	
 	renderer->drawSprite(*resources->getTexture("HansTap.png"),
 		glm::vec2(200, 200), glm::vec2(300, 400), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 }
