@@ -6,7 +6,7 @@
 MenuState::MenuState()
 {
 	resources = new ResourceManager();
-	renderer = new SpriteRenderer(*resources->getShader("temp"));
+	renderer = new SpriteRenderer(resources->getShader("temp"));
 }
 
 MenuState::~MenuState()
@@ -34,8 +34,8 @@ void MenuState::draw() const
 	//Fix this and put it somewhere else:
 	glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 
-	resources->getShader("sprite")->setInt(0, "image");
-	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
+	//resources->getShader("sprite")->setInt(0, "image");
+	//resources->getShader("sprite")->setMatrix4fv(projection, "projection");
 	
 	renderer->drawSprite(*resources->getTexture("HansTap.png"),
 		glm::vec2(200, 200), glm::vec2(300, 400), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));

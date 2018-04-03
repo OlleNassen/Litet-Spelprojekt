@@ -59,7 +59,7 @@ void Game::run()
 		this->handleEvents();
 
 		// clear the buffers
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		// draw...
 		this->draw();
@@ -113,6 +113,7 @@ void Game::initWindow()
 	settings.minorVersion = 4;
 
 	window = new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
+	glEnable(GL_TEXTURE_2D);
 	this->window->setVerticalSyncEnabled(true);
 	// activate the window
 	this->window->setActive(true);

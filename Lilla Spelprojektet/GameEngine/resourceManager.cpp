@@ -24,7 +24,7 @@ Texture2D* ResourceManager::getTexture(std::string nameOfTexture)
 	return menuTextures.back();
 }
 
-Shader * ResourceManager::getShader(std::string nameOfTexture)
+Shader* ResourceManager::getShader(std::string nameOfTexture)
 {
 	//Temp
 	return shaders.back();

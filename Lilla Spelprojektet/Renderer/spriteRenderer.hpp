@@ -7,7 +7,7 @@
 class SpriteRenderer
 {
 public:
-	SpriteRenderer(Shader &shader);
+	SpriteRenderer(Shader *shader);
 	~SpriteRenderer();
 	/*
 	void drawSprite(Texture2D &texture, glm::vec2 position,
