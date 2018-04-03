@@ -73,7 +73,7 @@ void SpriteRenderer::drawSprite(Texture2D &texture, glm::vec2 position,
 
 	this->shader->setMatrix4fv(model,"model");
 	this->shader->use();
-	//texture.bind();
+	texture.bind();
 
 	glBindVertexArray(this->quadVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
