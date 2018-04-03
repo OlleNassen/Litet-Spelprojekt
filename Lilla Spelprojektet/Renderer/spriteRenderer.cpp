@@ -1,4 +1,5 @@
 #include "spriteRenderer.hpp"
+#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 SpriteRenderer::SpriteRenderer(Shader &shader)
 {
@@ -14,28 +15,45 @@ void SpriteRenderer::initRenderData()
 {
 	// Configure VAO/VBO
 	GLuint VBO;
+	//Fix this ugly mess
 	GLfloat vertices[] = {
-		// Pos      // Tex
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 0.0f,
+		// Pos              //Normal     // Tex      // COlor
+		0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f
+		0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
 	};
 
 	glGenVertexArrays(1, &this->quadVAO);
-	glGenBuffers(1, &VBO);
+	glBindVertexArray(this->quadVAO);
 
+	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glBindVertexArray(this->quadVAO);
+	//Position
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), BUFFER_OFFSET(0));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+	//Normal
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), BUFFER_OFFSET(sizeof(GLfloat) * 3));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(1);
+	//Texture coordinates
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), BUFFER_OFFSET(sizeof(GLfloat) * 2));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(2);
+	//Color
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), BUFFER_OFFSET(sizeof(GLfloat) * 3));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(3);
 }
 
 

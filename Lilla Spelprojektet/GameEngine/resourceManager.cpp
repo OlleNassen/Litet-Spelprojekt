@@ -3,6 +3,7 @@
 ResourceManager::ResourceManager()
 {
 	menuTextures.push_back(new Texture2D("Resources/Sprites/HansTap.png"));
+	shaders.push_back(new Shader("Resources/Shaders/VertexShaderCore.glsl", "Resources/Shaders/FragmentShaderCore.glsl"));
 }
 
 ResourceManager::~ResourceManager()
@@ -11,9 +12,20 @@ ResourceManager::~ResourceManager()
 	{
 		delete texture;
 	}
+	for (auto& shader : shaders)
+	{
+		delete shader;
+	}
 }
 
 Texture2D* ResourceManager::getTexture(std::string nameOfTexture)
 {
+	//Temp
 	return menuTextures.back();
+}
+
+Shader * ResourceManager::getShader(std::string nameOfTexture)
+{
+	//Temp
+	return shaders.back();
 }

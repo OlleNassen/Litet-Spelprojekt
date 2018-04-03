@@ -5,7 +5,6 @@ class MenuState :public State
 {
 private:
 	SpriteRenderer* renderer;
-	Shader* shader;
 public:
 	MenuState();
 	~MenuState();

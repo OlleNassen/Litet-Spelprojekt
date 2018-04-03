@@ -2,9 +2,10 @@
 
 Game::Game()
 {
+	//initializes window and glew
 	initWindow();
 
-	//Add game state
+	//Adds first state.. Splashscreen?
 	currentState.push(new MenuState);
 
 	//Testing lua
