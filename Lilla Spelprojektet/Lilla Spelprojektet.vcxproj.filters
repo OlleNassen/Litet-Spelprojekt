@@ -33,6 +33,9 @@
     <ClCompile Include="Logic\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngine\resourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer\spriteRenderer.hpp">
@@ -65,10 +68,14 @@
     <ClInclude Include="Renderer\Texture2D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngine\resourceManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShaderCore.glsl" />
     <None Include="Resources\Shaders\GeometryShaderCore.glsl" />
     <None Include="Resources\Shaders\VertexShaderCore.glsl" />
+    <None Include="Resources\Scripts\dummy.lua" />
   </ItemGroup>
 </Project>

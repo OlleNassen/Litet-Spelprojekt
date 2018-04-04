@@ -41,6 +41,7 @@
     <ClInclude Include="Renderer\Texture2D.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Scripts\dummy.lua" />
     <None Include="Resources\Shaders\FragmentShaderCore.glsl" />
     <None Include="Resources\Shaders\GeometryShaderCore.glsl" />
     <None Include="Resources\Shaders\VertexShaderCore.glsl" />
