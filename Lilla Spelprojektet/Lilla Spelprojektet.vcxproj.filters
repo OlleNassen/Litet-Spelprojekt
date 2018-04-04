@@ -36,6 +36,9 @@
     <ClCompile Include="GameEngine\resourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngine\EventSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer\spriteRenderer.hpp">
@@ -71,11 +74,15 @@
     <ClInclude Include="GameEngine\resourceManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngine\EventSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FragmentShaderCore.glsl" />
     <None Include="Resources\Shaders\GeometryShaderCore.glsl" />
     <None Include="Resources\Shaders\VertexShaderCore.glsl" />
     <None Include="Resources\Scripts\dummy.lua" />
+    <None Include="Resources\Scripts\InputTest.lua" />
   </ItemGroup>
 </Project>
