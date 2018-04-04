@@ -78,7 +78,7 @@ void Game::handleEvents()
 	sf::Event event;
 	while (window->pollEvent(event))
 	{
-		eventSystem.setEvent(event);
+		//eventSystem.setEvent(event);
 
 		if (event.type == sf::Event::Closed)
 		{
@@ -100,7 +100,7 @@ void Game::draw()
 
 void Game::update()
 {
-	eventSystem.update(1);
+	//eventSystem.update(1);
 	currentState.top()->update();
 }
 
