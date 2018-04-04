@@ -42,7 +42,8 @@ private:
 
 		const GLchar* src = src_str.c_str();
 
-		std::cout << src << "\n";
+		//** Enable to print shaders in console *//
+		//std::cout << src << "\n";
 
 		glShaderSource(shader, 1, &src, NULL);
 		glCompileShader(shader);

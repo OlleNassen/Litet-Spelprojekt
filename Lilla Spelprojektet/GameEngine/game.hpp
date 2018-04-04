@@ -3,6 +3,7 @@
 #include "gameState.hpp"
 #include "menuState.hpp"
 #include "EventSystem.hpp"
+#include <vector>
 
 class Game
 {
@@ -10,6 +11,7 @@ private:
 	sf::Window* window;
 	std::stack<State*> currentState;
 	EventSystem eventSystem;
+	std::vector<lua_State*> luaStates;
 
 public:
 	Game();
