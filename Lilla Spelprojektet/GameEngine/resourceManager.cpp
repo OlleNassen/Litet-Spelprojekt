@@ -18,13 +18,13 @@ ResourceManager::~ResourceManager()
 	}
 }
 
-Texture2D* ResourceManager::getTexture(std::string nameOfTexture)
+Texture2D* ResourceManager::getTexture(std::string textureName)
 {
 	//Temp
 	return menuTextures.back();
 }
 
-Shader* ResourceManager::getShader(std::string nameOfTexture)
+Shader* ResourceManager::getShader(std::string shaderName)
 {
 	//Temp
 	return shaders.back();

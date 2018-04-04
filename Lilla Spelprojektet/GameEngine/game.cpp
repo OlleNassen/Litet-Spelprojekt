@@ -10,11 +10,8 @@ Game::Game()
 
 	//Testing lua
 	lua_State* L = luaL_newstate();
-
 	luaL_openlibs(L);
-
 	luaL_dostring(L, "print('Lua Activated')");
-
 	lua_close(L);
 
 }
@@ -113,7 +110,9 @@ void Game::initWindow()
 	settings.minorVersion = 4;
 
 	window = new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
-	glEnable(GL_TEXTURE_2D);
+
+	//glViewport(320, 480, )
+
 	this->window->setVerticalSyncEnabled(true);
 	// activate the window
 	this->window->setActive(true);

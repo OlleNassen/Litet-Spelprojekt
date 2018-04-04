@@ -29,7 +29,6 @@ public:
 		return changeState;
 	}
 	
-
 	bool isRunning()const
 	{
 		return running;

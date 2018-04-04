@@ -18,8 +18,8 @@ public:
 	ResourceManager();
 	~ResourceManager();
 
-	Texture2D* getTexture(std::string nameOfTexture);
-	Shader* getShader(std::string nameOfTexture);
+	Texture2D* getTexture(std::string textureName);
+	Shader* getShader(std::string shaderName);
 private:
 	void loadGameResources();
 	void loadMenuResources();

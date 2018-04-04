@@ -1,8 +1,6 @@
 #pragma once
 #include"Shader.hpp"
 #include "Texture2D.hpp"
-//Todo: Implement shader class before using this
-
 
 class SpriteRenderer
 {
@@ -20,9 +18,6 @@ public:
 private:
 	Shader *shader;
 	GLuint quadVAO;
-
 	void initRenderData();
-
-
 };
 
