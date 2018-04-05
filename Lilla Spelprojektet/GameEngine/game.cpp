@@ -1,8 +1,9 @@
 #include "game.hpp"
 
-int push(lua_State* luaState);
+/*int push(lua_State* luaState);
 int pop(lua_State* luaState);
-int clear(lua_State* luaState);
+int clear(lua_State* luaState);*/
+
 
 Game::Game()
 {
@@ -12,14 +13,15 @@ Game::Game()
 	resources = new ResourceManager();
 	renderer = new SpriteRenderer(resources->getShader("temp"));
 
+	eventSystem.addVector(&luaVector);
+
 	//Testing lua
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 	addLuaLibraries(L);
-	luaVector.push_back(L);
-	//luaL_loadfile(L, "vector.lua");
+	//luaVector.push_back(L);
 	
-	if (luaL_loadfile(L, "Resources/Scripts/dummy.lua"))
+	if (luaL_loadfile(L, "Resources/Scripts/dummy.lua") || lua_pcall(L, 0, 0, 0))
 	{
 		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(L, -1));
 
@@ -62,19 +64,17 @@ void Game::run()
 
 void Game::addLuaLibraries(lua_State* luaState)
 {
-	lua_pushlightuserdata(luaState, &luaVector);
-	lua_setglobal(luaState, "LuaVector");
-	lua_pop(luaState, 1);
+	lua_pushlightuserdata(luaState, this);
+	lua_setglobal(luaState, "Game");
 	
 	lua_pushcfunction(luaState, push);
 	lua_setglobal(luaState, "push");
-	lua_pop(luaState, 1);
-	lua_pushcfunction(luaState, push);
+	lua_pushcfunction(luaState, pop);
 	lua_setglobal(luaState, "pop");
-	lua_pop(luaState, 1);
-	lua_pushcfunction(luaState, push);
+	lua_pushcfunction(luaState, clear);
 	lua_setglobal(luaState, "clear");
-	lua_pop(luaState, 1);
+
+	eventSystem.addLuaRebind(luaState);
 }
 
 
@@ -98,9 +98,14 @@ void Game::handleEvents()
 	}
 }
 
+LuaVector* Game::getVector()
+{
+	return &luaVector;
+}
+
 void Game::update()
 {
-	//eventSystem.update(1);
+	eventSystem.update(1);
 	//collisionSystem.update(1);
 }
 
@@ -146,21 +151,32 @@ void Game::initWindow()
 	glClearColor(1, 0, 0, 1);
 }
 
-int push(lua_State* luaState)
-{
-	lua_getglobal(luaState, "LuaVector");
-	LuaVector* ptr = (LuaVector*)lua_touserdata(luaState, -1);
+static int push(lua_State* luaState)
+{	
+	lua_getglobal(luaState, "Game");
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+	LuaVector* ptr = game->getVector();
 
 	lua_State* newLua = luaL_newstate();
+	luaL_openlibs(newLua);
+	game->addLuaLibraries(newLua);
+
+	if (luaL_loadfile(newLua, "Resources/Scripts/dummy2.lua") || lua_pcall(newLua, 0, 0, 0))
+	{
+		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(newLua, -1));
+
+	}
+
 	ptr->push_back(newLua);
 
 	return 0;
 }
 
-int pop(lua_State* luaState)
+static int pop(lua_State* luaState)
 {
 	lua_getglobal(luaState, "LuaVector");
-	LuaVector* ptr = (LuaVector*)lua_touserdata(luaState, -1);
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+	LuaVector* ptr = game->getVector();
 
 	lua_close(ptr->back());
 	ptr->pop_back();
@@ -168,10 +184,11 @@ int pop(lua_State* luaState)
 	return 0;
 }
 
-int clear(lua_State* luaState)
+static int clear(lua_State* luaState)
 {
 	lua_getglobal(luaState, "LuaVector");
-	LuaVector* ptr = (LuaVector*)lua_touserdata(luaState, -1);
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+	LuaVector* ptr = game->getVector();
 
 	while (!ptr->empty())
 	{
