@@ -113,7 +113,7 @@ void Game::draw()
 	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
 
 	renderer->drawSprite(*resources->getTexture("HansTap.png"),
-		glm::vec2(200, 200), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::vec2(400, 400), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 
@@ -127,7 +127,7 @@ void Game::initWindow()
 	settings.majorVersion = 4;
 	settings.minorVersion = 4;
 
-	window = new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
+	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "OpenGL", sf::Style::Default, settings);
 
 	//glViewport(320, 480, )
 

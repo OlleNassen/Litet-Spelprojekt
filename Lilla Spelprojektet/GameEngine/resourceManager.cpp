@@ -4,6 +4,7 @@ ResourceManager::ResourceManager()
 {
 	//** Menu textures */
 	menuTextures.push_back(new Texture2D("Resources/Sprites/HansTap.png"));
+	menuTextures.push_back(new Texture2D("Resources/Sprites/prototype.png"));
 
 	//** Game textures */
 
@@ -31,6 +32,9 @@ Texture2D* ResourceManager::getTexture(const std::string& textureName)
 	{
 		return menuTextures[0];
 	}
+
+	else if (textureName == "prototype.png")
+		return menuTextures[1];
 
 	else
 		return nullptr;
