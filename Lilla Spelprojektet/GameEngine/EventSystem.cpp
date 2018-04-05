@@ -71,11 +71,12 @@ EventSystem::EventSystem()
 	}	
 	
 	keys[0] = sf::Keyboard::A;
-	keys[1] = sf::Keyboard::S;
-	keys[2] = sf::Keyboard::Q;
-	keys[1 + InputEnum::inputCount] = sf::Keyboard::D;
-	jAxis[0] = sf::Joystick::Axis::U;
-	jButtons[0] = 1;
+	keys[1] = sf::Keyboard::W;
+	keys[0 + InputEnum::inputCount] = sf::Keyboard::D;
+	keys[1 + InputEnum::inputCount] = sf::Keyboard::S;
+
+	keys[2] = sf::Keyboard::Key::Space;
+
 }
 
 EventSystem::~EventSystem()

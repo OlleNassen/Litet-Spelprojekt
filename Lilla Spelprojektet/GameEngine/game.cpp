@@ -11,7 +11,7 @@ Game::Game()
 	initWindow();
 
 	resources = new ResourceManager();
-	renderer = new SpriteRenderer(resources->getShader("temp"));
+	renderer = new SpriteRenderer(resources->getShader("temp"), &luaVector);
 
 	eventSystem.addVector(&luaVector);
 
@@ -107,7 +107,7 @@ LuaVector* Game::getVector()
 void Game::update()
 {
 	eventSystem.update(1);
-	//collisionSystem.update(1);
+	collisionSystem.update(1);
 }
 
 void Game::draw()
@@ -118,8 +118,7 @@ void Game::draw()
 	resources->getShader("sprite")->setInt(0, "image");
 	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
 
-	renderer->drawSprite(*resources->getTexture("HansTap.png"),
-		glm::vec2(400, 400), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
+	renderer->drawSprite(*resources->getTexture("HansTap.png"), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 
@@ -156,13 +155,14 @@ static int push(lua_State* luaState)
 {	
 	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
+	const char* name = lua_tostring(luaState, -2);
 	LuaVector* ptr = game->getVector();
 
 	lua_State* newLua = luaL_newstate();
 	luaL_openlibs(newLua);
 	game->addLuaLibraries(newLua);
 
-	if (luaL_loadfile(newLua, "Resources/Scripts/dummy2.lua") || lua_pcall(newLua, 0, 0, 0))
+	if (luaL_loadfile(newLua, name) || lua_pcall(newLua, 0, 0, 0))
 	{
 		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(newLua, -1));
 

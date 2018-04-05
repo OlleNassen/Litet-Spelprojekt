@@ -14,9 +14,7 @@ int newposition(lua_State* luaState)
 }
 
 int getposition(lua_State* luaState)
-{
-	std::cout << "funkar!!!" << std::endl;
-	
+{	
 	lua_getglobal(luaState, "CollisionSystem");
 	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
 	int id = lua_tointeger(luaState, -2);
@@ -77,7 +75,7 @@ CollisionSystem::CollisionSystem()
 	positionCurrent = 0;
 	positionCount = 10;
 
-	tileSize = 64;
+	tileSize = 72;
 	
 	tileList = new unsigned int[width * height];
 
@@ -124,7 +122,7 @@ void CollisionSystem::setWantedPosition(int id, float x, float y)
 
 void CollisionSystem::update(float deltaTime)
 {
-	for (unsigned int id = 0; positions.size() / 2 < 1; id++)
+	for (unsigned int id = 0; id < positions.size() / 2; id++)
 	{
 		int x;
 		int y;
