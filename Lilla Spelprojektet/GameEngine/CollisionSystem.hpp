@@ -1,30 +1,27 @@
 #ifndef COLLISIONSYSTEM_HPP
 #define COLLISIONSYSTEM_HPP
 #include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics.hpp>
 #include <lua.hpp>
+#include <vector>
 
 int luaopen_position(lua_State* luaState);
 
 class CollisionSystem
 {
-public:
-	void draw(sf::RenderWindow& window);
-	
+public:	
 	CollisionSystem();
 	virtual ~CollisionSystem();
 
-	int addVector();
+	int addPosition();
 
-	sf::Vector2f& getWantedPosition(int id) const;
+	sf::Vector2f& getWantedPosition(int id);
 	void setWantedPosition(int id, float x, float y);
 
 	void update(float deltaTime);
 
 private:
 	unsigned int* tileList;
-	sf::Vector2f* wantedPosition;
-	sf::Vector2f* currentPosition;
+	std::vector<sf::Vector2f> positions;
 
 	unsigned int width;
 	unsigned int height;

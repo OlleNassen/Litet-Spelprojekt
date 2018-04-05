@@ -8,7 +8,7 @@ int newposition(lua_State* luaState)
 	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int));
-	*id = ptr->addVector();
+	*id = ptr->addPosition();
 
 	return 1;
 }
@@ -53,14 +53,14 @@ int moveposition(lua_State* luaState)
 	int id = lua_tointeger(luaState, -4);
 
 	sf::Vector2f pos = ptr->getWantedPosition(id);
-	ptr->setWantedPosition(id, x - pos.x, y - pos.y);
+	ptr->setWantedPosition(id, pos.x - x, pos.y - y);
 
 	lua_pop(luaState, 1);
 	
 	return 0;
 }
 
-static const struct luaL_reg positionlib_f[] = 
+/*static const struct luaL_reg positionlib_f[] = 
 {
 	{ "new", newposition },
 	{ NULL, NULL }
@@ -72,7 +72,7 @@ static const struct luaL_reg positionlib_m[] =
 	{ "setPosition", setposition },
 	{ "move", moveposition },
 	{ NULL, NULL }
-};
+};*/
 
 int luaopen_position(lua_State* luaState)
 {
@@ -82,26 +82,10 @@ int luaopen_position(lua_State* luaState)
 	lua_pushvalue(luaState, -2);  /* pushes the metatable */
 	lua_settable(luaState, -3);  /* metatable.__index = metatable */
 
-	luaL_openlib(luaState, NULL, positionlib_m, 0);
-	luaL_openlib(luaState, "position", positionlib_f, 0);
+	//luaL_openlib(luaState, NULL, positionlib_m, 0);
+	//luaL_openlib(luaState, "position", positionlib_f, 0);
 
 	return 1;
-}
-
-void CollisionSystem::draw(sf::RenderWindow& window)
-{
-	for (unsigned int i = 0; i < width * height; i++)
-	{
-		if(tileList[i] != 0)
-		{
-			sf::RectangleShape rect;
-			rect.setSize(sf::Vector2f(1280 / 10, 720 / 10));
-			rect.setFillColor(sf::Color::Red);
-			rect.setPosition((i % width) * 64, (i / height) * 64);
-			window.draw(rect);
-		}
-
-	}
 }
 
 CollisionSystem::CollisionSystem()
@@ -115,8 +99,6 @@ CollisionSystem::CollisionSystem()
 	tileSize = 64;
 	
 	tileList = new unsigned int[width * height];
-	wantedPosition = new sf::Vector2f[positionCount];
-	currentPosition = new sf::Vector2f[positionCount];
 
 	for (unsigned int i = 0; i < width * height; i++)
 	{
@@ -130,58 +112,58 @@ CollisionSystem::CollisionSystem()
 
 CollisionSystem::~CollisionSystem()
 {
-	delete currentPosition;
-	delete wantedPosition;
 	delete tileList;
 }
 
-int CollisionSystem::addVector()
+int CollisionSystem::addPosition()
 {
-	return positionCurrent++;
+	positions.push_back(sf::Vector2f());
+	positions.push_back(sf::Vector2f());
+	return positionCurrent+2;
 }
 
-sf::Vector2f& CollisionSystem::getWantedPosition(int id) const
+sf::Vector2f& CollisionSystem::getWantedPosition(int id)
 {
-	return wantedPosition[id];
+	return positions[id];
 }
 void CollisionSystem::setWantedPosition(int id, float x, float y)
 {
-	wantedPosition[id] = sf::Vector2f(x, y);
+	positions[id] = sf::Vector2f(x, y);
 }
 
 void CollisionSystem::update(float deltaTime)
 {
-	for (unsigned int id = 0; id < 1; id++)
+	for (unsigned int id = 0; positions.size() / 2 < 1; id++)
 	{
 		int x;
 		int y;
 			
-		x = wantedPosition[id].x / tileSize;
-		y = currentPosition[id].y / tileSize;
+		x = positions[id].x / tileSize;
+		y = positions[id + 1].y / tileSize;
 
 		if (tileList[x + y * width] == 0 && tileList[(x + 1) + (y + 1) * width] == 0)
 		{
-			currentPosition[id].x = wantedPosition[id].x;
+			positions[id + 1].x = positions[id].x;
 		}
 
-		x = currentPosition[id].x / tileSize;
-		y = wantedPosition[id].y / tileSize;
+		x = positions[id + 1].x / tileSize;
+		y = positions[id].y / tileSize;
 
 		if (tileList[x + y * width] == 0 && tileList[(x + 1) + (y + 1) * width] == 0)
 		{
-			currentPosition[id].y = wantedPosition[id].y;
+			positions[id + 1].y = positions[id].y;
 		}
 		
-		x = wantedPosition[id].x / tileSize;
-		y = wantedPosition[id].y / tileSize;
+		x = positions[id].x / tileSize;
+		y = positions[id].y / tileSize;
 		
 		if (tileList[x + y * width] == 0 && tileList[(x+1) + (y+1) * width] == 0)
 		{
-			currentPosition[id] = wantedPosition[id];
+			positions[id + 1] = positions[id];
 		}
 		else
 		{
-			wantedPosition[id] = currentPosition[id];
+			positions[id] = positions[id + 1];
 		}
 	}
 }

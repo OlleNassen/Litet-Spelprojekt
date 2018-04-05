@@ -1,5 +1,4 @@
 #include "EventSystem.hpp"
-#include <iostream>
 
 #define REGISTER_ENUM(x) x,
 /** Enum with all available inputs */
@@ -84,6 +83,11 @@ EventSystem::~EventSystem()
 	
 }
 
+void EventSystem::addVector(std::vector<lua_State*>* vector)
+{
+	luaVector = vector;
+}
+
 void EventSystem::addLuaRebind(lua_State* luaState)
 {
 	lua_pushcfunction(luaState, luaRebind);
@@ -94,7 +98,6 @@ void EventSystem::setEvent(sf::Event currentEvent)
 {
 	if(wantRebind && currentEvent.key.code != sf::Keyboard::Q)
 	{
-		std::cout << rebindId << std::endl;
 		switch (currentEvent.type)
 		{
 		case sf::Event::MouseButtonPressed:
@@ -124,6 +127,8 @@ void EventSystem::setEvent(sf::Event currentEvent)
 
 void EventSystem::update(float deltaTime)
 {
+	luaState = luaVector->back();
+	
 	for (unsigned int id = 0; id < InputEnum::inputCount; id++)
 	{
 		float direction = getAxisPosition(0, jAxis[id]);
