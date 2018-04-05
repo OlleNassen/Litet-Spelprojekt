@@ -11,7 +11,8 @@ class CollisionSystem
 public:	
 	CollisionSystem();
 	virtual ~CollisionSystem();
-
+	
+	void addLuaPosition(lua_State* luaState);
 	int addPosition();
 
 	sf::Vector2f& getWantedPosition(int id);

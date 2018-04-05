@@ -75,6 +75,7 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_setglobal(luaState, "clear");
 
 	eventSystem.addLuaRebind(luaState);
+	collisionSystem.addLuaPosition(luaState);
 }
 
 

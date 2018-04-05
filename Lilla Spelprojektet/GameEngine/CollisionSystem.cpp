@@ -60,33 +60,14 @@ int moveposition(lua_State* luaState)
 	return 0;
 }
 
-/*static const struct luaL_reg positionlib_f[] = 
+static const struct luaL_Reg positionlib[] = 
 {
 	{ "new", newposition },
-	{ NULL, NULL }
-};
-
-static const struct luaL_reg positionlib_m[] = 
-{
 	{ "getPosition", getposition },
 	{ "setPosition", setposition },
 	{ "move", moveposition },
 	{ NULL, NULL }
-};*/
-
-int luaopen_position(lua_State* luaState)
-{
-	luaL_newmetatable(luaState, "CollisionSystem.position");
-
-	lua_pushstring(luaState, "__index");
-	lua_pushvalue(luaState, -2);  /* pushes the metatable */
-	lua_settable(luaState, -3);  /* metatable.__index = metatable */
-
-	//luaL_openlib(luaState, NULL, positionlib_m, 0);
-	//luaL_openlib(luaState, "position", positionlib_f, 0);
-
-	return 1;
-}
+};
 
 CollisionSystem::CollisionSystem()
 {
@@ -113,6 +94,16 @@ CollisionSystem::CollisionSystem()
 CollisionSystem::~CollisionSystem()
 {
 	delete tileList;
+}
+
+void CollisionSystem::addLuaPosition(lua_State* luaState)
+{
+	lua_pushlightuserdata(luaState, this);
+	lua_setglobal(luaState, "CollisionSystem");
+	
+	lua_newtable(luaState);
+	luaL_setfuncs(luaState, positionlib, 0);
+	lua_setglobal(luaState, "position");
 }
 
 int CollisionSystem::addPosition()

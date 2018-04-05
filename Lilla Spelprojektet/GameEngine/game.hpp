@@ -1,7 +1,7 @@
 #pragma once
 #include "../libs.h"
 #include "EventSystem.hpp"
-//#include "CollisionSystem.hpp"
+#include "CollisionSystem.hpp"
 #include <vector>
 #include "../Renderer/spriteRenderer.hpp"
 #include "resourceManager.hpp"
@@ -24,7 +24,7 @@ private:
 	sf::Window* window;
 	LuaVector luaVector;
 	EventSystem eventSystem;
-	//CollisionSystem collisionSystem;
+	CollisionSystem collisionSystem;
 	
 	SpriteRenderer* renderer;
 	ResourceManager* resources;
