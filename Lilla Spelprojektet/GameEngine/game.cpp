@@ -113,7 +113,7 @@ void Game::initWindow()
 	settings.majorVersion = 4;
 	settings.minorVersion = 4;
 
-	window = new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
+	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "OpenGL", sf::Style::Default, settings);
 
 	//glViewport(320, 480, )
 

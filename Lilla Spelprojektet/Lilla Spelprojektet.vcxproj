@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngine\CollisionSystem.cpp" />
     <ClCompile Include="GameEngine\EventSystem.cpp" />
     <ClCompile Include="GameEngine\resourceManager.cpp" />
     <ClCompile Include="Logic\player.cpp" />
@@ -29,7 +30,9 @@
     <ClCompile Include="GameEngine\menuState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEngine\CollisionSystem.hpp" />
     <ClInclude Include="GameEngine\EventSystem.hpp" />
+    <ClInclude Include="GameEngine\Inputs.hpp" />
     <ClInclude Include="GameEngine\libs.h" />
     <ClInclude Include="GameEngine\resourceManager.hpp" />
     <ClInclude Include="libs.h" />
