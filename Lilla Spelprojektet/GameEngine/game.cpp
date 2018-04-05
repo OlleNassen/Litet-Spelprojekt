@@ -1,59 +1,52 @@
 #include "game.hpp"
 
+int push(lua_State* luaState);
+int pop(lua_State* luaState);
+int clear(lua_State* luaState);
+
 Game::Game()
 {
 	//initializes window and glew
 	initWindow();
 
-	//Adds first state.. Splashscreen?
-	currentState.push(new MenuState);
+	resources = new ResourceManager();
+	renderer = new SpriteRenderer(resources->getShader("temp"));
 
 	//Testing lua
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
-	luaL_dostring(L, "print('Lua Activated')");
-	lua_close(L);
+	addLuaLibraries(L);
+	luaVector.push_back(L);
+	//luaL_loadfile(L, "vector.lua");
+	
+	if (luaL_loadfile(L, "Resources/Scripts/dummy.lua"))
+	{
+		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(L, -1));
+
+	}
+	
+
 
 }
 
 Game::~Game()
 {
-	for (int i = 0; i < currentState.size(); ++i)
-	{
-		delete currentState.top();
-		currentState.pop();
-	}
-
 	delete this->window;
+	delete this->renderer;
+	delete this->resources;
 }
 
 void Game::run()
 {
 	// run the main loop
 	
-	while (currentState.top()->isRunning())
+	while (!luaVector.empty())
 	{
-		
-		if (currentState.top()->getChangeState())
-		{
-			//Change to the next state.. Remove this and add enums instead?
-			State* ptr = dynamic_cast<MenuState*>(currentState.top());
-
-			if (ptr != nullptr)
-			{
-				currentState.push(new GameState);
-			}
-
-		}
-
-		//handle input
-		this->handleInput();
-
-		//update
-		this->update();
-
 		//handle events
 		this->handleEvents();
+		
+		//update		
+		this->update();		
 
 		// clear the buffers
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -67,18 +60,30 @@ void Game::run()
 	// release resources...
 }
 
-void Game::handleInput()
+void Game::addLuaLibraries(lua_State* luaState)
 {
-	currentState.top()->handleInput();
+	lua_pushlightuserdata(luaState, &luaVector);
+	lua_setglobal(luaState, "LuaVector");
+	lua_pop(luaState, 1);
+	
+	lua_pushcfunction(luaState, push);
+	lua_setglobal(luaState, "push");
+	lua_pop(luaState, 1);
+	lua_pushcfunction(luaState, push);
+	lua_setglobal(luaState, "pop");
+	lua_pop(luaState, 1);
+	lua_pushcfunction(luaState, push);
+	lua_setglobal(luaState, "clear");
+	lua_pop(luaState, 1);
 }
+
 
 void Game::handleEvents()
 {
-
 	sf::Event event;
 	while (window->pollEvent(event))
 	{
-		//eventSystem.setEvent(event);
+		eventSystem.setEvent(event);
 
 		if (event.type == sf::Event::Closed)
 		{
@@ -93,16 +98,25 @@ void Game::handleEvents()
 	}
 }
 
-void Game::draw()
-{
-	currentState.top()->draw();
-}
-
 void Game::update()
 {
 	//eventSystem.update(1);
-	currentState.top()->update();
+	//collisionSystem.update(1);
 }
+
+void Game::draw()
+{
+	//Fix this and put it somewhere else:
+	glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+
+	resources->getShader("sprite")->setInt(0, "image");
+	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
+
+	renderer->drawSprite(*resources->getTexture("HansTap.png"),
+		glm::vec2(200, 200), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
+}
+
+
 
 void Game::initWindow()
 {
@@ -113,7 +127,7 @@ void Game::initWindow()
 	settings.majorVersion = 4;
 	settings.minorVersion = 4;
 
-	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "OpenGL", sf::Style::Default, settings);
+	window = new sf::Window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
 
 	//glViewport(320, 480, )
 
@@ -130,4 +144,40 @@ void Game::initWindow()
 
 	//Set clearing color to red
 	glClearColor(1, 0, 0, 1);
+}
+
+int push(lua_State* luaState)
+{
+	lua_getglobal(luaState, "LuaVector");
+	LuaVector* ptr = (LuaVector*)lua_touserdata(luaState, -1);
+
+	lua_State* newLua = luaL_newstate();
+	ptr->push_back(newLua);
+
+	return 0;
+}
+
+int pop(lua_State* luaState)
+{
+	lua_getglobal(luaState, "LuaVector");
+	LuaVector* ptr = (LuaVector*)lua_touserdata(luaState, -1);
+
+	lua_close(ptr->back());
+	ptr->pop_back();
+
+	return 0;
+}
+
+int clear(lua_State* luaState)
+{
+	lua_getglobal(luaState, "LuaVector");
+	LuaVector* ptr = (LuaVector*)lua_touserdata(luaState, -1);
+
+	while (!ptr->empty())
+	{
+		lua_close(ptr->back());
+		ptr->pop_back();
+	}
+
+	return 0;
 }

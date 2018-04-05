@@ -1,27 +1,36 @@
 #pragma once
 #include "../libs.h"
-#include "gameState.hpp"
-#include "menuState.hpp"
 #include "EventSystem.hpp"
+//#include "CollisionSystem.hpp"
 #include <vector>
+#include "../Renderer/spriteRenderer.hpp"
+#include "resourceManager.hpp"
+
+typedef std::vector<lua_State*> LuaVector;
 
 class Game
 {
-private:
-	sf::Window* window;
-	std::stack<State*> currentState;
-	EventSystem eventSystem;
-	std::vector<lua_State*> luaStates;
-
 public:
 	Game();
 	~Game();
 	void run();
+
 private:
-	void handleInput();
+	sf::Window* window;
+	EventSystem eventSystem;
+	//CollisionSystem collisionSystem;
+	LuaVector luaVector;
+	SpriteRenderer* renderer;
+	ResourceManager* resources;
+	
+
+
+private:
+	void addLuaLibraries(lua_State* luaState);
 	void handleEvents();
-	void draw();
 	void update();
+	void draw();
+	
 
 	void initWindow();
 };
