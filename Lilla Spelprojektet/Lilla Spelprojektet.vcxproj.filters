@@ -39,7 +39,10 @@
     <ClCompile Include="GameEngine\EventSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngine\CollisionSystem.cpp">
+    <ClCompile Include="Logic\Tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\TileMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,10 +83,13 @@
     <ClInclude Include="GameEngine\EventSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngine\CollisionSystem.hpp">
+    <ClInclude Include="GameEngine\Inputs.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngine\Inputs.hpp">
+    <ClInclude Include="Logic\Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\TileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -93,5 +99,6 @@
     <None Include="Resources\Shaders\VertexShaderCore.glsl" />
     <None Include="Resources\Scripts\dummy.lua" />
     <None Include="Resources\Scripts\InputTest.lua" />
+    <None Include="Resources\Scripts\tile.lua" />
   </ItemGroup>
 </Project>
