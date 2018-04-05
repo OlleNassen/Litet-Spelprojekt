@@ -2,7 +2,13 @@
 
 ResourceManager::ResourceManager()
 {
+	//** Menu textures */
 	menuTextures.push_back(new Texture2D("Resources/Sprites/HansTap.png"));
+
+	//** Game textures */
+
+
+	//** Shaders*/
 	shaders.push_back(new Shader("Resources/Shaders/VertexShaderCore.glsl", "Resources/Shaders/FragmentShaderCore.glsl"));
 }
 
@@ -18,13 +24,20 @@ ResourceManager::~ResourceManager()
 	}
 }
 
-Texture2D* ResourceManager::getTexture(std::string textureName)
+Texture2D* ResourceManager::getTexture(const std::string& textureName)
 {
 	//Temp
-	return menuTextures.back();
+	if (textureName == "HansTap.png")
+	{
+		return menuTextures[0];
+	}
+
+	else
+		return nullptr;
+
 }
 
-Shader* ResourceManager::getShader(std::string shaderName)
+Shader* ResourceManager::getShader(const std::string& shaderName)
 {
 	//Temp
 	return shaders.back();
