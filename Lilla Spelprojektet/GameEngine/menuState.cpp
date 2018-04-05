@@ -38,7 +38,7 @@ void MenuState::draw() const
 	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
 	
 	renderer->drawSprite(*resources->getTexture("HansTap.png"),
-		glm::vec2(200, 200), glm::vec2(300, 400), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::vec2(200, 200), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void MenuState::pause()
