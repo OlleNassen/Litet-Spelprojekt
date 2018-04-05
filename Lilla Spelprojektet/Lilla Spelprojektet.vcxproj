@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameEngine\CollisionSystem.cpp" />
     <ClCompile Include="GameEngine\EventSystem.cpp" />
     <ClCompile Include="GameEngine\resourceManager.cpp" />
     <ClCompile Include="Logic\player.cpp" />
+    <ClCompile Include="Logic\Tile.cpp" />
+    <ClCompile Include="Logic\TileMap.cpp" />
     <ClCompile Include="Renderer\spriteRenderer.cpp" />
     <ClCompile Include="GameEngine\game.cpp" />
     <ClCompile Include="GameEngine\gameState.cpp" />
@@ -30,13 +31,14 @@
     <ClCompile Include="GameEngine\menuState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameEngine\CollisionSystem.hpp" />
     <ClInclude Include="GameEngine\EventSystem.hpp" />
     <ClInclude Include="GameEngine\Inputs.hpp" />
     <ClInclude Include="GameEngine\libs.h" />
     <ClInclude Include="GameEngine\resourceManager.hpp" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="Logic\player.hpp" />
+    <ClInclude Include="Logic\Tile.h" />
+    <ClInclude Include="Logic\TileMap.h" />
     <ClInclude Include="Renderer\Shader.hpp" />
     <ClInclude Include="Renderer\spriteRenderer.hpp" />
     <ClInclude Include="GameEngine\game.hpp" />
@@ -48,6 +50,7 @@
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />
     <None Include="Resources\Scripts\InputTest.lua" />
+    <None Include="Resources\Scripts\tile.lua" />
     <None Include="Resources\Shaders\FragmentShaderCore.glsl" />
     <None Include="Resources\Shaders\GeometryShaderCore.glsl" />
     <None Include="Resources\Shaders\VertexShaderCore.glsl" />
