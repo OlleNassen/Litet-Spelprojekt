@@ -1,8 +1,9 @@
 #include "spriteRenderer.hpp"
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
-SpriteRenderer::SpriteRenderer(Shader *shader)
+SpriteRenderer::SpriteRenderer(Shader *shader, std::vector<lua_State*>* luaStateVector)
 {
+	addVector(luaStateVector);
 	this->shader = shader;
 	initRenderData();
 }
@@ -58,9 +59,20 @@ void SpriteRenderer::initRenderData()
 }
 
 
-void SpriteRenderer::drawSprite(Texture2D &texture, glm::vec2 position,
+void SpriteRenderer::drawSprite(Texture2D &texture,
 	glm::vec2 size, GLfloat rotate, glm::vec3 color)
 {
+	glm::vec2 position;
+	lua_getglobal(luaVector->back(), "getPosition");
+	if (lua_isfunction(luaVector->back(), -1))
+	{
+		lua_pcall(luaVector->back(), 0, 2, 0);
+		position.x = lua_tonumber(luaVector->back(), -2);
+		position.y = lua_tonumber(luaVector->back(), -1);
+		lua_pop(luaVector->back(), 2);
+	}
+	else std::cout << "getPosition is not a function" << std::endl;
+
 	// Prepare transformations
 	glm::mat4 model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(position, 0.0f));
@@ -78,4 +90,9 @@ void SpriteRenderer::drawSprite(Texture2D &texture, glm::vec2 position,
 	glBindVertexArray(this->quadVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
+}
+
+void SpriteRenderer::addVector(std::vector<lua_State*>* vector)
+{
+	luaVector = vector;
 }
