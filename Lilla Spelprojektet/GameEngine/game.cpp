@@ -21,14 +21,14 @@ Game::Game()
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 	addLuaLibraries(L);
-	//luaVector.push_back(L);
 	
-	if (luaL_loadfile(L, "Resources/Scripts/gameState.lua") || lua_pcall(L, 0, 0, 0))
+	if (luaL_loadfile(L, "Resources/Scripts/LuaStates/gameState.lua") || lua_pcall(L, 0, 0, 0))
 	{
 		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(L, -1));
 
 	}
 
+	lua_close(L);
 
 }
 

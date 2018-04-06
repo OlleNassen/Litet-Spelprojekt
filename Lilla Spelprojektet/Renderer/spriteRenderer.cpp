@@ -67,8 +67,8 @@ void SpriteRenderer::drawSprite(Texture2D &texture,
 	if (lua_isfunction(luaVector->back(), -1))
 	{
 		lua_pcall(luaVector->back(), 0, 2, 0);
-		position.x = lua_tonumber(luaVector->back(), -2);
-		position.y = lua_tonumber(luaVector->back(), -1);
+		position.x = lua_tonumber(luaVector->back(), -1);
+		position.y = lua_tonumber(luaVector->back(), -2);
 		lua_pop(luaVector->back(), 2);
 	}
 	else std::cout << "getPosition is not a function" << std::endl;

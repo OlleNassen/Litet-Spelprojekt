@@ -70,10 +70,10 @@ EventSystem::EventSystem()
 		repeat[id] = true;
 	}	
 	
-	keys[0] = sf::Keyboard::A;
-	keys[1] = sf::Keyboard::W;
-	keys[0 + InputEnum::inputCount] = sf::Keyboard::D;
-	keys[1 + InputEnum::inputCount] = sf::Keyboard::S;
+	keys[0] = sf::Keyboard::S;
+	keys[1] = sf::Keyboard::D;
+	keys[0 + InputEnum::inputCount] = sf::Keyboard::W;
+	keys[1 + InputEnum::inputCount] = sf::Keyboard::A;
 
 	keys[2] = sf::Keyboard::Key::Space;
 

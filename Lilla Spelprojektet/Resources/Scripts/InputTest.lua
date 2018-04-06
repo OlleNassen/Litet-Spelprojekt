@@ -2,17 +2,17 @@ p = position.new()
 position.setPosition(p, 5, 5)
 
 function moveUp(direction, deltaTime)
-	position.move(0, direction * 5)
+	position.move(p, 0, direction * 10 * deltaTime)
 	return true
 end
 
 function moveRight(direction, deltaTime)
-	position.move(direction * 5, 0)
+	position.move(p, direction * 10 * deltaTime, 0)
 	return true
 end
 
 function jump()
-	position.move(20, 0)
+	position.move(p, 0, -20)
 end
 
 function getPosition()
