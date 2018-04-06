@@ -51,7 +51,7 @@ int moveposition(lua_State* luaState)
 	int id = lua_tointeger(luaState, -4);
 
 	sf::Vector2f pos = ptr->getWantedPosition(id);
-	ptr->setWantedPosition(id, x - pos.x, y - pos.y);
+	ptr->setWantedPosition(id, pos.x + x, pos.y + y);
 
 	lua_pop(luaState, 1);
 	
