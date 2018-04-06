@@ -2,11 +2,11 @@
 #include"Shader.hpp"
 #include "Texture2D.hpp"
 
-class SpriteRenderer
+class GraphicsSystem
 {
 public:
-	SpriteRenderer(Shader *shader, std::vector<lua_State*>* luaStateVector);
-	~SpriteRenderer();
+	GraphicsSystem(Shader *shader, std::vector<lua_State*>* luaStateVector);
+	~GraphicsSystem();
 	void drawSprite(Texture2D &texture,
 		glm::vec2 size, GLfloat rotate, glm::vec3 color);
 

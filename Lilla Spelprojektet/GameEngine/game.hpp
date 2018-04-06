@@ -3,7 +3,7 @@
 #include "EventSystem.hpp"
 #include "CollisionSystem.hpp"
 #include <vector>
-#include "../Renderer/spriteRenderer.hpp"
+#include "../Renderer/graphicsSystem.hpp"
 #include "resourceManager.hpp"
 static int push(lua_State* luaState);
 static int pop(lua_State* luaState);
@@ -28,7 +28,7 @@ private:
 	EventSystem eventSystem;
 	CollisionSystem collisionSystem;
 	
-	SpriteRenderer* renderer;
+	GraphicsSystem* graphicsSystem;
 	ResourceManager* resources;
 	
 

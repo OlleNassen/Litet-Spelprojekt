@@ -1,6 +1,57 @@
-#include "spriteRenderer.hpp"
+#include "graphicsSystem.hpp"
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
+/*
+int newSprite(lua_State* luaState)
+{
+	lua_getglobal(luaState, "CollisionSystem");
+	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
+	lua_pop(luaState, 1);
+	int* id = (int*)lua_newuserdata(luaState, sizeof(int));
+	*id = ptr->addPosition();
+
+	return 1;
+}
+
+int getposition(lua_State* luaState)
+{
+	lua_getglobal(luaState, "CollisionSystem");
+	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
+	int id = lua_tointeger(luaState, -2);
+	lua_pop(luaState, 1);
+
+	sf::Vector2f pos = ptr->getWantedPosition(id);
+	lua_pushnumber(luaState, pos.y);
+	lua_pushnumber(luaState, pos.x);
+
+	return 2;
+}
+
+int setposition(lua_State* luaState)
+{
+	lua_getglobal(luaState, "CollisionSystem");
+	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
+	float y = lua_tonumber(luaState, -2);
+	float x = lua_tonumber(luaState, -3);
+	int id = lua_tointeger(luaState, -4);
+
+	ptr->setWantedPosition(id, x, y);
+
+	lua_pop(luaState, 1);
+
+	return 0;
+}
+
+
+static const struct luaL_Reg positionlib[] =
+{
+	{ "new", newposition },
+{ "getPosition", getposition },
+{ "setPosition", setposition },
+{ "move", moveposition },
+{ NULL, NULL }
+};
+*/
 static unsigned int a[] =
 {
 	1,1,1,1,1,1,1,1,1,1,
@@ -15,7 +66,7 @@ static unsigned int a[] =
 	1,1,1,1,1,1,1,1,1,1
 };
 
-SpriteRenderer::SpriteRenderer(Shader *shader, std::vector<lua_State*>* luaStateVector)
+GraphicsSystem::GraphicsSystem(Shader *shader, std::vector<lua_State*>* luaStateVector)
 {
 	tileMap = a;
 	addVector(luaStateVector);
@@ -23,14 +74,16 @@ SpriteRenderer::SpriteRenderer(Shader *shader, std::vector<lua_State*>* luaState
 	initRenderData();
 	for(int i = 0; i < 100; i++)
 		initTiles();
+
+
 }
 
-SpriteRenderer::~SpriteRenderer()
+GraphicsSystem::~GraphicsSystem()
 {
 	//Do not delete shader, it will be deleted by ResourceManager
 }
 
-void SpriteRenderer::initRenderData()
+void GraphicsSystem::initRenderData()
 {
 	// Configure VAO/VBO
 	GLuint VBO;
@@ -75,7 +128,7 @@ void SpriteRenderer::initRenderData()
 	offset += sizeof(float) * 3;
 }
 
-void SpriteRenderer::initTiles()
+void GraphicsSystem::initTiles()
 {
 	GLuint VAO;
 	// Configure VAO/VBO
@@ -124,7 +177,7 @@ void SpriteRenderer::initTiles()
 }
 
 
-void SpriteRenderer::drawSprite(Texture2D &texture,
+void GraphicsSystem::drawSprite(Texture2D &texture,
 	glm::vec2 size, GLfloat rotate, glm::vec3 color)
 {
 	glm::vec2 position;
@@ -157,7 +210,7 @@ void SpriteRenderer::drawSprite(Texture2D &texture,
 	glBindVertexArray(0);
 }
 
-void SpriteRenderer::drawTiles(Texture2D &texture,
+void GraphicsSystem::drawTiles(Texture2D &texture,
 	glm::vec2 size, GLfloat rotate, glm::vec3 color)
 {
 	int i = 0;
@@ -195,7 +248,7 @@ void SpriteRenderer::drawTiles(Texture2D &texture,
 
 }
 
-void SpriteRenderer::addVector(std::vector<lua_State*>* vector)
+void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
 {
 	luaVector = vector;
 }

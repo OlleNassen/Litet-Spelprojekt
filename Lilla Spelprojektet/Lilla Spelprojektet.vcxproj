@@ -23,10 +23,8 @@
     <ClCompile Include="GameEngine\game.cpp" />
     <ClCompile Include="GameEngine\EventSystem.cpp" />
     <ClCompile Include="GameEngine\resourceManager.cpp" />
-    <ClCompile Include="Logic\player.cpp" />
-    <ClCompile Include="Logic\Tile.cpp" />
-    <ClCompile Include="Logic\TileMap.cpp" />
-    <ClCompile Include="Renderer\spriteRenderer.cpp" />
+    <ClCompile Include="Renderer\sprite.cpp" />
+    <ClCompile Include="Renderer\graphicsSystem.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -37,11 +35,9 @@
     <ClInclude Include="GameEngine\libs.h" />
     <ClInclude Include="GameEngine\resourceManager.hpp" />
     <ClInclude Include="libs.h" />
-    <ClInclude Include="Logic\player.hpp" />
-    <ClInclude Include="Logic\Tile.h" />
-    <ClInclude Include="Logic\TileMap.h" />
     <ClInclude Include="Renderer\Shader.hpp" />
-    <ClInclude Include="Renderer\spriteRenderer.hpp" />
+    <ClInclude Include="Renderer\sprite.hpp" />
+    <ClInclude Include="Renderer\graphicsSystem.hpp" />
     <ClInclude Include="Renderer\Texture2D.hpp" />
   </ItemGroup>
   <ItemGroup>

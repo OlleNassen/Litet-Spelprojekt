@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "..\Renderer\spriteRenderer.hpp"
+#include "..\Renderer\graphicsSystem.hpp"
 
 class ResourceManager
 {

@@ -6,6 +6,7 @@ class Texture2D
 {
 private:
 	GLuint texture;
+	
 
 public:
 	Texture2D()
