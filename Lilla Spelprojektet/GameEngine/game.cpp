@@ -7,6 +7,8 @@ int clear(lua_State* luaState);*/
 
 Game::Game()
 {
+	timePerFrame = sf::seconds(1.f / 60.f);
+	
 	//initializes window and glew
 	initWindow();
 
@@ -21,12 +23,11 @@ Game::Game()
 	addLuaLibraries(L);
 	//luaVector.push_back(L);
 	
-	if (luaL_loadfile(L, "Resources/Scripts/dummy.lua") || lua_pcall(L, 0, 0, 0))
+	if (luaL_loadfile(L, "Resources/Scripts/gameState.lua") || lua_pcall(L, 0, 0, 0))
 	{
 		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(L, -1));
 
 	}
-	
 
 
 }
@@ -40,15 +41,23 @@ Game::~Game()
 
 void Game::run()
 {
-	// run the main loop
-	
+	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
 	while (!luaVector.empty())
 	{
-		//handle events
-		this->handleEvents();
+		handleEvents();
 		
-		//update		
-		this->update();		
+		sf::Time dt = clock.restart();
+		timeSinceLastUpdate += dt;
+		
+		while (timeSinceLastUpdate > timePerFrame)
+		{
+			timeSinceLastUpdate -= timePerFrame;
+
+			handleEvents();
+			update(timePerFrame.asSeconds());
+		}
 
 		// clear the buffers
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -59,6 +68,7 @@ void Game::run()
 		// end the current frame (internally swaps the front and back buffers)
 		window->display();
 	}
+		
 	// release resources...
 }
 
@@ -104,10 +114,10 @@ LuaVector* Game::getVector()
 	return &luaVector;
 }
 
-void Game::update()
+void Game::update(float deltaTime)
 {
-	eventSystem.update(1);
-	collisionSystem.update(1);
+	eventSystem.update(deltaTime);
+	collisionSystem.update(deltaTime);
 }
 
 void Game::draw()

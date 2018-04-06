@@ -20,6 +20,8 @@ public:
 	LuaVector* getVector();
 	void run();
 
+	sf::Time timePerFrame;
+
 private:
 	sf::Window* window;
 	LuaVector luaVector;
@@ -33,7 +35,7 @@ private:
 
 private:
 	void handleEvents();
-	void update();
+	void update(float deltaTime);
 	void draw();
 	
 
