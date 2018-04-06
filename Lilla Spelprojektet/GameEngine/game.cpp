@@ -145,7 +145,7 @@ void Game::draw()
 	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
 
 	graphicsSystem->drawTiles(*resources->getTexture("donaldtrump.png"), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
-	graphicsSystem->drawSprite(*resources->getTexture("HansTap.png"), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
+	graphicsSystem->drawSprite(*resources->getTexture("prototype.png"), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 

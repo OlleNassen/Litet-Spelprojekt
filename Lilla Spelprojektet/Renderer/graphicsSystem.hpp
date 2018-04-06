@@ -1,6 +1,7 @@
 #pragma once
 #include"Shader.hpp"
 #include "Texture2D.hpp"
+#include "sprite.hpp"
 
 class GraphicsSystem
 {
@@ -23,5 +24,8 @@ private:
 	std::vector<GLuint> tileVAO;
 	void initRenderData();
 	std::vector<lua_State*>* luaVector;
+	std::vector<Shader>shaders;
+	std::vector<std::vector<Texture2D>>textures;
+	std::vector<std::vector<Sprite>>sprites;
 };
 
