@@ -1,3 +1,5 @@
 function update(deltaTime)
-	print ("Du gjorde fel")
+	
+	
+	return true
 end

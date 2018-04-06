@@ -33,3 +33,10 @@ function mouse(x, y)
 	--print (x)
 	--print (y)
 end
+
+function update(deltaTime)
+	x, y = position.getPosition(p)
+	position.move(p, 0, y * 100 * deltaTime)
+	
+	return true
+end

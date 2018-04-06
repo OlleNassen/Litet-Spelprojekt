@@ -118,6 +118,21 @@ void Game::update(float deltaTime)
 {
 	eventSystem.update(deltaTime);
 	collisionSystem.update(deltaTime);
+
+	bool stopUpdate = false;
+	
+	for (int id = luaVector.size() - 1; id >= 0 && !stopUpdate; id--)
+	{
+		lua_State* luaState = luaVector[id];
+		
+		/* push functions and arguments */
+		lua_getglobal(luaState, "update");  /* function to be called */
+		lua_pushnumber(luaState, deltaTime);   
+		lua_pcall(luaState, 1, 1, 0);
+
+		stopUpdate = lua_toboolean(luaState, -1);
+		lua_pop(luaState, 1);  /* pop returned value */
+	}
 }
 
 void Game::draw()
