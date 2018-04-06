@@ -67,6 +67,20 @@ static const struct luaL_Reg positionlib[] =
 	{ NULL, NULL }
 };
 
+static unsigned int a[] = 
+{
+	1,1,1,1,1,1,1,1,1,1,
+	1,0,0,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,0,0,1,
+	1,1,1,1,1,1,1,1,1,1
+};
+
 CollisionSystem::CollisionSystem()
 {
 	width = 10;
@@ -75,18 +89,14 @@ CollisionSystem::CollisionSystem()
 	positionCurrent = 0;
 	positionCount = 10;
 
-	tileSize = 72;
+	tileSize = 48;
 	
-	tileList = new unsigned int[width * height];
+	//tileList = new unsigned int[width * height];
 
-	for (unsigned int i = 0; i < width * height; i++)
-	{
-		tileList[i] = 0;
-	}
-	for (unsigned int i = 85; i < 100; i++)
-	{
-		tileList[i] = 1;
-	}
+	tileList = a;
+
+
+
 }
 
 CollisionSystem::~CollisionSystem()
