@@ -12,13 +12,10 @@ function update(deltaTime)
 end
 
 tileMap = {}
-for x = 0, 20 do
-    tileMap[x] = {}
-    for y = 0, 25 do
-		tileMap[x][y] = Tile:create(position)
-		xVal = tileMap[x][y]:getSize().x * x
-		yVal = tileMap[x][y]:getSize().y * y
+for x = 0, 100 do
+		tileTemp = Tile:create(position)
+		xVal = tileMap[x] (x % 10) * 48
+		yVal = tileMap[x]:getSize().height * (x / 10) * 48
 		position = {xVal, yVal}
-		print(tileMap[x][y])
-    end
+		print(tileMap[x])
 end
