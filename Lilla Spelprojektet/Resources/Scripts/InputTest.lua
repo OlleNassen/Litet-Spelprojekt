@@ -7,7 +7,7 @@ function moveUp(direction, deltaTime)
 end
 
 function moveRight(direction, deltaTime)
-	position.move(p, direction * 25 * deltaTime, 0)
+	position.move(p, direction * 250 * deltaTime, 0)
 	return true
 end
 

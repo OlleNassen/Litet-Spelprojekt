@@ -1,8 +1,5 @@
-#ifndef CAMERA_HPP
-#define CAMERA_HPP
+#pragma once
 
-#include <glm/glm.hpp>
-#include <SFML/System/Vector2.hpp>
 #include "../libs.h"
 
 struct FloatRect
@@ -24,9 +21,20 @@ struct FloatRect
 
 class Camera
 {
+private:
+	sf::Vector2f center;              ///< Center of the Camera, in scene coordinates
+	sf::Vector2f size;                ///< Size of the Camera, in scene coordinates
+	float rotation;            ///< Angle of rotation of the Camera rectangle, in degrees
+	FloatRect viewport;
+
+	glm::vec3 front;
+	glm::vec3 up;
+
+	float scaleFactor; // ZOOM
 public:
 
 	Camera(int width, int height);
+	~Camera();
 
 	void setCenter(float x, float y);	
 	void setCenter(const sf::Vector2f& center);
@@ -41,19 +49,7 @@ public:
 	void move(const sf::Vector2f& offset);
 	void setPosition(const sf::Vector2f& setPosition);
 	void zoom(float factor);
+
 	glm::mat4 getProjection();
 	glm::mat4 getView();
-
-private:
-	sf::Vector2f center;              ///< Center of the Camera, in scene coordinates
-	sf::Vector2f size;                ///< Size of the Camera, in scene coordinates
-	float rotation;            ///< Angle of rotation of the Camera rectangle, in degrees
-	FloatRect viewport;           
-	//glm::vec3 position;
-	//glm::vec3 front;
-	//glm::vec3 up;
-
 };
-
-
-#endif // CAMERA_HPP

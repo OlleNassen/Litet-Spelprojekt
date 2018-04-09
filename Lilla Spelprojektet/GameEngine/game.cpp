@@ -4,6 +4,7 @@
 int pop(lua_State* luaState);
 int clear(lua_State* luaState);*/
 
+//FROM GITHUB
 
 Game::Game()
 	:camera(WIDTH, HEIGHT)
@@ -61,7 +62,7 @@ void Game::run()
 		}
 
 		// clear the buffers
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// draw...
 		this->draw();
@@ -183,6 +184,7 @@ void Game::initWindow()
 
 	//Set clearing color to red
 	glClearColor(1, 0, 0, 1);
+	glEnable(GL_DEPTH_TEST);
 }
 
 static int push(lua_State* luaState)

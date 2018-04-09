@@ -6,9 +6,17 @@ Camera::Camera(int width, int height) :
 	center(),
 	size(),
 	rotation(0),
-	viewport(0, 0, 1, 1)
+	viewport(0, 0, 1, 1),
+	scaleFactor(2)
 {
 	reset(FloatRect(0, 0, width, height));
+
+	front = glm::vec3(0.f, 0.f, -1.f);
+	up = glm::vec3(0.f, 1.f, 0.f);
+}
+
+Camera::~Camera()
+{
 }
 
 void Camera::setCenter(float x, float y)
@@ -92,22 +100,20 @@ void Camera::setPosition(const sf::Vector2f & setPosition)
 ////////////////////////////////////////////////////////////
 void Camera::zoom(float factor)
 {
-	setSize(size.x * factor, size.y * factor);
+	scaleFactor = factor;
 }
 
 glm::mat4 Camera::getProjection()
 {
-	return glm::ortho(0.f, size.x, size.y, 0.f, -1.0f, 1.0f);
+	return glm::ortho(0.f, size.x/scaleFactor, size.y / scaleFactor, 0.f, -1.0f, 1.0f);
 }
 
 glm::mat4 Camera::getView()
 {
-	float x = center.x - size.x / 2;
-	float y = center.y - size.y / 2;
+	float x = center.x - size.x / (scaleFactor * 2);
+	float y = center.y - size.y / (scaleFactor * 2);
 	
 	glm::vec3 position(x, y, 0.f);
-	glm::vec3 front(0.f, 0.f, -1.f);
-	glm::vec3 up(0.f, 1.f, 0.f);
 
 	return glm::lookAt(position, position + front, up);
 }
