@@ -109,9 +109,7 @@ void CollisionSystem::addLuaPosition(lua_State* luaState)
 	lua_pushlightuserdata(luaState, this);
 	lua_setglobal(luaState, "CollisionSystem");
 	
-	lua_newtable(luaState);
-	luaL_setfuncs(luaState, positionlib, 0);
-	lua_setglobal(luaState, "position");
+	luaL_openlib(luaState, "position", positionlib, 0);
 }
 
 int CollisionSystem::addPosition()
