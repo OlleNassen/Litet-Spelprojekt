@@ -1,13 +1,32 @@
 #include "game.hpp"
 
-/*int push(lua_State* luaState);
-int pop(lua_State* luaState);
-int clear(lua_State* luaState);*/
+int setResolution(lua_State* luaState)
+{
+	lua_getglobal(luaState, "Game");
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+	int height = lua_tointeger(luaState, -2);
+	int width = lua_tointeger(luaState, -3);
+	
+	game->changeResolution(width, height);
+	
+	return 0;
+}
 
-//FROM GITHUB
+int setFramerate(lua_State* luaState)
+{
+	lua_getglobal(luaState, "Game");
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+	int fps = lua_tointeger(luaState, -2);
+	
+	game->timePerFrame = sf::seconds(1.0f / fps);
+
+	return 0;
+}
+
 
 Game::Game()
-	:camera(WIDTH, HEIGHT)
+	: camera(WIDTH, HEIGHT)
+	, eventSystem()
 {
 	timePerFrame = sf::seconds(1.f / 60.f);
 	
@@ -24,7 +43,7 @@ Game::Game()
 	luaL_openlibs(L);
 	addLuaLibraries(L);
 	
-	if (luaL_loadfile(L, "Resources/Scripts/LuaStates/gameState.lua") || lua_pcall(L, 0, 0, 0))
+	if (luaL_loadfile(L, "Resources/Scripts/Setup/Setup.lua") || lua_pcall(L, 0, 0, 0))
 	{
 		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(L, -1));
 
@@ -62,7 +81,7 @@ void Game::run()
 		}
 
 		// clear the buffers
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		// draw...
 		this->draw();
@@ -78,6 +97,11 @@ void Game::addLuaLibraries(lua_State* luaState)
 {
 	lua_pushlightuserdata(luaState, this);
 	lua_setglobal(luaState, "Game");
+
+	lua_pushcfunction(luaState, setResolution);
+	lua_setglobal(luaState, "setResolution");
+	lua_pushcfunction(luaState, setFramerate);
+	lua_setglobal(luaState, "setFramerate");
 	
 	lua_pushcfunction(luaState, push);
 	lua_setglobal(luaState, "push");
@@ -90,6 +114,10 @@ void Game::addLuaLibraries(lua_State* luaState)
 	collisionSystem.addLuaPosition(luaState);
 }
 
+void Game::changeResolution(int width, int height)
+{
+	window->setSize(sf::Vector2u(width, height));
+}
 
 void Game::handleEvents()
 {
@@ -146,8 +174,6 @@ void Game::draw()
 	glm::mat4 projection = camera.getProjection();
 	glm::mat4 view = camera.getView();
 
-
-
 	resources->getShader("sprite")->setInt(0, "image");
 	resources->getShader("sprite")->setMatrix4fv(view, "view");
 	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
@@ -167,7 +193,7 @@ void Game::initWindow()
 	settings.majorVersion = 4;
 	settings.minorVersion = 4;
 
-	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "OpenGL", sf::Style::Default, settings);
+	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
 
 	//glViewport(320, 480, )
 
@@ -184,7 +210,6 @@ void Game::initWindow()
 
 	//Set clearing color to red
 	glClearColor(1, 0, 0, 1);
-	glEnable(GL_DEPTH_TEST);
 }
 
 static int push(lua_State* luaState)
@@ -211,7 +236,7 @@ static int push(lua_State* luaState)
 
 static int pop(lua_State* luaState)
 {
-	lua_getglobal(luaState, "LuaVector");
+	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
 	LuaVector* ptr = game->getVector();
 
@@ -223,7 +248,7 @@ static int pop(lua_State* luaState)
 
 static int clear(lua_State* luaState)
 {
-	lua_getglobal(luaState, "LuaVector");
+	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
 	LuaVector* ptr = game->getVector();
 

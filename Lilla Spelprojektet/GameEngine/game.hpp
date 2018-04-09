@@ -17,6 +17,7 @@ class Game
 public:
 	Game();
 	~Game();
+
 	void addLuaLibraries(lua_State* luaState);
 	LuaVector* getVector();
 	void run();
@@ -24,6 +25,8 @@ public:
 	sf::Time timePerFrame;
 
 	Camera camera;
+
+	void changeResolution(int width, int height);
 
 private:
 	sf::Window* window;
