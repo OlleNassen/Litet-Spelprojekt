@@ -73,7 +73,18 @@ void Sprite::draw(glm::vec2 size, GLfloat rotate, glm::vec3 color, lua_State* lu
 		lua_pop(luaState, 2);
 	}
 	else std::cout << "getPosition is not a function" << std::endl;
-
+	/*
+	glm::vec2 size;
+	lua_getglobal(luaState, "getSize");
+	if (lua_isfunction(luaState, -1))
+	{
+		lua_pcall(luaState, 0, 2, 0);
+		getSize.x = lua_tonumber(luaState, -1);
+		getSize.y = lua_tonumber(luaState, -2);
+		lua_pop(luaState, 2);
+	}
+	else std::cout << "getSize is not a function" << std::endl;
+	*/
 	// Prepare transformations
 	glm::mat4 model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(position, 0.0f));

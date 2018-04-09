@@ -172,6 +172,8 @@ void GraphicsSystem::initTiles()
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
 	offset += sizeof(float) * 3;
 
+
+
 	tileVAO.push_back(VAO);
 }
 

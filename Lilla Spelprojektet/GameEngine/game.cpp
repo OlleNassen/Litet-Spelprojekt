@@ -6,6 +6,7 @@ int clear(lua_State* luaState);*/
 
 
 Game::Game()
+	:camera(WIDTH, HEIGHT)
 {
 	timePerFrame = sf::seconds(1.f / 60.f);
 	
@@ -134,15 +135,20 @@ void Game::update(float deltaTime)
 	}
 
 	collisionSystem.update(deltaTime);
+
+	camera.setPosition(collisionSystem.getWantedPosition(0));
 }
 
 void Game::draw()
 {
 	//Fix this and put it somewhere else:
-	glm::mat4 projection = cam.getProjection();
+	glm::mat4 projection = camera.getProjection();
+	glm::mat4 view = camera.getView();
+
 
 
 	resources->getShader("sprite")->setInt(0, "image");
+	resources->getShader("sprite")->setMatrix4fv(view, "view");
 	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
 
 	graphicsSystem->drawTiles(*resources->getTexture("donaldtrump.png"), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));

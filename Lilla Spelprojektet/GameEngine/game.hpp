@@ -23,7 +23,7 @@ public:
 
 	sf::Time timePerFrame;
 
-	Camera cam;
+	Camera camera;
 
 private:
 	sf::Window* window;

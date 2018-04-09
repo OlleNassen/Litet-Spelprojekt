@@ -26,7 +26,7 @@ class Camera
 {
 public:
 
-	Camera();
+	Camera(int width, int height);
 
 	void setCenter(float x, float y);	
 	void setCenter(const sf::Vector2f& center);
@@ -39,14 +39,20 @@ public:
 	const FloatRect& getViewport() const;
 	void move(float offsetX, float offsetY);
 	void move(const sf::Vector2f& offset);
+	void setPosition(const sf::Vector2f& setPosition);
 	void zoom(float factor);
 	glm::mat4 getProjection();
+	glm::mat4 getView();
 
 private:
 	sf::Vector2f center;              ///< Center of the Camera, in scene coordinates
 	sf::Vector2f size;                ///< Size of the Camera, in scene coordinates
 	float rotation;            ///< Angle of rotation of the Camera rectangle, in degrees
-	FloatRect viewport;            ///< Cameraport rectangle, expressed as a factor of the render-target's size
+	FloatRect viewport;           
+	glm::vec3 position;
+	glm::vec3 front;
+	glm::vec3 up;
+
 };
 
 

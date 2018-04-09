@@ -2,13 +2,13 @@
 #include <cmath>
 
 
-Camera::Camera() :
+Camera::Camera(int width, int height) :
 	center(),
 	size(),
 	rotation(0),
 	viewport(0, 0, 1, 1)
 {
-	reset(FloatRect(0, 0, 1280, 720));
+	reset(FloatRect(0, 0, width, height));
 }
 
 void Camera::setCenter(float x, float y)
@@ -83,6 +83,11 @@ void Camera::move(const sf::Vector2f& offset)
 	setCenter(center + offset);
 }
 
+void Camera::setPosition(const sf::Vector2f & setPosition)
+{
+	setCenter(setPosition.x, setPosition.y);
+}
+
 
 ////////////////////////////////////////////////////////////
 void Camera::zoom(float factor)
@@ -92,8 +97,17 @@ void Camera::zoom(float factor)
 
 glm::mat4 Camera::getProjection()
 {
+	return glm::ortho(0.f, size.x, size.y, 0.f, -1.0f, 1.0f);
+}
+
+glm::mat4 Camera::getView()
+{
 	float x = center.x - size.x / 2;
 	float y = center.y - size.y / 2;
 	
-	return glm::ortho(x, size.x, size.y, y, -1.0f, 1.0f);;
+	glm::vec3 position(x, y, 0.f);
+	glm::vec3 front(0.f, 0.f, -1.f);
+	glm::vec3 up(0.f, 1.f, 0.f);
+
+	return glm::lookAt(position, position + front, up);
 }
