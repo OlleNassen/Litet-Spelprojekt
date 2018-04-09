@@ -40,7 +40,7 @@ Game::~Game()
 }
 
 void Game::run()
-{
+{	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
@@ -139,7 +139,8 @@ void Game::update(float deltaTime)
 void Game::draw()
 {
 	//Fix this and put it somewhere else:
-	glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+	glm::mat4 projection = cam.getProjection();
+
 
 	resources->getShader("sprite")->setInt(0, "image");
 	resources->getShader("sprite")->setMatrix4fv(projection, "projection");

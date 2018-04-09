@@ -5,6 +5,7 @@
 #include <vector>
 #include "../Renderer/graphicsSystem.hpp"
 #include "resourceManager.hpp"
+#include "camera.hpp"
 static int push(lua_State* luaState);
 static int pop(lua_State* luaState);
 static int clear(lua_State* luaState);
@@ -21,6 +22,8 @@ public:
 	void run();
 
 	sf::Time timePerFrame;
+
+	Camera cam;
 
 private:
 	sf::Window* window;
