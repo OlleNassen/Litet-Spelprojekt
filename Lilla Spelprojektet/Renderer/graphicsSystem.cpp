@@ -66,7 +66,7 @@ void GraphicsSystem::drawPlayer(const glm::mat4& view, const glm::mat4& projecti
 
 	shaders.back()->use();
 
-	sprites[0]->drawPlayer(luaVector->back());
+	sprites[0]->draw(this->getPlayerPosition(luaVector->back()));
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
@@ -86,7 +86,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 		shaders[0]->use();
 
 		if (tileMap[i] != 0)
-			tile->drawTile(glm::vec2(x, y));
+			tile->draw(glm::vec2(x, y));
 
 		i++;
 	}
@@ -109,6 +109,23 @@ void GraphicsSystem::loadShaders()
 {
 	shaders.push_back(new Shader("Resources/Shaders/VertexShaderCore.glsl", "Resources/Shaders/FragmentShaderCore.glsl"));
 }
+
+glm::vec2 GraphicsSystem::getPlayerPosition(lua_State* luaState) const
+{
+	glm::vec2 position;
+	lua_getglobal(luaState, "getPosition");
+	if (lua_isfunction(luaState, -1))
+	{
+		lua_pcall(luaState, 0, 2, 0);
+		position.x = lua_tonumber(luaState, -1);
+		position.y = lua_tonumber(luaState, -2);
+		lua_pop(luaState, 2);
+	}
+	else std::cout << "getPosition is not a function" << std::endl;
+
+	return position;
+}
+
 
 /*
 int newSprite(lua_State* luaState)

@@ -28,5 +28,6 @@ public:
 private:
 	void loadTextures();
 	void loadShaders();
+	glm::vec2 getPlayerPosition(lua_State* luaState)const;
 };
 

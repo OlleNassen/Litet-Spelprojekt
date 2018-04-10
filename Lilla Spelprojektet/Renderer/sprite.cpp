@@ -65,29 +65,8 @@ void Sprite::initSprite()
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
 	offset += sizeof(float) * 3;
 }
-//Player draw
-void Sprite::drawPlayer(lua_State* luaState)
-{
-	// Prepare transformations
-	glm::mat4 model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(getPlayerPosition(luaState), 0.0f));
 
-	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
-	model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
-
-	model = glm::scale(model, glm::vec3(size, 1.0f));
-
-	this->shader->setMatrix4fv(model, "model");
-	this->shader->use();
-	texture->bind();
-
-	glBindVertexArray(this->quadVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
-}
-
-void Sprite::drawTile(const glm::vec2& position)
+void Sprite::draw(const glm::vec2& position)
 {
 	// Prepare transformations
 	glm::mat4 model = glm::mat4(1.f);
@@ -126,18 +105,3 @@ void Sprite::setTextureSize(float width, float height)
 	this->height = height;
 }
 
-glm::vec2 Sprite::getPlayerPosition(lua_State* luaState) const
-{
-	glm::vec2 position;
-	lua_getglobal(luaState, "getPosition");
-	if (lua_isfunction(luaState, -1))
-	{
-		lua_pcall(luaState, 0, 2, 0);
-		position.x = lua_tonumber(luaState, -1);
-		position.y = lua_tonumber(luaState, -2);
-		lua_pop(luaState, 2);
-	}
-	else std::cout << "getPosition is not a function" << std::endl;
-
-	return position;
-}
