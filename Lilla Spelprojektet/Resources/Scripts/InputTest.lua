@@ -45,7 +45,7 @@ end
 timeSinceJump = 0.0
 
 function update(deltaTime)
-	
+
 	if isJumping then
 		
 		timeSinceJump = timeSinceJump + deltaTime

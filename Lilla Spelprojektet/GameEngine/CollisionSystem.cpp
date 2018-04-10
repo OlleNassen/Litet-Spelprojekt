@@ -100,7 +100,6 @@ CollisionSystem::CollisionSystem()
 
 CollisionSystem::~CollisionSystem()
 {
-	delete tileList;
 }
 
 void CollisionSystem::addLuaPosition(lua_State* luaState)
