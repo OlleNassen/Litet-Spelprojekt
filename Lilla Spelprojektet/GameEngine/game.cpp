@@ -1,10 +1,5 @@
 #include "game.hpp"
 
-/*int push(lua_State* luaState);
-int pop(lua_State* luaState);
-int clear(lua_State* luaState);*/
-
-
 Game::Game()
 {
 	timePerFrame = sf::seconds(1.f / 60.f);
@@ -12,35 +7,36 @@ Game::Game()
 	//initializes window and glew
 	initWindow();
 
-	resources = new ResourceManager();
-	graphicsSystem = new GraphicsSystem(resources->getShader("temp"), &luaVector);
+	//Get width and height from lua, FIXFIXFIXFIX
+	camera = new Camera(WIDTH, HEIGHT);
 
+	graphicsSystem = new GraphicsSystem(&luaVector);
 	eventSystem.addVector(&luaVector);
 
-	//Testing lua
+	//Initializes and starts lua
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 	addLuaLibraries(L);
 	
-	if (luaL_loadfile(L, "Resources/Scripts/LuaStates/gameState.lua") || lua_pcall(L, 0, 0, 0))
+	if (luaL_loadfile(L, "Resources/Scripts/Setup/Setup.lua") || lua_pcall(L, 0, 0, 0))
 	{
 		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(L, -1));
 
 	}
-
 	lua_close(L);
 
+	//camera->zoom(0.5);
 }
 
 Game::~Game()
 {
-	delete this->window;
+	delete this->camera;
 	delete this->graphicsSystem;
-	delete this->resources;
+	delete this->window;
 }
 
 void Game::run()
-{
+{	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
@@ -72,22 +68,10 @@ void Game::run()
 	// release resources...
 }
 
-void Game::addLuaLibraries(lua_State* luaState)
+void Game::changeResolution(int width, int height)
 {
-	lua_pushlightuserdata(luaState, this);
-	lua_setglobal(luaState, "Game");
-	
-	lua_pushcfunction(luaState, push);
-	lua_setglobal(luaState, "push");
-	lua_pushcfunction(luaState, pop);
-	lua_setglobal(luaState, "pop");
-	lua_pushcfunction(luaState, clear);
-	lua_setglobal(luaState, "clear");
-
-	eventSystem.addLuaRebind(luaState);
-	collisionSystem.addLuaPosition(luaState);
+	window->setSize(sf::Vector2u(width, height));
 }
-
 
 void Game::handleEvents()
 {
@@ -134,21 +118,19 @@ void Game::update(float deltaTime)
 	}
 
 	collisionSystem.update(deltaTime);
+
+	camera->setPosition(collisionSystem.getWantedPosition(0)); // Camera pinned to player position
 }
 
 void Game::draw()
 {
 	//Fix this and put it somewhere else:
-	glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+	glm::mat4 projection = camera->getProjection();
+	glm::mat4 view = camera->getView();
 
-	resources->getShader("sprite")->setInt(0, "image");
-	resources->getShader("sprite")->setMatrix4fv(projection, "projection");
-
-	graphicsSystem->drawTiles(*resources->getTexture("donaldtrump.png"), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
-	graphicsSystem->drawSprite(*resources->getTexture("prototype.png"), glm::vec2(48, 48), 0.f, glm::vec3(0.0f, 1.0f, 0.0f));
+	graphicsSystem->drawTiles(view, projection);
+	graphicsSystem->drawPlayer(view, projection);
 }
-
-
 
 void Game::initWindow()
 {
@@ -159,7 +141,7 @@ void Game::initWindow()
 	settings.majorVersion = 4;
 	settings.minorVersion = 4;
 
-	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "OpenGL", sf::Style::Default, settings);
+	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
 
 	//glViewport(320, 480, )
 
@@ -178,7 +160,28 @@ void Game::initWindow()
 	glClearColor(1, 0, 0, 1);
 }
 
-static int push(lua_State* luaState)
+void Game::addLuaLibraries(lua_State* luaState)
+{
+	lua_pushlightuserdata(luaState, this);
+	lua_setglobal(luaState, "Game");
+
+	lua_pushcfunction(luaState, setResolution);
+	lua_setglobal(luaState, "setResolution");
+	lua_pushcfunction(luaState, setFramerate);
+	lua_setglobal(luaState, "setFramerate");
+
+	lua_pushcfunction(luaState, push);
+	lua_setglobal(luaState, "push");
+	lua_pushcfunction(luaState, pop);
+	lua_setglobal(luaState, "pop");
+	lua_pushcfunction(luaState, clear);
+	lua_setglobal(luaState, "clear");
+
+	eventSystem.addLuaRebind(luaState);
+	collisionSystem.addLuaPosition(luaState);
+}
+
+int Game::push(lua_State* luaState)
 {	
 	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
@@ -200,9 +203,9 @@ static int push(lua_State* luaState)
 	return 0;
 }
 
-static int pop(lua_State* luaState)
+int Game::pop(lua_State* luaState)
 {
-	lua_getglobal(luaState, "LuaVector");
+	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
 	LuaVector* ptr = game->getVector();
 
@@ -212,9 +215,9 @@ static int pop(lua_State* luaState)
 	return 0;
 }
 
-static int clear(lua_State* luaState)
+int Game::clear(lua_State* luaState)
 {
-	lua_getglobal(luaState, "LuaVector");
+	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
 	LuaVector* ptr = game->getVector();
 
@@ -223,6 +226,29 @@ static int clear(lua_State* luaState)
 		lua_close(ptr->back());
 		ptr->pop_back();
 	}
+
+	return 0;
+}
+
+int Game::setFramerate(lua_State* luaState)
+{
+	lua_getglobal(luaState, "Game");
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+	int fps = lua_tointeger(luaState, -2);
+
+	game->timePerFrame = sf::seconds(1.0f / fps);
+
+	return 0;
+}
+
+int Game::setResolution(lua_State* luaState)
+{
+	lua_getglobal(luaState, "Game");
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+	int height = lua_tointeger(luaState, -2);
+	int width = lua_tointeger(luaState, -3);
+
+	game->changeResolution(width, height);
 
 	return 0;
 }

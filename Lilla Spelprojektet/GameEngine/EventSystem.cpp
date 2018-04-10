@@ -47,7 +47,74 @@ int luaRebind(lua_State* luaState)
 		{
 			wantRebind = true;
 			rebindId = id * isOpposite;
+			result = true;
 		}		
+	}
+
+	lua_pop(luaState, 1);
+	return 0;
+}
+
+int bindkeyboard(lua_State* luaState)
+{
+	bool result = false;
+
+	int keyValueNeg = lua_tointeger(luaState, -1);
+	int keyValuePos = lua_tointeger(luaState, -2);
+	const char* text = lua_tostring(luaState, -3);
+
+	for (unsigned int id = 0; id < InputEnum::inputCount && !result; id++)
+	{
+		if (strcmp(text, InputText[id]) == 0)
+		{			
+			keys[id] = (sf::Keyboard::Key)keyValuePos;
+			keys[id + InputEnum::inputCount] = (sf::Keyboard::Key)keyValueNeg;
+			result = true;
+		}
+	}
+
+	lua_pop(luaState, 1);
+	return 0;
+}
+
+int bindmouse(lua_State* luaState)
+{
+	bool result = false;
+
+	int buttonValueNeg = lua_tointeger(luaState, -1);
+	int buttonValuePos = lua_tointeger(luaState, -2);
+	const char* text = lua_tostring(luaState, -3);
+
+	for (unsigned int id = 0; id < InputEnum::inputCount && !result; id++)
+	{
+		if (strcmp(text, InputText[id]) == 0)
+		{
+			mButtons[id] = (sf::Mouse::Button)buttonValuePos;
+			mButtons[id + InputEnum::inputCount] = (sf::Mouse::Button)buttonValueNeg;
+			result = true;
+		}
+	}
+
+	lua_pop(luaState, 1);
+	return 0;
+}
+
+int bindjoystick(lua_State* luaState)
+{
+	bool result = false;
+
+	int buttonValueNeg = lua_tointeger(luaState, -1);
+	int buttonValuePos = lua_tointeger(luaState, -2);
+	const char* text = lua_tostring(luaState, -3);
+
+	for (unsigned int id = 0; id < InputEnum::inputCount && !result; id++)
+	{
+		if (strcmp(text, InputText[id]) == 0)
+		{
+			jButtons[id] = (unsigned int)buttonValuePos;
+			jButtons[id + InputEnum::inputCount] = (unsigned int)buttonValueNeg;
+			result = true;
+		}
 	}
 
 	lua_pop(luaState, 1);
@@ -69,14 +136,6 @@ EventSystem::EventSystem()
 		jAxis[id] = (sf::Joystick::Axis)sf::Joystick::AxisCount;
 		repeat[id] = true;
 	}	
-	
-	keys[0] = sf::Keyboard::S;
-	keys[1] = sf::Keyboard::D;
-	keys[0 + InputEnum::inputCount] = sf::Keyboard::W;
-	keys[1 + InputEnum::inputCount] = sf::Keyboard::A;
-
-	keys[2] = sf::Keyboard::Key::Space;
-
 }
 
 EventSystem::~EventSystem()
@@ -93,6 +152,15 @@ void EventSystem::addLuaRebind(lua_State* luaState)
 {
 	lua_pushcfunction(luaState, luaRebind);
 	lua_setglobal(luaState, "rebind");
+
+	lua_pushcfunction(luaState, bindkeyboard);
+	lua_setglobal(luaState, "bindKeyboard");
+
+	lua_pushcfunction(luaState, bindmouse);
+	lua_setglobal(luaState, "bindMouse");
+
+	lua_pushcfunction(luaState, bindjoystick);
+	lua_setglobal(luaState, "bindJoystick");
 }
 
 void EventSystem::setEvent(sf::Event currentEvent)

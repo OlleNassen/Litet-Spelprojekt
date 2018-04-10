@@ -19,21 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngine\camera.cpp" />
     <ClCompile Include="GameEngine\CollisionSystem.cpp" />
     <ClCompile Include="GameEngine\game.cpp" />
     <ClCompile Include="GameEngine\EventSystem.cpp" />
-    <ClCompile Include="GameEngine\resourceManager.cpp" />
     <ClCompile Include="Renderer\sprite.cpp" />
     <ClCompile Include="Renderer\graphicsSystem.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEngine\camera.hpp" />
     <ClInclude Include="GameEngine\CollisionSystem.hpp" />
     <ClInclude Include="GameEngine\EventSystem.hpp" />
     <ClInclude Include="GameEngine\game.hpp" />
     <ClInclude Include="GameEngine\Inputs.hpp" />
     <ClInclude Include="GameEngine\libs.h" />
-    <ClInclude Include="GameEngine\resourceManager.hpp" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="Renderer\Shader.hpp" />
     <ClInclude Include="Renderer\sprite.hpp" />

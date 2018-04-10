@@ -7,9 +7,14 @@ Sprite::Sprite(Texture2D * texture, Shader* shader)
 	height = 1.f;
 	x = 0.f;
 	y = 0.f;
-	setTexture(texture);
+	this->texture = texture;
 	this->shader = shader;
 	initSprite();
+
+	size.x = 48.f;
+	size.y = 48.f;
+	rotate = 0.f;
+	color = glm::vec3(0, 1, 0);
 }
 
 Sprite::~Sprite()
@@ -61,28 +66,18 @@ void Sprite::initSprite()
 	offset += sizeof(float) * 3;
 }
 
-void Sprite::draw(glm::vec2 size, GLfloat rotate, glm::vec3 color, lua_State* luaState)
+void Sprite::draw(const glm::vec2& position)
 {
-	glm::vec2 position;
-	lua_getglobal(luaState, "getPosition");
-	if (lua_isfunction(luaState, -1))
-	{
-		lua_pcall(luaState, 0, 2, 0);
-		position.x = lua_tonumber(luaState, -1);
-		position.y = lua_tonumber(luaState, -2);
-		lua_pop(luaState, 2);
-	}
-	else std::cout << "getPosition is not a function" << std::endl;
-
 	// Prepare transformations
 	glm::mat4 model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(position, 0.0f));
 
-	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
-	model = glm::rotate(model, rotate, glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+	model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
+	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
 
-	model = glm::scale(model, glm::vec3(size, 1.0f));
+	model = glm::scale(model, glm::vec3(glm::vec2(48.f), 1.0f));
+
 
 	this->shader->setMatrix4fv(model, "model");
 	this->shader->use();
@@ -95,7 +90,7 @@ void Sprite::draw(glm::vec2 size, GLfloat rotate, glm::vec3 color, lua_State* lu
 
 void Sprite::setTexture(Texture2D * texture)
 {
-	texture = texture;
+	this->texture = texture;
 }
 
 void Sprite::setTexturePosition(float x, float y)
@@ -109,3 +104,4 @@ void Sprite::setTextureSize(float width, float height)
 	this->width = width;
 	this->height = height;
 }
+
