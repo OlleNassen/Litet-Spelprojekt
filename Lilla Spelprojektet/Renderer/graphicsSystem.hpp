@@ -5,27 +5,30 @@
 
 class GraphicsSystem
 {
+private:
+	unsigned int* tileMap;
+	GLuint quadVAO;
+	std::vector<GLuint> tileVAO;
+
+	std::vector<lua_State*>* luaVector;
+
+	std::vector<Shader*> shaders;
+	std::vector<Texture2D*> textures;
+	std::vector<Sprite*>sprites;
+
 public:
-	GraphicsSystem(Shader *shader, std::vector<lua_State*>* luaStateVector);
+	GraphicsSystem(std::vector<lua_State*>* luaStateVector);
 	~GraphicsSystem();
-	void drawSprite(Texture2D &texture,
-		glm::vec2 size, GLfloat rotate, glm::vec3 color);
+
+	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 
 	void addVector(std::vector<lua_State*>* vector);
 	void initTiles();
 
-	void drawTiles(Texture2D &texture,
-		glm::vec2 size, GLfloat rotate, glm::vec3 color);
+	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
 
 private:
-	unsigned int* tileMap;
-	Shader *shader;
-	GLuint quadVAO;
-	std::vector<GLuint> tileVAO;
-	void initRenderData();
-	std::vector<lua_State*>* luaVector;
-	std::vector<Shader>shaders;
-	std::vector<std::vector<Texture2D>>textures;
-	std::vector<std::vector<Sprite>>sprites;
+	void loadTextures();
+	void loadShaders();
 };
 

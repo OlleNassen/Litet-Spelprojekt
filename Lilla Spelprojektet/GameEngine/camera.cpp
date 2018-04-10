@@ -22,7 +22,6 @@ void Camera::setCenter(const sf::Vector2f& center)
 	setCenter(center.x, center.y);
 }
 
-
 void Camera::setSize(float width, float height)
 {
 	size.x = width;
@@ -39,7 +38,6 @@ void Camera::setViewport(const FloatRect& viewport)
 	this->viewport = viewport;
 }
 
-
 void Camera::reset(const FloatRect& rectangle)
 {
 	center.x = rectangle.left + rectangle.width / 2.f;
@@ -49,35 +47,26 @@ void Camera::reset(const FloatRect& rectangle)
 	rotation = 0;
 }
 
-
-////////////////////////////////////////////////////////////
 const sf::Vector2f& Camera::getCenter() const
 {
 	return center;
 }
 
-
-////////////////////////////////////////////////////////////
 const sf::Vector2f& Camera::getSize() const
 {
 	return size;
 }
 
-////////////////////////////////////////////////////////////
 const FloatRect& Camera::getViewport() const
 {
 	return viewport;
 }
 
-
-////////////////////////////////////////////////////////////
 void Camera::move(float offsetX, float offsetY)
 {
 	setCenter(center.x + offsetX, center.y + offsetY);
 }
 
-
-////////////////////////////////////////////////////////////
 void Camera::move(const sf::Vector2f& offset)
 {
 	setCenter(center + offset);
@@ -88,8 +77,6 @@ void Camera::setPosition(const sf::Vector2f & setPosition)
 	setCenter(setPosition.x, setPosition.y);
 }
 
-
-////////////////////////////////////////////////////////////
 void Camera::zoom(float factor)
 {
 	setSize(size.x * factor, size.y * factor);

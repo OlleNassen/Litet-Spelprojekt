@@ -13,11 +13,14 @@ private:
 	float y;//Animation
 	float width;
 	float height;
+	glm::vec2 size;
+	GLfloat rotate;
+	glm::vec3 color;
 public:
 	Sprite(Texture2D* texture, Shader* shader);
 	~Sprite();
 
-	void draw(glm::vec2 size, GLfloat rotate, glm::vec3 color, lua_State* luaState);
+	void draw(lua_State* luaState);
 
 	void initSprite();
 	void setTexture(Texture2D* texture);

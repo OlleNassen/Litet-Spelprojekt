@@ -7,9 +7,14 @@ Sprite::Sprite(Texture2D * texture, Shader* shader)
 	height = 1.f;
 	x = 0.f;
 	y = 0.f;
-	setTexture(texture);
+	this->texture = texture;
 	this->shader = shader;
 	initSprite();
+
+	size.x = 48.f;
+	size.y = 48.f;
+	rotate = 0.f;
+	color = glm::vec3(0, 1, 0);
 }
 
 Sprite::~Sprite()
@@ -61,7 +66,7 @@ void Sprite::initSprite()
 	offset += sizeof(float) * 3;
 }
 
-void Sprite::draw(glm::vec2 size, GLfloat rotate, glm::vec3 color, lua_State* luaState)
+void Sprite::draw(lua_State* luaState)
 {
 	glm::vec2 position;
 	lua_getglobal(luaState, "getPosition");
@@ -106,7 +111,7 @@ void Sprite::draw(glm::vec2 size, GLfloat rotate, glm::vec3 color, lua_State* lu
 
 void Sprite::setTexture(Texture2D * texture)
 {
-	texture = texture;
+	this->texture = texture;
 }
 
 void Sprite::setTexturePosition(float x, float y)
