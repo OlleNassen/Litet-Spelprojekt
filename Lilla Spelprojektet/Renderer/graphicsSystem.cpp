@@ -35,6 +35,10 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 
 GraphicsSystem::~GraphicsSystem()
 {
+	for (auto& tile : tiles)
+	{
+		delete tile;
+	}
 	for (auto& sprite : sprites)
 	{
 		delete sprite;
