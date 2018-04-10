@@ -20,10 +20,13 @@ public:
 	Sprite(Texture2D* texture, Shader* shader);
 	~Sprite();
 
-	void draw(lua_State* luaState);
+	void drawPlayer(lua_State* luaState);
+	void drawTile(const glm::vec2& position);
 
 	void initSprite();
 	void setTexture(Texture2D* texture);
 	void setTexturePosition(float x, float y);
 	void setTextureSize(float width, float height);
+
+	glm::vec2 getPlayerPosition(lua_State* luaState)const;
 };

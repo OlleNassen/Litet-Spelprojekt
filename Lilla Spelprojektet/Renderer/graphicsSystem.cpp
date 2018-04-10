@@ -27,8 +27,8 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	sprites.push_back(new Sprite(textures[0], shaders[0]));
 
 
-	for(int i = 0; i < 100; i++)
-		initTiles();
+	for (int i = 0; i < 100; i++)
+		tiles.push_back(new Sprite(textures[1], shaders[0]));
 
 
 }
@@ -51,55 +51,7 @@ GraphicsSystem::~GraphicsSystem()
 	}
 }
 
-void GraphicsSystem::initTiles()
-{
-	GLuint VAO;
-	// Configure VAO/VBO
-	GLuint VBO;
-	//Fix this ugly mess
-	float vertices[] = {
-		// Pos              //Normal     // Tex      // COlor
-		0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 0.0, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-
-		0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
-	};
-
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	// Buffer offset. 
-	int offset = 0;
-
-	//Position
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
-	offset += sizeof(float) * 2;
-	//Normal
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
-	offset += sizeof(float) * 2;
-	//Texture coordinates
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
-	offset += sizeof(float) * 2;
-	//Color
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
-	offset += sizeof(float) * 3;
-
-	tileVAO.push_back(VAO);
-}
-
-
-void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
+void GraphicsSystem::drawPlayer(const glm::mat4& view, const glm::mat4& projection)
 {
 
 	shaders.back()->setInt(0, "image");
@@ -110,53 +62,30 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 	shaders.back()->use();
 
-	sprites[0]->draw(luaVector->back());
-
-	for (auto& sprite : sprites)
-	{
-		
-	}
+	sprites[0]->drawPlayer(luaVector->back());
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {
 	int i = 0;
 	
-	for (auto& tile : tileVAO)
+	for (auto& tile : tiles)
 	{
 		float x = (i % 10) * 48;
 		float y = (i / 10) * 48;
-		
-		glm::vec2 position(x,y);
-
-
-		// Prepare transformations
-		glm::mat4 model = glm::mat4(1.f);
-		model = glm::translate(model, glm::vec3(position, 0.0f));
-
-		model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
-		model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
-
-		model = glm::scale(model, glm::vec3(glm::vec2(48.f), 1.0f));
-
 
 		shaders.back()->setInt(0, "image");
-		shaders.back()->setMatrix4fv(model, "model");
 		shaders.back()->setMatrix4fv(view, "view");
 		shaders.back()->setMatrix4fv(projection, "projection");
 		textures[1]->bind();
 
 		shaders[0]->use();
 
-		glBindVertexArray(tile);
-		if(tileMap[i] != 0)
-			glDrawArrays(GL_TRIANGLES, 0, 6);
-		glBindVertexArray(0);
+		if (tileMap[i] != 0)
+			tile->drawTile(glm::vec2(x, y));
 
 		i++;
 	}
-
 
 }
 

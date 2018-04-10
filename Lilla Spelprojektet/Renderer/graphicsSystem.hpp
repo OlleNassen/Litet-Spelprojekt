@@ -7,8 +7,7 @@ class GraphicsSystem
 {
 private:
 	unsigned int* tileMap;
-	GLuint quadVAO;
-	std::vector<GLuint> tileVAO;
+	std::vector<Sprite*> tiles;
 
 	std::vector<lua_State*>* luaVector;
 
@@ -20,11 +19,10 @@ public:
 	GraphicsSystem(std::vector<lua_State*>* luaStateVector);
 	~GraphicsSystem();
 
-	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 
 	void addVector(std::vector<lua_State*>* vector);
-	void initTiles();
 
+	void drawPlayer(const glm::mat4& view, const glm::mat4& projection);
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
 
 private:

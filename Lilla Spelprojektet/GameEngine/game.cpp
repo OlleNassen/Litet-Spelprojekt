@@ -24,6 +24,8 @@ Game::Game()
 
 	}
 	lua_close(L);
+
+	//camera->zoom(0.5);
 }
 
 Game::~Game()
@@ -127,7 +129,7 @@ void Game::draw()
 	glm::mat4 view = camera->getView();
 
 	graphicsSystem->drawTiles(view, projection);
-	graphicsSystem->drawSprites(view, projection);
+	graphicsSystem->drawPlayer(view, projection);
 }
 
 void Game::initWindow()
