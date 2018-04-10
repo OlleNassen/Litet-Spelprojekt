@@ -10,6 +10,7 @@ typedef std::vector<lua_State*> LuaVector;
 class Game
 {
 private:
+	bool wantPop;
 	sf::Window* window;
 	LuaVector luaVector;
 	EventSystem eventSystem;

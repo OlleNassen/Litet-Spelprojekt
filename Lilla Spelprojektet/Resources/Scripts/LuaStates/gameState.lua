@@ -1,1 +1,2 @@
-push("Resources/Scripts/InputTest.lua")
+require("Resources/Scripts/InputTest")
+

@@ -1,11 +1,12 @@
 Goomba = {}
 Goomba.__index = Goomba
 
-function Goomba:create(position)
+function Goomba:create(x, y)
    local goomba = {}
 
    --Tile size:
-   goomba.position = position
+   goomba.position = position.new()
+   position.setPosition(goomba.position, x, y) 
    goomba.speed = 50
    goomba.attackStrength = 5
    goomba.attackSpeed = 1
@@ -15,6 +16,6 @@ function Goomba:create(position)
    return goomba
 end
 
-function Goomba:move(position)
-	self.position = self.position + position
+function Goomba:move(x, y)
+	position.move(self.position, x, y)
 end

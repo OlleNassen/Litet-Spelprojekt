@@ -7,9 +7,9 @@ int newposition(lua_State* luaState)
 	lua_getglobal(luaState, "CollisionSystem");
 	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
 	lua_pop(luaState, 1);
-	int* id = (int*)lua_newuserdata(luaState, sizeof(int));
+	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 	*id = ptr->addPosition();
-
+	
 	return 1;
 }
 
@@ -17,13 +17,12 @@ int getposition(lua_State* luaState)
 {	
 	lua_getglobal(luaState, "CollisionSystem");
 	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
-	int id = lua_tointeger(luaState, -2);
+	int* id = (int*)lua_touserdata(luaState, -2);
 	lua_pop(luaState, 1);
-
-	sf::Vector2f pos = ptr->getWantedPosition(id);
+	
+	sf::Vector2f pos = ptr->getWantedPosition(*id);
 	lua_pushnumber(luaState, pos.y);
 	lua_pushnumber(luaState, pos.x);
-	
 	return 2;
 }
 
@@ -33,9 +32,9 @@ int setposition(lua_State* luaState)
 	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
 	float y = lua_tonumber(luaState, -2);
 	float x = lua_tonumber(luaState, -3);
-	int id = lua_tointeger(luaState, -4);
+	int* id = (int*)lua_touserdata(luaState, -4);
 
-	ptr->setWantedPosition(id, x, y);
+	ptr->setWantedPosition(*id, x, y);
 
 	lua_pop(luaState, 1);
 	
@@ -48,10 +47,10 @@ int moveposition(lua_State* luaState)
 	CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
 	float y = lua_tonumber(luaState, -2);
 	float x = lua_tonumber(luaState, -3);
-	int id = lua_tointeger(luaState, -4);
+	int* id = (int*)lua_touserdata(luaState, -4);
 
-	sf::Vector2f pos = ptr->getWantedPosition(id);
-	ptr->setWantedPosition(id, pos.x + x, pos.y + y);
+	sf::Vector2f pos = ptr->getWantedPosition(*id);
+	ptr->setWantedPosition(*id, pos.x + x, pos.y + y);
 
 	lua_pop(luaState, 1);
 	
@@ -116,7 +115,8 @@ int CollisionSystem::addPosition()
 {
 	positions.push_back(sf::Vector2f());
 	positions.push_back(sf::Vector2f());
-	return positionCurrent+2;
+	positionCurrent += 2;
+	return positionCurrent - 2;
 }
 
 sf::Vector2f& CollisionSystem::getWantedPosition(int id)
@@ -130,7 +130,7 @@ void CollisionSystem::setWantedPosition(int id, float x, float y)
 
 void CollisionSystem::update(float deltaTime)
 {
-	for (unsigned int id = 0; id < positions.size() / 2; id++)
+	for (unsigned int id = 0; id < positions.size(); id += 2)
 	{
 		int x;
 		int y;

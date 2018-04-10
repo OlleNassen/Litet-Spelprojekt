@@ -2,6 +2,7 @@
 #include"Shader.hpp"
 #include "Texture2D.hpp"
 #include "sprite.hpp"
+#include "../libs.h"
 
 class GraphicsSystem
 {
@@ -14,6 +15,7 @@ private:
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
 	std::vector<Sprite*>players;
+	std::vector<Sprite*>goombas;
 	std::vector<Sprite*> bosses;
 
 public:
@@ -32,6 +34,6 @@ private:
 	void loadShaders();
 	glm::vec2 getPlayerPosition(lua_State* luaState)const;
 	glm::vec2 getBossPosition(lua_State* luaState) const;
-	glm::vec2 getGoombaPosition(lua_State* luaState, int id)const;
+	glm::vec2 getGoombaPosition(lua_State* luaState)const;
 };
 

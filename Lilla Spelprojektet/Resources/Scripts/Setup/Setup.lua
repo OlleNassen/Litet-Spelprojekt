@@ -6,4 +6,4 @@ setFramerate(60)
 bindKeyboard("moveRight", keyboard.D, keyboard.A)
 bindKeyboard("jump", keyboard.Space, keyboard.None)
 
-push("Resources/Scripts/InputTest.lua")
+push("Resources/Scripts/LuaStates/gameState.lua")

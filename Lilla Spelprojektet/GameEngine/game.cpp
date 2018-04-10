@@ -3,7 +3,7 @@
 Game::Game()
 {
 	timePerFrame = sf::seconds(1.f / 60.f);
-	
+	wantPop = false;
 	//initializes window and glew
 	initWindow();
 
@@ -63,6 +63,13 @@ void Game::run()
 
 		// end the current frame (internally swaps the front and back buffers)
 		window->display();
+
+		if (wantPop)
+		{
+			lua_close(luaVector.back());
+			luaVector.pop_back();
+			wantPop = false;
+		}
 	}
 		
 	// release resources...
@@ -130,6 +137,7 @@ void Game::draw()
 
 	graphicsSystem->drawTiles(view, projection);
 	graphicsSystem->drawPlayer(view, projection);
+	graphicsSystem->drawGoombas(view, projection);
 }
 
 void Game::initWindow()
@@ -207,10 +215,7 @@ int Game::pop(lua_State* luaState)
 {
 	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
-	LuaVector* ptr = game->getVector();
-
-	lua_close(ptr->back());
-	ptr->pop_back();
+	game->wantPop = true;
 
 	return 0;
 }
