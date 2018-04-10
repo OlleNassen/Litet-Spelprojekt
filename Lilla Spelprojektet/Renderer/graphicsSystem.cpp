@@ -24,7 +24,7 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	loadShaders();
 	loadTextures();
 
-	sprites.push_back(new Sprite(textures[0], shaders[0]));
+	players.push_back(new Sprite(textures[0], shaders[0]));
 
 
 	for (int i = 0; i < 100; i++)
@@ -39,9 +39,9 @@ GraphicsSystem::~GraphicsSystem()
 	{
 		delete tile;
 	}
-	for (auto& sprite : sprites)
+	for (auto& player : players)
 	{
-		delete sprite;
+		delete player;
 	}
 
 	for (auto& texture : textures)
@@ -66,7 +66,7 @@ void GraphicsSystem::drawPlayer(const glm::mat4& view, const glm::mat4& projecti
 
 	shaders.back()->use();
 
-	sprites[0]->draw(this->getPlayerPosition(luaVector->back()));
+	players[0]->draw(this->getPlayerPosition(luaVector->back()));
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
@@ -90,6 +90,34 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 
 		i++;
 	}
+
+}
+
+void GraphicsSystem::drawBossman(const glm::mat4 & view, const glm::mat4 & projection)
+{
+	shaders.back()->setInt(0, "image");
+	shaders.back()->setMatrix4fv(view, "view");
+	shaders.back()->setMatrix4fv(projection, "projection");
+
+	//Select texture here:
+
+	shaders.back()->use();
+
+	//Draw here:
+
+}
+
+void GraphicsSystem::drawGoombas(const glm::mat4 & view, const glm::mat4 & projection)
+{
+	shaders.back()->setInt(0, "image");
+	shaders.back()->setMatrix4fv(view, "view");
+	shaders.back()->setMatrix4fv(projection, "projection");
+
+	//Select texture here:
+
+	shaders.back()->use();
+
+	//Draw here:
 
 }
 
@@ -126,55 +154,34 @@ glm::vec2 GraphicsSystem::getPlayerPosition(lua_State* luaState) const
 	return position;
 }
 
-
-/*
-int newSprite(lua_State* luaState)
+glm::vec2 GraphicsSystem::getBossPosition(lua_State* luaState) const
 {
-lua_getglobal(luaState, "CollisionSystem");
-CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
-lua_pop(luaState, 1);
-int* id = (int*)lua_newuserdata(luaState, sizeof(int));
-*id = ptr->addPosition();
+	glm::vec2 position;
+	lua_getglobal(luaState, "getBossPosition");
+	if (lua_isfunction(luaState, -1))
+	{
+		lua_pcall(luaState, 0, 2, 0);
+		position.x = lua_tonumber(luaState, -1);
+		position.y = lua_tonumber(luaState, -2);
+		lua_pop(luaState, 2);
+	}
+	else std::cout << "getBossPosition is not a function" << std::endl;
 
-return 1;
+	return position;
 }
 
-int getposition(lua_State* luaState)
+glm::vec2 GraphicsSystem::getGoombaPosition(lua_State * luaState, int id) const
 {
-lua_getglobal(luaState, "CollisionSystem");
-CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
-int id = lua_tointeger(luaState, -2);
-lua_pop(luaState, 1);
+	glm::vec2 position;
+	lua_getglobal(luaState, "getGoombaPosition" + id);
+	if (lua_isfunction(luaState, -1))
+	{
+		lua_pcall(luaState, 0, 2, 0);
+		position.x = lua_tonumber(luaState, -1);
+		position.y = lua_tonumber(luaState, -2);
+		lua_pop(luaState, 2);
+	}
+	else std::cout << "getGoombaPosition is not a function" << std::endl;
 
-sf::Vector2f pos = ptr->getWantedPosition(id);
-lua_pushnumber(luaState, pos.y);
-lua_pushnumber(luaState, pos.x);
-
-return 2;
+	return position;
 }
-
-int setposition(lua_State* luaState)
-{
-lua_getglobal(luaState, "CollisionSystem");
-CollisionSystem* ptr = (CollisionSystem*)lua_touserdata(luaState, -1);
-float y = lua_tonumber(luaState, -2);
-float x = lua_tonumber(luaState, -3);
-int id = lua_tointeger(luaState, -4);
-
-ptr->setWantedPosition(id, x, y);
-
-lua_pop(luaState, 1);
-
-return 0;
-}
-
-
-static const struct luaL_Reg positionlib[] =
-{
-{ "new", newposition },
-{ "getPosition", getposition },
-{ "setPosition", setposition },
-{ "move", moveposition },
-{ NULL, NULL }
-};
-*/
