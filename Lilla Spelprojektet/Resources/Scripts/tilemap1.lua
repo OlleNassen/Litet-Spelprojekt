@@ -1,7 +1,5 @@
 tilemap1 =
 {
-	
-	
 	tiles = 
 	{
 		1,1,1,1,1,1,1,1,1,1,
@@ -17,5 +15,5 @@ tilemap1 =
 	},
 
 	width = 10,
-	height =10,
+	height =10
 }

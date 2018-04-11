@@ -13,9 +13,8 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	goombas.push_back(new Sprite(textures[3], shaders[0]));
 	
 
-
-	for (int i = 0; i < 100; i++)
-		tiles.push_back(new Sprite(textures[2], shaders[0]));
+	tiles.push_back(new Sprite(textures[2], shaders[0]));
+	tiles.push_back(new Sprite(textures[2], shaders[0]));
 
 
 }
@@ -59,10 +58,8 @@ void GraphicsSystem::drawPlayer(glm::mat4& view, const glm::mat4& projection)
 }
 
 void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
-{
-	int i = 0;
-	
-	for (auto& tile : tiles)
+{	
+	for (int i = 0; i < tileMap.size() - 2; i++)
 	{
 		float x = (i % 10) * 48;
 		float y = (i / 10) * 48;
@@ -73,10 +70,9 @@ void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
 
 		shaders[0]->use();
 
-		if (tileMap[i] != 0)
-			tile->draw(glm::vec2(x, y));
+		if (tileMap[i + 2] != 0)
+			tiles[tileMap[i + 2]]->draw(glm::vec2(x, y));
 
-		i++;
 	}
 
 }
@@ -196,26 +192,7 @@ int GraphicsSystem::loadTileMap(lua_State * luaState)
 {
 	lua_getglobal(luaState, "GraphicsSystem");
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
-
-	lua_pop(luaState, -1);
-	
-	/*int height = lua_tointeger(luaState, -2);
-	int width = lua_tointeger(luaState, -3);
-
-	std::cout << width << " " << height << std::endl;*/
-	lua_pushnil(luaState);
-	while (lua_next(luaState, -2) != 0)
-	{
-		if (lua_isnumber(luaState, -2))
-		{
-			//ptr->tileMap.push_back(lua_tointeger(luaState, -2));
-		}
-	}
-
-	/*for (int i = 1; i >= -100; i--)
-	{
-		ptr->tileMap.push_back(lua_tointeger(luaState, i));
-	}*/
+	ptr->tileMap.push_back(lua_tointeger(luaState, -2));
 
 	return 0;
 }

@@ -4,7 +4,7 @@ World.__index = World
 function World:create()
     local this =
     {
-		map = { },
+		map = {1,1,1,1,1,1},
 		entities = { },
 		tileSize = 48,
 		entityCount = 0
@@ -24,7 +24,15 @@ function World:addEntity(entity)
 end
 
 function World:loadGraphics()
-	loadTileGraphics(self.map)
+	
+	loadTileGraphics(self.map.width)
+	loadTileGraphics(self.map.height)
+	
+	for k, v in pairs(self.map.tiles) do
+		loadTileGraphics(v)
+	end
+	
+	
 end
 
 function World:update(deltaTime)
