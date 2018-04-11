@@ -61,8 +61,8 @@ void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
 {	
 	for (int i = 0; i < tileMap.size() - 2; i++)
 	{
-		float x = (i % 10) * 48;
-		float y = (i / 10) * 48;
+		float x = (i % tileMap[0]) * 48;
+		float y = (i / tileMap[0]) * 48;
 
 		shaders.back()->setInt(0, "image");
 		shaders.back()->setMatrix4fv(view, "view");

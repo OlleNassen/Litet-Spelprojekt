@@ -2,6 +2,10 @@ require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
 require("Resources/Scripts/tilemap1")
 
+function quit()
+	pop()
+end
+
 local level = World:create()
 level:addMap(tilemap1)
 level:loadGraphics()
@@ -34,13 +38,14 @@ end
 local p = Entity:create() -- player
 p.x = 50
 p.y = 50
+p.speed = 200
+p:addWorld(level)
 
 local g = Entity:create() -- goomba
 g.x = 155
 g.y = 155
+g:addWorld(level)
 
-level:addEntity(p)
-level:addEntity(g)
 
 function moveRight(direction, deltaTime)
 	p:move(direction * p.speed * deltaTime, 0)
@@ -75,6 +80,7 @@ function update(deltaTime)
 	end
 
 	--GOOMBA MOVEMENT
+	g:move(0, gravityConstant * deltaTime)
 	timer = timer + deltaTime
 
 	if timer > 3 then
