@@ -9,6 +9,28 @@ level:loadGraphics()
 isJumping = false
 timeSinceJump = 0.0
 
+local gravityConstant = 100
+
+function randomizeDirection()
+	dir = 0
+	if math.random() >= 0.5 then
+	dir = 1
+	else
+	dir = -1
+	end
+	return dir
+end
+
+--goomba stuff
+local timer = 0.0
+local goombaDir = randomizeDirection()
+
+--local, doesnt work
+function gravity(entity)
+	entity:move(0, gravityConstant * deltaTime)
+end
+
+
 local p = Entity:create() -- player
 p.x = 50
 p.y = 50
@@ -49,16 +71,19 @@ function update(deltaTime)
 			timeSinceJump = 0.0
 		end
 	else
-		p:move(0, 100 * deltaTime)
-
+		p:move(0, gravityConstant * deltaTime)
 	end
 
+	--GOOMBA MOVEMENT
+	timer = timer + deltaTime
 
-	if math.random() > 0.5 then
-		g:move(100 * deltaTime, 0)
+	if timer > 3 then
+		goombaDir = randomizeDirection()
+		timer = 0
 	else
-		g:move(-100 * deltaTime, 0)
+		g:move(goombaDir * g.speed * deltaTime, 0)
 	end
+
 	return true
 end
 

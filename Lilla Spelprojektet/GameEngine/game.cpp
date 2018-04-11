@@ -123,7 +123,12 @@ void Game::update(float deltaTime)
 		stopUpdate = lua_toboolean(luaState, -1);
 		lua_pop(luaState, 1);  /* pop returned value */
 	}
+
+
+	camera->setPosition(sf::Vector2f(graphicsSystem->getPlayerPosition(luaVector.back()).x, graphicsSystem->getPlayerPosition(luaVector.back()).y));
+
 }
+
 
 void Game::draw()
 {

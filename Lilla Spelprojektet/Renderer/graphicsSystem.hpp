@@ -31,10 +31,11 @@ public:
 
 	void addLuaFunctions(lua_State* luaState);
 
+	glm::vec2 getPlayerPosition(lua_State* luaState)const;
 private:
 	void loadTextures();
 	void loadShaders();
-	glm::vec2 getPlayerPosition(lua_State* luaState)const;
+	
 	glm::vec2 getBossPosition(lua_State* luaState) const;
 	glm::vec2 getGoombaPosition(lua_State* luaState)const;
 	static int loadTileMap(lua_State* luaState);
