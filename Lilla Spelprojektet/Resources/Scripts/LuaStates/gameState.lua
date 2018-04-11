@@ -4,6 +4,7 @@ require("Resources/Scripts/tilemap1")
 
 local level = World:create()
 level:addMap(tilemap1)
+level:loadGraphics()
 
 isJumping = false
 timeSinceJump = 0.0

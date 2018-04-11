@@ -182,6 +182,7 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_setglobal(luaState, "clear");
 
 	eventSystem.addLuaRebind(luaState);
+	graphicsSystem->addLuaFunctions(luaState);
 }
 
 int Game::push(lua_State* luaState)

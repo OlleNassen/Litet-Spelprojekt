@@ -7,7 +7,7 @@
 class GraphicsSystem
 {
 private:
-	unsigned int* tileMap;
+	std::vector<int> tileMap;
 	std::vector<Sprite*> tiles;
 
 	std::vector<lua_State*>* luaVector;
@@ -29,11 +29,14 @@ public:
 	void drawBossman(glm::mat4& view, const glm::mat4& projection);
 	void drawGoombas(glm::mat4& view, const glm::mat4& projection);
 
+	void addLuaFunctions(lua_State* luaState);
+
 private:
 	void loadTextures();
 	void loadShaders();
 	glm::vec2 getPlayerPosition(lua_State* luaState)const;
 	glm::vec2 getBossPosition(lua_State* luaState) const;
 	glm::vec2 getGoombaPosition(lua_State* luaState)const;
+	static int loadTileMap(lua_State* luaState);
 };
 

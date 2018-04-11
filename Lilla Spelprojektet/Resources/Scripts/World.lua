@@ -23,6 +23,10 @@ function World:addEntity(entity)
 	self.entities[self.entityCount] = entity
 end
 
+function World:loadGraphics()
+	loadTileGraphics(self.map)
+end
+
 function World:update(deltaTime)
 	--[[
 	for id = 1, entityCount do

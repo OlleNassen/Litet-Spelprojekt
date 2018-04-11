@@ -1,24 +1,8 @@
 #include "graphicsSystem.hpp"
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
-
-static unsigned int a[] =
-{
-	1,1,1,1,1,1,1,1,1,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,1,1,1,1,1,1,1,1,1
-};
-
 GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 {
-	tileMap = a;
 	addVector(luaStateVector);
 
 	loadShaders();
@@ -132,6 +116,15 @@ void GraphicsSystem::drawGoombas(glm::mat4 & view, const glm::mat4 & projection)
 	goombas[0]->draw(getGoombaPosition(luaVector->back()));
 }
 
+void GraphicsSystem::addLuaFunctions(lua_State* luaState)
+{
+	lua_pushlightuserdata(luaState, this);
+	lua_setglobal(luaState, "GraphicsSystem");
+
+	lua_pushcfunction(luaState, loadTileMap);
+	lua_setglobal(luaState, "loadTileGraphics");
+}
+
 void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
 {
 	luaVector = vector;
@@ -197,4 +190,32 @@ glm::vec2 GraphicsSystem::getGoombaPosition(lua_State * luaState) const
 	else std::cout << "goombaPosition is not a function" << std::endl;
 
 	return position;
+}
+
+int GraphicsSystem::loadTileMap(lua_State * luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+
+	lua_pop(luaState, -1);
+	
+	/*int height = lua_tointeger(luaState, -2);
+	int width = lua_tointeger(luaState, -3);
+
+	std::cout << width << " " << height << std::endl;*/
+	lua_pushnil(luaState);
+	while (lua_next(luaState, -2) != 0)
+	{
+		if (lua_isnumber(luaState, -2))
+		{
+			//ptr->tileMap.push_back(lua_tointeger(luaState, -2));
+		}
+	}
+
+	/*for (int i = 1; i >= -100; i--)
+	{
+		ptr->tileMap.push_back(lua_tointeger(luaState, i));
+	}*/
+
+	return 0;
 }
