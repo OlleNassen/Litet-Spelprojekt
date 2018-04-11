@@ -1,7 +1,6 @@
 #pragma once
 #include "../libs.h"
 #include "EventSystem.hpp"
-#include "CollisionSystem.hpp"
 #include "../Renderer/graphicsSystem.hpp"
 #include "camera.hpp"
 
@@ -14,7 +13,6 @@ private:
 	sf::Window* window;
 	LuaVector luaVector;
 	EventSystem eventSystem;
-	CollisionSystem collisionSystem;
 	GraphicsSystem* graphicsSystem;
 	Camera* camera;
 

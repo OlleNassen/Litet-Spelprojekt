@@ -123,10 +123,6 @@ void Game::update(float deltaTime)
 		stopUpdate = lua_toboolean(luaState, -1);
 		lua_pop(luaState, 1);  /* pop returned value */
 	}
-
-	collisionSystem.update(deltaTime);
-
-	camera->setPosition(collisionSystem.getWantedPosition(0)); // Camera pinned to player position
 }
 
 void Game::draw()
@@ -186,7 +182,6 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_setglobal(luaState, "clear");
 
 	eventSystem.addLuaRebind(luaState);
-	collisionSystem.addLuaPosition(luaState);
 }
 
 int Game::push(lua_State* luaState)
