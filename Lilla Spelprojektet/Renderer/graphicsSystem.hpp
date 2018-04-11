@@ -24,10 +24,10 @@ public:
 
 	void addVector(std::vector<lua_State*>* vector);
 
-	void drawPlayer(const glm::mat4& view, const glm::mat4& projection);
-	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
-	void drawBossman(const glm::mat4& view, const glm::mat4& projection);
-	void drawGoombas(const glm::mat4& view, const glm::mat4& projection);
+	void drawPlayer(glm::mat4& view, const glm::mat4& projection);
+	void drawTiles(glm::mat4& view, const glm::mat4& projection);
+	void drawBossman(glm::mat4& view, const glm::mat4& projection);
+	void drawGoombas(glm::mat4& view, const glm::mat4& projection);
 
 private:
 	void loadTextures();

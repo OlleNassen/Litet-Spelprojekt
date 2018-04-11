@@ -10,9 +10,9 @@ static unsigned int a[] =
 	1,0,0,0,0,0,0,0,0,1,
 	1,0,0,0,0,0,0,0,0,1,
 	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,0,0,1,
+	1,0,0,0,0,1,1,1,1,1,
+	1,0,0,0,0,1,1,1,1,1,
+	1,0,0,0,0,1,1,1,1,1,
 	1,1,1,1,1,1,1,1,1,1
 };
 
@@ -62,7 +62,7 @@ GraphicsSystem::~GraphicsSystem()
 	}
 }
 
-void GraphicsSystem::drawPlayer(const glm::mat4& view, const glm::mat4& projection)
+void GraphicsSystem::drawPlayer(glm::mat4& view, const glm::mat4& projection)
 {
 
 	shaders.back()->setInt(0, "image");
@@ -74,7 +74,7 @@ void GraphicsSystem::drawPlayer(const glm::mat4& view, const glm::mat4& projecti
 	players[0]->draw(this->getPlayerPosition(luaVector->back()));
 }
 
-void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
+void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
 {
 	int i = 0;
 	
@@ -97,7 +97,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 
 }
 
-void GraphicsSystem::drawBossman(const glm::mat4 & view, const glm::mat4 & projection)
+void GraphicsSystem::drawBossman(glm::mat4 & view, const glm::mat4 & projection)
 {
 	shaders.back()->setInt(0, "image");
 	shaders.back()->setMatrix4fv(view, "view");
@@ -114,7 +114,7 @@ void GraphicsSystem::drawBossman(const glm::mat4 & view, const glm::mat4 & proje
 
 }
 
-void GraphicsSystem::drawGoombas(const glm::mat4 & view, const glm::mat4 & projection)
+void GraphicsSystem::drawGoombas(glm::mat4 & view, const glm::mat4 & projection)
 {
 	shaders.back()->setInt(0, "image");
 	shaders.back()->setMatrix4fv(view, "view");
