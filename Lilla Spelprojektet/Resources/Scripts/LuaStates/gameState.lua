@@ -11,18 +11,19 @@ timeSinceJump = 0.0
 
 local gravityConstant = 100
 
---goomba stuff
-local timer = 0.0
-local goombaDir = math.random()
-
-function randomizeDirection(dir)
+function randomizeDirection()
+	dir = 0
 	if math.random() >= 0.5 then
-	dir = -1
+	dir = 1
 	else
 	dir = -1
 	end
 	return dir
 end
+
+--goomba stuff
+local timer = 0.0
+local goombaDir = randomizeDirection()
 
 --local, doesnt work
 function gravity(entity)
@@ -77,8 +78,8 @@ function update(deltaTime)
 	timer = timer + deltaTime
 
 	if timer > 3 then
+		goombaDir = randomizeDirection()
 		timer = 0
-		goombaDir = randomizeDirection(goombaDir)
 	else
 		g:move(goombaDir * g.speed * deltaTime, 0)
 	end
