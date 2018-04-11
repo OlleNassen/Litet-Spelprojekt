@@ -4,10 +4,11 @@ Game::Game()
 {
 	timePerFrame = sf::seconds(1.f / 60.f);
 	wantPop = false;
+	wantClear = false;
 	//initializes window and glew
 	initWindow();
 
-	//Get width and height from lua, FIXFIXFIXFIX
+	//Get width and height from lua
 	camera = new Camera(WIDTH, HEIGHT);
 
 	graphicsSystem = new GraphicsSystem(&luaVector);
@@ -40,7 +41,7 @@ void Game::run()
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-	while (!luaVector.empty())
+	while (!luaVector.empty() && !wantClear)
 	{
 		handleEvents();
 		
@@ -125,7 +126,7 @@ void Game::update(float deltaTime)
 	}
 
 
-	camera->setPosition(sf::Vector2f(graphicsSystem->getPlayerPosition(luaVector.back()).x, graphicsSystem->getPlayerPosition(luaVector.back()).y));
+	camera->setPosition(graphicsSystem->getPlayerPos());
 
 }
 
@@ -137,9 +138,7 @@ void Game::draw()
 	glm::mat4 view = camera->getView();
 
 	graphicsSystem->drawTiles(view, projection);
-	graphicsSystem->drawBossman(view, projection);
-	graphicsSystem->drawGoombas(view, projection);
-	graphicsSystem->drawPlayer(view, projection);
+	graphicsSystem->drawSprites(view, projection);
 	
 }
 
@@ -227,13 +226,7 @@ int Game::clear(lua_State* luaState)
 {
 	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
-	LuaVector* ptr = game->getVector();
-
-	while (!ptr->empty())
-	{
-		lua_close(ptr->back());
-		ptr->pop_back();
-	}
+	game->wantClear = true;
 
 	return 0;
 }

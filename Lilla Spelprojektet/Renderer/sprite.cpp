@@ -3,6 +3,9 @@
 
 Sprite::Sprite(Texture2D * texture, Shader* shader)
 {
+	posX = 0.0f;
+	posY = 0.0f;
+	
 	width = 1.f;
 	height = 1.f;
 	x = 0.f;

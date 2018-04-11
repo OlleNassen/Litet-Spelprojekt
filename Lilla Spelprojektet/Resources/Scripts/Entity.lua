@@ -4,6 +4,8 @@ Entity.__index = Entity
 function Entity:create()
     local this =
     {
+		texture,
+		sprite,
 		x = 0,
 		y = 0,
 		width = 48,
@@ -43,5 +45,8 @@ function Entity:move(x, y)
 	self.world:canMove(self.x + self.width, self.y + y) and self.world:canMove(self.x, self.y + y + self.height) then
 		self.y = self.y + y
 	end
-
+		
+	if self.sprite ~= nil then
+		spritePos(self.sprite, self.x, self.y)		
+	end
 end

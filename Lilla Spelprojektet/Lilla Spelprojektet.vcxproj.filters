@@ -24,9 +24,6 @@
     <ClCompile Include="GameEngine\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngine\CollisionSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,9 +56,6 @@
     <ClInclude Include="GameEngine\game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngine\CollisionSystem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\sprite.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -82,5 +76,6 @@
     <None Include="Resources\Scripts\object.lua" />
     <None Include="Resources\Scripts\LuaStates\pauseState.lua" />
     <None Include="Resources\Scripts\goomba.lua" />
+    <None Include="Resources\Scripts\LuaStates\gameOverState.lua" />
   </ItemGroup>
 </Project>
