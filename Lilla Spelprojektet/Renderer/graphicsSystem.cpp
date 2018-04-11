@@ -84,14 +84,13 @@ void GraphicsSystem::drawBossman(glm::mat4 & view, const glm::mat4 & projection)
 	shaders.back()->setMatrix4fv(projection, "projection");
 
 	//Select texture here:
-	
+	textures[1]->bind();
 
 	shaders.back()->use();
 
-	
-
 	//Draw here:
 
+	goombas[0]->draw(getBossPosition(luaVector->back()));
 }
 
 void GraphicsSystem::drawGoombas(glm::mat4 & view, const glm::mat4 & projection)
@@ -159,7 +158,7 @@ glm::vec2 GraphicsSystem::getPlayerPosition(lua_State* luaState) const
 glm::vec2 GraphicsSystem::getBossPosition(lua_State* luaState) const
 {
 	glm::vec2 position;
-	lua_getglobal(luaState, "getBossPosition");
+	lua_getglobal(luaState, "bossPosition");
 	if (lua_isfunction(luaState, -1))
 	{
 		lua_pcall(luaState, 0, 2, 0);
@@ -167,7 +166,7 @@ glm::vec2 GraphicsSystem::getBossPosition(lua_State* luaState) const
 		position.y = lua_tonumber(luaState, -2);
 		lua_pop(luaState, 2);
 	}
-	else std::cout << "getBossPosition is not a function" << std::endl;
+	else std::cout << "bossPosition is not a function" << std::endl;
 
 	return position;
 }

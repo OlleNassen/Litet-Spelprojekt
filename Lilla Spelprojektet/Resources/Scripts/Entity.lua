@@ -18,6 +18,16 @@ function Entity:create()
     return this
 end
 
+function Entity:contains(x, y)
+	
+	minX = math.min(self.x, self.x + self.width);
+	maxX = math.max(self.x, self.x + self.width);
+	minY = math.min(self.y, self.y + self.height);
+	maxY = math.max(self.y, self.y + self.height);
+
+	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
+end
+
 function Entity:addWorld(world)
 	self.world = world
 end

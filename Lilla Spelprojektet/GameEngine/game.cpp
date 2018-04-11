@@ -137,8 +137,10 @@ void Game::draw()
 	glm::mat4 view = camera->getView();
 
 	graphicsSystem->drawTiles(view, projection);
-	graphicsSystem->drawPlayer(view, projection);
+	graphicsSystem->drawBossman(view, projection);
 	graphicsSystem->drawGoombas(view, projection);
+	graphicsSystem->drawPlayer(view, projection);
+	
 }
 
 void Game::initWindow()

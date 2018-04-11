@@ -46,6 +46,13 @@ g.x = 155
 g.y = 155
 g:addWorld(level)
 
+local b = Entity:create() -- goomba
+b.x = 1200
+b.y = 864
+--b.width = 192
+--b.height = 192
+b:addWorld(level)
+
 
 function moveRight(direction, deltaTime)
 	p:move(direction * p.speed * deltaTime, 0)
@@ -64,8 +71,17 @@ function goombaPosition()
 	return g.y, g.x
 end
 
+function bossPosition()
+	return b.y, b.x
+end
+
+
 function update(deltaTime)
 
+	if p:contains(b.x, b.y) then
+		pop()
+	end
+	
 	if isJumping then
 		
 		timeSinceJump = timeSinceJump + deltaTime
