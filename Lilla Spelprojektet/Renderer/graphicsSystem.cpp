@@ -11,6 +11,8 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	players.push_back(new Sprite(textures[0], shaders[0]));
 
 	goombas.push_back(new Sprite(textures[3], shaders[0]));
+
+	bosses.push_back(new Sprite(textures[4], shaders[0]));
 	
 
 	tiles.push_back(new Sprite(textures[2], shaders[0]));
@@ -24,6 +26,10 @@ GraphicsSystem::~GraphicsSystem()
 	for (auto& tile : tiles)
 	{
 		delete tile;
+	}
+	for (auto& boss : bosses)
+	{
+		delete boss;
 	}
 	for (auto& player : players)
 	{
@@ -51,8 +57,6 @@ void GraphicsSystem::drawPlayer(glm::mat4& view, const glm::mat4& projection)
 	shaders.back()->setInt(0, "image");
 	shaders.back()->setMatrix4fv(view, "view");
 	shaders.back()->setMatrix4fv(projection, "projection");
-
-	shaders.back()->use();
 
 	players[0]->draw(this->getPlayerPosition(luaVector->back()));
 }
@@ -83,14 +87,9 @@ void GraphicsSystem::drawBossman(glm::mat4 & view, const glm::mat4 & projection)
 	shaders.back()->setMatrix4fv(view, "view");
 	shaders.back()->setMatrix4fv(projection, "projection");
 
-	//Select texture here:
-	textures[1]->bind();
-
-	shaders.back()->use();
-
 	//Draw here:
 
-	goombas[0]->draw(getBossPosition(luaVector->back()));
+	bosses[0]->draw(getBossPosition(luaVector->back()));
 }
 
 void GraphicsSystem::drawGoombas(glm::mat4 & view, const glm::mat4 & projection)
@@ -98,13 +97,6 @@ void GraphicsSystem::drawGoombas(glm::mat4 & view, const glm::mat4 & projection)
 	shaders.back()->setInt(0, "image");
 	shaders.back()->setMatrix4fv(view, "view");
 	shaders.back()->setMatrix4fv(projection, "projection");
-
-	//Select texture here:
-	textures[1]->bind();
-
-	shaders.back()->use();
-
-	//Draw here:
 
 	//std::cout << getGoombaPosition(luaVector->back()).x << " " << getGoombaPosition(luaVector->back()).y << "\n";
 
@@ -131,6 +123,7 @@ void GraphicsSystem::loadTextures()
 	textures.push_back(new Texture2D("Resources/Sprites/prototype.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/donaldtrump.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/goomba.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/bossman.png"));
 
 }
 
