@@ -51,8 +51,8 @@ g.sprite = newSprite(g.texture)
 g:addWorld(level)
 
 local b = Entity:create() -- goomba
-b.x = 1200
-b.y = 864
+b.x = 300
+b.y = 200
 b.texture = newTexture("Resources/Sprites/bossman.png")
 b.sprite = newSprite(b.texture)
 b:addWorld(level)
@@ -69,10 +69,6 @@ end
 
 
 function update(deltaTime)
-
-	if p:contains(b.x, b.y) then
-		push("Resources/Scripts/LuaStates/gameOverState.lua")
-	end
 	
 	if isJumping then
 		
@@ -96,6 +92,10 @@ function update(deltaTime)
 		timer = 0
 	else
 		g:move(goombaDir * g.speed * deltaTime, 0)
+	end
+
+	if p:contains(b.x, b.y) then
+		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
 
 	return true

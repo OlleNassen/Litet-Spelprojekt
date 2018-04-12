@@ -69,6 +69,7 @@ void Game::run()
 		{
 			lua_close(luaVector.back());
 			luaVector.pop_back();
+			graphicsSystem->popSpriteVector();
 			wantPop = false;
 		}
 	}
@@ -189,6 +190,7 @@ void Game::addLuaLibraries(lua_State* luaState)
 
 	eventSystem.addLuaRebind(luaState);
 	graphicsSystem->addLuaFunctions(luaState);
+	graphicsSystem->pushSpriteVector();
 }
 
 int Game::push(lua_State* luaState)

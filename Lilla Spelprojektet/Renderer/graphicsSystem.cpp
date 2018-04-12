@@ -18,7 +18,7 @@ GraphicsSystem::~GraphicsSystem()
 		delete tile;
 	}
 
-	for (auto& player : players)
+	for (auto& player : players[players.size() - 1])
 	{
 		delete player;
 	}
@@ -36,38 +36,43 @@ GraphicsSystem::~GraphicsSystem()
 
 void GraphicsSystem::drawSprites(glm::mat4& view, const glm::mat4& projection)
 {
-	for (int i = 0; i < players.size(); i++)
+	if (players.size() > 0 && players[players.size() - 1].size() > 0)
 	{
-		shaders.back()->setInt(0, "image");
-		shaders.back()->setMatrix4fv(view, "view");
-		shaders.back()->setMatrix4fv(projection, "projection");
+		for (auto& sprite : players[players.size() - 1])
+		{
 
-		glm::vec2 position;
-		position.x = players[i]->posX;
-		position.y = players[i]->posY;
 
-		players[i]->draw(position);
-	}	
+			shaders.back()->setInt(0, "image");
+			shaders.back()->setMatrix4fv(view, "view");
+			shaders.back()->setMatrix4fv(projection, "projection");
+
+			glm::vec2 position;
+			position.x = sprite->posX;
+			position.y = sprite->posY;
+
+			sprite->draw(position);
+		}
+	}
 }
 
 void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
 {	
-	for (int i = 0; i < tileMap.size() - 2; i++)
+	if (tileMap.size() > 0)
 	{
-		float x = (i % tileMap[0]) * 48;
-		float y = (i / tileMap[0]) * 48;
+		for (int i = 0; i < tileMap.size() - 2; i++)
+		{
+			float x = (i % tileMap[0]) * 48;
+			float y = (i / tileMap[0]) * 48;
 
-		shaders.back()->setInt(0, "image");
-		shaders.back()->setMatrix4fv(view, "view");
-		shaders.back()->setMatrix4fv(projection, "projection");
+			shaders.back()->setInt(0, "image");
+			shaders.back()->setMatrix4fv(view, "view");
+			shaders.back()->setMatrix4fv(projection, "projection");
 
-		shaders[0]->use();
+			if (tileMap[i + 2] != 0)
+				tiles[tileMap[i + 2]]->draw(glm::vec2(x, y));
 
-		if (tileMap[i + 2] != 0)
-			tiles[tileMap[i + 2]]->draw(glm::vec2(x, y));
-
+		}
 	}
-
 }
 
 void GraphicsSystem::addLuaFunctions(lua_State* luaState)
@@ -88,6 +93,19 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 	lua_setglobal(luaState, "spritePos");
 }
 
+void GraphicsSystem::pushSpriteVector()
+{
+ 	players.push_back(std::vector<Sprite*>());
+}
+void GraphicsSystem::popSpriteVector()
+{
+	for (auto& player : players[players.size() - 1])
+	{
+		delete player;
+	}
+	players.pop_back();
+}
+
 void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
 {
 	luaVector = vector;
@@ -100,7 +118,7 @@ void GraphicsSystem::loadShaders()
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const
 {
-	return sf::Vector2f(players[0]->posX, players[0]->posY);
+	return sf::Vector2f(players[players.size() - 1][0]->posX, players[players.size() - 1][0]->posY);
 }
 
 int GraphicsSystem::loadTileMap(lua_State * luaState)
@@ -134,8 +152,8 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
-	ptr->players.push_back(new Sprite(ptr->textures[*texture], ptr->shaders[0]));
-	*id = ptr->players.size() - 1;
+	ptr->players[ptr->players.size() - 1].push_back(new Sprite(ptr->textures[*texture], ptr->shaders[0]));
+	*id = ptr->players[ptr->players.size() - 1].size() - 1;
 	return 1;
 }
 
@@ -147,8 +165,8 @@ int GraphicsSystem::spritepos(lua_State* luaState)
 	float x = lua_tonumber(luaState, -3);
 	int* id = (int*)lua_touserdata(luaState, -4);
 
-	ptr->players[*id]->posX = x;
-	ptr->players[*id]->posY = y;
+	ptr->players[ptr->players.size() - 1][*id]->posX = x;
+	ptr->players[ptr->players.size() - 1][*id]->posY = y;
 	
 	return 0;
 }
