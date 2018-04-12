@@ -196,7 +196,7 @@ void Game::addLuaLibraries(lua_State* luaState)
 int Game::push(lua_State* luaState)
 {	
 	lua_getglobal(luaState, "Game");
-	Game* game = (Game*)lua_touserdata(luaState, -1);
+  	Game* game = (Game*)lua_touserdata(luaState, -1);
 	const char* name = lua_tostring(luaState, -2);
 	LuaVector* ptr = game->getVector();
 

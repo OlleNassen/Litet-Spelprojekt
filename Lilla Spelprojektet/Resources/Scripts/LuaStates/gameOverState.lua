@@ -1,7 +1,7 @@
 
---texture = newTexture("Resources/Sprites/gameover.png")
---sprite = newSprite(texture)
---spritePos(sprite, 1200 - 96, 864 - 96)
+texture = newTexture("Resources/Sprites/gameover.png")
+sprite = newSprite(texture)
+spritePos(sprite, 3000, 3000)
 
 timer = 0.0
 
@@ -12,4 +12,6 @@ function update(deltaTime)
 	if timer > 1.0 then
 		clear()
 	end
+
+	return true
 end

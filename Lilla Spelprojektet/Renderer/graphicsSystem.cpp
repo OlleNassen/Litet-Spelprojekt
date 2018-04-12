@@ -118,7 +118,14 @@ void GraphicsSystem::loadShaders()
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const
 {
-	return sf::Vector2f(players[players.size() - 1][0]->posX, players[players.size() - 1][0]->posY);
+	sf::Vector2f vec(0, 0);
+
+	if (players[players.size() - 1].size() > 0)
+	{
+		vec = sf::Vector2f(players[players.size() - 1][0]->posX, players[players.size() - 1][0]->posY);
+	}
+	
+	return vec;
 }
 
 int GraphicsSystem::loadTileMap(lua_State * luaState)
