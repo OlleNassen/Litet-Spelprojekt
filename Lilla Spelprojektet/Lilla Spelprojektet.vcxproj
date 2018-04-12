@@ -42,6 +42,7 @@
     <None Include="Resources\Scripts\dummy.lua" />
     <None Include="Resources\Scripts\goomba.lua" />
     <None Include="Resources\Scripts\InputTest.lua" />
+    <None Include="Resources\Scripts\LuaStates\gameOverState.lua" />
     <None Include="Resources\Scripts\LuaStates\pauseState.lua" />
     <None Include="Resources\Scripts\object.lua" />
     <None Include="Resources\Scripts\tile.lua" />

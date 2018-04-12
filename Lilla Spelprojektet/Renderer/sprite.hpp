@@ -17,6 +17,9 @@ private:
 	GLfloat rotate;
 	glm::vec3 color;
 public:
+	float posX;
+	float posY;
+
 	Sprite(Texture2D* texture, Shader* shader);
 	~Sprite();
 	void draw(const glm::vec2& position);

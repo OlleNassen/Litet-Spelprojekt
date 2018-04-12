@@ -10,6 +10,7 @@ class Game
 {
 private:
 	bool wantPop;
+	bool wantClear;
 	sf::Window* window;
 	LuaVector luaVector;
 	EventSystem eventSystem;

@@ -4,7 +4,7 @@ World.__index = World
 function World:create()
     local this =
     {
-		map = {1,1,1,1,1,1},
+		map = { },
 		tileSize = 48,
     }
 

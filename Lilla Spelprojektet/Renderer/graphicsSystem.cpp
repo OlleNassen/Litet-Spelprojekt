@@ -6,19 +6,9 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	addVector(luaStateVector);
 
 	loadShaders();
-	loadTextures();
-
-	players.push_back(new Sprite(textures[0], shaders[0]));
-
-	goombas.push_back(new Sprite(textures[3], shaders[0]));
-
-	bosses.push_back(new Sprite(textures[4], shaders[0]));
-	
-
-	tiles.push_back(new Sprite(textures[2], shaders[0]));
-	tiles.push_back(new Sprite(textures[2], shaders[0]));
-
-
+	textures.push_back(new Texture2D("Resources/Sprites/donaldtrump.png"));
+	tiles.push_back(new Sprite(textures[0], shaders[0]));
+	tiles.push_back(new Sprite(textures[0], shaders[0]));
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -27,17 +17,10 @@ GraphicsSystem::~GraphicsSystem()
 	{
 		delete tile;
 	}
-	for (auto& boss : bosses)
-	{
-		delete boss;
-	}
+
 	for (auto& player : players)
 	{
 		delete player;
-	}
-	for (auto& goomba : goombas)
-	{
-		delete goomba;
 	}
 
 	for (auto& texture : textures)
@@ -51,14 +34,20 @@ GraphicsSystem::~GraphicsSystem()
 	}
 }
 
-void GraphicsSystem::drawPlayer(glm::mat4& view, const glm::mat4& projection)
+void GraphicsSystem::drawSprites(glm::mat4& view, const glm::mat4& projection)
 {
+	for (int i = 0; i < players.size(); i++)
+	{
+		shaders.back()->setInt(0, "image");
+		shaders.back()->setMatrix4fv(view, "view");
+		shaders.back()->setMatrix4fv(projection, "projection");
 
-	shaders.back()->setInt(0, "image");
-	shaders.back()->setMatrix4fv(view, "view");
-	shaders.back()->setMatrix4fv(projection, "projection");
+		glm::vec2 position;
+		position.x = players[i]->posX;
+		position.y = players[i]->posY;
 
-	players[0]->draw(this->getPlayerPosition(luaVector->back()));
+		players[i]->draw(position);
+	}	
 }
 
 void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
@@ -81,28 +70,6 @@ void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
 
 }
 
-void GraphicsSystem::drawBossman(glm::mat4 & view, const glm::mat4 & projection)
-{
-	shaders.back()->setInt(0, "image");
-	shaders.back()->setMatrix4fv(view, "view");
-	shaders.back()->setMatrix4fv(projection, "projection");
-
-	//Draw here:
-
-	bosses[0]->draw(getBossPosition(luaVector->back()));
-}
-
-void GraphicsSystem::drawGoombas(glm::mat4 & view, const glm::mat4 & projection)
-{
-	shaders.back()->setInt(0, "image");
-	shaders.back()->setMatrix4fv(view, "view");
-	shaders.back()->setMatrix4fv(projection, "projection");
-
-	//std::cout << getGoombaPosition(luaVector->back()).x << " " << getGoombaPosition(luaVector->back()).y << "\n";
-
-	goombas[0]->draw(getGoombaPosition(luaVector->back()));
-}
-
 void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 {
 	lua_pushlightuserdata(luaState, this);
@@ -110,6 +77,15 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, loadTileMap);
 	lua_setglobal(luaState, "loadTileGraphics");
+
+	lua_pushcfunction(luaState, newtexture);
+	lua_setglobal(luaState, "newTexture");
+
+	lua_pushcfunction(luaState, newsprite);
+	lua_setglobal(luaState, "newSprite");
+
+	lua_pushcfunction(luaState, spritepos);
+	lua_setglobal(luaState, "spritePos");
 }
 
 void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
@@ -117,67 +93,14 @@ void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
 	luaVector = vector;
 }
 
-void GraphicsSystem::loadTextures()
-{
-	textures.push_back(new Texture2D("Resources/Sprites/HansTap.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/prototype.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/donaldtrump.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/goomba.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/bossman.png"));
-
-}
-
 void GraphicsSystem::loadShaders()
 {
 	shaders.push_back(new Shader("Resources/Shaders/VertexShaderCore.glsl", "Resources/Shaders/FragmentShaderCore.glsl"));
 }
 
-glm::vec2 GraphicsSystem::getPlayerPosition(lua_State* luaState) const
+sf::Vector2f GraphicsSystem::getPlayerPos() const
 {
-	glm::vec2 position;
-	lua_getglobal(luaState, "playerPosition");
-	if (lua_isfunction(luaState, -1))
-	{
-		lua_pcall(luaState, 0, 2, 0);
-		position.x = lua_tonumber(luaState, -1);
-		position.y = lua_tonumber(luaState, -2);
-		lua_pop(luaState, 2);
-	}
-	else std::cout << "playerPosition is not a function" << std::endl;
-
-	return position;
-}
-
-glm::vec2 GraphicsSystem::getBossPosition(lua_State* luaState) const
-{
-	glm::vec2 position;
-	lua_getglobal(luaState, "bossPosition");
-	if (lua_isfunction(luaState, -1))
-	{
-		lua_pcall(luaState, 0, 2, 0);
-		position.x = lua_tonumber(luaState, -1);
-		position.y = lua_tonumber(luaState, -2);
-		lua_pop(luaState, 2);
-	}
-	else std::cout << "bossPosition is not a function" << std::endl;
-
-	return position;
-}
-
-glm::vec2 GraphicsSystem::getGoombaPosition(lua_State * luaState) const
-{
-	glm::vec2 position;
-	lua_getglobal(luaState, "goombaPosition");
-	if (lua_isfunction(luaState, -1))
-	{
-		lua_pcall(luaState, 0, 2, 0);
-		position.x = lua_tonumber(luaState, -1);
-		position.y = lua_tonumber(luaState, -2);
-		lua_pop(luaState, 2);
-	}
-	else std::cout << "goombaPosition is not a function" << std::endl;
-
-	return position;
+	return sf::Vector2f(players[0]->posX, players[0]->posY);
 }
 
 int GraphicsSystem::loadTileMap(lua_State * luaState)
@@ -188,3 +111,45 @@ int GraphicsSystem::loadTileMap(lua_State * luaState)
 
 	return 0;
 }
+
+int GraphicsSystem::newtexture(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	const char* filePath = lua_tostring(luaState, -2);
+	lua_pop(luaState, 1);
+	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
+	
+	ptr->textures.push_back(new Texture2D(filePath));
+	*id = ptr->textures.size() - 1;
+
+	return 1;
+}
+
+int GraphicsSystem::newsprite(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	int* texture = (int*)lua_touserdata(luaState, -2);
+	lua_pop(luaState, 1);
+	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
+
+	ptr->players.push_back(new Sprite(ptr->textures[*texture], ptr->shaders[0]));
+	*id = ptr->players.size() - 1;
+	return 1;
+}
+
+int GraphicsSystem::spritepos(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);	
+	float y = lua_tonumber(luaState, -2);
+	float x = lua_tonumber(luaState, -3);
+	int* id = (int*)lua_touserdata(luaState, -4);
+
+	ptr->players[*id]->posX = x;
+	ptr->players[*id]->posY = y;
+	
+	return 0;
+}
+

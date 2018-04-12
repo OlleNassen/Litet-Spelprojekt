@@ -76,5 +76,6 @@
     <None Include="Resources\Scripts\object.lua" />
     <None Include="Resources\Scripts\LuaStates\pauseState.lua" />
     <None Include="Resources\Scripts\goomba.lua" />
+    <None Include="Resources\Scripts\LuaStates\gameOverState.lua" />
   </ItemGroup>
 </Project>
