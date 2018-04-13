@@ -100,10 +100,9 @@ function update(deltaTime)
 		end
 	else
 		p:move(0, gravityConstant * deltaTime)
-		s:setPosition(p.x + mX, p.y + mY)
-
 	end
 
+	s:setPosition(p.x + mX, p.y + mY)
 	--GOOMBA MOVEMENT
 	g:move(0, gravityConstant * deltaTime)
 	timer = timer + deltaTime

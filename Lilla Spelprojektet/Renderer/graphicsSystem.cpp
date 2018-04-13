@@ -9,8 +9,11 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	textures.push_back(new Texture2D("Resources/Sprites/brickwall.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/brickwall_normal.png"));
 
-	tiles.push_back(new Sprite(shaders[0], textures[0]));
-	tiles.push_back(new Sprite(shaders[0], textures[0]));
+	textures.push_back(new Texture2D("Resources/Sprites/IronBlockDiffuse.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/ironBlockSoloNormal.png"));
+
+	tiles.push_back(new Sprite(shaders[0], textures[0], textures[0]));
+	tiles.push_back(new Sprite(shaders[1], textures[2], textures[3]));
 }
 
 GraphicsSystem::~GraphicsSystem()
