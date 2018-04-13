@@ -159,11 +159,17 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 	lua_getglobal(luaState, "GraphicsSystem");
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
 	int* texture = (int*)lua_touserdata(luaState, -2);
-	int* normalMap = (int*)lua_touserdata(luaState, -3);		
+	int* normalMap = (int*)lua_touserdata(luaState, -3);
+	int y = lua_tointeger(luaState, -4);
+	int x = lua_tointeger(luaState, -5);
+	
+	y = y ? y : 48;
+	x = x ? x : 48;
+
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
-	ptr->sprites[ptr->sprites.size() - 1].push_back(new Sprite(ptr->shaders[1], ptr->textures[*texture], normalMap ? ptr->textures[*normalMap] : nullptr));
+	ptr->sprites[ptr->sprites.size() - 1].push_back(new Sprite(ptr->shaders[1], ptr->textures[*texture], normalMap ? ptr->textures[*normalMap] : nullptr, glm::vec2(x, y)));
 	*id = ptr->sprites[ptr->sprites.size() - 1].size() - 1;
 	return 1;
 }

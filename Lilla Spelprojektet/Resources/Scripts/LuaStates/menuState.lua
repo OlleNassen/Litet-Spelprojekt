@@ -1,13 +1,19 @@
+require("Resources/Scripts/Entity")
 
-t = newTexture("Resources/Sprites/HansTap.png")
-s = newSprite(t)
+local s = Entity:create() 
+s.texture = newTexture("Resources/Sprites/HansTap.png")
+
+local cam = newSprite(0, 0, 0, s.texture)
+
+s.sprite = newSprite(1280,720, 0, s.texture)
+s:setPosition(-1280/2, -720/2)
 
 function moveUp(direction, deltaTime)
-	p:move(direction * p.speed * deltaTime, 0)
+	--p:move(direction * p.speed * deltaTime, 0)
 end
 
 function moveRight(direction, deltaTime)
-	p:move(direction * p.speed * deltaTime, 0)
+	--p:move(direction * p.speed * deltaTime, 0)
 end
 
 function quit(direction, deltaTime)
