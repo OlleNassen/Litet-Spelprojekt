@@ -24,8 +24,8 @@ public:
 	void popSpriteVector();
 	void addVector(std::vector<lua_State*>* vector);
 
-	void drawSprites(glm::mat4& view, const glm::mat4& projection);
-	void drawTiles(glm::mat4& view, const glm::mat4& projection);
+	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
+	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
 
 	void addLuaFunctions(lua_State* luaState);
 	sf::Vector2f getPlayerPos() const;

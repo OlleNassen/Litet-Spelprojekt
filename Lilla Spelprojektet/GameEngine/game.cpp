@@ -134,13 +134,8 @@ void Game::update(float deltaTime)
 
 void Game::draw()
 {
-	//Fix this and put it somewhere else:
-	glm::mat4 projection = camera->getProjection();
-	glm::mat4 view = camera->getView();
-
-	graphicsSystem->drawTiles(view, projection);
-	graphicsSystem->drawSprites(view, projection);
-	
+	graphicsSystem->drawTiles(camera->getView(), camera->getProjection());
+	graphicsSystem->drawSprites(camera->getView(), camera->getProjection());
 }
 
 void Game::initWindow()

@@ -173,7 +173,7 @@ void Sprite::initSprite()
 	offset += sizeof(float) * 3;
 }
 
-void Sprite::draw(const glm::vec2& position)
+void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::mat4& projection)
 {
 	// Prepare transformations
 	glm::mat4 model = glm::mat4(1.f);
@@ -185,8 +185,20 @@ void Sprite::draw(const glm::vec2& position)
 
 	model = glm::scale(model, glm::vec3(glm::vec2(48.f), 1.0f));
 
+	if (this->normalMap == nullptr)
+	{
+		this->shader->setInt(0, "image");
+	}
+	else
+	{
+		shader->setInt(0, "diffuseMap");
+		shader->setInt(1, "normalMap");
+	}
 
 	this->shader->setMatrix4fv(model, "model");
+	this->shader->setMatrix4fv(view, "view");
+	this->shader->setMatrix4fv(projection, "projection");
+
 	this->shader->use();
 
 	if (this->normalMap == nullptr)

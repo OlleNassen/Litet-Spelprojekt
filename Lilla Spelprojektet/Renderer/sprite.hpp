@@ -25,7 +25,7 @@ public:
 
 	Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap = nullptr);
 	~Sprite();
-	void draw(const glm::vec2& position);
+	void draw(const glm::vec2& position, const glm::mat4& view, const glm::mat4& projection);
 
 	void initNormalSprite();
 	void initSprite();

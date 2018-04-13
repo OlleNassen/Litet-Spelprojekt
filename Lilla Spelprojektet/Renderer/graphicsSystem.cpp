@@ -36,35 +36,29 @@ GraphicsSystem::~GraphicsSystem()
 	}
 }
 
-void GraphicsSystem::drawSprites(glm::mat4& view, const glm::mat4& projection)
+void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
 {
 	if (sprites.size() > 0 && sprites[sprites.size() - 1].size() > 0)
 	{
 		for (auto& sprite : sprites[sprites.size() - 1])
 		{
-			shaders[1]->setInt(0, "diffuseMap");
-			shaders[1]->setInt(1, "normalMap");
 
+			//Temp, no shader stuff should be here, fix this!
 			glm::vec3 lightPos(300.f, 700.f, 0.3f); // Temp
-
 			shaders[1]->setVector3f(lightPos, "lightPos");
-
 			shaders[1]->setVector3f(glm::vec3(getPlayerPos().x, getPlayerPos().y, 0), "viewPos");
 
-			//shaders[0]->setInt(0, "image");
-			shaders[1]->setMatrix4fv(view, "view");
-			shaders[1]->setMatrix4fv(projection, "projection");
 
 			glm::vec2 position;
 			position.x = sprite->posX;
 			position.y = sprite->posY;
 
-			sprite->draw(position);
+			sprite->draw(position, view, projection);
 		}
 	}
 }
 
-void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
+void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {	
 	if (tileMap.size() > 0)
 	{
@@ -73,12 +67,8 @@ void GraphicsSystem::drawTiles(glm::mat4& view, const glm::mat4& projection)
 			float x = (i % tileMap[0]) * 48;
 			float y = (i / tileMap[0]) * 48;
 
-			shaders[0]->setInt(0, "image");
-			shaders[0]->setMatrix4fv(view, "view");
-			shaders[0]->setMatrix4fv(projection, "projection");
-
 			if (tileMap[i + 2] != 0)
-				tiles[tileMap[i + 2]]->draw(glm::vec2(x, y));
+				tiles[tileMap[i + 2]]->draw(glm::vec2(x, y), view, projection);
 
 		}
 	}
