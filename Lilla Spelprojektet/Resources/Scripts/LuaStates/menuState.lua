@@ -1,7 +1,7 @@
 require("Resources/Scripts/Entity")
 
 local s = Entity:create() 
-s.texture = newTexture("Resources/Sprites/HansTap.png")
+s.texture = newTexture("Resources/Sprites/menu.png")
 
 local cam = newSprite(0, 0, 0, s.texture)
 
