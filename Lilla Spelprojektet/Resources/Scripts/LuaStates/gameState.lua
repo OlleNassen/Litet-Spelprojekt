@@ -44,6 +44,17 @@ p.normalMap = newTexture("Resources/Sprites/Pyramid Normal.png")
 p.sprite = newSprite(p.normalMap, p.texture)
 p:addWorld(level)
 
+
+local s = Entity:create() -- player
+s.x = 200
+s.y = 100
+s.speed = 200
+s.texture = newTexture("Resources/Sprites/pixie.png")
+s.normalMap = newTexture("Resources/Sprites/Pyramid Normal.png")
+s.sprite = newSprite(s.normalMap, s.texture)
+s:addWorld(level)
+
+
 local g = Entity:create() -- goomba
 g.x = 155
 g.y = 155
@@ -68,6 +79,13 @@ function jump()
 	isJumping = true
 end
 
+mX = 0.0
+mY = 0.0
+
+function mouse(x, y)
+	mX = mX + x
+	mY = mY + y
+end
 
 function update(deltaTime)
 	
@@ -82,6 +100,8 @@ function update(deltaTime)
 		end
 	else
 		p:move(0, gravityConstant * deltaTime)
+		s:setPosition(p.x + mX, p.y + mY)
+
 	end
 
 	--GOOMBA MOVEMENT

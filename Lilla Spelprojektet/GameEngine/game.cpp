@@ -27,6 +27,8 @@ Game::Game()
 	lua_close(L);
 
 	//camera->zoom(0.5);
+	window->setMouseCursorVisible(false);
+	window->setMouseCursorGrabbed(true);
 }
 
 Game::~Game()
@@ -44,7 +46,6 @@ void Game::run()
 	while (!luaVector.empty() && !wantClear)
 	{
 		handleEvents();
-		
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
 		
@@ -98,6 +99,14 @@ void Game::handleEvents()
 		{
 			// adjust the viewport when the window is resized
 			glViewport(0, 0, event.size.width, event.size.height);
+		}
+		else if (event.type == sf::Event::GainedFocus)
+		{
+			window->setMouseCursorVisible(false);
+		}
+		else if (event.type == sf::Event::LostFocus)
+		{
+			window->setMouseCursorVisible(true);
 		}
 	}
 }

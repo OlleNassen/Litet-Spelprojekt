@@ -35,6 +35,18 @@ function Entity:addWorld(world)
 	self.world = world
 end
 
+function Entity:setPosition(x, y)
+	
+	--if self.world:canMove(x, y) then
+		self.x = x
+		self.y = y
+	--end
+		
+	if self.sprite ~= nil then
+		spritePos(self.sprite, self.x, self.y)		
+	end
+end
+
 function Entity:move(x, y)
 	
 	if self.world:canMove(self.x + x, self.y) and self.world:canMove(self.x + x + self.width, self.y + self.height) and 
