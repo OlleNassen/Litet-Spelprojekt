@@ -7,8 +7,11 @@ class Sprite
 {
 private:
 	GLuint quadVAO;
-	Texture2D* texture;
 	Shader *shader;
+
+	Texture2D* texture;
+	Texture2D* normalMap;
+
 	float x;//Animation
 	float y;//Animation
 	float width;
@@ -20,11 +23,13 @@ public:
 	float posX;
 	float posY;
 
-	Sprite(Texture2D* texture, Shader* shader);
+	Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap = nullptr);
 	~Sprite();
 	void draw(const glm::vec2& position);
 
+	void initNormalSprite();
 	void initSprite();
+
 	void setTexture(Texture2D* texture);
 	void setTexturePosition(float x, float y);
 	void setTextureSize(float width, float height);

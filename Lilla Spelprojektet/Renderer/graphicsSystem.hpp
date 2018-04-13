@@ -14,8 +14,8 @@ private:
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
-	std::vector<std::vector<Sprite*>> players;
-	
+	std::vector<std::vector<Sprite*>> sprites;
+	std::vector<glm::vec3>lights;
 
 public:
 	GraphicsSystem(std::vector<lua_State*>* luaStateVector);
