@@ -5,6 +5,7 @@ function Entity:create()
     local this =
     {
 		texture,
+		normalMap,
 		sprite,
 		x = 0,
 		y = 0,
@@ -32,6 +33,18 @@ end
 
 function Entity:addWorld(world)
 	self.world = world
+end
+
+function Entity:setPosition(x, y)
+	
+	--if self.world:canMove(x, y) then
+		self.x = x
+		self.y = y
+	--end
+		
+	if self.sprite ~= nil then
+		spritePos(self.sprite, self.x, self.y)		
+	end
 end
 
 function Entity:move(x, y)

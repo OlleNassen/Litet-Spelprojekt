@@ -14,18 +14,18 @@ private:
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
-	std::vector<Sprite*>players;
-
-	
+	std::vector<std::vector<Sprite*>> sprites;
+	std::vector<glm::vec3>lights;
 
 public:
 	GraphicsSystem(std::vector<lua_State*>* luaStateVector);
 	~GraphicsSystem();
-
+	void pushSpriteVector();
+	void popSpriteVector();
 	void addVector(std::vector<lua_State*>* vector);
 
-	void drawSprites(glm::mat4& view, const glm::mat4& projection);
-	void drawTiles(glm::mat4& view, const glm::mat4& projection);
+	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
+	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
 
 	void addLuaFunctions(lua_State* luaState);
 	sf::Vector2f getPlayerPos() const;

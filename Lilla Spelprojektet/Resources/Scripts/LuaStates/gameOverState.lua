@@ -1,7 +1,7 @@
 
 texture = newTexture("Resources/Sprites/gameover.png")
 sprite = newSprite(texture)
-spritePos(sprite, 1200 - 96, 864 - 96)
+spritePos(sprite, 3000, 3000)
 
 timer = 0.0
 
@@ -13,4 +13,5 @@ function update(deltaTime)
 		clear()
 	end
 
+	return true
 end

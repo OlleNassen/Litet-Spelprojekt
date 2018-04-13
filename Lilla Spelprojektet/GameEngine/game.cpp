@@ -27,6 +27,8 @@ Game::Game()
 	lua_close(L);
 
 	//camera->zoom(0.5);
+	window->setMouseCursorVisible(false);
+	window->setMouseCursorGrabbed(true);
 }
 
 Game::~Game()
@@ -44,7 +46,6 @@ void Game::run()
 	while (!luaVector.empty() && !wantClear)
 	{
 		handleEvents();
-		
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
 		
@@ -69,6 +70,7 @@ void Game::run()
 		{
 			lua_close(luaVector.back());
 			luaVector.pop_back();
+			graphicsSystem->popSpriteVector();
 			wantPop = false;
 		}
 	}
@@ -97,6 +99,14 @@ void Game::handleEvents()
 		{
 			// adjust the viewport when the window is resized
 			glViewport(0, 0, event.size.width, event.size.height);
+		}
+		else if (event.type == sf::Event::GainedFocus)
+		{
+			window->setMouseCursorVisible(false);
+		}
+		else if (event.type == sf::Event::LostFocus)
+		{
+			window->setMouseCursorVisible(true);
 		}
 	}
 }
@@ -133,13 +143,8 @@ void Game::update(float deltaTime)
 
 void Game::draw()
 {
-	//Fix this and put it somewhere else:
-	glm::mat4 projection = camera->getProjection();
-	glm::mat4 view = camera->getView();
-
-	graphicsSystem->drawTiles(view, projection);
-	graphicsSystem->drawSprites(view, projection);
-	
+	graphicsSystem->drawTiles(camera->getView(), camera->getProjection());
+	graphicsSystem->drawSprites(camera->getView(), camera->getProjection());
 }
 
 void Game::initWindow()
@@ -189,12 +194,13 @@ void Game::addLuaLibraries(lua_State* luaState)
 
 	eventSystem.addLuaRebind(luaState);
 	graphicsSystem->addLuaFunctions(luaState);
+	graphicsSystem->pushSpriteVector();
 }
 
 int Game::push(lua_State* luaState)
 {	
 	lua_getglobal(luaState, "Game");
-	Game* game = (Game*)lua_touserdata(luaState, -1);
+  	Game* game = (Game*)lua_touserdata(luaState, -1);
 	const char* name = lua_tostring(luaState, -2);
 	LuaVector* ptr = game->getVector();
 

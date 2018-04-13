@@ -39,9 +39,21 @@ local p = Entity:create() -- player
 p.x = 50
 p.y = 50
 p.speed = 200
-p.texture = newTexture("Resources/Sprites/HansTap.png")
-p.sprite = newSprite(p.texture)
+p.texture = newTexture("Resources/Sprites/Pyramid Diffuse.png")
+p.normalMap = newTexture("Resources/Sprites/Pyramid Normal.png")
+p.sprite = newSprite(p.normalMap, p.texture)
 p:addWorld(level)
+
+
+local s = Entity:create() -- player
+s.x = 200
+s.y = 100
+s.speed = 200
+s.texture = newTexture("Resources/Sprites/pixie.png")
+s.normalMap = newTexture("Resources/Sprites/Pyramid Normal.png")
+s.sprite = newSprite(s.normalMap, s.texture)
+s:addWorld(level)
+
 
 local g = Entity:create() -- goomba
 g.x = 155
@@ -51,8 +63,8 @@ g.sprite = newSprite(g.texture)
 g:addWorld(level)
 
 local b = Entity:create() -- goomba
-b.x = 1200
-b.y = 864
+b.x = 300
+b.y = 200
 b.texture = newTexture("Resources/Sprites/bossman.png")
 b.sprite = newSprite(b.texture)
 b:addWorld(level)
@@ -67,12 +79,15 @@ function jump()
 	isJumping = true
 end
 
+mX = 0.0
+mY = 0.0
+
+function mouse(x, y)
+	mX = mX + x
+	mY = mY + y
+end
 
 function update(deltaTime)
-
-	if p:contains(b.x, b.y) then
-		push("Resources/Scripts/LuaStates/gameOverState.lua")
-	end
 	
 	if isJumping then
 		
@@ -85,6 +100,8 @@ function update(deltaTime)
 		end
 	else
 		p:move(0, gravityConstant * deltaTime)
+		s:setPosition(p.x + mX, p.y + mY)
+
 	end
 
 	--GOOMBA MOVEMENT
@@ -96,6 +113,10 @@ function update(deltaTime)
 		timer = 0
 	else
 		g:move(goombaDir * g.speed * deltaTime, 0)
+	end
+
+	if p:contains(b.x, b.y) then
+		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
 
 	return true
