@@ -14,6 +14,10 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 
 	tiles.push_back(new Sprite(shaders[0], textures[0], textures[0]));
 	tiles.push_back(new Sprite(shaders[1], textures[2], textures[3]));
+
+	textures.push_back(new Texture2D("Resources/Sprites/background.png"));
+
+	background = new Sprite(shaders[0], textures[4], nullptr, glm::vec2(WIDTH, HEIGHT));
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -63,6 +67,10 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {	
+	sf::Vector2f vec = getPlayerPos();
+	
+	background->draw(glm::vec2(vec.x - (WIDTH/2), vec.y - (HEIGHT / 2)), view, projection);
+	
 	if (tileMap.size() > 0)
 	{
 		for (int i = 0; i < tileMap.size() - 2; i++)

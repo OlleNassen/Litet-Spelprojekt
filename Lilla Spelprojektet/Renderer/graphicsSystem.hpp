@@ -9,6 +9,7 @@ class GraphicsSystem
 private:
 	std::vector<int> tileMap;
 	std::vector<Sprite*> tiles;
+	Sprite* background;
 
 	std::vector<lua_State*>* luaVector;
 
