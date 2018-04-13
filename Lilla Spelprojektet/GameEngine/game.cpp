@@ -42,7 +42,7 @@ Game::~Game()
 void Game::run()
 {	
 	sf::Music music;
-	music.openFromFile("Resources/Sound/music.lua");
+	music.openFromFile("Resources/Sound/music.wav");
 	music.play();
 	
 	sf::Clock clock;
