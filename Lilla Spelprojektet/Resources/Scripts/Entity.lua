@@ -5,6 +5,7 @@ function Entity:create()
     local this =
     {
 		texture,
+		normalMap,
 		sprite,
 		x = 0,
 		y = 0,
