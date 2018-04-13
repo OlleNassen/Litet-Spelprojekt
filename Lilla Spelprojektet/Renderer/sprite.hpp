@@ -12,10 +12,6 @@ private:
 	Texture2D* texture;
 	Texture2D* normalMap;
 
-	float x;//Animation
-	float y;//Animation
-	float width;
-	float height;
 	glm::vec2 size;
 	GLfloat rotate;
 	glm::vec3 color;
@@ -23,7 +19,7 @@ public:
 	float posX;
 	float posY;
 
-	Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap = nullptr);
+	Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap = nullptr, const glm::vec2& size = glm::vec2(48, 48));
 	~Sprite();
 	void draw(const glm::vec2& position, const glm::mat4& view, const glm::mat4& projection);
 
@@ -31,8 +27,6 @@ public:
 	void initSprite();
 
 	void setTexture(Texture2D* texture);
-	void setTexturePosition(float x, float y);
-	void setTextureSize(float width, float height);
 
 	
 };

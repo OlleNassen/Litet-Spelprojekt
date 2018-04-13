@@ -1,16 +1,11 @@
 #include "sprite.hpp"
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
-Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap)
+Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const glm::vec2& size)
 	:normalMap(nullptr) // Needed for some reason
 {
 	posX = 0.0f;
 	posY = 0.0f;
-	
-	width = 1.f;
-	height = 1.f;
-	x = 0.f;
-	y = 0.f;
 
 	this->texture = texture;
 	this->shader = shader;
@@ -29,8 +24,8 @@ Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap)
 		initNormalSprite();
 	}
 
-	size.x = 48.f;
-	size.y = 48.f;
+	this->size.x = size.x;
+	this->size.y = size.y;
 	rotate = 0.f;
 	color = glm::vec3(0, 1, 0);
 }
@@ -135,13 +130,13 @@ void Sprite::initSprite()
 	//Fix this ugly mess
 	float vertices[] = {
 		// Pos              //Normal     // Tex      // COlor
-		0.0f, 1.0f, 0.0f, 1.0f, x, height, 0.0f, 1.0f, 0.0f,
-		1.0f, 0.0, 0.0f, 1.0f, height, y, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f, x, y, 0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		1.0f, 0.0, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 
-		0.0f, 1.0f, 0.0f, 1.0f, x, height, 0.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f, 1.0f, width, height, 0.0f, 1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f, 1.0f, width, y, 0.0f, 1.0f, 0.0f
+		0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
 	};
 
 	glGenVertexArrays(1, &this->quadVAO);
@@ -179,11 +174,11 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 	glm::mat4 model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(position, 0.0f));
 
-	model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
+	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
 	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
+	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
 
-	model = glm::scale(model, glm::vec3(glm::vec2(48.f), 1.0f));
+	model = glm::scale(model, glm::vec3(size, 1.0f));
 
 	if (this->normalMap == nullptr)
 	{
@@ -222,17 +217,5 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 void Sprite::setTexture(Texture2D * texture)
 {
 	this->texture = texture;
-}
-
-void Sprite::setTexturePosition(float x, float y)
-{
-	this->x = x;
-	this->y = y;
-}
-
-void Sprite::setTextureSize(float width, float height)
-{
-	this->width = width;
-	this->height = height;
 }
 
