@@ -40,15 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />
-    <None Include="Resources\Scripts\goomba.lua" />
-    <None Include="Resources\Scripts\InputTest.lua" />
     <None Include="Resources\Scripts\LuaStates\gameOverState.lua" />
     <None Include="Resources\Scripts\LuaStates\pauseState.lua" />
     <None Include="Resources\Scripts\object.lua" />
-    <None Include="Resources\Scripts\tile.lua" />
-    <None Include="Resources\Shaders\FragmentShaderCore.glsl" />
-    <None Include="Resources\Shaders\GeometryShaderCore.glsl" />
-    <None Include="Resources\Shaders\VertexShaderCore.glsl" />
+    <None Include="Resources\Shaders\basicShader.frag" />
+    <None Include="Resources\Shaders\basicShader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

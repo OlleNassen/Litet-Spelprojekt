@@ -112,7 +112,7 @@ void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
 
 void GraphicsSystem::loadShaders()
 {
-	shaders.push_back(new Shader("Resources/Shaders/VertexShaderCore.glsl", "Resources/Shaders/FragmentShaderCore.glsl"));
+	shaders.push_back(new Shader("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/normalShader.vert", "Resources/Shaders/normalShader.frag"));
 }
 
