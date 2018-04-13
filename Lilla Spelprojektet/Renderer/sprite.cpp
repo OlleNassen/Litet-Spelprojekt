@@ -44,9 +44,9 @@ void Sprite::initNormalSprite()
 	GLuint quadVBO;
 
 	// positions
-	glm::vec3 pos1(-1.0f, 1.0f, 0.0f);
-	glm::vec3 pos2(-1.0f, -1.0f, 0.0f);
-	glm::vec3 pos3(1.0f, -1.0f, 0.0f);
+	glm::vec3 pos1(0.0f, 1.0f, 0.0f);
+	glm::vec3 pos2(0.0f, 0.0f, 0.0f);
+	glm::vec3 pos3(1.0f, 0.0f, 0.0f);
 	glm::vec3 pos4(1.0f, 1.0f, 0.0f);
 	// texture coordinates
 	glm::vec2 uv1(0.0f, 1.0f);
