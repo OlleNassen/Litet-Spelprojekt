@@ -6,18 +6,18 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	addVector(luaStateVector);
 
 	loadShaders();
-	textures.push_back(new Texture2D("Resources/Sprites/brickwall.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/brickwall_normal.png"));
+	/*tileTextures.push_back(new Texture2D("Resources/Sprites/brickwall.png"));
+	tileTextures.push_back(new Texture2D("Resources/Sprites/brickwall_normal.png"));
 
-	textures.push_back(new Texture2D("Resources/Sprites/IronBlockDiffuse.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/ironBlockSoloNormal.png"));
+	tileTextures.push_back(new Texture2D("Resources/Sprites/IronBlockDiffuse.png"));
+	tileTextures.push_back(new Texture2D("Resources/Sprites/ironBlockSoloNormal.png"));
 
-	tiles.push_back(new Sprite(shaders[0], textures[0], textures[0]));
-	tiles.push_back(new Sprite(shaders[1], textures[2], textures[3]));
+	tiles.push_back(new Sprite(shaders[0], tileTextures[0], tileTextures[0]));
+	tiles.push_back(new Sprite(shaders[1], tileTextures[2], tileTextures[3]));*/
 
 	textures.push_back(new Texture2D("Resources/Sprites/background.png"));
 
-	background = new Sprite(shaders[0], textures[4], nullptr, glm::vec2(WIDTH, HEIGHT));
+	background = new Sprite(shaders[0], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -109,6 +109,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, spritepos);
 	lua_setglobal(luaState, "spritePos");
+
+	lua_pushcfunction(luaState, newtiletexture);
+	lua_setglobal(luaState, "tileTexture");
 }
 
 void GraphicsSystem::pushSpriteVector()
@@ -203,6 +206,21 @@ int GraphicsSystem::spritepos(lua_State* luaState)
 	ptr->sprites[ptr->sprites.size() - 1][*id]->posX = x;
 	ptr->sprites[ptr->sprites.size() - 1][*id]->posY = y;
 	
+	return 0;
+}
+
+int GraphicsSystem::newtiletexture(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	const char* filePath2 = lua_tostring(luaState, -2);
+	const char* filePath1 = lua_tostring(luaState, -3);
+	lua_pop(luaState, 1);
+
+	ptr->tileTextures.push_back(new Texture2D(filePath1));
+	ptr->tileTextures.push_back(new Texture2D(filePath2));
+	ptr->tiles.push_back(new Sprite(ptr->shaders[1], ptr->tileTextures[ptr->tileTextures.size()-2], ptr->tileTextures[ptr->tileTextures.size() - 1]));
+
 	return 0;
 }
 
