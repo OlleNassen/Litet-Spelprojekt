@@ -122,6 +122,8 @@ void GraphicsSystem::popSpriteVector()
 		delete player;
 	}
 	sprites.pop_back();
+
+	tileMap.clear();
 }
 
 void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
