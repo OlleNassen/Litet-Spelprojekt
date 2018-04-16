@@ -39,8 +39,8 @@ local p = Entity:create() -- player
 p.x = 50
 p.y = 50
 p.speed = 200
-p.texture = newTexture("Resources/Sprites/brick_diffuse.png")
-p.normalMap = newTexture("Resources/Sprites/brick_normal.png")
+p.texture = newTexture("Resources/Sprites/pyramid_diffuse.png")
+p.normalMap = newTexture("Resources/Sprites/pyramid_normal.png")
 p.sprite = newSprite(p.normalMap, p.texture)
 p:addWorld(level)
 
