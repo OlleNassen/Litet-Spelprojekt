@@ -35,6 +35,7 @@ private:
 	void loadShaders();
 	
 	static int loadTileMap(lua_State* luaState);
+	static int reloadTile(lua_State* luaState);
 
 	static int newtexture(lua_State* luaState);
 	static int newsprite(lua_State* luaState);

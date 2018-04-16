@@ -47,6 +47,13 @@ function Entity:setPosition(x, y)
 	end
 end
 
+function Entity:getPosition()
+	local position = {x, y}
+	position.x = self.x
+	position.y = self.y
+	return position
+end
+
 function Entity:move(x, y)
 	
 	if self.world:canMove(self.x + x, self.y) and self.world:canMove(self.x + x + self.width, self.y + self.height) and 

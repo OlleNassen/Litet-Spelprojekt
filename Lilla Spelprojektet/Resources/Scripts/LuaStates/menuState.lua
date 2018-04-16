@@ -24,6 +24,10 @@ function select(direction, deltaTime)
 	push("Resources/Scripts/LuaStates/gameState.lua")
 end
 
+function selectEditor(direction, deltaTime)
+	push("Resources/Scripts/LuaStates/editorState.lua")
+end
+
 function update(deltaTime)
 	print ("Press enter to start!")
 end

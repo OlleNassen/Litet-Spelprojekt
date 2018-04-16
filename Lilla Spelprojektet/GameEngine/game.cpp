@@ -27,7 +27,7 @@ Game::Game()
 	lua_close(L);
 
 	//camera->zoom(0.5);
-	window->setMouseCursorVisible(false);
+	//window->setMouseCursorVisible(false);
 	window->setMouseCursorGrabbed(true);
 }
 

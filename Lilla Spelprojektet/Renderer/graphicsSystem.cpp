@@ -101,6 +101,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 	lua_pushcfunction(luaState, loadTileMap);
 	lua_setglobal(luaState, "loadTileGraphics");
 
+	lua_pushcfunction(luaState, reloadTile);
+	lua_setglobal(luaState, "reloadTile");
+
 	lua_pushcfunction(luaState, newtexture);
 	lua_setglobal(luaState, "newTexture");
 
@@ -157,6 +160,21 @@ int GraphicsSystem::loadTileMap(lua_State * luaState)
 	lua_getglobal(luaState, "GraphicsSystem");
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
 	ptr->tileMap.push_back(lua_tointeger(luaState, -2));
+
+	return 0;
+}
+
+int GraphicsSystem::reloadTile(lua_State * luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	int index = lua_tointeger(luaState, -3);
+	int tile = lua_tointeger(luaState, -2);
+
+	if (index > 1)
+	{ 
+		ptr->tileMap.at(index + 2) = tile;
+	}
 
 	return 0;
 }

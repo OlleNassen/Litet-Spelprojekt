@@ -3,13 +3,13 @@ tilemap1 =
 	texturesDiffuse = 
 	{
 		"Resources/Sprites/brickwall.png", 
-		"Resources/Sprites/iron_block_diffuse.png", 
+		"Resources/Sprites/brickDiffuse.png", 
 	},
 
 	texturesNormal = 
 	{
 		"Resources/Sprites/brickwall_normal.png",
-		"Resources/Sprites/iron_block_solo_normal.png"
+		"Resources/Sprites/brickNormal.png"
 	},
 	
 	tiles = 
