@@ -1,7 +1,12 @@
+require("Resources/Scripts/Entity")
 
-texture = newTexture("Resources/Sprites/gameover.png")
-sprite = newSprite(texture)
-spritePos(sprite, 3000, 3000)
+local s = Entity:create() 
+s.texture = newTexture("Resources/Sprites/gameover.png")
+
+local cam = newSprite(0, 0, 0, s.texture)
+
+s.sprite = newSprite(1280,720, 0, s.texture)
+s:setPosition(-1280/2, -720/2)
 
 timer = 0.0
 

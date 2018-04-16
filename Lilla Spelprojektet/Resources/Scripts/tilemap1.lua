@@ -1,5 +1,17 @@
 tilemap1 =
 {
+	texturesDiffuse = 
+	{
+		"Resources/Sprites/brickwall.png", 
+		"Resources/Sprites/iron_block_diffuse.png", 
+	},
+
+	texturesNormal = 
+	{
+		"Resources/Sprites/brickwall_normal.png",
+		"Resources/Sprites/iron_block_solo_normal.png"
+	},
+	
 	tiles = 
 	{
 		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,

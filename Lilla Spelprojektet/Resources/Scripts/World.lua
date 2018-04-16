@@ -18,13 +18,18 @@ end
 
 function World:loadGraphics()
 	
+	local i = 1
+	for k, v in pairs(self.map.texturesDiffuse) do
+		tileTexture(v, self.map.texturesNormal[i])
+		i = i + 1
+	end
+
 	loadTileGraphics(self.map.width)
 	loadTileGraphics(self.map.height)
 	
 	for k, v in pairs(self.map.tiles) do
 		loadTileGraphics(v)
 	end
-	
 	
 end
 

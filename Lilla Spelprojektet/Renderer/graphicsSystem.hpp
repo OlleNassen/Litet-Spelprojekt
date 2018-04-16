@@ -8,7 +8,9 @@ class GraphicsSystem
 {
 private:
 	std::vector<int> tileMap;
+	std::vector<Texture2D*> tileTextures;
 	std::vector<Sprite*> tiles;
+	Sprite* background;
 
 	std::vector<lua_State*>* luaVector;
 
@@ -38,5 +40,6 @@ private:
 	static int newsprite(lua_State* luaState);
 	static int spritepos(lua_State* luaState);
 
+	static int newtiletexture(lua_State* luaState);
 };
 

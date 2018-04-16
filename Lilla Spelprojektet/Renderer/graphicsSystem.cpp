@@ -6,14 +6,18 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	addVector(luaStateVector);
 
 	loadShaders();
-	textures.push_back(new Texture2D("Resources/Sprites/brickwall.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/brickwall_normal.png"));
+	/*tileTextures.push_back(new Texture2D("Resources/Sprites/brickwall.png"));
+	tileTextures.push_back(new Texture2D("Resources/Sprites/brickwall_normal.png"));
 
-	textures.push_back(new Texture2D("Resources/Sprites/IronBlockDiffuse.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/ironBlockSoloNormal.png"));
+	tileTextures.push_back(new Texture2D("Resources/Sprites/IronBlockDiffuse.png"));
+	tileTextures.push_back(new Texture2D("Resources/Sprites/ironBlockSoloNormal.png"));
 
-	tiles.push_back(new Sprite(shaders[0], textures[0], textures[0]));
-	tiles.push_back(new Sprite(shaders[1], textures[2], textures[3]));
+	tiles.push_back(new Sprite(shaders[0], tileTextures[0], tileTextures[0]));
+	tiles.push_back(new Sprite(shaders[1], tileTextures[2], tileTextures[3]));*/
+
+	textures.push_back(new Texture2D("Resources/Sprites/background.png"));
+
+	background = new Sprite(shaders[0], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -45,12 +49,20 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	{
 		for (auto& sprite : sprites[sprites.size() - 1])
 		{
-
 			//Temp, no shader stuff should be here, fix this!
-			glm::vec3 lightPos(300.f, 700.f, 0.3f); // Temp
-			shaders[1]->setVector3f(lightPos, "lightPos");
+			glm::vec3 lightPos[5] =
+			{
+				glm::vec3(300.f, 700.f, 0.0f),
+				glm::vec3(300.f, 600.f, 0.0f),
+				glm::vec3(300.f, 400.f, 0.0f),
+				glm::vec3(300.f, 300.f, 0.0f),
+				glm::vec3(300.f, 200.f, 0.0f)
+
+			};
+			glUniform3fv(glGetUniformLocation(shaders[1]->getID(), "lightPos"), 5, &lightPos[0][0]);
 			shaders[1]->setVector3f(glm::vec3(getPlayerPos().x, getPlayerPos().y, 0), "viewPos");
 
+			
 
 			glm::vec2 position;
 			position.x = sprite->posX;
@@ -63,6 +75,10 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {	
+	sf::Vector2f vec = getPlayerPos();
+	
+	background->draw(glm::vec2(vec.x - (WIDTH/2), vec.y - (HEIGHT / 2)), view, projection);
+	
 	if (tileMap.size() > 0)
 	{
 		for (int i = 0; i < tileMap.size() - 2; i++)
@@ -93,6 +109,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, spritepos);
 	lua_setglobal(luaState, "spritePos");
+
+	lua_pushcfunction(luaState, newtiletexture);
+	lua_setglobal(luaState, "tileTexture");
 }
 
 void GraphicsSystem::pushSpriteVector()
@@ -106,6 +125,8 @@ void GraphicsSystem::popSpriteVector()
 		delete player;
 	}
 	sprites.pop_back();
+
+	tileMap.clear();
 }
 
 void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
@@ -159,11 +180,17 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 	lua_getglobal(luaState, "GraphicsSystem");
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
 	int* texture = (int*)lua_touserdata(luaState, -2);
-	int* normalMap = (int*)lua_touserdata(luaState, -3);		
+	int* normalMap = (int*)lua_touserdata(luaState, -3);
+	int y = lua_tointeger(luaState, -4);
+	int x = lua_tointeger(luaState, -5);
+	
+	y = y ? y : 48;
+	x = x ? x : 48;
+
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
-	ptr->sprites[ptr->sprites.size() - 1].push_back(new Sprite(ptr->shaders[1], ptr->textures[*texture], normalMap ? ptr->textures[*normalMap] : nullptr));
+	ptr->sprites[ptr->sprites.size() - 1].push_back(new Sprite(ptr->shaders[1], ptr->textures[*texture], normalMap ? ptr->textures[*normalMap] : nullptr, glm::vec2(x, y)));
 	*id = ptr->sprites[ptr->sprites.size() - 1].size() - 1;
 	return 1;
 }
@@ -179,6 +206,21 @@ int GraphicsSystem::spritepos(lua_State* luaState)
 	ptr->sprites[ptr->sprites.size() - 1][*id]->posX = x;
 	ptr->sprites[ptr->sprites.size() - 1][*id]->posY = y;
 	
+	return 0;
+}
+
+int GraphicsSystem::newtiletexture(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	const char* filePath2 = lua_tostring(luaState, -2);
+	const char* filePath1 = lua_tostring(luaState, -3);
+	lua_pop(luaState, 1);
+
+	ptr->tileTextures.push_back(new Texture2D(filePath1));
+	ptr->tileTextures.push_back(new Texture2D(filePath2));
+	ptr->tiles.push_back(new Sprite(ptr->shaders[1], ptr->tileTextures[ptr->tileTextures.size()-2], ptr->tileTextures[ptr->tileTextures.size() - 1]));
+
 	return 0;
 }
 
