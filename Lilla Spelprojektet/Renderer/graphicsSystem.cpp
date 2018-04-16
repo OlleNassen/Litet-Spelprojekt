@@ -49,12 +49,20 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	{
 		for (auto& sprite : sprites[sprites.size() - 1])
 		{
-
 			//Temp, no shader stuff should be here, fix this!
-			glm::vec3 lightPos(300.f, 700.f, 0.3f); // Temp
-			shaders[1]->setVector3f(lightPos, "lightPos");
+			glm::vec3 lightPos[5] =
+			{
+				glm::vec3(300.f, 700.f, 0.0f),
+				glm::vec3(300.f, 600.f, 0.0f),
+				glm::vec3(300.f, 400.f, 0.0f),
+				glm::vec3(300.f, 300.f, 0.0f),
+				glm::vec3(300.f, 200.f, 0.0f)
+
+			};
+			glUniform3fv(glGetUniformLocation(shaders[1]->getID(), "lightPos"), 5, &lightPos[0][0]);
 			shaders[1]->setVector3f(glm::vec3(getPlayerPos().x, getPlayerPos().y, 0), "viewPos");
 
+			
 
 			glm::vec2 position;
 			position.x = sprite->posX;
