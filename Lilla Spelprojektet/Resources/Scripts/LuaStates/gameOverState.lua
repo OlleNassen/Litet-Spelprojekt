@@ -14,7 +14,7 @@ function update(deltaTime)
 
 	timer = timer + deltaTime
 	
-	if timer > 1.0 then
+	if timer > 5.0 then
 		clear()
 	end
 
