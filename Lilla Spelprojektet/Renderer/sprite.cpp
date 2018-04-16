@@ -26,8 +26,9 @@ Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const g
 
 	this->size.x = size.x;
 	this->size.y = size.y;
-	rotate = 0.f;
+	rotation = 0.f;
 	color = glm::vec3(0, 1, 0);
+	model = glm::mat4(1.f);
 }
 
 Sprite::~Sprite()
@@ -170,15 +171,8 @@ void Sprite::initSprite()
 
 void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::mat4& projection)
 {
-	// Prepare transformations
-	glm::mat4 model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(position, 0.0f));
 
-	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
-	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
-
-	model = glm::scale(model, glm::vec3(size, 1.0f));
+	update(position);
 
 	if (this->normalMap == nullptr)
 	{
@@ -214,8 +208,26 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 
 }
 
+void Sprite::update(const glm::vec2& position)
+{
+	// Prepare transformations
+	model = glm::mat4(1.f);
+	model = glm::translate(model, glm::vec3(position, 0.0f));
+
+	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+	model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.f, 0.1f));
+	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+
+	model = glm::scale(model, glm::vec3(size, 1.0f));
+}
+
 void Sprite::setTexture(Texture2D * texture)
 {
 	this->texture = texture;
+}
+
+void Sprite::rotate(float degrees)
+{
+	this->rotation = degrees;
 }
 
