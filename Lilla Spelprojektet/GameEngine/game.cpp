@@ -163,9 +163,9 @@ void Game::initWindow()
 
 	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
 
-	//glViewport(320, 480, )
+	//*** Somewhat fixes mouse problem **/
+	sf::Mouse::setPosition(sf::Vector2i(window->getPosition().x + (WIDTH / 2), window->getPosition().y + (HEIGHT / 2)));
 
-	this->window->setVerticalSyncEnabled(true);
 	// activate the window
 	this->window->setActive(true);
 
