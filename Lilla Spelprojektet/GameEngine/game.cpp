@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include <SFML/Audio.hpp>
 
 Game::Game()
 {
@@ -41,10 +40,6 @@ Game::~Game()
 
 void Game::run()
 {	
-	//sf::Music music;
-	//music.openFromFile("Resources/Sound/music.wav");
-	//music.play();
-	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 

@@ -92,9 +92,9 @@ function update(deltaTime)
 	if isJumping then
 		
 		timeSinceJump = timeSinceJump + deltaTime
-		p:move(0, -100 * deltaTime)
+		p:move(0, -500 * deltaTime)
 		
-		if timeSinceJump > 1.0 then
+		if timeSinceJump > 0.5 then
 			isJumping = false
 			timeSinceJump = 0.0
 		end
