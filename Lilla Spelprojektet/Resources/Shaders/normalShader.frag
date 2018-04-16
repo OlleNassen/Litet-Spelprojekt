@@ -25,7 +25,7 @@ void main()
     normal = normalize(normal * 2.0 - 1.0);  // this normal is in tangent space
    
     // get diffuse color
-    vec3 color = vec3(0.5, 0.5, 0.5) *texture(diffuseMap, fs_in.TexCoords).rgb;
+    vec3 color = vec3(0.5, 0.9, 0.5) *texture(diffuseMap, fs_in.TexCoords).rgb;
 
 	vec3 final_color = color;
 

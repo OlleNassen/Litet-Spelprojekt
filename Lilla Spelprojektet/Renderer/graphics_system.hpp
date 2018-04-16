@@ -1,6 +1,6 @@
 #pragma once
 #include"Shader.hpp"
-#include "Texture2D.hpp"
+#include "texture_2d.hpp"
 #include "sprite.hpp"
 #include "../libs.h"
 
