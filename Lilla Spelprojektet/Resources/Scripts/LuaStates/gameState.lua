@@ -13,7 +13,7 @@ level:loadGraphics()
 isJumping = false
 timeSinceJump = 0.0
 
-local gravityConstant = 100
+local gravityConstant = 300
 
 function randomizeDirection()
 	dir = 0

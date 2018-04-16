@@ -12,7 +12,7 @@ function Entity:create()
 		width = 48,
 		height = 48,
 		world = {},
-		speed = 50,
+		speed = 200,
 		attackStrength = 5,
 		attackSpeed = 1
     }
