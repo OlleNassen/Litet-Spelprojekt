@@ -20,7 +20,7 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	textures.push_back(new Texture2D("Resources/Sprites/test_normal.png"));
 
 
-	background = new Sprite(shaders[0], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
+	background = new Sprite(shaders[2], textures[1], textures[2], glm::vec2(WIDTH, HEIGHT));
 
 	test = new Sprite(shaders[2], textures[1], textures[2], glm::vec2(200,200));
 	test->posX = 300;
@@ -80,7 +80,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	}
 
 	glm::vec2 Resolution{ 1280,720 };
-	glm::vec3 LightPos{ 300.f, 400.f, 0.075f };
+	glm::vec3 LightPos{ getPlayerPos().x, getPlayerPos().y, 0.075f };
 	glm::vec3 Falloff{ .4f, 3.f, 20.f };
 	glm::vec4 LightColor{ 1.f, 0.8f, 0.6f, 1.f };
 	glm::vec4 AmbientColor{ 0.6f, 0.6f, 1.f, 0.2f };

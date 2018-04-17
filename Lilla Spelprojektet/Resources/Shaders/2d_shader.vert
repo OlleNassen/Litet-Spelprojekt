@@ -16,11 +16,11 @@ uniform mat4 projection;
 
 void main()
 {
-	vs_position = vertex_position;
+	// vs_position = vertex_position;
+	vs_position =  vec2(model * vec4(vertex_position.xy, 0, 1.0));
 	vs_normal = vertex_normal;
 	vs_texcoord = vertex_texcoord;
 	vs_color = vertex_color;
 
 	gl_Position = projection * view * model * vec4(vertex_position.xy, 0, 1.0);
-
 }
