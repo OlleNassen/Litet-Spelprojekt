@@ -1,7 +1,7 @@
 #pragma once
 #include "../libs.h"
-#include "EventSystem.hpp"
-#include "../Renderer/graphicsSystem.hpp"
+#include "event_system.hpp"
+#include "../Renderer/graphics_system.hpp"
 #include "camera.hpp"
 
 typedef std::vector<lua_State*> LuaVector;

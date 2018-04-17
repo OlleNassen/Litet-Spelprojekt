@@ -1,4 +1,4 @@
-#include "graphicsSystem.hpp"
+#include "graphics_system.hpp"
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)

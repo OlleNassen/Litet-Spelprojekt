@@ -13,7 +13,7 @@ level:loadGraphics()
 isJumping = false
 timeSinceJump = 0.0
 
-local gravityConstant = 100
+local gravityConstant = 400
 
 function randomizeDirection()
 	dir = 0
@@ -39,9 +39,8 @@ local p = Entity:create() -- player
 p.x = 50
 p.y = 50
 p.speed = 200
-p.texture = newTexture("Resources/Sprites/brickDiffuse.png")
-p.normalMap = newTexture("Resources/Sprites/brickNormal.png")
-p.sprite = newSprite(p.normalMap, p.texture)
+p.texture = newTexture("Resources/Sprites/easteregg.png")
+p.sprite = newSprite(0, p.texture)
 p:addWorld(level)
 
 
@@ -49,9 +48,8 @@ local s = Entity:create() -- pixie
 s.x = 200
 s.y = 100
 s.speed = 200
-s.texture = newTexture("Resources/Sprites/pixie.png")
-s.normalMap = newTexture("Resources/Sprites/Pyramid Normal.png")
-s.sprite = newSprite(s.normalMap, s.texture)
+s.texture = newTexture("Resources/Sprites/player.png")
+s.sprite = newSprite(0, s.texture)
 s:addWorld(level)
 
 

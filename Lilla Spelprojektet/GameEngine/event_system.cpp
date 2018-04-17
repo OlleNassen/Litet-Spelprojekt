@@ -1,10 +1,10 @@
-#include "EventSystem.hpp"
+#include "event_system.hpp"
 
 #define REGISTER_ENUM(x) x,
 /** Enum with all available inputs */
 typedef enum
 {
-	#include "Inputs.hpp"
+	#include "input.hpp"
 	inputCount
 } InputEnum;
 #undef REGISTER_ENUM
@@ -13,7 +13,7 @@ typedef enum
 /** char array with all available inputs */
 const char* InputText[] =
 {
-	#include "Inputs.hpp"
+	#include "input.hpp"
 	"invalid"
 };
 #undef REGISTER_ENUM
@@ -241,7 +241,7 @@ float EventSystem::getAxisPosition(unsigned int joystick, sf::Joystick::Axis axi
 }
 
 void EventSystem::updateMouse()
-{	
+{
 	sf::Vector2i newPosition = sf::Mouse::getPosition();	
 	sf::Vector2i position = newPosition - mousePosition;
 	mousePosition = newPosition;
