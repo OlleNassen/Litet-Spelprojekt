@@ -40,8 +40,7 @@ p.x = 50
 p.y = 50
 p.speed = 200
 p.texture = newTexture("Resources/Sprites/easteregg.png")
-p.normalMap = newTexture("Resources/Sprites/easteregg.png")
-p.sprite = newSprite(p.normalMap, p.texture)
+p.sprite = newSprite(0, p.texture)
 p:addWorld(level)
 
 
@@ -50,8 +49,7 @@ s.x = 200
 s.y = 100
 s.speed = 200
 s.texture = newTexture("Resources/Sprites/player.png")
-s.normalMap = newTexture("Resources/Sprites/player.png")
-s.sprite = newSprite(s.normalMap, s.texture)
+s.sprite = newSprite(0, s.texture)
 s:addWorld(level)
 
 
