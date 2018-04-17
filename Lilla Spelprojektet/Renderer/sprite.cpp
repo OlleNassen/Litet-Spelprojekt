@@ -9,20 +9,8 @@ Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const g
 
 	this->texture = texture;
 	this->shader = shader;
-
-	if (normalMap != nullptr)
-	{
-		this->normalMap = normalMap;
-	}
-
-	if (this->normalMap == nullptr)
-	{
-		initSprite();
-	}
-	else
-	{
-		initNormalSprite();
-	}
+	this->normalMap = normalMap;
+	initSprite();
 
 	this->size.x = size.x;
 	this->size.y = size.y;
@@ -205,7 +193,6 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 	glBindVertexArray(this->quadVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
-
 }
 
 void Sprite::update(const glm::vec2& position)

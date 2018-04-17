@@ -15,9 +15,10 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	tiles.push_back(new Sprite(shaders[0], tileTextures[0], tileTextures[0]));
 	tiles.push_back(new Sprite(shaders[1], tileTextures[2], tileTextures[3]));*/
 
-	textures.push_back(new Texture2D("Resources/Sprites/background.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/background2.png"));
 
-	background = new Sprite(shaders[0], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
+
+	background = new Sprite(shaders[2], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -49,20 +50,17 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	{
 		for (auto& sprite : sprites[sprites.size() - 1])
 		{
-			//Temp, no shader stuff should be here, fix this!
-			glm::vec3 lightPos[5] =
-			{
-				glm::vec3(300.f, 700.f, 0.0f),
-				glm::vec3(300.f, 600.f, 0.0f),
-				glm::vec3(300.f, 400.f, 0.0f),
-				glm::vec3(300.f, 300.f, 0.0f),
-				glm::vec3(300.f, 200.f, 0.0f)
+			glm::vec2 Resolution{ 1280,720 };
+			glm::vec3 LightPos{ getPlayerPos().x + (48 / 2), getPlayerPos().y - 48.f, 0.075f };
+			glm::vec3 Falloff{ .4f, 3.f, 20.f };
+			glm::vec4 LightColor{ 1.f, 0.8f, 0.6f, 1.f };
+			glm::vec4 AmbientColor{ 0.6f, 0.6f, 1.f, 0.2f };
 
-			};
-			glUniform3fv(glGetUniformLocation(shaders[1]->getID(), "lightPos"), 5, &lightPos[0][0]);
-			shaders[1]->setVector3f(glm::vec3(getPlayerPos().x, getPlayerPos().y, 0), "viewPos");
-
-			
+			shaders[2]->setVector2f(Resolution, "Resolution");
+			shaders[2]->setVector3f(LightPos, "LightPos");
+			shaders[2]->setVector3f(Falloff, "Falloff");
+			shaders[2]->setVector4f(LightColor, "LightColor");
+			shaders[2]->setVector4f(AmbientColor, "AmbientColor");
 
 			glm::vec2 position;
 			position.x = sprite->posX;
@@ -71,6 +69,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 			sprite->draw(position, view, projection);
 		}
 	}
+
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
@@ -141,6 +140,7 @@ void GraphicsSystem::loadShaders()
 {
 	shaders.push_back(new Shader("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/normalShader.vert", "Resources/Shaders/normalShader.frag"));
+	shaders.push_back(new Shader("Resources/Shaders/2d_shader.vert", "Resources/Shaders/2d_shader.frag"));
 }
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const
@@ -208,7 +208,7 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
-	ptr->sprites[ptr->sprites.size() - 1].push_back(new Sprite(ptr->shaders[1], ptr->textures[*texture], normalMap ? ptr->textures[*normalMap] : nullptr, glm::vec2(x, y)));
+	ptr->sprites[ptr->sprites.size() - 1].push_back(new Sprite(ptr->shaders[2], ptr->textures[*texture], normalMap ? ptr->textures[*normalMap] : nullptr, glm::vec2(x, y)));
 	*id = ptr->sprites[ptr->sprites.size() - 1].size() - 1;
 	return 1;
 }
@@ -237,7 +237,7 @@ int GraphicsSystem::newtiletexture(lua_State* luaState)
 
 	ptr->tileTextures.push_back(new Texture2D(filePath1));
 	ptr->tileTextures.push_back(new Texture2D(filePath2));
-	ptr->tiles.push_back(new Sprite(ptr->shaders[1], ptr->tileTextures[ptr->tileTextures.size()-2], ptr->tileTextures[ptr->tileTextures.size() - 1]));
+	ptr->tiles.push_back(new Sprite(ptr->shaders[2], ptr->tileTextures[ptr->tileTextures.size()-2], ptr->tileTextures[ptr->tileTextures.size() - 1]));
 
 	return 0;
 }
