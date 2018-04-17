@@ -19,6 +19,8 @@ private:
 	std::vector<std::vector<Sprite*>> sprites;
 	std::vector<glm::vec3>lights;
 
+	Sprite* test;
+
 public:
 	GraphicsSystem(std::vector<lua_State*>* luaStateVector);
 	~GraphicsSystem();

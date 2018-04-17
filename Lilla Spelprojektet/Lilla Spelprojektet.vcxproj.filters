@@ -73,5 +73,7 @@
     <None Include="Resources\Scripts\LuaStates\gameOverState.lua" />
     <None Include="Resources\Shaders\basicShader.frag" />
     <None Include="Resources\Shaders\basicShader.vert" />
+    <None Include="Resources\Shaders\2d_shader.vert" />
+    <None Include="Resources\Shaders\2d_shader.frag" />
   </ItemGroup>
 </Project>

@@ -16,8 +16,13 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	tiles.push_back(new Sprite(shaders[1], tileTextures[2], tileTextures[3]));*/
 
 	textures.push_back(new Texture2D("Resources/Sprites/background.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/pyramid_diffuse.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/pyramid_normal.png"));
+
 
 	background = new Sprite(shaders[0], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
+
+	test = new Sprite(shaders[2], textures[1], textures[2]);
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -50,27 +55,35 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		for (auto& sprite : sprites[sprites.size() - 1])
 		{
 			//Temp, no shader stuff should be here, fix this!
-			glm::vec3 lightPos[5] =
-			{
-				glm::vec3(300.f, 700.f, 0.0f),
-				glm::vec3(300.f, 600.f, 0.0f),
-				glm::vec3(300.f, 400.f, 0.0f),
-				glm::vec3(300.f, 300.f, 0.0f),
-				glm::vec3(300.f, 200.f, 0.0f)
 
-			};
-			glUniform3fv(glGetUniformLocation(shaders[1]->getID(), "lightPos"), 5, &lightPos[0][0]);
-			shaders[1]->setVector3f(glm::vec3(getPlayerPos().x, getPlayerPos().y, 0), "viewPos");
-
-			
 
 			glm::vec2 position;
 			position.x = sprite->posX;
 			position.y = sprite->posY;
 
 			sprite->draw(position, view, projection);
+			
+
 		}
 	}
+
+	glm::vec2 resolution{ 1280,720 };
+	glm::vec3 lightPos{ 300.f, 300.f, 0.0f };
+	glm::vec3 fallOff{ .4f, 3.f, 20.f };
+	glm::vec4 lightColor{ 1.f, 0.8f, 0.6f, 1.f };
+	glm::vec4 ambientColor{ 0.6f, 0.6f, 1.f, 0.2f };
+
+	shaders[2]->setVector2f(resolution, "Resolution");
+	shaders[2]->setVector3f(lightPos, "LightPos");
+	shaders[2]->setVector3f(fallOff, "FallOff");
+	shaders[2]->setVector4f(lightColor, "LightColor");
+	shaders[2]->setVector4f(ambientColor, "AmbientColor");
+
+	glm::vec2 position;
+	position.x = test->posX;
+	position.y = test->posY;
+	test->draw(position, view, projection);
+
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
@@ -141,6 +154,7 @@ void GraphicsSystem::loadShaders()
 {
 	shaders.push_back(new Shader("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/normalShader.vert", "Resources/Shaders/normalShader.frag"));
+	shaders.push_back(new Shader("Resources/Shaders/2d_shader.vert", "Resources/Shaders/2d_shader.frag"));
 }
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const
