@@ -21,8 +21,8 @@ uniform vec4 AmbientColor;    //ambient RGBA -- alpha is intensity
 
 void main()
 {
-	float NormalMapIntensity = 10.0;
-	float Radius = 200.0;
+	float NormalMapIntensity = 100.0;
+	float Radius = 1500.0;
 
 	//RGBA of our diffuse color
 	vec4 DiffuseColor = texture2D(diffuseMap, vs_texcoord);
@@ -34,7 +34,7 @@ void main()
 	vec3 LightDir = vec3(vec3(LightPos.xy, NormalMapIntensity) - vec3(vs_position, 0.0));
 	
 	//Correct for aspect ratio
-	// LightDir.x *= Resolution.x / Resolution.y;
+	 LightDir.x *= Resolution.x / Resolution.y;
 	
 	//Determine distance (used for attenuation) BEFORE we normalize our LightDir
 	float D = length(LightDir.xy);
@@ -57,15 +57,17 @@ void main()
 	float fall = 1.0 - (D / Radius);
 
 	float diff = max(dot(N,L), 0.0);
+
+	vec3 diffuse = diff * DiffuseColor.rgb;
 	
-	
+	//smoothstep(0.0, 1.0, fall)
 
 	//the calculation which brings it all together
 	vec3 Intensity = Ambient + Diffuse * Attenuation;
 	vec3 FinalColor = DiffuseColor.rgb * Intensity;
 	//fragColor = vec4(FinalColor, 1.0f);
 
-	fragColor = vec4(clamp(DiffuseColor.rgb * diff * smoothstep(0.0, 1.0, fall), 0.0, 1.0), 1.0f);
+	fragColor = vec4((Ambient + diffuse) * fall, 1.0f);
 
 
 	//fragColor = mix(texture2D(normalMap, vs_texcoord), texture2D(diffuseMap, vs_texcoord), 3.f);
