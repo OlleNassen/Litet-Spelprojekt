@@ -241,7 +241,7 @@ float EventSystem::getAxisPosition(unsigned int joystick, sf::Joystick::Axis axi
 }
 
 void EventSystem::updateMouse()
-{
+{	
 	sf::Vector2i newPosition = sf::Mouse::getPosition();	
 	sf::Vector2i position = newPosition - mousePosition;
 	mousePosition = newPosition;

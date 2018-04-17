@@ -171,7 +171,7 @@ int GraphicsSystem::reloadTile(lua_State * luaState)
 	int index = lua_tointeger(luaState, -3);
 	int tile = lua_tointeger(luaState, -2);
 
-	if (index > 1)
+	if (index + 2 > 1 && index < ptr->tileMap.size() - 2)
 	{ 
 		ptr->tileMap.at(index + 2) = tile;
 	}
