@@ -6,6 +6,8 @@ in vec2 vs_normal;
 in vec2 vs_texcoord;
 in vec3 vs_color;
 
+out vec4 fragColor;
+
 //our texture samplers
 uniform sampler2D diffuseMap;   //diffuse map
 uniform sampler2D normalMap;   //normal map
@@ -46,10 +48,13 @@ void main()
 	vec3 Ambient = AmbientColor.rgb * AmbientColor.a;
 	
 	//calculate attenuation
-	float Attenuation = 1.0 / ( Falloff.x + (Falloff.y*D) + (Falloff.z*D*D) );
+	float Attenuation = 1.0 / ((Falloff.x) + (Falloff.y*D) + (Falloff.z*D*D));
 	
 	//the calculation which brings it all together
 	vec3 Intensity = Ambient + Diffuse * Attenuation;
 	vec3 FinalColor = DiffuseColor.rgb * Intensity;
-	gl_FragColor = vec4(FinalColor, DiffuseColor.a);
+
+	fragColor = vec4(FinalColor, DiffuseColor.a);
+
+	//fragColor = mix(texture2D(normalMap, vs_texcoord), texture2D(diffuseMap, vs_texcoord), 3.f);
 }
