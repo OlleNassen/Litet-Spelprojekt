@@ -27,6 +27,9 @@ s.normalMap = newTexture("Resources/Sprites/mouseNormal.png")
 s.sprite = newSprite(s.normalMap, s.texture)
 s:addWorld(level)
 
+local e = {}
+local nrOfEntitys = 0
+
 local tileType = 0
 
 function moveUp(direction, deltaTime)
@@ -53,17 +56,16 @@ function mouseLeft()
 	local position = {x, y}
 	position.x = math.floor((p.x + mX) / 48)
 	position.y = math.floor((p.y + mY) / 48)
-	
-	--print(((p.x + mX) / 48), ((p.y + mY) / 48))
-	--print(position.x, position.y)
 
 	local index = position.y * level.map.width + position.x
-	--print(index + 1)
 	local tile  = level.map.tiles[index + 1]
 
+	--[[if tileType == 5 then
+		addEntity()
+	else]]
 	if tile ~= tileType then
 		level.map.tiles[index + 1] = tileType
-		reloadTile(index, tileType)
+		reloadTile(index, tileType)	
 	end
 
 end
@@ -90,6 +92,10 @@ end
 
 function key3()
 	tileType = 2	
+end
+
+function key4()
+	tileType = 3	
 end
 
 function save()
@@ -191,4 +197,13 @@ function load()
 	else
 		print("File not found")
 	end]]
+end
+
+function addEntity()
+	nrOfEntitys = nrOfEntitys + 1
+	e[nrOfEntitys] = Entity:create()
+	e[nrOfEntitys].texture = newTexture("Resources/Sprites/goomba.png")
+	e[nrOfEntitys].sprite = newSprite(e[1].texture)
+	e[nrOfEntitys]:addWorld(level)
+	e[nrOfEntitys]:setPosition(p.x + mX, p.y + mY)
 end
