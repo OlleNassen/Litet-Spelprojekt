@@ -38,6 +38,7 @@ public:
 
 	void addLuaFunctions(lua_State* luaState);
 	sf::Vector2f getPlayerPos() const;
+	sf::Vector2f getPixie() const;
 private:
 	void loadShaders();
 	

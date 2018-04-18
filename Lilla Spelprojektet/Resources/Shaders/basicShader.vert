@@ -1,7 +1,7 @@
 #version 440
 
-layout (location = 0) in vec2 vertex_position;
-layout (location = 2) in vec2 vertex_texcoord;
+in vec2 vertex_position;
+in vec2 vertex_texcoord;
 
 out vec2 vs_position;
 out vec2 vs_texcoord;

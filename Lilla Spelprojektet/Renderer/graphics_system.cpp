@@ -7,9 +7,11 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 
 	loadShaders();
 
-	textures.push_back(new Texture2D("Resources/Sprites/background2.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
 
-	background = new Sprite(shaders[1], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
+
+	background = new Sprite(shaders[1], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -41,13 +43,15 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	{
 		for (auto& sprite : sprites[sprites.size() - 1])
 		{
-			glm::vec3 LightPos{ getPlayerPos().x + (48 / 2), getPlayerPos().y - 48.f, 0.075f };
-			glm::vec4 LightColor{ 1.f, 0.8f, 0.6f, 1.f };
-			glm::vec4 AmbientColor{ 0.6f, 0.6f, 1.f, 0.2f };
+			//glm::vec3 lightPos{ getPlayerPos().x + (48 / 2), getPlayerPos().y - 48.f, 0.075f };
+			glm::vec3 lightPos{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
 
-			shaders[1]->setVector3f(LightPos, "LightPos");
-			shaders[1]->setVector4f(LightColor, "LightColor");
-			shaders[1]->setVector4f(AmbientColor, "AmbientColor");
+			//glm::vec3 lightPos{ WIDTH, 0, 0.075f };
+
+			glm::vec4 lightColor{ 0.2f, 0.2f, 0.8f, 0.f };
+
+			shaders[1]->setVector3f(lightPos, "lightPos");
+			shaders[1]->setVector4f(lightColor, "lightColor");
 
 			glm::vec2 position;
 			position.x = sprite->posX;
@@ -141,6 +145,18 @@ sf::Vector2f GraphicsSystem::getPlayerPos() const
 		vec = sf::Vector2f(sprites[sprites.size() - 1][0]->posX, sprites[sprites.size() - 1][0]->posY);
 	}
 	
+	return vec;
+}
+
+sf::Vector2f GraphicsSystem::getPixie() const
+{
+	sf::Vector2f vec(0, 0);
+
+	if (sprites[sprites.size() - 1].size() > 0)
+	{
+		vec = sf::Vector2f(sprites[sprites.size() - 1][1]->posX, sprites[sprites.size() - 1][1]->posY);
+	}
+
 	return vec;
 }
 
