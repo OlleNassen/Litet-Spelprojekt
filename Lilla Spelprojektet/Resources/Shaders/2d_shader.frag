@@ -11,47 +11,41 @@ uniform sampler2D diffuseMap;   //diffuse map
 uniform sampler2D normalMap;   //normal map
 
 //values used for shading algorithm...
-uniform vec3 LightPos;        //light position, normalized
-uniform vec4 LightColor;      //light RGBA -- alpha is intensity
-uniform vec4 AmbientColor;    //ambient RGBA -- alpha is intensity 
+uniform vec3 lightPos;        //light position, normalized
+uniform vec4 lightColor;      //light RGBA -- alpha is intensity
 
 void main()
 {
-	float NormalMapIntensity = 150.0;
-	float Radius = 1000.0;
+	float normalMapIntensity = 150.0;
+	float radius = 1000.0;
+	vec4 ambientColor =  vec4(0.3, 0.3, 0.3, 0.3);
 
 	//RGBA of our diffuse color
-	vec4 DiffuseColor = texture2D(diffuseMap, vs_texcoord);
+	vec4 diffuseColor = texture2D(diffuseMap, vs_texcoord);
 	
 	//RGB of our normal map
-	vec3 NormalMap = texture2D(normalMap, vs_texcoord).rgb;
+	vec3 normalColor = texture2D(normalMap, vs_texcoord).rgb;
 	
-	//The delta position of light
-	vec3 LightDir = vec3(vec3(LightPos.xy, NormalMapIntensity) - vec3(vs_position, 0.0));
+	vec3 lightDir = vec3(vec3(lightPos.xy, normalMapIntensity) - vec3(vs_position, 0.0));
 	
 	//Determine distance (used for attenuation) BEFORE we normalize our LightDir
-	float D = length(LightDir.xy);
+	float D = length(lightDir.xy);
 	
 	//normalize our vectors
-	vec3 N = normalize(NormalMap * 2.0 - 1.0);
-	//N.g = N.g * -1;
-	vec3 L = normalize(LightDir);
-	
-	//Pre-multiply light color with intensity
-	//Then perform "N dot L" to determine our diffuse term
-	//vec3 Diffuse = (LightColor.rgb * LightColor.a) * max(dot(N, L), 0.0);
+	vec3 N = normalize(normalColor * 2.0 - 1.0);
+	vec3 L = normalize(lightDir);
 
-	//pre-multiply ambient color with intensity
-	vec3 Ambient = AmbientColor.rgb * AmbientColor.a;
+	vec3 ambient = ambientColor.rgb * ambientColor.a;
 	
-	float fall = 1.0 - (D / Radius);
+	//attenuation
+	float fall = 1.0 - (D / radius);
 
 	float diff = max(dot(N,L), 0.0);
 
-	vec3 diffuse = diff * DiffuseColor.rgb;
+	vec3 diffuse = diff * (lightColor.rgb + diffuseColor.rgb);
 	
 	//smoothstep(0.0, 1.0, fall)
 
-	fragColor = vec4((Ambient + diffuse) * fall, 1.0f);
+	fragColor = vec4(((ambient + diffuse) * fall), diffuseColor.a);
 
 }

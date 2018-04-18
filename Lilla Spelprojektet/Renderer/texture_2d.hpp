@@ -102,10 +102,10 @@ public:
 		glBindTexture(target, 0);
 	}
 
-	inline void bind(GLenum target = GL_TEXTURE_2D, GLenum unit = GL_TEXTURE0)
+	inline void bind(unsigned int index)
 	{
-		glActiveTexture(unit);
-		glBindTexture(target, this->texture);
+		glActiveTexture(GL_TEXTURE0 + index);
+		glBindTexture(GL_TEXTURE_2D, this->texture);
 	}
 
 	inline void unbind(GLenum target = GL_TEXTURE_2D)
