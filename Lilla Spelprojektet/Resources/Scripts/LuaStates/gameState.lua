@@ -1,13 +1,13 @@
 require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
-require("Resources/Scripts/tilemap1")
+require("Resources/Scripts/tilemap2")
 
 function quit()
 	pop()
 end
 
 local level = World:create()
-level:addMap(tilemap1)
+level:addMap(tilemap2)
 level:loadGraphics()
 
 isJumping = false
