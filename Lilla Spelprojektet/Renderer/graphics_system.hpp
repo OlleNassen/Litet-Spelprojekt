@@ -61,5 +61,7 @@ private:
 	static int spritepos(lua_State* luaState);
 
 	static int newtiletexture(lua_State* luaState);
+
+	static int clearTileMap(lua_State* luaState);
 };
 
