@@ -6,19 +6,10 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 	addVector(luaStateVector);
 
 	loadShaders();
-	/*tileTextures.push_back(new Texture2D("Resources/Sprites/brickwall.png"));
-	tileTextures.push_back(new Texture2D("Resources/Sprites/brickwall_normal.png"));
-
-	tileTextures.push_back(new Texture2D("Resources/Sprites/IronBlockDiffuse.png"));
-	tileTextures.push_back(new Texture2D("Resources/Sprites/ironBlockSoloNormal.png"));
-
-	tiles.push_back(new Sprite(shaders[0], tileTextures[0], tileTextures[0]));
-	tiles.push_back(new Sprite(shaders[1], tileTextures[2], tileTextures[3]));*/
 
 	textures.push_back(new Texture2D("Resources/Sprites/background2.png"));
 
-
-	background = new Sprite(shaders[2], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
+	background = new Sprite(shaders[0], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -56,9 +47,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 			glm::vec4 LightColor{ 1.f, 0.8f, 0.6f, 1.f };
 			glm::vec4 AmbientColor{ 0.6f, 0.6f, 1.f, 0.2f };
 
-			shaders[2]->setVector2f(Resolution, "Resolution");
 			shaders[2]->setVector3f(LightPos, "LightPos");
-			shaders[2]->setVector3f(Falloff, "Falloff");
 			shaders[2]->setVector4f(LightColor, "LightColor");
 			shaders[2]->setVector4f(AmbientColor, "AmbientColor");
 

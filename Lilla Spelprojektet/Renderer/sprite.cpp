@@ -10,6 +10,7 @@ Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const g
 	this->texture = texture;
 	this->shader = shader;
 	this->normalMap = normalMap;
+
 	initSprite();
 
 	this->size.x = size.x;

@@ -4,6 +4,23 @@
 #include "../Renderer/graphics_system.hpp"
 #include "camera.hpp"
 
+struct State
+{
+	lua_State* luaState;
+	GraphicsSystem* graphicsSystem;
+	/*
+	State()
+	{
+
+	}
+	~State()
+	{
+		delete this->luaState;
+		delete this->graphicsSystem;
+	}
+	*/
+};
+
 typedef std::vector<lua_State*> LuaVector;
 
 class Game
