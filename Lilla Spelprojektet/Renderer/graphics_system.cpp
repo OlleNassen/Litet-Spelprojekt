@@ -9,7 +9,7 @@ GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 
 	textures.push_back(new Texture2D("Resources/Sprites/background2.png"));
 
-	background = new Sprite(shaders[0], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
+	background = new Sprite(shaders[1], textures[0], nullptr, glm::vec2(WIDTH, HEIGHT));
 }
 
 GraphicsSystem::~GraphicsSystem()
