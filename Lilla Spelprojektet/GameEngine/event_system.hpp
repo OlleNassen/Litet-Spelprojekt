@@ -3,6 +3,7 @@
 #include <SFML/Window/Event.hpp>
 #include <vector>
 struct lua_State;
+class State;
 
 /** Class for handling events, converting them to game inputs 
 and sending them to the current lua state*/
@@ -13,7 +14,7 @@ public:
 	virtual ~EventSystem();
 
 	/** Adds vector of lua states */
-	void addVector(std::vector<lua_State*>* vector);
+	void addVector(std::vector<State>* vector);
 	
 	/** Adds function 'bool rebind("input", isOpposite)' to lua state */
 	void addLuaRebind(lua_State* luaState); 
@@ -28,7 +29,7 @@ private:
 	/** Temporary lua state */
 	lua_State* luaState; 
 	
-	std::vector<lua_State*>* luaVector;
+	std::vector<State>* luaVector;
 		
 	/** Returns if specific asxis is move above threshold */
 	float getAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const; 	

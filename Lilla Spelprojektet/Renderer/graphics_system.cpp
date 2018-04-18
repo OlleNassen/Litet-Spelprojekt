@@ -8,10 +8,8 @@
 #define WIDTH 1280
 #define HEIGHT 720
 
-GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
+GraphicsSystem::GraphicsSystem(lua_State* luaState)
 {
-	addVector(luaStateVector);
-
 	loadShaders();
 
 	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
@@ -28,7 +26,7 @@ GraphicsSystem::~GraphicsSystem()
 		delete tile;
 	}
 
-	for (auto& player : sprites[sprites.size() - 1])
+	for (auto& player : sprites)
 	{
 		delete player;
 	}
@@ -46,9 +44,9 @@ GraphicsSystem::~GraphicsSystem()
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
 {
-	if (sprites.size() > 0 && sprites[sprites.size() - 1].size() > 0)
+	if (sprites.size() > 0)
 	{
-		for (auto& sprite : sprites[sprites.size() - 1])
+		for (auto& sprite : sprites)
 		{
 			//glm::vec3 lightPos{ getPlayerPos().x + (48 / 2), getPlayerPos().y - 48.f, 0.075f };
 			glm::vec3 lightPos{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
@@ -117,26 +115,6 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 	lua_setglobal(luaState, "clearTileMap");
 }
 
-void GraphicsSystem::pushSpriteVector()
-{
- 	sprites.push_back(std::vector<Sprite*>());
-}
-void GraphicsSystem::popSpriteVector()
-{
-	for (auto& player : sprites[sprites.size() - 1])
-	{
-		delete player;
-	}
-	sprites.pop_back();
-
-	tileMap.clear();
-}
-
-void GraphicsSystem::addVector(std::vector<lua_State*>* vector)
-{
-	luaVector = vector;
-}
-
 void GraphicsSystem::loadShaders()
 {
 	shaders.push_back(new Shader("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag"));
@@ -147,9 +125,9 @@ sf::Vector2f GraphicsSystem::getPlayerPos() const
 {
 	sf::Vector2f vec(0, 0);
 
-	if (sprites[sprites.size() - 1].size() > 0)
+	if (sprites.size() > 0)
 	{
-		vec = sf::Vector2f(sprites[sprites.size() - 1][0]->posX, sprites[sprites.size() - 1][0]->posY);
+		vec = sf::Vector2f(sprites[0]->posX, sprites[0]->posY);
 	}
 	
 	return vec;
@@ -159,9 +137,9 @@ sf::Vector2f GraphicsSystem::getPixie() const
 {
 	sf::Vector2f vec(0, 0);
 
-	if (sprites[sprites.size() - 1].size() > 0)
+	if (sprites.size() > 0)
 	{
-		vec = sf::Vector2f(sprites[sprites.size() - 1][1]->posX, sprites[sprites.size() - 1][1]->posY);
+		vec = sf::Vector2f(sprites[1]->posX, sprites[1]->posY);
 	}
 
 	return vec;
@@ -222,18 +200,18 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 	
 	if (normalMap)
 	{
-		ptr->sprites[ptr->sprites.size() - 1].push_back(
+		ptr->sprites.push_back(
 			new Sprite(ptr->shaders[1], ptr->textures[*texture], 
 				ptr->textures[*normalMap], glm::vec2(x, y)));
 	}
 	else
 	{
-		ptr->sprites[ptr->sprites.size() - 1].push_back(
+		ptr->sprites.push_back(
 			new Sprite(ptr->shaders[0], ptr->textures[*texture], 
 				nullptr, glm::vec2(x, y)));
 	}
 	
-	*id = ptr->sprites[ptr->sprites.size() - 1].size() - 1;
+	*id = ptr->sprites.size() - 1;
 	return 1;
 }
 
@@ -245,8 +223,8 @@ int GraphicsSystem::spritepos(lua_State* luaState)
 	float x = lua_tonumber(luaState, -3);
 	int* id = (int*)lua_touserdata(luaState, -4);
 
-	ptr->sprites[ptr->sprites.size() - 1][*id]->posX = x;
-	ptr->sprites[ptr->sprites.size() - 1][*id]->posY = y;
+	ptr->sprites[*id]->posX = x;
+	ptr->sprites[*id]->posY = y;
 	
 	return 0;
 }

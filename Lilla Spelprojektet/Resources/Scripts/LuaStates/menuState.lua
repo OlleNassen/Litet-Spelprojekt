@@ -47,4 +47,6 @@ function selectEditor(direction, deltaTime)
 end
 
 function update(deltaTime)
+	push("Resources/Scripts/LuaStates/gameState.lua")
+
 end
