@@ -1,5 +1,12 @@
 #include "graphics_system.hpp"
+#include"Shader.hpp"
+#include "texture_2d.hpp"
+#include "sprite.hpp"
+#include <lua.hpp>
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
+
+#define WIDTH 1280
+#define HEIGHT 720
 
 GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 {
@@ -105,6 +112,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, newtiletexture);
 	lua_setglobal(luaState, "tileTexture");
+
+	lua_pushcfunction(luaState, clearTileMap);
+	lua_setglobal(luaState, "clearTileMap");
 }
 
 void GraphicsSystem::pushSpriteVector()
@@ -209,8 +219,20 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
-
-	ptr->sprites[ptr->sprites.size() - 1].push_back(new Sprite(ptr->shaders[1], ptr->textures[*texture], normalMap ? ptr->textures[*normalMap] : nullptr, glm::vec2(x, y)));
+	
+	if (normalMap)
+	{
+		ptr->sprites[ptr->sprites.size() - 1].push_back(
+			new Sprite(ptr->shaders[1], ptr->textures[*texture], 
+				ptr->textures[*normalMap], glm::vec2(x, y)));
+	}
+	else
+	{
+		ptr->sprites[ptr->sprites.size() - 1].push_back(
+			new Sprite(ptr->shaders[0], ptr->textures[*texture], 
+				nullptr, glm::vec2(x, y)));
+	}
+	
 	*id = ptr->sprites[ptr->sprites.size() - 1].size() - 1;
 	return 1;
 }
@@ -241,6 +263,17 @@ int GraphicsSystem::newtiletexture(lua_State* luaState)
 	ptr->tileTextures.push_back(new Texture2D(filePath2));
 	ptr->tiles.push_back(new Sprite(ptr->shaders[1], ptr->tileTextures[ptr->tileTextures.size()-2], ptr->tileTextures[ptr->tileTextures.size() - 1]));
 
+	return 0;
+}
+
+int GraphicsSystem::clearTileMap(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	lua_pop(luaState, 1);
+
+	//ptr->tileTextures.clear();
+	ptr->tileMap.clear();
 	return 0;
 }
 

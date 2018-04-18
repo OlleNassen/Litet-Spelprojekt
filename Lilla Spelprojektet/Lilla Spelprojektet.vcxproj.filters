@@ -41,9 +41,6 @@
     <ClInclude Include="GameEngine\libs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngine\game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

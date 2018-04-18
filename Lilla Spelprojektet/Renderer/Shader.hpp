@@ -1,6 +1,15 @@
 #pragma once
+#include<iostream>
+#include<fstream>
+#include<string>
 
-#include "../libs.h"
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
+
+#include"GL/glew.h"
+#include"SFML/OpenGL.hpp"
+
 
 class Shader
 {

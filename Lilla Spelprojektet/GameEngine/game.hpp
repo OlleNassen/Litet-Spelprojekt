@@ -1,8 +1,14 @@
 #pragma once
-#include "../libs.h"
 #include "event_system.hpp"
-#include "../Renderer/graphics_system.hpp"
-#include "camera.hpp"
+
+namespace sf
+{
+	class Window;
+};
+
+struct lua_State;
+class GraphicsSystem;
+class Camera;
 
 struct State
 {

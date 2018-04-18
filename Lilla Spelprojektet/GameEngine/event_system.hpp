@@ -1,9 +1,8 @@
-#ifndef EVENTSYSTEM_HPP
-#define EVENTSYSTEM_HPP
+#pragma once
 
 #include <SFML/Window/Event.hpp>
-#include <lua.hpp>
 #include <vector>
+struct lua_State;
 
 /** Class for handling events, converting them to game inputs 
 and sending them to the current lua state*/
@@ -39,6 +38,4 @@ private:
 	 /** Current mouse position */
 	sf::Vector2i mousePosition;
 };
-
-#endif // EVENTSYSTEM_HPP
 

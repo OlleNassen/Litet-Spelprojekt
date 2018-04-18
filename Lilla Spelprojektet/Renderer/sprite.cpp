@@ -1,4 +1,8 @@
 #include "sprite.hpp"
+#include "texture_2d.hpp"
+#include "shader.hpp"
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const glm::vec2& size)
@@ -9,6 +13,7 @@ Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const g
 
 	this->texture = texture;
 	this->shader = shader;
+
 	this->normalMap = normalMap;
 
 	initSprite();
@@ -74,7 +79,7 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 		shader->setInt(0, "diffuseMap");
 		shader->setInt(1, "normalMap");
 	}
-
+	static int test = 0;
 	this->shader->setMatrix4fv(model, "model");
 	this->shader->setMatrix4fv(view, "view");
 	this->shader->setMatrix4fv(projection, "projection");
@@ -84,6 +89,7 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 	if (this->normalMap == nullptr)
 	{
 		texture->bind(0);
+
 	}
 	else //Fix texture class and avoid this
 	{

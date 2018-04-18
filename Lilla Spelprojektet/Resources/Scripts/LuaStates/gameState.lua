@@ -39,8 +39,8 @@ local p = Entity:create() -- player
 p.x = 50
 p.y = 50
 p.speed = 200
-p.texture = newTexture("Resources/Sprites/pyramid_diffuse.png")
-p.normalMap = newTexture("Resources/Sprites/pyramid_normal.png")
+p.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
+p.normalMap = newTexture("Resources/Sprites/Player/playerNormal.png")
 p.sprite = newSprite(p.normalMap, p.texture)
 p:addWorld(level)
 
@@ -50,7 +50,7 @@ s.x = 200
 s.y = 100
 s.speed = 200
 s.texture = newTexture("Resources/Sprites/player.png")
-s.sprite = newSprite(0, s.texture)
+s.sprite = newSprite(s.texture)
 s:addWorld(level)
 
 

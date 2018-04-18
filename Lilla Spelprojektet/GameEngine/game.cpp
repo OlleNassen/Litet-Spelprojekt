@@ -1,4 +1,11 @@
 #include "game.hpp"
+#include <lua.hpp>
+#include <SFML/Window/Window.hpp>
+#include "../Renderer/graphics_system.hpp"
+#include "camera.hpp"
+
+#define WIDTH 1280
+#define HEIGHT 720
 
 Game::Game()
 {
@@ -73,6 +80,8 @@ void Game::run()
 			graphicsSystem->popSpriteVector();
 			wantPop = false;
 		}
+
+		glClearColor(0.0, 0.0, 0.0, 0.0);
 	}
 		
 	// release resources...
@@ -171,8 +180,10 @@ void Game::initWindow()
 		std::cout << "ERROR::GAME::GLEW_INIT_FAILED" << "\n";
 	}
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); glEnable(GL_BLEND);
+
 	//Set clearing color to red
-	glClearColor(1, 0, 0, 1);
+	glClearColor(0.0,0.0,0.0,0.0);
 }
 
 void Game::addLuaLibraries(lua_State* luaState)

@@ -30,7 +30,10 @@ function World:loadGraphics()
 	for k, v in pairs(self.map.tiles) do
 		loadTileGraphics(v)
 	end
-	
+end
+
+function World:emptyMap()
+	clearTileMap()
 end
 
 function World:canMove(newX, newY)
