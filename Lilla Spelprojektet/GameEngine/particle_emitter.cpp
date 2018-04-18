@@ -1,4 +1,6 @@
 #include "particle_emitter.hpp"
+#include"../Renderer/sprite.hpp"
+#include"../Renderer/shader.hpp"
 
 //Static variables
 

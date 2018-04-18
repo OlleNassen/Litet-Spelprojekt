@@ -18,8 +18,7 @@ Game::Game()
 	//Get width and height from lua
 	camera = new Camera(WIDTH, HEIGHT);
 
-	graphicsSystem = new GraphicsSystem(&luaVector);
-	eventSystem.addVector(&luaVector);
+	eventSystem.addVector(&states);
 
 	//Initializes and starts lua
 	lua_State* L = luaL_newstate();
@@ -41,7 +40,6 @@ Game::Game()
 Game::~Game()
 {
 	delete this->camera;
-	delete this->graphicsSystem;
 	delete this->window;
 }
 
@@ -50,7 +48,7 @@ void Game::run()
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-	while (!luaVector.empty() && !wantClear)
+	while (!states.empty() && !wantClear)
 	{
 		handleEvents();
 		sf::Time dt = clock.restart();
@@ -75,9 +73,9 @@ void Game::run()
 
 		if (wantPop)
 		{
-			lua_close(luaVector.back());
-			luaVector.pop_back();
-			graphicsSystem->popSpriteVector();
+			lua_close(states.back().luaState);
+			delete states.back().graphicsSystem;
+			states.pop_back();
 			wantPop = false;
 		}
 
@@ -122,7 +120,7 @@ void Game::handleEvents()
 
 LuaVector* Game::getVector()
 {
-	return &luaVector;
+	return &states;
 }
 
 void Game::update(float deltaTime)
@@ -131,9 +129,9 @@ void Game::update(float deltaTime)
 	
 	bool stopUpdate = false;
 	
-	for (int id = luaVector.size() - 1; id >= 0 && !stopUpdate; id--)
+	for (int id = states.size() - 1; id >= 0 && !stopUpdate; id--)
 	{
-		lua_State* luaState = luaVector[id];
+		lua_State* luaState = states[id].luaState;
 		
 		/* push functions and arguments */
 		lua_getglobal(luaState, "update");  /* function to be called */
@@ -145,15 +143,15 @@ void Game::update(float deltaTime)
 	}
 
 
-	camera->setPosition(graphicsSystem->getPlayerPos());
+	camera->setPosition(states.back().graphicsSystem->getPlayerPos());
 
 }
 
 
 void Game::draw()
 {
-	graphicsSystem->drawTiles(camera->getView(), camera->getProjection());
-	graphicsSystem->drawSprites(camera->getView(), camera->getProjection());
+	states.back().graphicsSystem->drawTiles(camera->getView(), camera->getProjection());
+	states.back().graphicsSystem->drawSprites(camera->getView(), camera->getProjection());
 }
 
 void Game::initWindow()
@@ -180,7 +178,8 @@ void Game::initWindow()
 		std::cout << "ERROR::GAME::GLEW_INIT_FAILED" << "\n";
 	}
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
 	//Set clearing color to red
 	glClearColor(0.0,0.0,0.0,0.0);
@@ -204,8 +203,6 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_setglobal(luaState, "clear");
 
 	eventSystem.addLuaRebind(luaState);
-	graphicsSystem->addLuaFunctions(luaState);
-	graphicsSystem->pushSpriteVector();
 }
 
 int Game::push(lua_State* luaState)
@@ -219,13 +216,18 @@ int Game::push(lua_State* luaState)
 	luaL_openlibs(newLua);
 	game->addLuaLibraries(newLua);
 
+	State newState;
+	newState.luaState = newLua;
+	newState.graphicsSystem = new GraphicsSystem(newLua);
+	newState.graphicsSystem->addLuaFunctions(newLua);
+
 	if (luaL_loadfile(newLua, name) || lua_pcall(newLua, 0, 0, 0))
 	{
 		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(newLua, -1));
 
 	}
-
-	ptr->push_back(newLua);
+	
+	ptr->push_back(newState);
 
 	return 0;
 }

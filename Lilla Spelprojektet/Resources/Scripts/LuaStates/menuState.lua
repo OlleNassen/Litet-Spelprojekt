@@ -47,4 +47,5 @@ function selectEditor(direction, deltaTime)
 end
 
 function update(deltaTime)
+
 end

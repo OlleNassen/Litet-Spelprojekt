@@ -87,7 +87,6 @@ function mouse(x, y)
 end
 
 function update(deltaTime)
-	
 	if isJumping then
 		
 		timeSinceJump = timeSinceJump + deltaTime

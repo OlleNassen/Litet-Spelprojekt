@@ -1,5 +1,6 @@
 #include "event_system.hpp"
 #include <lua.hpp>
+#include "game.hpp"
 
 #define REGISTER_ENUM(x) x,
 /** Enum with all available inputs */
@@ -144,7 +145,7 @@ EventSystem::~EventSystem()
 	
 }
 
-void EventSystem::addVector(std::vector<lua_State*>* vector)
+void EventSystem::addVector(std::vector<State>* vector)
 {
 	luaVector = vector;
 }
@@ -197,7 +198,7 @@ void EventSystem::setEvent(sf::Event currentEvent)
 
 void EventSystem::update(float deltaTime)
 {
-	luaState = luaVector->back();
+	luaState = luaVector->back().luaState;
 	
 	for (unsigned int id = 0; id < InputEnum::inputCount; id++)
 	{

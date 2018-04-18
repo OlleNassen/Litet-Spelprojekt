@@ -14,20 +14,10 @@ struct State
 {
 	lua_State* luaState;
 	GraphicsSystem* graphicsSystem;
-	/*
-	State()
-	{
 
-	}
-	~State()
-	{
-		delete this->luaState;
-		delete this->graphicsSystem;
-	}
-	*/
 };
 
-typedef std::vector<lua_State*> LuaVector;
+typedef std::vector<State> LuaVector;
 
 class Game
 {
@@ -35,10 +25,9 @@ private:
 	bool wantPop;
 	bool wantClear;
 	sf::Window* window;
-	LuaVector luaVector;
 	EventSystem eventSystem;
-	GraphicsSystem* graphicsSystem;
 	Camera* camera;
+	std::vector<State> states;
 
 public:
 	Game();

@@ -4,7 +4,6 @@
 #include "sprite.hpp"
 
 #include<vector>
-#include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 
@@ -25,24 +24,20 @@ struct PointLight
 class GraphicsSystem
 {
 private:
+	lua_State * luaState;
 	std::vector<int> tileMap;
 	std::vector<Texture2D*> tileTextures;
 	std::vector<Sprite*> tiles;
 	Sprite* background;
 
-	std::vector<lua_State*>* luaVector;
-
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
-	std::vector<std::vector<Sprite*>> sprites;
+	std::vector<Sprite*> sprites;
 	std::vector<PointLight*>lights;
 
 public:
-	GraphicsSystem(std::vector<lua_State*>* luaStateVector);
+	GraphicsSystem(lua_State* luaState);
 	~GraphicsSystem();
-	void pushSpriteVector();
-	void popSpriteVector();
-	void addVector(std::vector<lua_State*>* vector);
 
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
