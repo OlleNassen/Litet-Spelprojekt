@@ -159,7 +159,11 @@ public:
 
 	inline void setVector4f(glm::vec4 value, const GLchar* name)
 	{
+		this->use();
+
 		glUniform4fv(glGetUniformLocation(this->id, name), 1, glm::value_ptr(value));
+
+		this->unuse();
 	}
 
 	inline void setVector3f(glm::vec3 value, const GLchar* name)
@@ -173,7 +177,9 @@ public:
 
 	inline void setVector2f(glm::vec2 value, const GLchar* name)
 	{
+		this->use();
 		glUniform2fv(glGetUniformLocation(this->id, name), 1, glm::value_ptr(value));
+		this->unuse();
 	}
 
 };

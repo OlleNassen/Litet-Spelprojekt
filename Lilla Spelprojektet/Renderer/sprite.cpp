@@ -63,7 +63,6 @@ void Sprite::initSprite()
 
 void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::mat4& projection)
 {
-
 	update(position);
 
 	if (this->normalMap == nullptr)
@@ -84,14 +83,12 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 
 	if (this->normalMap == nullptr)
 	{
-		texture->bind();
+		texture->bind(0);
 	}
 	else //Fix texture class and avoid this
 	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture->getTexture());
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, normalMap->getTexture());
+		texture->bind(0);
+		normalMap->bind(1);
 	}
 
 	glBindVertexArray(this->quadVAO);

@@ -12,8 +12,8 @@ level:loadGraphics()
 
 local p = Entity:create() -- player
 p.speed = 200
-p.texture = newTexture("Resources/Sprites/brickDiffuse.png")
-p.normalMap = newTexture("Resources/Sprites/brickNormal.png")
+p.texture = newTexture("Resources/Sprites/brick_diffuse.png")
+p.normalMap = newTexture("Resources/Sprites/brick_normal.png")
 p.sprite = newSprite(p.normalMap, p.texture)
 p:addWorld(level)
 p:setPosition(100, 100)
