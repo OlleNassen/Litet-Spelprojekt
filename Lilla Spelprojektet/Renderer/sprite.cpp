@@ -1,8 +1,6 @@
 #include "sprite.hpp"
 #include "texture_2d.hpp"
 #include "shader.hpp"
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const glm::vec2& size)
