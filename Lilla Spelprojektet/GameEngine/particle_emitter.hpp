@@ -1,6 +1,8 @@
 #pragma once
 
-#include"../libs.h"
+#include<vector>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 #include"../Renderer/sprite.hpp"
 #include"../Renderer/shader.hpp"
 
