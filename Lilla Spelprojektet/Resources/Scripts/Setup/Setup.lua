@@ -13,6 +13,7 @@ bindMouse("mouseLeft", mouse.Left, mouse.None)
 bindKeyboard("key1", keyboard.Num1, keyboard.None)
 bindKeyboard("key2", keyboard.Num2, keyboard.None)
 bindKeyboard("key3", keyboard.Num3, keyboard.None)
+bindKeyboard("key4", keyboard.Num4, keyboard.None)
 bindKeyboard("save", keyboard.K, keyboard.None)
 bindKeyboard("load", keyboard.L, keyboard.None)
 
