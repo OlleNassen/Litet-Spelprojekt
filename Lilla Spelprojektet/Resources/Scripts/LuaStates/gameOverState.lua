@@ -1,10 +1,13 @@
 require("Resources/Scripts/Entity")
 
+local p = Entity:create() -- player
+p.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
+
+local cam = newSprite(1, 1, 0, p.texture)
+
+
 local s = Entity:create() 
 s.texture = newTexture("Resources/Sprites/gameover.png")
-
-local cam = newSprite(0, 0, 0, s.texture)
-
 s.sprite = newSprite(1280,720, 0, s.texture)
 s:setPosition(-1280/2, -720/2)
 

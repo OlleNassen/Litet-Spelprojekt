@@ -46,7 +46,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 {
 	if (sprites.size() > 0)
 	{
-		for (auto& sprite : sprites)
+		for (int itr = sprites.size() - 1; itr >= 0; itr--)
 		{
 			//glm::vec3 lightPos{ getPlayerPos().x + (48 / 2), getPlayerPos().y - 48.f, 0.075f };
 			glm::vec3 lightPos{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
@@ -59,10 +59,10 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 			shaders[1]->setVector4f(lightColor, "lightColor");
 
 			glm::vec2 position;
-			position.x = sprite->posX;
-			position.y = sprite->posY;
+			position.x = sprites[itr]->posX;
+			position.y = sprites[itr]->posY;
 
-			sprite->draw(position, view, projection);
+			sprites[itr]->draw(position, view, projection);
 		}
 	}
 

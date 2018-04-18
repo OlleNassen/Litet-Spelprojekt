@@ -1,12 +1,10 @@
 require("Resources/Scripts/Entity")
 
-local s = Entity:create() 
-s.texture = newTexture("Resources/Sprites/menu.png")
+local p = Entity:create() -- player
+p.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
 
-local cam = newSprite(0, 0, 0, s.texture)
 
-s.sprite = newSprite(1280,720, 0, s.texture)
-s:setPosition(-1280/2, -720/2)
+local cam = newSprite(1, 1, 0, p.texture)
 
 
 local play = Entity:create() 
@@ -24,7 +22,10 @@ exit.texture = newTexture("Resources/Sprites/quit.png")
 exit.sprite = newSprite(800,100, 0, exit.texture)
 exit:setPosition(-400,210)
 
-
+local s = Entity:create() 
+s.texture = newTexture("Resources/Sprites/menu.png")
+s.sprite = newSprite(1280,720, 0, s.texture)
+s:setPosition(-1280/2, -720/2)
 
 function moveUp(direction, deltaTime)
 	--p:move(direction * p.speed * deltaTime, 0)

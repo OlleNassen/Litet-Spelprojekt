@@ -47,6 +47,7 @@ void Game::run()
 {	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	float lastTime = 0.f;
 
 	while (!states.empty() && !wantClear)
 	{
@@ -78,6 +79,8 @@ void Game::run()
 			states.pop_back();
 			wantPop = false;
 		}
+
+		
 
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 	}
