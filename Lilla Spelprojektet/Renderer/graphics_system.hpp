@@ -4,6 +4,13 @@
 #include "sprite.hpp"
 #include "../libs.h"
 
+struct PointLight
+{
+	bool status; //On or off
+	glm::vec3 position;
+	glm::vec3 lightColor;
+};
+
 class GraphicsSystem
 {
 private:
@@ -17,7 +24,7 @@ private:
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
 	std::vector<std::vector<Sprite*>> sprites;
-	std::vector<glm::vec3>lights;
+	std::vector<PointLight*>lights;
 
 public:
 	GraphicsSystem(std::vector<lua_State*>* luaStateVector);

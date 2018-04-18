@@ -17,8 +17,8 @@ uniform vec4 AmbientColor;    //ambient RGBA -- alpha is intensity
 
 void main()
 {
-	float NormalMapIntensity = 100.0;
-	float Radius = 1500.0;
+	float NormalMapIntensity = 150.0;
+	float Radius = 1000.0;
 
 	//RGBA of our diffuse color
 	vec4 DiffuseColor = texture2D(diffuseMap, vs_texcoord);
