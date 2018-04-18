@@ -32,7 +32,6 @@
     <ClInclude Include="GameEngine\game.hpp" />
     <ClInclude Include="GameEngine\input.hpp" />
     <ClInclude Include="GameEngine\libs.h" />
-    <ClInclude Include="libs.h" />
     <ClInclude Include="Renderer\shader.hpp" />
     <ClInclude Include="Renderer\sprite.hpp" />
     <ClInclude Include="Renderer\graphics_system.hpp" />

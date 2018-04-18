@@ -1,5 +1,12 @@
 #include "graphics_system.hpp"
+#include"Shader.hpp"
+#include "texture_2d.hpp"
+#include "sprite.hpp"
+#include <lua.hpp>
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
+
+#define WIDTH 1280
+#define HEIGHT 720
 
 GraphicsSystem::GraphicsSystem(std::vector<lua_State*>* luaStateVector)
 {

@@ -1,6 +1,10 @@
 #pragma once
 
-#include"../libs.h"
+#include<iostream>
+#include<string>
+
+#include"GL/glew.h"
+#include"SOIL2.h"
 
 class Texture2D
 {

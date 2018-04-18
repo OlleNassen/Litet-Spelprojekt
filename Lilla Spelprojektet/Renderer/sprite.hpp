@@ -1,7 +1,10 @@
 #pragma once
-#include "../libs.h"
-#include "texture_2d.hpp"
-#include "shader.hpp"
+#include"GL/glew.h"
+
+#include<glm/glm.hpp>
+
+class Shader;
+class Texture2D;
 
 class Sprite
 {

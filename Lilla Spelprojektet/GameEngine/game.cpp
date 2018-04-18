@@ -1,4 +1,11 @@
 #include "game.hpp"
+#include <lua.hpp>
+#include <SFML/Window/Window.hpp>
+#include "../Renderer/graphics_system.hpp"
+#include "camera.hpp"
+
+#define WIDTH 1280
+#define HEIGHT 720
 
 Game::Game()
 {

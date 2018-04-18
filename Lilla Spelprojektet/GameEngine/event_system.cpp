@@ -1,4 +1,5 @@
 #include "event_system.hpp"
+#include <lua.hpp>
 
 #define REGISTER_ENUM(x) x,
 /** Enum with all available inputs */

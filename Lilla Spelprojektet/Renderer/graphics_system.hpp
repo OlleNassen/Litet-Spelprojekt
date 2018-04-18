@@ -2,7 +2,18 @@
 #include"Shader.hpp"
 #include "texture_2d.hpp"
 #include "sprite.hpp"
-#include "../libs.h"
+
+#include<vector>
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
+
+#include<SFML/System/Vector2.hpp>
+
+struct lua_State;
+class Shader;
+class Texture2D;
+class Sprite;
 
 struct PointLight
 {
