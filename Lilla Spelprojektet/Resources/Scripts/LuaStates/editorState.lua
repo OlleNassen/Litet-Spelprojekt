@@ -101,7 +101,8 @@ function save()
 	print("Open successful")
 	
 	--Name
-	file:write(name, " =\n{\n")
+	--file:write(name, " =\n{\n")
+	file:write("tilemap1 =\n{\n")
 
 	--Write texture diffuse
 	file:write("\ttexturesDiffuse =\n\t{\n")
@@ -145,18 +146,43 @@ end
 function load()
 	print("Enter filename. Press 'Enter' to load")
 	local name = io.read("*l")
-	local fileDir = "Resources/Scripts/" .. name .. ".lua"
+	local fileDir = "Resources/Scripts/" .. name
+	-- .. ".lua"
 
-	local file = loadfile(fileDir)	
-	if file then
+	require(fileDir)
+
+	print("Emptying Map")
+	level:emptyMap()
+
+	print("Creating Map")
+	level = World:create()
+
+	print("Adding Map")
+	level:addMap(tilemap1)
+
+	print("Loading Graphics")
+	level:loadGraphics()
+		
+	io.close(file)
+	print("Load successful")
+
+	p:addWorld(level)
+
+	
+	--local file = assert(loadfile(fileDir))
+	--print(file())
+	--[[if file then
 		print("Open successful")
 
 		print("Emptying Map")
 		level:emptyMap()
+
 		print("Creating Map")
 		level = World:create()
+
 		print("Adding Map")
-		level:addMap(name)
+		level:addMap()
+
 		print("Loading Graphics")
 		level:loadGraphics()
 		
@@ -164,5 +190,5 @@ function load()
 		print("Load successful")
 	else
 		print("File not found")
-	end
+	end]]
 end

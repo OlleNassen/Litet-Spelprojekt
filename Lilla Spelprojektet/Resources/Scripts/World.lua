@@ -33,6 +33,7 @@ function World:loadGraphics()
 end
 
 function World:emptyMap()
+	self.map = {}
 	clearTileMap()
 end
 
