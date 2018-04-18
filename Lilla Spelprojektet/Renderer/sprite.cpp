@@ -119,14 +119,14 @@ void Sprite::initSprite()
 	GLuint VBO;
 	//Fix this ugly mess
 	float vertices[] = {
-		// Pos              //Normal     // Tex      // COlor
-		0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 0.0, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		// Pos and texture coordinates
+		0.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, 0.0, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f,
 
-		0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
+		0.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 0.0f, 1.0f, 0.0f
 	};
 
 	glGenVertexArrays(1, &this->quadVAO);
@@ -142,20 +142,12 @@ void Sprite::initSprite()
 
 	//Position
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
-	offset += sizeof(float) * 2;
-	//Normal
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), BUFFER_OFFSET(offset));
 	offset += sizeof(float) * 2;
 	//Texture coordinates
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), BUFFER_OFFSET(offset));
 	offset += sizeof(float) * 2;
-	//Color
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), BUFFER_OFFSET(offset));
-	offset += sizeof(float) * 3;
 }
 
 void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::mat4& projection)
