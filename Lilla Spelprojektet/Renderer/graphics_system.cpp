@@ -101,6 +101,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, newtiletexture);
 	lua_setglobal(luaState, "tileTexture");
+
+	lua_pushcfunction(luaState, clearTileMap);
+	lua_setglobal(luaState, "clearTileMap");
 }
 
 void GraphicsSystem::pushSpriteVector()
@@ -225,6 +228,17 @@ int GraphicsSystem::newtiletexture(lua_State* luaState)
 	ptr->tileTextures.push_back(new Texture2D(filePath2));
 	ptr->tiles.push_back(new Sprite(ptr->shaders[1], ptr->tileTextures[ptr->tileTextures.size()-2], ptr->tileTextures[ptr->tileTextures.size() - 1]));
 
+	return 0;
+}
+
+int GraphicsSystem::clearTileMap(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	lua_pop(luaState, 1);
+
+	//ptr->tileTextures.clear();
+	ptr->tileMap.clear();
 	return 0;
 }
 

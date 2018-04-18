@@ -12,8 +12,8 @@ level:loadGraphics()
 
 local p = Entity:create() -- player
 p.speed = 200
-p.texture = newTexture("Resources/Sprites/brickDiffuse.png")
-p.normalMap = newTexture("Resources/Sprites/brickNormal.png")
+p.texture = newTexture("Resources/Sprites/brick_diffuse.png")
+p.normalMap = newTexture("Resources/Sprites/brick_normal.png")
 p.sprite = newSprite(p.normalMap, p.texture)
 p:addWorld(level)
 p:setPosition(100, 100)
@@ -58,7 +58,7 @@ function mouseLeft()
 	--print(position.x, position.y)
 
 	local index = position.y * level.map.width + position.x
-	print(index + 1)
+	--print(index + 1)
 	local tile  = level.map.tiles[index + 1]
 
 	if tile ~= tileType then
@@ -93,28 +93,27 @@ function key3()
 end
 
 function save()
-	--level.map.tiles
-	--level.map.height
-	--level.map.width
-	--name
-	
-	local file = io.open("Resources/Scripts/saveTest.lua", "w")
-	print("Open done")
+	print("Enter savename. Press 'Enter' to save")
+	local name = io.read("*l")
+	local fileDir = "Resources/Scripts/" .. name .. ".lua"
+
+	local file = io.open(fileDir, "w")
+	print("Open successful")
 	
 	--Name
-	file:write("tilemap1 =\n{\n")
+	file:write(name, " =\n{\n")
 
 	--Write texture diffuse
 	file:write("\ttexturesDiffuse =\n\t{\n")
 	for k, v in pairs(level.map.texturesDiffuse) do
-		file:write("\t\t", level.map.texturesDiffuse[k], ",\n")
+		file:write("\t\t\"", level.map.texturesDiffuse[k], "\",\n")
 	end
 	file:write("\t},\n\n")
 
 	--Write texture diffuse
 	file:write("\ttexturesNormal =\n\t{\n")
 	for k, v in pairs(level.map.texturesNormal) do
-		file:write("\t\t", level.map.texturesNormal[k], ",\n")
+		file:write("\t\t\"", level.map.texturesNormal[k], "\",\n")
 	end
 	file:write("\t},\n")
 
@@ -135,10 +134,35 @@ function save()
 	file:write("\n\t},\n")
 
 	
-	file:write("\n\twidth =", level.map.width, "\n")
-	file:write("\theight =", level.map.height, "\n")
+	file:write("\n\twidth = ", level.map.width, ",\n")
+	file:write("\theight = ", level.map.height, "\n")
 	file:write("}")
 
 	io.close(file)
-	print("Save done")
+	print("Save successful")
+end
+
+function load()
+	print("Enter filename. Press 'Enter' to load")
+	local name = io.read("*l")
+	local fileDir = "Resources/Scripts/" .. name .. ".lua"
+
+	local file = loadfile(fileDir)	
+	if file then
+		print("Open successful")
+
+		print("Emptying Map")
+		level:emptyMap()
+		print("Creating Map")
+		level = World:create()
+		print("Adding Map")
+		level:addMap(name)
+		print("Loading Graphics")
+		level:loadGraphics()
+		
+		io.close(file)
+		print("Load successful")
+	else
+		print("File not found")
+	end
 end
