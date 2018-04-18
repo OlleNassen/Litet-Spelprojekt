@@ -3,8 +3,10 @@
 #include<vector>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
-#include"../Renderer/sprite.hpp"
-#include"../Renderer/shader.hpp"
+
+class Shader;
+class Texture2D;
+class Sprite;
 
 class ParticleEmitter
 {
