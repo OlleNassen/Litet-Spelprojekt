@@ -11,8 +11,17 @@ class Sprite;
 class ParticleEmitter
 {
 private:
-	std::vector<glm::vec2> particle_positions;
-	std::vector<float> particle_lifetime;
+	class Particle
+	{
+	public:
+		
+
+		glm::vec2 velocity;
+		glm::vec2 position;
+		float lifeTimeMax;
+		float lifeTime;
+	};
+
 	Sprite* particle;
 
 	//Private functions

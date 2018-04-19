@@ -34,10 +34,7 @@ void ParticleEmitter::update()
 
 void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 {
-	for (size_t i = 0; i < this->particle_positions.size(); i++)
-	{
-		this->particle->draw(this->particle_positions[i], view, projection);
-	}
+	
 }
 
 //Accessors
