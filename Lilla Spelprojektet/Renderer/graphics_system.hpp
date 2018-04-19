@@ -45,43 +45,35 @@ public:
 	void addLuaFunctions(lua_State* luaState);
 	sf::Vector2f getPlayerPos() const;
 	sf::Vector2f getPixie() const;
-	/*
-	void FOV()
-	{
-		float x, y;
-		int i;
-		CLEAR_MAP_TO_NOT_VISIBLE();//Initially set all tiles to not visible.
-		for (i = 0; i<360; i++)
-		{
-			x = cos((float)i*0.01745f);
-			y = sin((float)i*0.01745f);
-			DoFov(x, y);
-		};
-	};
 
-	void DoFov(float x, float y)
-	{
-		int i;
-		float ox, oy;
-		ox = (float)PLAYERX + 0.5f;
-		oy = (float)PLAYERY + 0.5f;
-		for (i = 0; i<VIEW_RADIUS; i++)
-		{
-			MAP[(int)ox][(int)oy] = VISIBLE;//Set the tile to visible.
-			if (MAP[(int)ox][(int)oy] == BLOCK)
+	void drawline_mod(int map[20][20], int x, int y, int x2, int y2) {
+		int dx = abs(x - x2);
+		int dy = abs(y - y2);
+		double s = double(.99 / (dx>dy ? dx : dy));
+		double t = 0.0;
+		while (t < 1.0) {
+			dx = int((1.0 - t)*x + t * x2);
+			dy = int((1.0 - t)*y + t * y2);
+			if (map[dy][dx] != 1) {
+				map[dy][dx] = 5;
+			}
+			else {
 				return;
-			ox += x;
-			oy += y;
-		};
-	};
-	*/
+			}
+			t += s;
+		}
+	}
 
-	float VIEW_RADIUS = 100.f;
 
-	void DoFov(float x, float y)
-	{
+	void los(int map[20][20], int range, int plx, int ply) {
+		int x, y;
+		for (double f = 0; f < 3.14 * 2; f += 0.05) {
+			x = int(range*cos(f)) + plx;
+			y = int(range*sin(f)) + ply;
+			drawline_mod(map, plx, ply, x, y);
+		}
+	}
 
-	};
 
 private:
 	void loadShaders();
