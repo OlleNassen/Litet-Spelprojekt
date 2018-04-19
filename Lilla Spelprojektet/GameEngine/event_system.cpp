@@ -2,6 +2,9 @@
 #include <lua.hpp>
 #include "game.hpp"
 
+#define WIDTH 1280
+#define HEIGHT 720
+
 #define REGISTER_ENUM(x) x,
 /** Enum with all available inputs */
 typedef enum
@@ -246,7 +249,8 @@ void EventSystem::updateMouse()
 {
 	sf::Vector2i newPosition = sf::Mouse::getPosition();	
 	sf::Vector2i position = newPosition - mousePosition;
-	mousePosition = newPosition;
+	sf::Mouse::setPosition(sf::Vector2i((WIDTH / 2), (HEIGHT / 2)));
+	mousePosition = sf::Mouse::getPosition();
 
 	/* push functions and arguments */
 	lua_getglobal(luaState, "mouse");
