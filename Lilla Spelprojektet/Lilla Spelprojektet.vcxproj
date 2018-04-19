@@ -40,6 +40,7 @@
     <ClInclude Include="Renderer\texture_2d.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Scripts\ai.lua" />
     <None Include="Resources\Scripts\dummy.lua" />
     <None Include="Resources\Scripts\LuaStates\gameOverState.lua" />
     <None Include="Resources\Scripts\LuaStates\pauseState.lua" />

@@ -14,11 +14,18 @@ function Entity:create()
 		world = {},
 		speed = 200,
 		attackStrength = 5,
-		attackSpeed = 1
+		attackSpeed = 1,
+		gravityConstant = 400,
     }
 
     setmetatable(this, self)
     return this
+end
+
+function Entity:update(deltaTime)
+	
+	self:move(0, self.gravityConstant * deltaTime)
+
 end
 
 function Entity:contains(x, y)

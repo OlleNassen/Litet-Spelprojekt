@@ -9,7 +9,6 @@ function Player:create()
 		entity = Entity:create(),
 		isJumping = false,
 		timeSinceJump = 0.0,
-		gravityConstant = 400,
     }
 
 	this.entity.x = 50
@@ -24,6 +23,16 @@ function Player:create()
     return this
 end
 
+function Player:moveRight(direction, deltaTime)
+	self.entity:move(direction * self.entity.speed * deltaTime, 0)
+	return true
+end
+
+function Player:jump()
+	self.isJumping = true
+	return false
+end
+
 function Player:update(deltaTime)
 	
 	if self.isJumping then
@@ -36,6 +45,6 @@ function Player:update(deltaTime)
 			self.timeSinceJump = 0.0
 		end
 	else
-		self.entity:move(0, self.gravityConstant * deltaTime)
+		self.entity:update(deltaTime)
 	end
 end
