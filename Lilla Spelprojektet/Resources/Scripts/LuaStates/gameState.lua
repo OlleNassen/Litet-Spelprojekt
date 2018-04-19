@@ -31,8 +31,9 @@ s:addWorld(level)
 local g = Ai:create() -- goomba
 g.entity:addWorld(level)
 
-local power = Powerup:create() -- Powerup
-
+local power_speed = Powerup:create() -- Powerup speed 1
+power_speed.entity:setPosition(500, 500)
+power_speed.type = 0
 
 local b = Entity:create() -- goomba
 b.x = 300
@@ -64,7 +65,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	g:update(deltaTime)
-	power:contains(p.entity)
+	power_speed:contains(p.entity)
 	if p:contains(b.x, b.y) then
 		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
