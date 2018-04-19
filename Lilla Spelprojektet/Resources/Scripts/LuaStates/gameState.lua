@@ -1,4 +1,5 @@
 require("Resources/Scripts/Entity")
+require("Resources/Scripts/player")
 require("Resources/Scripts/World")
 require("Resources/Scripts/tilemap2")
 
@@ -35,14 +36,8 @@ function gravity(entity)
 end
 
 
-local p = Entity:create() -- player
-p.x = 50
-p.y = 50
-p.speed = 200
-p.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
-p.normalMap = newTexture("Resources/Sprites/Player/playerNormal.png")
-p.sprite = newSprite(p.normalMap, p.texture)
-p:addWorld(level)
+local p = Player:create() -- player
+p.entity:addWorld(level)
 
 
 local s = Entity:create() -- pixie
@@ -70,12 +65,12 @@ b:addWorld(level)
 b:move(0,0)
 
 function moveRight(direction, deltaTime)
-	p:move(direction * p.speed * deltaTime, 0)
+	p.entity:move(direction * p.entity.speed * deltaTime, 0)
 	return true
 end
 
 function jump()
-	isJumping = true
+	p.isJumping = true
 end
 
 mX = 0.0
@@ -87,20 +82,10 @@ function mouse(x, y)
 end
 
 function update(deltaTime)
-	if isJumping then
-		
-		timeSinceJump = timeSinceJump + deltaTime
-		p:move(0, -500 * deltaTime)
-		
-		if timeSinceJump > 0.5 then
-			isJumping = false
-			timeSinceJump = 0.0
-		end
-	else
-		p:move(0, gravityConstant * deltaTime)
-	end
+	
+	p:update(deltaTime)
+	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
-	s:setPosition(p.x + mX, p.y + mY)
 	--GOOMBA MOVEMENT
 	g:move(0, gravityConstant * deltaTime)
 	timer = timer + deltaTime

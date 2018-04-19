@@ -1,23 +1,41 @@
---Todo: Finish
+require("Resources/Scripts/Entity")
 
 Player = {}
 Player.__index = Player
 
-function Player:create(x, y)
-   local player = {}
+function Player:create()
+    local this =
+    {
+		entity = Entity:create(),
+		isJumping = false,
+		timeSinceJump = 0.0,
+		gravityConstant = 400,
+    }
 
-   --Tile size:
-   player.position = position.new()
-   position.setPosition(player.position, x, y) 
-   player.speed = 50
-   player.attackStrength = 5
-   player.attackSpeed = 1
+	this.entity.x = 50
+	this.entity.y = 50
+	this.entity.speed = 200
+	this.entity.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
+	this.entity.normalMap = newTexture("Resources/Sprites/Player/playerNormal.png")
+	this.entity.sprite = newSprite(this.entity.normalMap, this.entity.texture)
+	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
-   setmetatable(player,Player)
-
-   return player
+    setmetatable(this, self)
+    return this
 end
 
-function Player:move(x, y)
-	position.move(self.position, x, y)
+function Player:update(deltaTime)
+	
+	if self.isJumping then
+		
+		self.timeSinceJump = self.timeSinceJump + deltaTime
+		self.entity:move(0, -500 * deltaTime)
+		
+		if self.timeSinceJump > 0.5 then
+			self.isJumping = false
+			self.timeSinceJump = 0.0
+		end
+	else
+		self.entity:move(0, self.gravityConstant * deltaTime)
+	end
 end
