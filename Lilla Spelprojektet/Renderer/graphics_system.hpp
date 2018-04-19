@@ -45,6 +45,36 @@ public:
 	void addLuaFunctions(lua_State* luaState);
 	sf::Vector2f getPlayerPos() const;
 	sf::Vector2f getPixie() const;
+
+	void drawline_mod(int map[20][20], int x, int y, int x2, int y2) {
+		int dx = abs(x - x2);
+		int dy = abs(y - y2);
+		double s = double(.99 / (dx>dy ? dx : dy));
+		double t = 0.0;
+		while (t < 1.0) {
+			dx = int((1.0 - t)*x + t * x2);
+			dy = int((1.0 - t)*y + t * y2);
+			if (map[dy][dx] != 1) {
+				map[dy][dx] = 5;
+			}
+			else {
+				return;
+			}
+			t += s;
+		}
+	}
+
+
+	void los(int map[20][20], int range, int plx, int ply) {
+		int x, y;
+		for (double f = 0; f < 3.14 * 2; f += 0.05) {
+			x = int(range*cos(f)) + plx;
+			y = int(range*sin(f)) + ply;
+			drawline_mod(map, plx, ply, x, y);
+		}
+	}
+
+
 private:
 	void loadShaders();
 	

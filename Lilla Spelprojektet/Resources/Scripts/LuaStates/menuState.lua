@@ -6,26 +6,39 @@ p.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
 
 local cam = newSprite(1, 1, 0, p.texture)
 
+local s = Entity:create()
+s.x = 0
+s.y = 0
+s.speed = 200
+s.texture = newTexture("Resources/Sprites/mouseDiffuse.png")
+s.normalMap = newTexture("Resources/Sprites/mouseNormal.png")
+s.sprite = newSprite(s.normalMap, s.texture)
+s:setPosition(s.x, s.y)
+
 
 local play = Entity:create() 
 play.texture = newTexture("Resources/Sprites/play.png")
 play.sprite = newSprite(800,100, 0, play.texture)
+play.width = 800
+play.height = 100
 play:setPosition(-400,-300)
 
 local editor = Entity:create() 
 editor.texture = newTexture("Resources/Sprites/editor.png")
 editor.sprite = newSprite(800,100, 0, editor.texture)
-editor:setPosition(-400,100)
+editor:setPosition(-400,-150)
 
 local exit = Entity:create() 
 exit.texture = newTexture("Resources/Sprites/quit.png")
 exit.sprite = newSprite(800,100, 0, exit.texture)
-exit:setPosition(-400,210)
+exit.width = 800
+exit.height = 100
+exit:setPosition(-400,-0)
 
-local s = Entity:create() 
-s.texture = newTexture("Resources/Sprites/menu.png")
-s.sprite = newSprite(1280,720, 0, s.texture)
-s:setPosition(-1280/2, -720/2)
+local b = Entity:create() 
+b.texture = newTexture("Resources/Sprites/menu.png")
+b.sprite = newSprite(1280,720, 0, b.texture)
+b:setPosition(-1280/2, -720/2)
 
 function moveUp(direction, deltaTime)
 	--p:move(direction * p.speed * deltaTime, 0)
@@ -45,6 +58,27 @@ end
 
 function selectEditor(direction, deltaTime)
 	push("Resources/Scripts/LuaStates/editorState.lua")
+end
+
+mX = 0.0
+mY = 0.0
+
+function mouse(x, y)
+	mX = mX + x
+	mY = mY + y
+	s:setPosition(
+	math.max(math.min(p.x + mX - 1280, 1280/2-48), -1280/2), 
+	math.max(math.min(p.y + mY - 720, 720/2-48), -720/2))
+end
+
+function mouseLeft()
+	if play:contains(s.x, s.y) then
+		push("Resources/Scripts/LuaStates/gameState.lua")
+	end
+
+	if exit:contains(s.x, s.y) then
+		pop()
+	end
 end
 
 function update(deltaTime)

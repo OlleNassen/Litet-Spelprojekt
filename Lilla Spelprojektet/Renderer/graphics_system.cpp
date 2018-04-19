@@ -73,7 +73,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 	sf::Vector2f vec = getPlayerPos();
 	
 	background->draw(glm::vec2(vec.x - (WIDTH/2), vec.y - (HEIGHT / 2)), view, projection);	
-	
+
 	if (tileMap.size() > 0)
 	{
 		for (int y = (getPlayerPos().y - HEIGHT) / 48; y < (getPlayerPos().y + HEIGHT) / 48; y++)

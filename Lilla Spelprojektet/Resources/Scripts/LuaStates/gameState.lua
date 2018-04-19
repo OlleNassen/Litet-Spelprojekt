@@ -3,6 +3,7 @@ require("Resources/Scripts/player")
 require("Resources/Scripts/ai")
 require("Resources/Scripts/World")
 require("Resources/Scripts/tilemap2")
+require("Resources/Scripts/powerup")
 
 function quit()
 	pop()
@@ -26,8 +27,13 @@ s.sprite = newSprite(s.texture)
 s:addWorld(level)
 
 
+
 local g = Ai:create() -- goomba
 g.entity:addWorld(level)
+
+local power_speed = Powerup:create() -- Powerup speed 1
+power_speed.entity:setPosition(500, 500)
+power_speed.type = 0
 
 local b = Entity:create() -- goomba
 b.x = 300
@@ -59,8 +65,9 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	g:update(deltaTime)
-
-	if p:contains(b.x, b.y) then
+	power_speed:contains(p.entity)
+	
+	if p.entity:contains(b.x, b.y) then
 		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
 

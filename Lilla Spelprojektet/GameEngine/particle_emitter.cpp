@@ -13,9 +13,13 @@ ParticleEmitter::ParticleEmitter(
 	Shader* shader, 
 	Texture2D* texture, 
 	Texture2D* normalMap, 
-	const glm::vec2& size)
+	const glm::vec2& size,
+	const glm::vec2& velocity,
+	const float& lifeTime)
 {
 	this->particle = new Sprite(shader, texture, normalMap, size);
+	this->velocity = velocity;
+	this->lifeTime = lifeTime;
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -23,20 +27,23 @@ ParticleEmitter::~ParticleEmitter()
 	delete this->particle;
 }
 
-
 //Operators
 
 //Functions
-void ParticleEmitter::update()
+void ParticleEmitter::update(const float& dt)
 {
-
+	for (size_t i = 0; i < this->particles.size(); i++)
+	{
+		if (this->particles[i].lifeTime <= 0)
+			particles[i].update(dt);
+	}
 }
 
 void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 {
-	for (size_t i = 0; i < this->particle_positions.size(); i++)
+	for (size_t i = 0; i < this->particles.size(); i++)
 	{
-		this->particle->draw(this->particle_positions[i], view, projection);
+		this->particle->draw(this->particles[i].position, view, projection);
 	}
 }
 
