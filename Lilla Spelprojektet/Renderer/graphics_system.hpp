@@ -9,6 +9,8 @@
 
 #include<SFML/System/Vector2.hpp>
 
+#include"particle_emitter.hpp"
+
 struct lua_State;
 class Shader;
 class Texture2D;
@@ -34,6 +36,7 @@ private:
 	std::vector<Texture2D*> textures;
 	std::vector<Sprite*> sprites;
 	std::vector<PointLight*>lights;
+	ParticleEmitter* emitter;
 
 public:
 	GraphicsSystem(lua_State* luaState);

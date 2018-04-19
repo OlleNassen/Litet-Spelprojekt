@@ -16,11 +16,17 @@ private:
 	public:
 
 		glm::vec2 velocity;
+		glm::vec2 origin;
 		glm::vec2 position;
 		float lifeTime;
 
-		Particle(const glm::vec2& velocity, const float& lifeTime)
+		Particle(
+			const glm::vec2& position, 
+			const glm::vec2& velocity, 
+			const float& lifeTime)
 		{
+			this->position = position;
+			this->origin = position;
 			this->velocity = velocity;
 			this->lifeTime = lifeTime;
 		}
@@ -30,7 +36,7 @@ private:
 			if (this->lifeTime > 0.f)
 			{
 				this->lifeTime -= 10 * dt;
-				this->position += velocity * dt;
+				this->position += this->origin + (this->velocity * dt);
 			}
 		}
 	};
@@ -39,6 +45,7 @@ private:
 	Sprite* particle;
 	glm::vec2 velocity;
 	float lifeTime;
+	glm::vec2 origin;
 
 	//Private functions
 
@@ -47,7 +54,8 @@ public:
 	ParticleEmitter(
 		Shader* shader,
 		Texture2D* texture,
-		Texture2D* normalMap = nullptr,
+		Texture2D* normalMap,
+		const glm::vec2& origin,
 		const glm::vec2& size = glm::vec2(0, 0),
 		const glm::vec2& velocity = glm::vec2(0.f, 0.f),
 		const float& lifeTime = 0.f);
