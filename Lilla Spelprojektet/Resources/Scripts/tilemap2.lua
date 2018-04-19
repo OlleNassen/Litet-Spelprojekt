@@ -1,4 +1,4 @@
-tilemap1 =
+tilemap2 =
 {
 	texturesDiffuse = 
 	{
