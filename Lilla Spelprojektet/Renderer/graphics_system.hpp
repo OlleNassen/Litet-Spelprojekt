@@ -45,6 +45,44 @@ public:
 	void addLuaFunctions(lua_State* luaState);
 	sf::Vector2f getPlayerPos() const;
 	sf::Vector2f getPixie() const;
+	/*
+	void FOV()
+	{
+		float x, y;
+		int i;
+		CLEAR_MAP_TO_NOT_VISIBLE();//Initially set all tiles to not visible.
+		for (i = 0; i<360; i++)
+		{
+			x = cos((float)i*0.01745f);
+			y = sin((float)i*0.01745f);
+			DoFov(x, y);
+		};
+	};
+
+	void DoFov(float x, float y)
+	{
+		int i;
+		float ox, oy;
+		ox = (float)PLAYERX + 0.5f;
+		oy = (float)PLAYERY + 0.5f;
+		for (i = 0; i<VIEW_RADIUS; i++)
+		{
+			MAP[(int)ox][(int)oy] = VISIBLE;//Set the tile to visible.
+			if (MAP[(int)ox][(int)oy] == BLOCK)
+				return;
+			ox += x;
+			oy += y;
+		};
+	};
+	*/
+
+	float VIEW_RADIUS = 100.f;
+
+	void DoFov(float x, float y)
+	{
+
+	};
+
 private:
 	void loadShaders();
 	
