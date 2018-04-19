@@ -11,12 +11,12 @@ class Sprite;
 class ParticleEmitter
 {
 private:
+
 	class Particle
 	{
 	public:
 
 		glm::vec2 velocity;
-		glm::vec2 origin;
 		glm::vec2 position;
 		float lifeTime;
 
@@ -26,17 +26,16 @@ private:
 			const float& lifeTime)
 		{
 			this->position = position;
-			this->origin = position;
 			this->velocity = velocity;
 			this->lifeTime = lifeTime;
 		}
 
-		void update(const float& dt)
+		void update(const float& dt, const glm::vec2& origin)
 		{
 			if (this->lifeTime > 0.f)
 			{
 				this->lifeTime -= 10 * dt;
-				this->position += this->origin + (this->velocity * dt);
+				this->position += this->velocity * dt;
 			}
 		}
 	};
@@ -63,7 +62,7 @@ public:
 	virtual ~ParticleEmitter();
 
 	//Functions
-	void update(const float& dt);
+	void update(const float& dt, const glm::vec2& origin);
 	void render(const glm::mat4& view, const glm::mat4& projection);
 
 	//Accessors

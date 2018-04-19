@@ -37,12 +37,12 @@ ParticleEmitter::~ParticleEmitter()
 //Operators
 
 //Functions
-void ParticleEmitter::update(const float& dt)
+void ParticleEmitter::update(const float& dt, const glm::vec2& origin)
 {
 	for (size_t i = 0; i < this->particles.size(); i++)
 	{
 		if (this->particles[i].lifeTime >= 0)
-			particles[i].update(dt);
+			particles[i].update(dt, origin);
 	}
 }
 
