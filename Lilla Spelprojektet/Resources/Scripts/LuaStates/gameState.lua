@@ -66,7 +66,8 @@ function update(deltaTime)
 
 	g:update(deltaTime)
 	power_speed:contains(p.entity)
-	if p:contains(b.x, b.y) then
+	
+	if p.entity:contains(b.x, b.y) then
 		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
 

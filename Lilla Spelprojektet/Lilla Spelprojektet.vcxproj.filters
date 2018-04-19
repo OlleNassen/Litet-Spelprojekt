@@ -78,7 +78,6 @@
     <None Include="Resources\Shaders\basicShader.vert" />
     <None Include="Resources\Shaders\2d_shader.vert" />
     <None Include="Resources\Shaders\2d_shader.frag" />
-    <None Include="Resources\tilemap2.lua" />
     <None Include="Resources\Scripts\ai.lua" />
   </ItemGroup>
 </Project>
