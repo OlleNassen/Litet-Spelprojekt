@@ -83,6 +83,10 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
 					&& tileMap[x + 2 + y * tileMap[0]] != 0)
 				{
+
+					tiles[tileMap[x + 2 + y * tileMap[0]]]->draw(glm::vec2(x * 48, y * 48), view, projection);
+
+					/*
 					//const float viewRadius = 100.f;
 
 					//float t_x = tiles[tileMap[x + 2 + y * tileMap[0]]]->posX;
@@ -106,15 +110,16 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 						for (index = 0; i < VIEW_RADIUS; index++)
 						{
 
-							tiles[tileMap[x + 2 + y * tileMap[0]]]->draw(glm::vec2(x * 48, y * 48), view, projection);
 							ox += x;
 							oy += y;
 
 
 						}
-
-
 					}
+
+					*/
+						
+
 				}
 			}
 		}

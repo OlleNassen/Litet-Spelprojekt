@@ -6,8 +6,8 @@ Powerup.__index = Powerup
 function Powerup:create()
     local this =
     {
-		entity = Entity:create()
-		type = 0
+		entity = Entity:create(),
+		type = 0,
     }
 
 	this.entity.x = 1000
