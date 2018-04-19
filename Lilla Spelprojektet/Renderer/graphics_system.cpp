@@ -73,7 +73,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 	sf::Vector2f vec = getPlayerPos();
 	
 	background->draw(glm::vec2(vec.x - (WIDTH/2), vec.y - (HEIGHT / 2)), view, projection);	
-	
+
 	if (tileMap.size() > 0)
 	{
 		for (int y = (getPlayerPos().y - HEIGHT) / 48; y < (getPlayerPos().y + HEIGHT) / 48; y++)
@@ -83,7 +83,43 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
 					&& tileMap[x + 2 + y * tileMap[0]] != 0)
 				{
+
 					tiles[tileMap[x + 2 + y * tileMap[0]]]->draw(glm::vec2(x * 48, y * 48), view, projection);
+
+					/*
+					//const float viewRadius = 100.f;
+
+					//float t_x = tiles[tileMap[x + 2 + y * tileMap[0]]]->posX;
+					//float t_y = tiles[tileMap[x + 2 + y * tileMap[0]]]->posY;
+
+					//float p_x = getPixie().x;
+					//float p_y = getPixie().y;
+
+
+					//float length = std::sqrt((p_x * p_x) + (p_y * p_y));
+
+					for (int i = 0; i < 360; i++)
+					{
+						x = cos((float)i*0.01745f);
+						y = sin((float)i*0.01745f);
+
+						int index;
+						float ox, oy;
+						ox = (float)getPixie().x + 0.5f;
+						oy = (float)getPixie().y + 0.5f;
+						for (index = 0; i < VIEW_RADIUS; index++)
+						{
+
+							ox += x;
+							oy += y;
+
+
+						}
+					}
+
+					*/
+						
+
 				}
 			}
 		}
