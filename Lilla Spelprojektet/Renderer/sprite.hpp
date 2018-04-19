@@ -32,7 +32,6 @@ public:
 
 	void update(const glm::vec2& position);
 
-	void initNormalSprite();
 	void initSprite();
 
 	void setTexture(Texture2D* texture);

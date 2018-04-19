@@ -1,6 +1,7 @@
 #include "sprite.hpp"
 #include "texture_2d.hpp"
 #include "shader.hpp"
+
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const glm::vec2& size)
@@ -25,6 +26,7 @@ Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const g
 
 Sprite::~Sprite()
 {
+
 }
 
 void Sprite::initSprite()

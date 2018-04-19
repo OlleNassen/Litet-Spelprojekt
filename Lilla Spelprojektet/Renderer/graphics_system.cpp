@@ -72,18 +72,20 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 {	
 	sf::Vector2f vec = getPlayerPos();
 	
-	background->draw(glm::vec2(vec.x - (WIDTH/2), vec.y - (HEIGHT / 2)), view, projection);
+	background->draw(glm::vec2(vec.x - (WIDTH/2), vec.y - (HEIGHT / 2)), view, projection);	
 	
 	if (tileMap.size() > 0)
 	{
-		for (int i = 0; i < tileMap.size() - 2; i++)
+		for (int y = (getPlayerPos().y - HEIGHT) / 48; y < (getPlayerPos().y + HEIGHT) / 48; y++)
 		{
-			float x = (i % tileMap[0]) * 48;
-			float y = (i / tileMap[0]) * 48;
-
-			if (tileMap[i + 2] != 0)
-				tiles[tileMap[i + 2]]->draw(glm::vec2(x, y), view, projection);
-
+			for (int x = (getPlayerPos().x - WIDTH) / 48; x < (getPlayerPos().x + WIDTH) / 48; x++)
+			{
+				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
+					&& tileMap[x + 2 + y * tileMap[0]] != 0)
+				{
+					tiles[tileMap[x + 2 + y * tileMap[0]]]->draw(glm::vec2(x * 48, y * 48), view, projection);
+				}
+			}
 		}
 	}
 }
