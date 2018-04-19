@@ -1,6 +1,7 @@
 require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
-require("Resources/Scripts/tilemap1")
+require("Resources/Scripts/empty")
+package.loaded["Resources/Scripts/empty"] = nil
 
 function quit()
 	pop()
@@ -26,9 +27,6 @@ s.texture = newTexture("Resources/Sprites/mouseDiffuse.png")
 s.normalMap = newTexture("Resources/Sprites/mouseNormal.png")
 s.sprite = newSprite(s.normalMap, s.texture)
 s:addWorld(level)
-
-local e = {}
-local nrOfEntitys = 0
 
 local tileType = 0
 
@@ -60,9 +58,6 @@ function mouseLeft()
 	local index = position.y * level.map.width + position.x
 	local tile  = level.map.tiles[index + 1]
 
-	--[[if tileType == 5 then
-		addEntity()
-	else]]
 	if tile ~= tileType then
 		level.map.tiles[index + 1] = tileType
 		reloadTile(index, tileType)	
@@ -150,60 +145,24 @@ function save()
 end
 
 function load()
-	print("Enter filename. Press 'Enter' to load")
+	print("Enter filename. Press 'Enter' to load!")
 	local name = io.read("*l")
+
 	local fileDir = "Resources/Scripts/" .. name
-	-- .. ".lua"
+	--.. ".lua"
 
-	require(fileDir)
-
-	print("Emptying Map")
-	level:emptyMap()
-
-	print("Creating Map")
-	level = World:create()
-
-	print("Adding Map")
-	level:addMap(tilemap1)
-
-	print("Loading Graphics")
-	level:loadGraphics()
-		
-	io.close(file)
-	print("Load successful")
-
-	p:addWorld(level)
-
-	
-	--local file = assert(loadfile(fileDir))
-	--print(file())
-	--[[if file then
-		print("Open successful")
-
-		print("Emptying Map")
+	local file = require(fileDir)
+	package.loaded[fileDir] = nil
+	if file then
+		print("Loading map!")
 		level:emptyMap()
-
-		print("Creating Map")
 		level = World:create()
-
-		print("Adding Map")
-		level:addMap()
-
-		print("Loading Graphics")
+		level:addMap(tilemap1)
 		level:loadGraphics()
-		
-		io.close(file)
-		print("Load successful")
+		p:addWorld(level)
+		s:addWorld(level)
+		print("Loading complete!")
 	else
-		print("File not found")
-	end]]
-end
-
-function addEntity()
-	nrOfEntitys = nrOfEntitys + 1
-	e[nrOfEntitys] = Entity:create()
-	e[nrOfEntitys].texture = newTexture("Resources/Sprites/goomba.png")
-	e[nrOfEntitys].sprite = newSprite(e[1].texture)
-	e[nrOfEntitys]:addWorld(level)
-	e[nrOfEntitys]:setPosition(p.x + mX, p.y + mY)
+		print("Savefile not found!")
+	end
 end

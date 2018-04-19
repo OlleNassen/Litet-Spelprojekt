@@ -252,7 +252,7 @@ int GraphicsSystem::clearTileMap(lua_State* luaState)
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
 	lua_pop(luaState, 1);
 
-	//ptr->tileTextures.clear();
+	ptr->tileTextures.clear();
 	ptr->tileMap.clear();
 	return 0;
 }
