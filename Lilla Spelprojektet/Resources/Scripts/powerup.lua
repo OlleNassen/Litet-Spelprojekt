@@ -15,7 +15,7 @@ function Powerup:create()
 	this.entity.y = 1000
 	this.entity.speed = 0
 
-	this.entity.texture = newTexture("Resources/Sprites/donald_trump.png")
+	this.entity.texture = newTexture("Resources/Sprites/powerup_speed1.png")
 	this.entity.sprite = newSprite(this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
