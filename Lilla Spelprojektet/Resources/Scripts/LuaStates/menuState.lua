@@ -60,24 +60,18 @@ function selectEditor(direction, deltaTime)
 	push("Resources/Scripts/LuaStates/editorState.lua")
 end
 
-function update(deltaTime)
-
-end
-
 mX = 0.0
 mY = 0.0
 
 function mouse(x, y)
 	mX = mX + x
 	mY = mY + y
-	s:setPosition(p.x + mX - 1280, p.y + mY - 720)
+	s:setPosition(
+	math.max(math.min(p.x + mX - 1280, 1280/2-48), -1280/2), 
+	math.max(math.min(p.y + mY - 720, 720/2-48), -720/2))
 end
 
 function mouseLeft()
-	local position = {x, y}
-	position.x = math.floor((p.x + mX) / 48)
-	position.y = math.floor((p.y + mY) / 48)
-
 	if play:contains(s.x, s.y) then
 		push("Resources/Scripts/LuaStates/gameState.lua")
 	end
@@ -85,5 +79,8 @@ function mouseLeft()
 	if exit:contains(s.x, s.y) then
 		pop()
 	end
+end
+
+function update(deltaTime)
 
 end
