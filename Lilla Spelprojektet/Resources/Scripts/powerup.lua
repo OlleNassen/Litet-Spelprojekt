@@ -6,8 +6,9 @@ Powerup.__index = Powerup
 function Powerup:create()
     local this =
     {
-		entity = Entity:create()
-		type = 0
+		entity = Entity:create(),
+		type = 0,
+		aquired = false,
     }
 
 	this.entity.x = 1000
@@ -22,8 +23,19 @@ function Powerup:create()
     return this
 end
 
+function Powerup:checkType(entity)
+	if self.type == 0 then -- speed upgrade
+		entity.speed = 500
+	elseif type == 1 then
+		entity.speed = 1000
+	end
+
+end
+
 function Powerup:contains(entity)
-	if self.entity:contains(entity.x, entity.y) or self.entity:contains(entity.width, entity.height) then
-		entity.speed = 400
+	if self.aquired == false and (self.entity:contains(entity.x, entity.y) or self.entity:contains(entity.x + entity.width, entity.y + entity.height)) then
+		self:checkType(entity)
+		self.aquired = true
+		spritePos(self.entity.sprite, -10000, -10000)
 	end
 end

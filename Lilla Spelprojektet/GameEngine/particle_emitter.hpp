@@ -14,7 +14,12 @@ private:
 	class Particle
 	{
 	public:
-		
+		Particle(glm::vec2 velocity, float lifeTimeMax)
+		{
+			this->velocity = velocity;
+			this->lifeTimeMax = lifeTimeMax;
+			this->lifeTime = this->lifeTimeMax;
+		}
 
 		glm::vec2 velocity;
 		glm::vec2 position;
@@ -22,6 +27,7 @@ private:
 		float lifeTime;
 	};
 
+	std::vector<Particle> particles;
 	Sprite* particle;
 
 	//Private functions
