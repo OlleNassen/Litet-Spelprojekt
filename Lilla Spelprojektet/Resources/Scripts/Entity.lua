@@ -16,6 +16,7 @@ function Entity:create()
 		attackStrength = 5,
 		attackSpeed = 1,
 		gravityConstant = 400,
+		collisionX = false,
     }
 
     setmetatable(this, self)
@@ -62,9 +63,13 @@ function Entity:getPosition()
 end
 
 function Entity:move(x, y)
+	
 	if self.world:canMove(self.x + x, self.y) and self.world:canMove(self.x + x + self.width, self.y + self.height) and 
 	self.world:canMove(self.x + x + self.width, self.y) and self.world:canMove(self.x + x, self.y + self.height) then
 		self.x = self.x + x
+		self.collisionX = false
+	else
+		self.collisionX = true
 	end
 
 	if self.world:canMove(self.x, self.y + y) and self.world:canMove(self.x + self.width, self.y + y + self.height) and

@@ -69,6 +69,9 @@ function Player:update(deltaTime)
 	end
 	--Final move
 	self.entity:move(self.velocity.x * deltaTime, 0)
+	if self.entity.collisionX == true then
+		self.velocity.x = 0
+	end
 
 	--Jumping
 	if self.isJumping then
