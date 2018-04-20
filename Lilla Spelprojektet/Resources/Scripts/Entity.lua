@@ -76,3 +76,12 @@ function Entity:move(x, y)
 		spritePos(self.sprite, self.x, self.y)		
 	end
 end
+
+function Entity:moveIgnoreWall(x, y)
+	self.x = self.x + x
+	self.y = self.y + y
+
+	if self.sprite ~= nil then
+		spritePos(self.sprite, self.x, self.y)		
+	end
+end

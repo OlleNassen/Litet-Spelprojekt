@@ -48,3 +48,10 @@ function Player:update(deltaTime)
 		self.entity:update(deltaTime)
 	end
 end
+
+function Player:getPosition()
+	local position = {x, y}
+	position.x = self.entity.x
+	position.y = self.entity.y
+	return position
+end

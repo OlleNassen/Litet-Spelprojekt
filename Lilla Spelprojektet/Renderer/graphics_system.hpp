@@ -91,5 +91,6 @@ private:
 	static int newtiletexture(lua_State* luaState);
 
 	static int clearTileMap(lua_State* luaState);
+	static int newBackground(lua_State* luaState);
 };
 

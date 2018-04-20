@@ -26,8 +26,6 @@ s.texture = newTexture("Resources/Sprites/player.png")
 s.sprite = newSprite(s.texture)
 s:addWorld(level)
 
-
-
 local g = Ai:create() -- goomba
 g.entity:addWorld(level)
 
@@ -42,6 +40,13 @@ b.texture = newTexture("Resources/Sprites/bossman.png")
 b.sprite = newSprite(b.texture)
 b:addWorld(level)
 b:move(0,0)
+
+local a = Entity:create() -- background
+a.texture = newTexture("Resources/Sprites/HansTap.png")
+a.sprite = newSprite(48, 48, 0, a.texture)
+a:addWorld(level)
+a:setPosition(500, 200)
+
 
 function moveRight(direction, deltaTime)
 	return p:moveRight(direction, deltaTime)
@@ -70,6 +75,9 @@ function update(deltaTime)
 	if p.entity:contains(b.x, b.y) then
 		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
+
+	position = p:getPosition()
+	a:setPosition((position.x / 2) - 100, position.y - 720 / 2)
 
 	return true
 end
