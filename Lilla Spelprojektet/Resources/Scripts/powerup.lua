@@ -25,9 +25,9 @@ end
 
 function Powerup:checkType(entity)
 	if self.type == 0 then -- speed upgrade
-		entity.speed = entity.speed * 5
+		entity.speed = entity.speed * 3
 	elseif type == 1 then
-		entity.speed =  entity.speed * 10
+		entity.speed =  entity.speed * 5
 	end
 
 end

@@ -30,12 +30,13 @@ private:
 			this->lifeTime = lifeTime;
 		}
 
-		void update(const float& dt, const glm::vec2& origin)
+		void update(const float& dt)
 		{
 			if (this->lifeTime > 0.f)
 			{
-				this->lifeTime -= 10 * dt;
-				this->position += this->velocity * dt;
+				this->lifeTime -= 100 * dt;
+				this->position.x += (rand()% (static_cast<int>(this->velocity.x)+1)) * dt;
+				this->position.y += (rand() % (static_cast<int>(this->velocity.y) + 1)*2 - (static_cast<int>(this->velocity.y) + 1)) * dt;
 			}
 		}
 	};
@@ -44,7 +45,6 @@ private:
 	Sprite* particle;
 	glm::vec2 velocity;
 	float lifeTime;
-	glm::vec2 origin;
 
 	//Private functions
 
@@ -54,7 +54,6 @@ public:
 		Shader* shader,
 		Texture2D* texture,
 		Texture2D* normalMap,
-		const glm::vec2& origin,
 		const glm::vec2& size = glm::vec2(0, 0),
 		const glm::vec2& velocity = glm::vec2(0.f, 0.f),
 		const float& lifeTime = 0.f);
@@ -62,7 +61,8 @@ public:
 	virtual ~ParticleEmitter();
 
 	//Functions
-	void update(const float& dt, const glm::vec2& origin);
+	void push(const unsigned& amount, const float&x, const float&y);
+	void update(const float& dt);
 	void render(const glm::mat4& view, const glm::mat4& projection);
 
 	//Accessors

@@ -15,16 +15,15 @@ GraphicsSystem::GraphicsSystem(lua_State* luaState)
 	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
 
-
 	background = new Sprite(shaders[1], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 
 	emitter = new ParticleEmitter(
-		shaders[0], 
+		shaders[1], 
 		textures[0], 
-		nullptr, 
-		glm::vec2(getPlayerPos().x, getPlayerPos().y), 
-		glm::vec2(30, 30), 
-		glm::vec2(1000.f, 0.f), 1000.f);
+		textures[1],
+		glm::vec2(20.f, 20.f), 
+		glm::vec2(1800.f, 2000.f), 
+		10.f);
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -76,7 +75,8 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		}
 	}
 
-	emitter->update(0.0016f, glm::vec2(getPlayerPos().x, getPlayerPos().y));
+	emitter->push(1, this->sprites[1]->posX + 48.f, this->sprites[1]->posY);
+	emitter->update(0.0016f);
 	emitter->render(view, projection);
 }
 
