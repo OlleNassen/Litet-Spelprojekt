@@ -13,7 +13,6 @@ ParticleEmitter::ParticleEmitter(
 	Shader* shader, 
 	Texture2D* texture, 
 	Texture2D* normalMap,
-	const glm::vec2& origin,
 	const glm::vec2& size,
 	const glm::vec2& velocity,
 	const float& lifeTime)
@@ -21,12 +20,6 @@ ParticleEmitter::ParticleEmitter(
 	this->particle = new Sprite(shader, texture, normalMap, size);
 	this->velocity = velocity;
 	this->lifeTime = lifeTime;
-	this->origin = origin;
-
-	for (size_t i = 0; i < 1; i++)
-	{
-		this->particles.push_back(Particle(this->origin, this->velocity, this->lifeTime));
-	}
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -37,12 +30,24 @@ ParticleEmitter::~ParticleEmitter()
 //Operators
 
 //Functions
-void ParticleEmitter::update(const float& dt, const glm::vec2& origin)
+void ParticleEmitter::push(const unsigned & amount, const float & x, const float & y)
+{
+	for (size_t i = 0; i < amount; i++)
+	{
+		this->particles.push_back(Particle(glm::vec2(x, y), this->velocity, this->lifeTime));
+	}
+}
+
+void ParticleEmitter::update(const float& dt)
 {
 	for (size_t i = 0; i < this->particles.size(); i++)
 	{
 		if (this->particles[i].lifeTime >= 0)
-			particles[i].update(dt, origin);
+			particles[i].update(dt);
+		else
+		{
+			particles.erase(this->particles.begin() + i);
+		}
 	}
 }
 
