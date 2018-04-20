@@ -15,7 +15,6 @@ GraphicsSystem::GraphicsSystem(lua_State* luaState)
 	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
 
-
 	background = new Sprite(shaders[1], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 
 	emitter = new ParticleEmitter(
