@@ -20,7 +20,7 @@ GraphicsSystem::GraphicsSystem(lua_State* luaState)
 	emitter = new ParticleEmitter(
 		shaders[1], 
 		textures[0], 
-		textures[1], 
+		textures[1],
 		glm::vec2(20.f, 20.f), 
 		glm::vec2(1800.f, 2000.f), 
 		10.f);
