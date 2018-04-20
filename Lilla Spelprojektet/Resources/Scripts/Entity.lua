@@ -69,14 +69,14 @@ end
 function Entity:accelerate(direction, deltaTime)
 
 		--Acceleration
-	if direction > 0 then
+	if direction > 0 then -- Right
 		self.velocity.x = self.velocity.x + (self.acceleration.x * deltaTime)
 
 		if self.velocity.x > self.speed then
 			self.velocity.x = self.speed
 		end
 
-	elseif direction < 0 then
+	elseif direction < 0 then -- Left
 		self.velocity.x = self.velocity.x - (self.acceleration.x * deltaTime)
 
 		if self.velocity.x < -self.speed then
