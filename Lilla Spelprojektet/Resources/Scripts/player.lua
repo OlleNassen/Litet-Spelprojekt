@@ -9,9 +9,6 @@ function Player:create()
 		entity = Entity:create(),
 		isJumping = false,
 		timeSinceJump = 0.0,
-		acceleration = {x = 3500, y = 0},
-		deceletation = {x = 1300, y = 0},
-		velocity = {x = 0, y = 0},
     }
 
 	this.entity.x = 50
@@ -28,22 +25,7 @@ end
 
 function Player:moveRight(direction, deltaTime)
 
-	--Acceleration
-	if direction > 0 then
-		self.velocity.x = self.velocity.x + (self.acceleration.x * deltaTime)
-
-		if self.velocity.x > self.entity.speed then
-			self.velocity.x = self.entity.speed
-		end
-
-	elseif direction < 0 then
-		self.velocity.x = self.velocity.x - (self.acceleration.x * deltaTime)
-
-		if self.velocity.x < -self.entity.speed then
-			self.velocity.x = -self.entity.speed
-		end
-
-	end
+	self.entity:accelerate(direction, deltaTime)
 
 	return true
 end
@@ -55,23 +37,11 @@ end
 
 function Player:update(deltaTime)
 	
-	--Deceleration
-	if self.velocity.x < 0 then
-		self.velocity.x = self.velocity.x + (self.deceletation.x * deltaTime)
-		if self.velocity.x > 0 then
-			self.velocity.x = 0
-		end
-	elseif self.velocity.x > 0 then
-		self.velocity.x = self.velocity.x - (self.deceletation.x * deltaTime)
-		if self.velocity.x < 0 then
-			self.velocity.x = 0
-		end
-	end
+	--Decelerate
+	self.entity:decelerate(deltaTime)
+
 	--Final move
-	self.entity:move(self.velocity.x * deltaTime, 0)
-	if self.entity.collisionX == true then
-		self.velocity.x = 0
-	end
+	self.entity:move(self.entity.velocity.x * deltaTime, 0)
 
 	--Jumping
 	if self.isJumping then

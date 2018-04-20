@@ -13,6 +13,9 @@ function Entity:create()
 		height = 48,
 		world = {},
 		speed = 200,
+		acceleration = {x = 3500, y = 0},
+		deceletation = {x = 1300, y = 0},
+		velocity = {x = 0, y = 0},
 		attackStrength = 5,
 		attackSpeed = 1,
 		gravityConstant = 400,
@@ -25,6 +28,7 @@ end
 
 function Entity:update(deltaTime)
 	
+	--Gravity
 	self:move(0, self.gravityConstant * deltaTime)
 
 end
@@ -62,6 +66,43 @@ function Entity:getPosition()
 	return position
 end
 
+function Entity:accelerate(direction, deltaTime)
+
+		--Acceleration
+	if direction > 0 then
+		self.velocity.x = self.velocity.x + (self.acceleration.x * deltaTime)
+
+		if self.velocity.x > self.speed then
+			self.velocity.x = self.speed
+		end
+
+	elseif direction < 0 then
+		self.velocity.x = self.velocity.x - (self.acceleration.x * deltaTime)
+
+		if self.velocity.x < -self.speed then
+			self.velocity.x = -self.speed
+		end
+	end
+	
+end
+
+function Entity:decelerate(deltaTime)
+
+	--Deceleration
+	if self.velocity.x < 0 then
+		self.velocity.x = self.velocity.x + (self.deceletation.x * deltaTime)
+		if self.velocity.x > 0 then
+			self.velocity.x = 0
+		end
+	elseif self.velocity.x > 0 then
+		self.velocity.x = self.velocity.x - (self.deceletation.x * deltaTime)
+		if self.velocity.x < 0 then
+			self.velocity.x = 0
+		end
+	end
+
+end
+
 function Entity:move(x, y)
 	
 	if self.world:canMove(self.x + x, self.y) and self.world:canMove(self.x + x + self.width, self.y + self.height) and 
@@ -70,6 +111,7 @@ function Entity:move(x, y)
 		self.collisionX = false
 	else
 		self.collisionX = true
+		self.velocity.x = 0
 	end
 
 	if self.world:canMove(self.x, self.y + y) and self.world:canMove(self.x + self.width, self.y + y + self.height) and
