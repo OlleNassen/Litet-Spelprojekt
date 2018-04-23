@@ -36,7 +36,7 @@
     <ClCompile Include="Renderer\particle_emitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="audio_system.cpp">
+    <ClCompile Include="GameEngine\audio_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +71,7 @@
     <ClInclude Include="Renderer\particle_emitter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="audio_system.hpp">
+    <ClInclude Include="GameEngine\audio_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
