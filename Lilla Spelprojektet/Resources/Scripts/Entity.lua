@@ -12,14 +12,17 @@ function Entity:create()
 		width = 48,
 		height = 48,
 		world = {},
-		speed = 200,
-		acceleration = {x = 3500, y = 0},
+		maxSpeed = {x = 200, y = 200},
+		acceleration = {x = 3500, y = 1200},
 		deceletation = {x = 1300, y = 0},
 		velocity = {x = 0, y = 0},
 		attackStrength = 5,
 		attackSpeed = 1,
 		gravityConstant = 400,
-		collisionX = false,
+		collision_left = false,
+		collision_right = false,
+		collision_top = false,
+		collision_bottom = false,
     }
 
     setmetatable(this, self)
@@ -29,7 +32,7 @@ end
 function Entity:update(deltaTime)
 	
 	--Gravity
-	self:move(0, self.gravityConstant * deltaTime)
+	self:accelerate(0, 1, deltaTime)
 
 end
 
@@ -66,21 +69,29 @@ function Entity:getPosition()
 	return position
 end
 
-function Entity:accelerate(direction, deltaTime)
+function Entity:accelerate(directionX, directionY, deltaTime)
 
-		--Acceleration
-	if direction > 0 then -- Right
+	--Acceleration
+	if directionX > 0 then -- Right
 		self.velocity.x = self.velocity.x + (self.acceleration.x * deltaTime)
 
-		if self.velocity.x > self.speed then
-			self.velocity.x = self.speed
+		if self.velocity.x > self.maxSpeed.x then
+			self.velocity.x = self.maxSpeed.x
 		end
 
-	elseif direction < 0 then -- Left
+	elseif directionX < 0 then -- Left
 		self.velocity.x = self.velocity.x - (self.acceleration.x * deltaTime)
 
-		if self.velocity.x < -self.speed then
-			self.velocity.x = -self.speed
+		if self.velocity.x < -self.maxSpeed.x then
+			self.velocity.x = -self.maxSpeed.x
+		end
+	end
+
+	if directionY > 0 then
+		self.velocity.y = self.velocity.y + (self.acceleration.y * deltaTime)
+
+		if self.velocity.y > self.maxSpeed.y then
+			self.velocity.y = self.maxSpeed.y
 		end
 	end
 	
@@ -105,18 +116,40 @@ end
 
 function Entity:move(x, y)
 	
+	self.collision_left = false
+	self.collision_right = false
+	self.collision_top = false
+	self.collision_bottom = false
+
 	if self.world:canMove(self.x + x, self.y) and self.world:canMove(self.x + x + self.width, self.y + self.height) and 
 	self.world:canMove(self.x + x + self.width, self.y) and self.world:canMove(self.x + x, self.y + self.height) then
 		self.x = self.x + x
-		self.collisionX = false
+	
 	else
-		self.collisionX = true
+		if self.velocity.x > 0 then
+			self.collision_right = true
+
+		elseif self.velocity.x < 0 then
+			self.collision_left = true
+		end
+
 		self.velocity.x = 0
 	end
 
 	if self.world:canMove(self.x, self.y + y) and self.world:canMove(self.x + self.width, self.y + y + self.height) and
 	self.world:canMove(self.x + self.width, self.y + y) and self.world:canMove(self.x, self.y + y + self.height) then
 		self.y = self.y + y
+
+	else
+		if self.velocity.y > 0 then
+			self.collision_bottom = true
+
+		elseif self.velocity.y < 0 then
+			self.collision_top = true
+
+		end
+
+		self.velocity.y = 0
 	end
 		
 	if self.sprite ~= nil then

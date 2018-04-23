@@ -13,7 +13,8 @@ function Powerup:create()
 
 	this.entity.x = 1000
 	this.entity.y = 1000
-	this.entity.speed = 0
+	this.entity.maxSpeed.x = 0
+	this.entity.maxSpeed.y = 0
 
 	this.entity.texture = newTexture("Resources/Sprites/powerup_speed1.png")
 	this.entity.sprite = newSprite(this.entity.texture)
@@ -25,9 +26,9 @@ end
 
 function Powerup:checkType(entity)
 	if self.type == 0 then -- speed upgrade
-		entity.speed = entity.speed * 3
+		entity.maxSpeed.x = entity.maxSpeed.x * 3
 	elseif type == 1 then
-		entity.speed =  entity.speed * 5
+		entity.maxSpeed.x =  entity.maxSpeed.x * 5
 	end
 
 end

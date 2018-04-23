@@ -22,7 +22,8 @@ p.entity:addWorld(level)
 local s = Entity:create() -- pixie
 s.x = 200
 s.y = 100
-s.speed = 200
+s.maxSpeed.x = 200
+s.maxSpeed.y = 200
 s.texture = newTexture("Resources/Sprites/player.png")
 s.sprite = newSprite(s.texture)
 s:addWorld(level)

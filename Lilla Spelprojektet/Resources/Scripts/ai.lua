@@ -15,6 +15,8 @@ function Ai:create()
 
 	this.entity.x = 155
 	this.entity.y = 155
+	this.entity.maxSpeed.x = 700
+	this.entity.maxSpeed.y = 1000
 	this.entity.texture = newTexture("Resources/Sprites/goomba.png")
 	this.entity.sprite = newSprite(this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
@@ -43,8 +45,8 @@ function Ai:update(deltaTime)
 		self.goombaDir = self:randomizeDirection()
 		self.timer = 0
 	else
-		self.entity:accelerate(self.goombaDir, deltaTime)
-		self.entity:move(self.entity.velocity.x * deltaTime, 0)
+		self.entity:accelerate(self.goombaDir, 0, deltaTime)
+		self.entity:move(self.entity.velocity.x * deltaTime, self.entity.velocity.y * deltaTime)
 	end
 end
 

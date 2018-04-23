@@ -8,12 +8,14 @@ function Player:create()
     {
 		entity = Entity:create(),
 		isJumping = false,
+		isFalling = false,
 		timeSinceJump = 0.0,
     }
 
 	this.entity.x = 50
 	this.entity.y = 50
-	this.entity.speed = 500
+	this.entity.maxSpeed.x = 500
+	this.entity.maxSpeed.y = 1000
 	this.entity.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/playerNormal.png")
 	this.entity.sprite = newSprite(this.entity.normalMap, this.entity.texture)
@@ -23,15 +25,20 @@ function Player:create()
     return this
 end
 
-function Player:moveRight(direction, deltaTime)
+function Player:moveRight(directionX, deltaTime)
 
-	self.entity:accelerate(direction, deltaTime)
+	self.entity:accelerate(directionX, 0, deltaTime)
 
 	return true
 end
 
 function Player:jump()
+
+	if self.entity.collision_bottom == true then
 	self.isJumping = true
+	self.isFalling = false
+	end
+
 	return false
 end
 
@@ -41,7 +48,7 @@ function Player:update(deltaTime)
 	self.entity:decelerate(deltaTime)
 
 	--Final move
-	self.entity:move(self.entity.velocity.x * deltaTime, 0)
+	self.entity:move(self.entity.velocity.x * deltaTime, self.entity.velocity.y * deltaTime)
 
 	--Jumping
 	if self.isJumping then
