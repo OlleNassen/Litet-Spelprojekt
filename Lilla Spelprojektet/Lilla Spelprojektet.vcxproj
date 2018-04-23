@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="audio_system.cpp" />
     <ClCompile Include="GameEngine\camera.cpp" />
     <ClCompile Include="GameEngine\game.cpp" />
     <ClCompile Include="GameEngine\event_system.cpp" />
@@ -28,6 +29,7 @@
     <ClCompile Include="GameEngine\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="audio_system.hpp" />
     <ClInclude Include="GameEngine\camera.hpp" />
     <ClInclude Include="GameEngine\event_system.hpp" />
     <ClInclude Include="GameEngine\game.hpp" />
