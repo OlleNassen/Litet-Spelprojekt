@@ -1,4 +1,5 @@
 require("Resources/Scripts/Entity")
+require("Resources/Scripts/background")
 require("Resources/Scripts/player")
 require("Resources/Scripts/ai")
 require("Resources/Scripts/World")
@@ -41,11 +42,10 @@ b.sprite = newSprite(b.texture)
 b:addWorld(level)
 b:move(0,0)
 
-local a = Entity:create() -- background
-a.texture = newTexture("Resources/Sprites/HansTap.png")
-a.sprite = newSprite(48, 48, 0, a.texture)
-a:addWorld(level)
-a:setPosition(500, 200)
+local bg = Background:create()
+bg.texture = newTexture("Resources/Sprites/HansTap.png")
+bg.sprite = newBackground(1000, 1000, 0, bg.texture)
+bg:move(100, 100)
 
 
 function moveRight(direction, deltaTime)
@@ -75,9 +75,6 @@ function update(deltaTime)
 	if p.entity:contains(b.x, b.y) then
 		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
-
-	position = p:getPosition()
-	a:setPosition((position.x / 2) - 100, position.y - 720 / 2)
 
 	return true
 end

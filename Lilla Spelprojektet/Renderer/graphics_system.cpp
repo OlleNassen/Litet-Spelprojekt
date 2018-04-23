@@ -128,8 +128,11 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 	lua_pushcfunction(luaState, clearTileMap);
 	lua_setglobal(luaState, "clearTileMap");
 
-	lua_pushcfunction(luaState, newBackground);
+	lua_pushcfunction(luaState, newbackground);
 	lua_setglobal(luaState, "newBackground");
+
+	lua_pushcfunction(luaState, backgroundpos);
+	lua_setglobal(luaState, "backgroundPos");
 }
 
 void GraphicsSystem::loadShaders()
@@ -272,7 +275,7 @@ int GraphicsSystem::clearTileMap(lua_State* luaState)
 	return 0;
 }
 
-int GraphicsSystem::newBackground(lua_State* luaState)
+int GraphicsSystem::newbackground(lua_State* luaState)
 {
 	lua_getglobal(luaState, "GraphicsSystem");
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
@@ -302,4 +305,18 @@ int GraphicsSystem::newBackground(lua_State* luaState)
 
 	//*id = ptr->sprites.size() - 1;
 	return 1;
+}
+
+int GraphicsSystem::backgroundpos(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	float y = lua_tonumber(luaState, -2);
+	float x = lua_tonumber(luaState, -3);
+	int* id = (int*)lua_touserdata(luaState, -4);
+
+	ptr->background->posX = x;
+	ptr->background->posY = y;
+
+	return 0;
 }

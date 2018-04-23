@@ -79,5 +79,6 @@
     <None Include="Resources\Shaders\2d_shader.vert" />
     <None Include="Resources\Shaders\2d_shader.frag" />
     <None Include="Resources\Scripts\ai.lua" />
+    <None Include="Resources\Scripts\background.lua" />
   </ItemGroup>
 </Project>
