@@ -81,10 +81,8 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
-{	
-	sf::Vector2f vec = getPlayerPos();
-	
-	background->draw(glm::vec2(vec.x - (WIDTH/2), vec.y - (HEIGHT / 2)), view, projection);	
+{		
+	background->draw(glm::vec2(background->posX, background->posY), view, projection);
 
 	if (tileMap.size() > 0)
 	{
