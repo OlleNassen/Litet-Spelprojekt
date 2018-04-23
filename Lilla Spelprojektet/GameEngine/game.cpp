@@ -233,9 +233,9 @@ int Game::push(lua_State* luaState)
 
 	State newState;
 	newState.luaState = newLua;
-	newState.graphicsSystem = new GraphicsSystem(newLua);
+	newState.graphicsSystem = new GraphicsSystem;
 	newState.graphicsSystem->addLuaFunctions(newLua);
-	newState.audioSystem = new AudioSystem();
+	newState.audioSystem = new AudioSystem;
 	newState.audioSystem->addLuaFunctions(newLua);
 
 	if (luaL_loadfile(newLua, name) || lua_pcall(newLua, 0, 0, 0))
