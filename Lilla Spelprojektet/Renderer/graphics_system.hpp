@@ -39,7 +39,7 @@ private:
 	ParticleEmitter* emitter;
 
 public:
-	GraphicsSystem(lua_State* luaState);
+	GraphicsSystem();
 	~GraphicsSystem();
 
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);

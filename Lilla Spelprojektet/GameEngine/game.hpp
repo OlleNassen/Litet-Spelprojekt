@@ -8,12 +8,14 @@ namespace sf
 
 struct lua_State;
 class GraphicsSystem;
+class AudioSystem;
 class Camera;
 
 struct State
 {
 	lua_State* luaState;
 	GraphicsSystem* graphicsSystem;
+	AudioSystem* audioSystem;
 
 };
 

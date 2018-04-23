@@ -2,6 +2,7 @@
 #include <lua.hpp>
 #include <SFML/Window/Window.hpp>
 #include "../Renderer/graphics_system.hpp"
+#include "audio_system.hpp"
 #include "camera.hpp"
 
 #define WIDTH 1280
@@ -76,6 +77,7 @@ void Game::run()
 		{
 			lua_close(states.back().luaState);
 			delete states.back().graphicsSystem;
+			delete states.back().audioSystem;
 			states.pop_back();
 			wantPop = false;
 		}
@@ -231,8 +233,10 @@ int Game::push(lua_State* luaState)
 
 	State newState;
 	newState.luaState = newLua;
-	newState.graphicsSystem = new GraphicsSystem(newLua);
+	newState.graphicsSystem = new GraphicsSystem;
 	newState.graphicsSystem->addLuaFunctions(newLua);
+	newState.audioSystem = new AudioSystem;
+	newState.audioSystem->addLuaFunctions(newLua);
 
 	if (luaL_loadfile(newLua, name) || lua_pcall(newLua, 0, 0, 0))
 	{
