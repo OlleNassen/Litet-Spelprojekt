@@ -10,7 +10,7 @@ tilemap2 =
 
 	texturesNormal = 
 	{
-		"Resources/Sprites/brickwall_normal.png",
+		"Resources/Sprites/brickwall_normal.png", 
 		"Resources/Sprites/pyramid_normal.png",
 		"Resources/Sprites/brick_normal.png",
 		"Resources/Sprites/saw_normal.png",	

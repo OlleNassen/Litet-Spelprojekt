@@ -43,10 +43,10 @@ b:addWorld(level)
 b:move(0,0)
 
 local bg = Background:create()
-bg.texture = newTexture("Resources/Sprites/brick_diffuse.png")
-bg.normalMap = newTexture("Resources/Sprites/brick_normal.png")
-bg.sprite = newBackground(1000, 1000, bg.normalMap, bg.texture)
---bg:setPosition(100, 100)
+bg.texture = newTexture("Resources/Sprites/backgroundTile_diffuse.png")
+bg.normalMap = newTexture("Resources/Sprites/backgroundTile_normal.png")
+bg.sprite = newBackground(720 * 10, 720, bg.normalMap, bg.texture)
+--bg:setPosition(100, 100)]]
 
 
 function moveRight(direction, deltaTime)
