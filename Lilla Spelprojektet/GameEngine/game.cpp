@@ -55,7 +55,7 @@ void Game::run()
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
 		
-		while (timeSinceLastUpdate > timePerFrame)
+		while (timeSinceLastUpdate > timePerFrame && !wantClear)
 		{
 			timeSinceLastUpdate -= timePerFrame;
 
@@ -139,10 +139,20 @@ void Game::update(float deltaTime)
 		/* push functions and arguments */
 		lua_getglobal(luaState, "update");  /* function to be called */
 		lua_pushnumber(luaState, deltaTime);   
-		lua_pcall(luaState, 1, 1, 0);
-
-		stopUpdate = lua_toboolean(luaState, -1);
-		lua_pop(luaState, 1);  /* pop returned value */
+		if (lua_pcall(luaState, 1, 1, 0))
+		{
+			fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(luaState, -1));
+			window->setMouseCursorGrabbed(false);
+			window->setMouseCursorVisible(true);
+			system("pause");
+			wantClear = true;
+			stopUpdate = true;
+		}
+		else
+		{
+			stopUpdate = lua_toboolean(luaState, -1);
+			lua_pop(luaState, 1);  /* pop returned value */
+		}
 	}
 
 
