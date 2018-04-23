@@ -43,9 +43,10 @@ b:addWorld(level)
 b:move(0,0)
 
 local bg = Background:create()
-bg.texture = newTexture("Resources/Sprites/HansTap.png")
-bg.sprite = newBackground(1000, 1000, 0, bg.texture)
-bg:move(100, 100)
+bg.texture = newTexture("Resources/Sprites/brick_diffuse.png")
+bg.normalMap = newTexture("Resources/Sprites/brick_normal.png")
+bg.sprite = newBackground(1000, 1000, bg.normalMap, bg.texture)
+--bg:setPosition(100, 100)
 
 
 function moveRight(direction, deltaTime)
@@ -75,6 +76,9 @@ function update(deltaTime)
 	if p.entity:contains(b.x, b.y) then
 		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
+
+	position = p:getPosition()
+	bg:setPosition(position.x / 2 - (1280 / 2), position.y - (720 / 2))
 
 	return true
 end
