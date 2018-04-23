@@ -43,7 +43,8 @@ function Ai:update(deltaTime)
 		self.goombaDir = self:randomizeDirection()
 		self.timer = 0
 	else
-		self.entity:move(self.goombaDir * self.entity.speed * deltaTime, 0)
+		self.entity:accelerate(self.goombaDir, deltaTime)
+		self.entity:move(self.entity.velocity.x * deltaTime, 0)
 	end
 end
 
