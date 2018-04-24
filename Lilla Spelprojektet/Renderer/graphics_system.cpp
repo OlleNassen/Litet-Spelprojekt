@@ -15,29 +15,32 @@ GraphicsSystem::GraphicsSystem()
 
 	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
 
 	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 
 	emitter = new ParticleEmitter(
 		shaders[2], 
-		textures[0], 
-		textures[1],
+		textures[2], 
+		textures[3],
 		glm::vec2(20.f, 20.f), 
 		glm::vec2(1800.f, 2000.f), 
 		10.f);
 
 	lights = new PointLights;
-
-	for (int i = 0; i < NUM_LIGHTS - 1; i++)
+	
+	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
-		lights->positions[i] = glm::vec3(i * 1000, 2000, 0);
-		lights->colors[i] = glm::vec4(1, 0.1, 0.1, 0);
+		lights->positions[i] = glm::vec3(-10000, -10000, 0);
+		lights->colors[i] = glm::vec4(0, 0, 0, 0);
 	}
+	
 }
 
 GraphicsSystem::~GraphicsSystem()
 {
-	delete lights;
+	//delete lights;
 
 	for (auto& tile : tiles)
 	{
@@ -69,10 +72,10 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		for (int itr = sprites.size() - 1; itr >= 0; itr--)
 		{
 			glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
-			glm::vec4 lightC{ 0.2f, 0.2f, 0.8f, 0.f };
+			glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
 
-			lights->positions[NUM_LIGHTS - 1] = lightP;
-			lights->colors[NUM_LIGHTS - 1] = lightC;
+			lights->positions[numLights - 1] = lightP;
+			lights->colors[numLights - 1] = lightC;
 
 			shaders[2]->use();
 			glUniform3fv(glGetUniformLocation(shaders[2]->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
@@ -92,7 +95,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 	emitter->push(1, this->sprites[1]->posX + 48.f, this->sprites[1]->posY);
 	emitter->update(0.0016f);
-	emitter->render(view, projection);
+	emitter->render(view, projection, 0.0016f);
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
@@ -107,22 +110,23 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			initShadows();
 		}
 
-		for (int y = (getPlayerPos().y - HEIGHT) / 48; y < (getPlayerPos().y + HEIGHT) / 48; y++)
+		for (int y = (getPlayerPos().y - HEIGHT/2) / 48 - 1; y < (getPlayerPos().y + HEIGHT/2) / 48; y++)
 		{
-			for (int x = (getPlayerPos().x - WIDTH) / 48; x < (getPlayerPos().x + WIDTH) / 48; x++)
+			for (int x = (getPlayerPos().x - WIDTH/2) / 48 - 1; x < (getPlayerPos().x + WIDTH/2) / 48; x++)
 			{
 				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
 					&& tileMap[x + 2 + y * tileMap[0]] != 0)
 				{
 					glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
-					glm::vec4 lightC{ 0.2f, 0.2f, 0.8f, 0.f };
+					glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
+
 
 					lights->positions[10] = lightP;
 					lights->colors[10] = lightC;
 
 					shaders[2]->use();
-					glUniform3fv(glGetUniformLocation(shaders[2]->getID(), "lightPos"), 10, &lights->positions[0][0]);
-					glUniform4fv(glGetUniformLocation(shaders[2]->getID(), "lightColor"), 10, &lights->colors[0][0]);
+					glUniform3fv(glGetUniformLocation(shaders[2]->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
+					glUniform4fv(glGetUniformLocation(shaders[2]->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
 					shaders[2]->unuse();
 
 					if (visibleTiles[x + 2 + y * tileMap[0]])
@@ -135,6 +139,12 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 					}
 
 					tiles[tileMap[x + 2 + y * tileMap[0]]]->draw(glm::vec2(x * 48, y * 48), view, projection);
+				}
+				else if (x < 0 || y < 0 || x >= tileMap[0] || y >= tileMap[1])
+				{
+					static Texture2D t("Resources/Sprites/background2.png");
+					static Sprite s(shaders[0], &t, nullptr);
+					s.draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
 			}
 		}
@@ -158,6 +168,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 	lua_pushcfunction(luaState, newsprite);
 	lua_setglobal(luaState, "newSprite");
 
+	lua_pushcfunction(luaState, newLight);
+	lua_setglobal(luaState, "newLight");
+
 	lua_pushcfunction(luaState, spritepos);
 	lua_setglobal(luaState, "spritePos");
 
@@ -179,7 +192,6 @@ void GraphicsSystem::loadShaders()
 	shaders.push_back(new Shader("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/2d_shader.vert", "Resources/Shaders/2d_shader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/amazing_shader.vert", "Resources/Shaders/amazing_shader.frag"));
-
 }
 
 void GraphicsSystem::initShadows()
@@ -338,6 +350,48 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 	*id = ptr->sprites.size() - 1;
 	return 1;
 }
+
+int GraphicsSystem::newLight(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	int* texture = (int*)lua_touserdata(luaState, -2);
+	int* normalMap = (int*)lua_touserdata(luaState, -3);
+	int y = lua_tointeger(luaState, -4);
+	int x = lua_tointeger(luaState, -5);
+	float blue = lua_tonumber(luaState, -6);
+	float green = lua_tonumber(luaState, -7);
+	float red = lua_tonumber(luaState, -8);
+
+	lua_pop(luaState, 1);
+	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
+
+	if (normalMap)
+	{
+		ptr->sprites.push_back(
+			new Sprite(ptr->shaders[2], ptr->textures[*texture],
+				ptr->textures[*normalMap], glm::vec2(48, 48)));
+		ptr->lights->positions[ptr->numLights] = glm::vec3(x, y, 0);
+		ptr->lights->colors[ptr->numLights++] = glm::vec4(red, green, blue, 1);
+		ptr->sprites.back()->posX = x;
+		ptr->sprites.back()->posY = y;
+	}
+	else
+	{
+		ptr->sprites.push_back(
+			new Sprite(ptr->shaders[0], ptr->textures[*texture],
+				nullptr, glm::vec2(48, 48)));
+
+		ptr->lights->positions[ptr->numLights] = glm::vec3(x, y, 0);
+		ptr->lights->colors[ptr->numLights++] = glm::vec4(red, green, blue, 1);
+		ptr->sprites.back()->posX = x;
+		ptr->sprites.back()->posY = y;
+	}
+
+	*id = ptr->sprites.size() - 1;
+	return 1;
+}
+
 
 int GraphicsSystem::spritepos(lua_State* luaState)
 {

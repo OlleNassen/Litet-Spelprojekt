@@ -23,6 +23,7 @@ function World:loadGraphics()
 		tileTexture(v, self.map.texturesNormal[i])
 		i = i + 1
 	end
+	--print(i)
 
 	loadTileGraphics(self.map.width)
 	loadTileGraphics(self.map.height)

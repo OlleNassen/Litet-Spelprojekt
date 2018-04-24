@@ -20,9 +20,10 @@ class Sprite;
 
 struct PointLights
 {
-	bool status; //On or off
+	//bool status; //On or off
 	glm::vec3 positions[NUM_LIGHTS];
 	glm::vec4 colors[NUM_LIGHTS];
+	
 };
 
 class GraphicsSystem
@@ -34,6 +35,7 @@ private:
 	std::vector<Texture2D*> tileTextures;
 	std::vector<Sprite*> tiles;
 	Sprite* background;
+	int numLights = 0;
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
@@ -97,6 +99,7 @@ private:
 
 	static int newtexture(lua_State* luaState);
 	static int newsprite(lua_State* luaState);
+	static int newLight(lua_State* luaState);
 	static int spritepos(lua_State* luaState);
 
 	static int newtiletexture(lua_State* luaState);

@@ -88,5 +88,6 @@
     <None Include="Resources\Scripts\background.lua" />
     <None Include="Resources\Shaders\amazing_shader.frag" />
     <None Include="Resources\Shaders\amazing_shader.vert" />
+    <None Include="Resources\Scripts\point_light.lua" />
   </ItemGroup>
 </Project>

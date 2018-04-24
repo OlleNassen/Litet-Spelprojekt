@@ -13,8 +13,8 @@ function Ai:create()
 		timer = 5,
     }
 
-	this.entity.x = 155
-	this.entity.y = 155
+	this.entity.x = 1055
+	this.entity.y = 1055
 	this.entity.maxSpeed.x = 700
 	this.entity.maxSpeed.y = 1000
 	this.entity.texture = newTexture("Resources/Sprites/goomba.png")

@@ -13,8 +13,8 @@ function Entity:create()
 		height = 48,
 		world = {},
 		maxSpeed = {x = 200, y = 200},
-		acceleration = {x = 3500, y = 1200},
-		deceletation = {x = 1300, y = 0},
+		acceleration = {x = 3500, y = 3500},
+		deceletation = {x = 1500, y = 1500},
 		velocity = {x = 0, y = 0},
 		attackStrength = 5,
 		attackSpeed = 1,
@@ -23,9 +23,10 @@ function Entity:create()
 		collision_right = false,
 		collision_top = false,
 		collision_bottom = false,
-		hasPowerUp = {},
 		hasGravity = true,
-	}
+		canFly = false,
+		hasPowerUp = {},
+    }
 
 	for i=1,2,1 do 
 		table.insert(this.hasPowerUp, i, false)
@@ -41,6 +42,7 @@ function Entity:update(deltaTime)
 	if self.hasGravity == true then
 		self:accelerate(0, 1, deltaTime)
 	end
+
 end
 
 function Entity:contains(x, y)
@@ -100,13 +102,20 @@ function Entity:accelerate(directionX, directionY, deltaTime)
 		if self.velocity.y > self.maxSpeed.y then
 			self.velocity.y = self.maxSpeed.y
 		end
+
+	elseif directionY < 0 then
+		self.velocity.y = self.velocity.y - (self.acceleration.y * deltaTime)
+
+		if self.velocity.y < -self.maxSpeed.y then
+			self.velocity.y = -self.maxSpeed.y
+		end
 	end
 	
 end
 
 function Entity:decelerate(deltaTime)
 
-	--Deceleration
+	--Deceleration X
 	if self.velocity.x < 0 then
 		self.velocity.x = self.velocity.x + (self.deceletation.x * deltaTime)
 		if self.velocity.x > 0 then
@@ -116,6 +125,19 @@ function Entity:decelerate(deltaTime)
 		self.velocity.x = self.velocity.x - (self.deceletation.x * deltaTime)
 		if self.velocity.x < 0 then
 			self.velocity.x = 0
+		end
+	end
+
+	--Deceleration Y
+	if self.velocity.y < 0 then
+		self.velocity.y = self.velocity.y + (self.deceletation.y * deltaTime)
+		if self.velocity.y > 0 then
+			self.velocity.y = 0
+		end
+	elseif self.velocity.y > 0 then
+		self.velocity.y = self.velocity.y - (self.deceletation.y * deltaTime)
+		if self.velocity.y < 0 then
+			self.velocity.y = 0
 		end
 	end
 
@@ -153,7 +175,6 @@ function Entity:move(x, y)
 
 		elseif self.velocity.y < 0 then
 			self.collision_top = true
-
 		end
 
 		self.velocity.y = 0
