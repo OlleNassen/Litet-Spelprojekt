@@ -16,7 +16,7 @@ GraphicsSystem::GraphicsSystem()
 	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
 
-	//background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
+	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 
 	emitter = new ParticleEmitter(
 		shaders[2], 
@@ -97,7 +97,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {		
-	//background->draw(glm::vec2(background->posX, background->posY), view, projection);
+	background->draw(glm::vec2(background->posX, background->posY), view, projection);
 
 	if (tileMap.size() > 0)
 	{
