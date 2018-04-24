@@ -30,15 +30,15 @@ s:addWorld(level)
 
 local bg = Background:create()
 bg.texture = newTexture("Resources/Sprites/backgroundTile_diffuse.png")
-bg.normalMap = newTexture("Resources/Sprites/backgroundTile_normal.png")
-bg.sprite = newBackground(720 * 10, 720, bg.normalMap, bg.texture)
+--bg.normalMap = newTexture("Resources/Sprites/backgroundTile_normal.png")
+bg.sprite = newBackground(720 * 10, 720, 0, bg.texture)
 
 local tileType = 0
 function tablelength(T) local count = 0 for v in pairs(T) do count = count + 1 end return count end
 local totalTiles = tablelength(level.map.texturesDiffuse) - 1
 
 function moveUp(direction, deltaTime)
-	p:moveIgnoreWall(0, -direction * p.speed * deltaTime)
+	p:moveIgnoreWall(0, direction * p.speed * deltaTime)
 	return true
 end
 
@@ -54,11 +54,15 @@ function mouse(x, y)
 	mX = mX + x
 	mY = mY + y
 	s:setPosition(p.x + mX, p.y + mY)
-	--print(mX, mY)
 end
 
 function mouseLeft()
 	local position = {x, y}
+	
+	if tileType == 0 then
+		print(p.x + mX, p.y + mY)
+	end
+
 	position.x = math.floor((p.x + mX) / 48)
 	position.y = math.floor((p.y + mY) / 48)
 
@@ -69,7 +73,6 @@ function mouseLeft()
 		level.map.tiles[index + 1] = tileType
 		reloadTile(index, tileType)	
 	end
-
 end
 
 function quit(direction, deltaTime)
