@@ -26,9 +26,12 @@ function Player:create()
 end
 
 function Player:moveRight(directionX, deltaTime)
-
 	self.entity:accelerate(directionX, 0, deltaTime)
+	return true
+end
 
+function Player:moveUp(directionY, deltaTime)
+	self.entity:accelerate(0, directionY, deltaTime)
 	return true
 end
 
@@ -40,6 +43,17 @@ function Player:jump()
 	end
 
 	return false
+end
+
+function Player:fly()
+	if self.entity.hasGravity == false then
+		print("gravityOn")
+		self.entity.hasGravity = true	
+	else
+		print("gravityOff")
+		self.entity.hasGravity = false
+		self.entity.velocity.y = 0
+	end
 end
 
 function Player:update(deltaTime)
