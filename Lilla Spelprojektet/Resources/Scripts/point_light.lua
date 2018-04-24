@@ -3,9 +3,16 @@ PointLight.__index = PointLight
 
 function PointLight:create(red, green, blue, x, y, normal, diffuse)
     
+	if normal ~= 0 then
+		t = newTexture(normal)
+	else
+		t = 0
+	end
+	
+	
 	local this =
     {
-		normaltext = newTexture(normal),
+		normaltext = t,
 		diffusetext = newTexture(diffuse),
 		sprite
     }
