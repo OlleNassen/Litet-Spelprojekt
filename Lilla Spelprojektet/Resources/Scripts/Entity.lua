@@ -170,7 +170,6 @@ function Entity:move(x, y)
 
 		elseif self.velocity.y < 0 then
 			self.collision_top = true
-
 		end
 
 		self.velocity.y = 0
