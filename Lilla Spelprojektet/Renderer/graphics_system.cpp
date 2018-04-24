@@ -35,7 +35,8 @@ GraphicsSystem::GraphicsSystem()
 		lights->positions[i] = glm::vec3(-10000, -10000, 0);
 		lights->colors[i] = glm::vec4(0, 0, 0, 0);
 	}
-	
+	t = new Texture2D("Resources/Sprites/background2.png");
+	s = new Sprite(shaders[0], t, nullptr);
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -142,9 +143,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 				}
 				else if (x < 0 || y < 0 || x >= tileMap[0] || y >= tileMap[1])
 				{
-					static Texture2D t("Resources/Sprites/background2.png");
-					static Sprite s(shaders[0], &t, nullptr);
-					s.draw(glm::vec2(x * 48, y * 48), view, projection);
+					s->draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
 			}
 		}

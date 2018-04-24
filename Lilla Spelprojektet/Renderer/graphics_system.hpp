@@ -37,6 +37,9 @@ private:
 	Sprite* background;
 	int numLights = 0;
 
+	Texture2D* t;
+	Sprite* s;
+
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
 	std::vector<Sprite*> sprites;
