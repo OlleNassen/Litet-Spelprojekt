@@ -108,9 +108,9 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			initShadows();
 		}
 
-		for (int y = (getPlayerPos().y - HEIGHT) / 48; y < (getPlayerPos().y + HEIGHT) / 48; y++)
+		for (int y = (getPlayerPos().y - HEIGHT/2) / 48 - 1; y < (getPlayerPos().y + HEIGHT/2) / 48; y++)
 		{
-			for (int x = (getPlayerPos().x - WIDTH) / 48; x < (getPlayerPos().x + WIDTH) / 48; x++)
+			for (int x = (getPlayerPos().x - WIDTH/2) / 48 - 1; x < (getPlayerPos().x + WIDTH/2) / 48; x++)
 			{
 				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
 					&& tileMap[x + 2 + y * tileMap[0]] != 0)
@@ -137,6 +137,12 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 					}
 
 					tiles[tileMap[x + 2 + y * tileMap[0]]]->draw(glm::vec2(x * 48, y * 48), view, projection);
+				}
+				else if (x < 0 || y < 0 || x >= tileMap[0] || y >= tileMap[1])
+				{
+					static Texture2D t("Resources/Sprites/torch.png");
+					static Sprite s(shaders[0], &t, nullptr);
+					s.draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
 			}
 		}
