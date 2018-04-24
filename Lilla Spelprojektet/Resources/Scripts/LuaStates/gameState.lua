@@ -11,7 +11,7 @@ function quit()
 end
 
 local level = World:create()
-level:addMap(tilemap2)
+level:addMap(tilemap1)
 level:loadGraphics()
 
 

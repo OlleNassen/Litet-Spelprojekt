@@ -1,6 +1,7 @@
 require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
 require("Resources/Scripts/empty")
+require("Resources/Scripts/Background")
 package.loaded["Resources/Scripts/empty"] = nil
 
 function quit()
@@ -15,8 +16,7 @@ local p = Entity:create() -- player
 p.speed = 200
 p.texture = newTexture("Resources/Sprites/brick_diffuse.png")
 p.normalMap = newTexture("Resources/Sprites/brick_normal.png")
-p.sprite = newSprite(p.normalMap, p.texture)
-p:addWorld(level)
+p.sprite = newSprite(1, 1, p.normalMap, p.texture)
 p:setPosition(100, 100)
 
 local s = Entity:create() -- pixie
@@ -28,15 +28,22 @@ s.normalMap = newTexture("Resources/Sprites/mouseNormal.png")
 s.sprite = newSprite(s.normalMap, s.texture)
 s:addWorld(level)
 
+local bg = Background:create()
+bg.texture = newTexture("Resources/Sprites/backgroundTile_diffuse.png")
+bg.normalMap = newTexture("Resources/Sprites/backgroundTile_normal.png")
+bg.sprite = newBackground(720 * 10, 720, bg.normalMap, bg.texture)
+
 local tileType = 0
+function tablelength(T) local count = 0 for v in pairs(T) do count = count + 1 end return count end
+local totalTiles = tablelength(level.map.texturesDiffuse) - 1
 
 function moveUp(direction, deltaTime)
-	p:move(0, -direction * p.speed * deltaTime)
+	p:moveIgnoreWall(0, -direction * p.speed * deltaTime)
 	return true
 end
 
 function moveRight(direction, deltaTime)
-	p:move(direction * p.speed * deltaTime, 0)
+	p:moveIgnoreWall(direction * p.speed * deltaTime, 0)
 	return true
 end
 
@@ -65,32 +72,35 @@ function mouseLeft()
 
 end
 
-function update(deltatime)
-	--s:setPosition(p.x + mX, p.y + mY)
-end
-
 function quit(direction, deltaTime)
 	pop()
 end
 
-function update()
+function update(deltatime)
+
+	position = p:getPosition()
+	bg:setPosition(position.x / 2 - (1280 / 2), position.y - (720 / 2))
+
 	return true
 end
 
-function key1()
-	tileType = 0
-end
+function next(direction)
 
-function key2()
-	tileType = 1	
-end
+	if direction == 1 then
+		tileType = tileType + 1
+	elseif direction == -1 then
+		tileType = tileType - 1
+	end
 
-function key3()
-	tileType = 2	
-end
+	if tileType < 0 then
+		tileType = 0
+	end
 
-function key4()
-	tileType = 3	
+	if tileType > totalTiles then
+		tileType = totalTiles
+	end
+
+	print(tileType)
 end
 
 function save()
@@ -155,6 +165,7 @@ function load()
 	package.loaded[fileDir] = nil
 	if file then
 		print("Loading map!")
+		clearTileMap()
 		level:emptyMap()
 		level = World:create()
 		level:addMap(tilemap1)
