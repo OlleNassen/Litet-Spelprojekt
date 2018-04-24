@@ -3,7 +3,7 @@ require("Resources/Scripts/background")
 require("Resources/Scripts/player")
 require("Resources/Scripts/ai")
 require("Resources/Scripts/World")
-require("Resources/Scripts/tilemap2")
+require("Resources/Scripts/level2")
 require("Resources/Scripts/powerup")
 require("Resources/Scripts/point_light")
 
