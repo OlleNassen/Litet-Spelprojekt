@@ -63,7 +63,7 @@ public:
 	//Functions
 	void push(const unsigned& amount, const float&x, const float&y);
 	void update(const float& dt);
-	void render(const glm::mat4& view, const glm::mat4& projection);
+	void render(const glm::mat4& view, const glm::mat4& projection, const float& dt);
 
 	//Accessors
 
