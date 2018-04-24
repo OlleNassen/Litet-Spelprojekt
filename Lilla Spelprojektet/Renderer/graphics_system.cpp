@@ -93,7 +93,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		}
 	}
 
-	emitter->push(1, this->sprites[1]->posX + 48.f, this->sprites[1]->posY);
+	emitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
 	emitter->update(0.0016f);
 	emitter->render(view, projection, 0.0016f);
 }
