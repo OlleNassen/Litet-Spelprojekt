@@ -142,7 +142,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 				}
 				else if (x < 0 || y < 0 || x >= tileMap[0] || y >= tileMap[1])
 				{
-					static Texture2D t("Resources/Sprites/torch.png");
+					static Texture2D t("Resources/Sprites/background2.png");
 					static Sprite s(shaders[0], &t, nullptr);
 					s.draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
@@ -201,7 +201,7 @@ void GraphicsSystem::initShadows()
 		visibleTiles[i] = false;
 	}
 
-	for (int numLights = 0; numLights < numLights - 1; numLights++)
+	for (int numLights = 0; numLights < NUM_LIGHTS - 1; numLights++)
 		for (int i = 0; i<360; i++)
 		{
 			float t = 10000;
