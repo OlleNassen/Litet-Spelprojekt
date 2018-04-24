@@ -75,12 +75,20 @@ bg.sprite = newBackground(720 * 10, 720, bg.normalMap, bg.texture)
 --bg:setPosition(100, 100)]]
 
 
+function moveUp(direction, deltaTime)
+	return p:moveUp(direction, deltaTime)
+end
+
 function moveRight(direction, deltaTime)
 	return p:moveRight(direction, deltaTime)
 end
 
 function jump()
 	return p:jump()
+end
+
+function fly()
+	return p:fly()
 end
 
 mX = 0.0
