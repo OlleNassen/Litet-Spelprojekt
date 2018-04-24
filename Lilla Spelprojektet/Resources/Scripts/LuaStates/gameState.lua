@@ -5,6 +5,8 @@ require("Resources/Scripts/ai")
 require("Resources/Scripts/World")
 require("Resources/Scripts/tilemap2")
 require("Resources/Scripts/powerup")
+require("Resources/Scripts/point_light")
+
 
 function quit()
 	pop()
@@ -13,6 +15,9 @@ end
 local level = World:create()
 level:addMap(tilemap2)
 level:loadGraphics()
+
+
+
 
 
 local p = Player:create() -- player
@@ -27,6 +32,26 @@ s.maxSpeed.y = 200
 s.texture = newTexture("Resources/Sprites/player.png")
 s.sprite = newSprite(s.texture)
 s:addWorld(level)
+
+local light1 = PointLight:create(0.1,0.1,1,100,100,
+0,
+"Resources/Sprites/torch.png")
+
+local light2 = PointLight:create(0.1,0.1,1,500,100,
+"Resources/Sprites/torch.png",
+"Resources/Sprites/backgroundTile_diffuse.png")
+
+local light3 = PointLight:create(0.1,0.1,1,1000,100,
+"Resources/Sprites/torch.png",
+"Resources/Sprites/backgroundTile_diffuse.png")
+
+local light4 = PointLight:create(0.1,0.1,1,1000,100,
+"Resources/Sprites/torch.png",
+"Resources/Sprites/torch.png")
+
+local light5 = PointLight:create(0.1,0.1,1,1000,100,
+"Resources/Sprites/torch.png",
+"Resources/Sprites/torch.png")
 
 local g = Ai:create() -- goomba
 g.entity:addWorld(level)
