@@ -331,7 +331,7 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 	else
 	{
 		ptr->sprites.push_back(
-			new Sprite(ptr->shaders[2], ptr->textures[*texture], 
+			new Sprite(ptr->shaders[0], ptr->textures[*texture], 
 				nullptr, glm::vec2(x, y)));
 	}
 	
@@ -403,7 +403,7 @@ int GraphicsSystem::newbackground(lua_State* luaState)
 	else
 	{
 		ptr->background = 
-			new Sprite(ptr->shaders[2], ptr->textures[*texture],
+			new Sprite(ptr->shaders[0], ptr->textures[*texture],
 				nullptr, glm::vec2(x, y));
 	}
 
