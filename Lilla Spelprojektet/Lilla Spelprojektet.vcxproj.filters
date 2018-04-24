@@ -86,5 +86,7 @@
     <None Include="Resources\Shaders\2d_shader.frag" />
     <None Include="Resources\Scripts\ai.lua" />
     <None Include="Resources\Scripts\background.lua" />
+    <None Include="Resources\Shaders\amazing_shader.frag" />
+    <None Include="Resources\Shaders\amazing_shader.vert" />
   </ItemGroup>
 </Project>

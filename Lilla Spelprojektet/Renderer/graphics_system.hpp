@@ -11,16 +11,18 @@
 
 #include"particle_emitter.hpp"
 
+#define NUM_LIGHTS 10 + 1 // pixie in back
+
 struct lua_State;
 class Shader;
 class Texture2D;
 class Sprite;
 
-struct PointLight
+struct PointLights
 {
 	bool status; //On or off
-	glm::vec3 position;
-	glm::vec3 lightColor;
+	glm::vec3 positions[NUM_LIGHTS];
+	glm::vec4 colors[NUM_LIGHTS];
 };
 
 class GraphicsSystem
@@ -28,6 +30,7 @@ class GraphicsSystem
 private:
 	lua_State * luaState;
 	std::vector<int> tileMap;
+	std::vector<bool> visibleTiles; // For shadows
 	std::vector<Texture2D*> tileTextures;
 	std::vector<Sprite*> tiles;
 	Sprite* background;
@@ -35,8 +38,13 @@ private:
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
 	std::vector<Sprite*> sprites;
-	std::vector<PointLight*>lights;
+	PointLights* lights;
 	ParticleEmitter* emitter;
+
+	//Shadow temp
+	float tempX;
+	float tempY;
+	float lastT = -1;
 
 public:
 	GraphicsSystem();
@@ -49,37 +57,40 @@ public:
 	sf::Vector2f getPlayerPos() const;
 	sf::Vector2f getPixie() const;
 
-	void drawline_mod(int map[20][20], int x, int y, int x2, int y2) {
-		int dx = abs(x - x2);
-		int dy = abs(y - y2);
-		double s = double(.99 / (dx>dy ? dx : dy));
-		double t = 0.0;
-		while (t < 1.0) {
-			dx = int((1.0 - t)*x + t * x2);
-			dy = int((1.0 - t)*y + t * y2);
-			if (map[dy][dx] != 1) {
-				map[dy][dx] = 5;
-			}
-			else {
-				return;
-			}
-			t += s;
-		}
-	}
+	//Shadow temp
+	// Returns 1 if the lines intersect, otherwise 0. In addition, if the lines 
+	// intersect the intersection point may be stored in the floats i_x and i_y.
+	bool get_line_intersection(float p0_x, float p0_y, float p1_x, float p1_y,
+		float p2_x, float p2_y, float p3_x, float p3_y)
+	{
+		float s1_x, s1_y, s2_x, s2_y;
+		s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
+		s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
 
+		float s, t;
+		s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+		t = (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
 
-	void los(int map[20][20], int range, int plx, int ply) {
-		int x, y;
-		for (double f = 0; f < 3.14 * 2; f += 0.05) {
-			x = int(range*cos(f)) + plx;
-			y = int(range*sin(f)) + ply;
-			drawline_mod(map, plx, ply, x, y);
+		if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+		{
+			// Collision detected
+
+			if (lastT == -1 || t < lastT)
+			{
+				tempY = p0_x + (t * s1_x);
+				tempX = p0_y + (t * s1_y);
+			}
+
+			return true;
 		}
+
+		return false; // No collision
 	}
 
 
 private:
 	void loadShaders();
+	void initShadows();
 	
 	static int loadTileMap(lua_State* luaState);
 	static int reloadTile(lua_State* luaState);

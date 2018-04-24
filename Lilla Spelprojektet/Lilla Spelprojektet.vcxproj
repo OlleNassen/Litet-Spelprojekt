@@ -50,6 +50,8 @@
     <None Include="Resources\Scripts\object.lua" />
     <None Include="Resources\Shaders\2d_shader.frag" />
     <None Include="Resources\Shaders\2d_shader.vert" />
+    <None Include="Resources\Shaders\amazing_shader.frag" />
+    <None Include="Resources\Shaders\amazing_shader.vert" />
     <None Include="Resources\Shaders\basicShader.frag" />
     <None Include="Resources\Shaders\basicShader.vert" />
   </ItemGroup>
