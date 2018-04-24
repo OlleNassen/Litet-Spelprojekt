@@ -16,6 +16,8 @@ function Player:create()
 	this.entity.y = 50
 	this.entity.maxSpeed.x = 500
 	this.entity.maxSpeed.y = 1000
+	this.entity.hasGravity = true
+	this.entity.canFly = false
 	this.entity.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/playerNormal.png")
 	this.entity.sprite = newSprite(this.entity.normalMap, this.entity.texture)
@@ -31,7 +33,9 @@ function Player:moveRight(directionX, deltaTime)
 end
 
 function Player:moveUp(directionY, deltaTime)
-	self.entity:accelerate(0, directionY, deltaTime)
+	if self.entity.canFly == true then
+		self.entity:accelerate(0, directionY, deltaTime)
+	end
 	return true
 end
 
@@ -46,12 +50,14 @@ function Player:jump()
 end
 
 function Player:fly()
-	if self.entity.hasGravity == false then
-		print("gravityOn")
-		self.entity.hasGravity = true	
-	else
-		print("gravityOff")
+	if self.entity.canFly == false then
+		print("fly_OFF")
+		self.entity.canFly = true
 		self.entity.hasGravity = false
+	else
+		print("fly_ON")
+		self.entity.canFly = false
+		self.entity.hasGravity = true
 		self.entity.velocity.y = 0
 	end
 end

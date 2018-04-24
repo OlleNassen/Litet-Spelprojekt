@@ -14,7 +14,7 @@ function Entity:create()
 		world = {},
 		maxSpeed = {x = 200, y = 200},
 		acceleration = {x = 3500, y = 3500},
-		deceletation = {x = 1300, y = 1300},
+		deceletation = {x = 1500, y = 1500},
 		velocity = {x = 0, y = 0},
 		attackStrength = 5,
 		attackSpeed = 1,
@@ -23,7 +23,8 @@ function Entity:create()
 		collision_right = false,
 		collision_top = false,
 		collision_bottom = false,
-		hasGravity = false,
+		hasGravity = true,
+		canFly = false,
     }
 
     setmetatable(this, self)
