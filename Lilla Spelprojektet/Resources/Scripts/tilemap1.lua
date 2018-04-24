@@ -2,18 +2,22 @@ tilemap1 =
 {
 	texturesDiffuse = 
 	{
+		"Resources/Sprites/brickwall.png",
 		"Resources/Sprites/brickwall.png", 
 		"Resources/Sprites/pyramid_diffuse.png",
-		"Resources/Sprites/brick_diffuse.png", 
-		"Resources/Sprites/saw_diffuse.png",	
+		"Resources/Sprites/brickSolidMix_diffuse.png", 
+		"Resources/Sprites/saw_diffuse.png",
+		"Resources/Sprites/newBrick_diffuse.png",
 	},
 
 	texturesNormal = 
 	{
-		"Resources/Sprites/brickwall_normal.png",
+		"Resources/Sprites/brickwall_normal.png", 
+		"Resources/Sprites/brickwall_normal.png", 
 		"Resources/Sprites/pyramid_normal.png",
-		"Resources/Sprites/brick_normal.png",
+		"Resources/Sprites/brickSolidMix_normal.png",
 		"Resources/Sprites/saw_normal.png",	
+		"Resources/Sprites/newBrick_normal.png",
 	},
 	
 	tiles = 
