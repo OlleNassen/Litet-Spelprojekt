@@ -42,8 +42,7 @@ end
 function Player:jump()
 
 	if self.entity.collision_bottom == true then
-	self.isJumping = true
-	self.isFalling = false
+		 self.entity.velocity.y = -1300
 	end
 
 	return false
