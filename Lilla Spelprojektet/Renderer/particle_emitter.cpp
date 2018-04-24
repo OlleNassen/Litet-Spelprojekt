@@ -51,12 +51,12 @@ void ParticleEmitter::update(const float& dt)
 	}
 }
 
-void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
+void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection, const float& dt)
 {
 	for (size_t i = 0; i < this->particles.size(); i++)
 	{
 		this->particle->update(this->particles[i].position);
-		this->particle->rotate(rand() % 90);
+		this->particle->rotate(rand()%90);
 		this->particle->draw(this->particles[i].position, view, projection);
 	}
 }
