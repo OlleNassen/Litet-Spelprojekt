@@ -29,8 +29,8 @@ s.sprite = newSprite(s.normalMap, s.texture)
 s:addWorld(level)
 
 local bg = Background:create()
-bg.texture = newTexture("Resources/Sprites/backgroundTile_diffuse.png")
---bg.normalMap = newTexture("Resources/Sprites/backgroundTile_normal.png")
+bg.texture = newTexture("Resources/Sprites/backgroundTileBig_diffuse.png")
+--bg.normalMap = newTexture("Resources/Sprites/backgroundTileBig_normal.png")
 bg.sprite = newBackground(720 * 10, 720, 0, bg.texture)
 
 local tileType = 0
@@ -82,7 +82,7 @@ end
 function update(deltatime)
 
 	position = p:getPosition()
-	bg:setPosition(position.x / 2 - (1280 / 2), position.y - (720 / 2))
+	bg:setPosition(position.x / 3 - (1280 / 2), position.y / 3 - (720 / 2))
 
 	return true
 end

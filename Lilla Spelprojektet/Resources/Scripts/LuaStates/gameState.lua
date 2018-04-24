@@ -69,9 +69,9 @@ b:addWorld(level)
 b:move(0,0)
 
 local bg = Background:create()
-bg.texture = newTexture("Resources/Sprites/backgroundTile_diffuse.png")
-bg.normalMap = newTexture("Resources/Sprites/backgroundTile_normal.png")
-bg.sprite = newBackground(720 * 10, 720, bg.normalMap, bg.texture)
+bg.texture = newTexture("Resources/Sprites/backgroundTileBig_diffuse.png")
+bg.normalMap = newTexture("Resources/Sprites/backgroundTileBig_normal.png")
+bg.sprite = newBackground(720 * 10, 720 * 10, bg.normalMap, bg.texture)
 --bg:setPosition(100, 100)]]
 
 
@@ -112,7 +112,7 @@ function update(deltaTime)
 	end
 
 	position = p:getPosition()
-	bg:setPosition(position.x / 2 - (1280 / 2), position.y - (720 / 2))
+	bg:setPosition(position.x / 3 - (1280 / 2), position.y / 3 - (720 / 2))-- position.y - (720 / 2))
 
 	return true
 end
