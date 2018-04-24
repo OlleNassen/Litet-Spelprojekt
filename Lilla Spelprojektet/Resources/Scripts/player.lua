@@ -43,7 +43,7 @@ function Player:jump()
 end
 
 function Player:update(deltaTime)
-	
+
 	--Decelerate
 	self.entity:decelerate(deltaTime)
 

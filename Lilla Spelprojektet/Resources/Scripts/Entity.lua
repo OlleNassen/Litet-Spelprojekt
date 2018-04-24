@@ -23,7 +23,13 @@ function Entity:create()
 		collision_right = false,
 		collision_top = false,
 		collision_bottom = false,
-    }
+		hasPowerUp = {},
+		hasGravity = true,
+	}
+
+	for i=1,2,1 do 
+		table.insert(this.hasPowerUp, i, false)
+	end
 
     setmetatable(this, self)
     return this
@@ -32,8 +38,9 @@ end
 function Entity:update(deltaTime)
 	
 	--Gravity
-	self:accelerate(0, 1, deltaTime)
-
+	if self.hasGravity == true then
+		self:accelerate(0, 1, deltaTime)
+	end
 end
 
 function Entity:contains(x, y)
