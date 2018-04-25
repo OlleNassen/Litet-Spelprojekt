@@ -52,15 +52,12 @@ local light3 = PointLight:create(1,0.1,0.1,tileSize * 2, tileSize * 20,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local light4 = PointLight:create(1,0.1,1,500,1000,
+
+local light4 = PointLight:create(1,1,0.1,tileSize * 40, tileSize,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local light5 = PointLight:create(1,1,0.1,2000,100,
-"Resources/Sprites/lamp_normal.png",
-"Resources/Sprites/lamp_diffuse.png")
-
-local light6 = PointLight:create(1,1,0.1,100,1400,
+local light5 = PointLight:create(1,1,0.1,tileSize * 2, tileSize * 36,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
