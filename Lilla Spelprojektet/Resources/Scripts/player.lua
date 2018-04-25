@@ -11,6 +11,8 @@ function Player:create()
 		isFalling = false,
 		timeSinceJump = 0.0,
 		jumpPower = -1300,
+		dashing = false,
+		canDash = true,
     }
 
 	this.entity.x = 50

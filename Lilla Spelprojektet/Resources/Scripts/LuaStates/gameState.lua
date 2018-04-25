@@ -20,7 +20,6 @@ level:loadGraphics()
 
 -- PowerUps
 -- Dash
-dashing = false
 towardsX = 0
 towardsY = 0
 hasFoundPosition = false
@@ -61,8 +60,6 @@ local light5 = PointLight:create(1,1,0.1,tileSize * 2, tileSize * 36,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-
-
 local g = Ai:create() -- goomba
 g.entity:addWorld(level)
 
@@ -98,7 +95,13 @@ function jump()
 end
 
 function dash()
-	dashing = true
+	
+	if p.canDash == true and p.entity.hasPowerUp[1] == true then --Activate dash
+		p.entity.collision_bottom = false
+		p.dashing = true
+		p.canDash = false
+	end
+	
 end
 
 function fly()
@@ -115,9 +118,14 @@ end
 
 function checkUpgrades(deltaTime)
 	if p.entity.hasPowerUp[1] == true then
-		
-		if dashing == true then
-			p.entity.hasGravity = false;
+	
+		if p.entity.collision_bottom == true then --Cant dash until on ground
+			p.canDash = true
+		end
+
+		if p.dashing == true then --Dashing
+			p.entity.hasGravity = false
+			p.canDash = false
 			if hasFoundPosition == false then
 				towardsX = s.x
 				towardsY = s.y
@@ -127,15 +135,22 @@ function checkUpgrades(deltaTime)
 			local tempX = towardsX - p.entity.x 
 			local tempY = towardsY - p.entity.y 
 			local lenght = math.sqrt((tempX * tempX) + (tempY * tempY))
-			tempX = (tempX / lenght) * 20
-			tempY = (tempY / lenght) * 20
-			
-			p.entity:move(tempX, tempY)
+			tempX = (tempX / lenght)
+			tempY = (tempY / lenght)
+	
+			p.entity.velocity.x = tempX * 2000
+			p.entity.velocity.y = tempY * 2000
 
-			if lenght < 30 or p.entity.collision_top == true then
-				dashing = false
+			print(p.entity.velocity.x)
+			print(p.entity.velocity.y)
+
+			--Dashing ends
+			if lenght < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
+				p.dashing = false
 				p.entity.hasGravity = true
 				hasFoundPosition = false
+				p.entity.velocity.x = p.entity.velocity.x / 5
+				p.entity.velocity.y = p.entity.velocity.y / 5
 			end
 		end
 	end
