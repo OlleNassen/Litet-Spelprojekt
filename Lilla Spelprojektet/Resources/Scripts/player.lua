@@ -53,11 +53,11 @@ end
 
 function Player:fly()
 	if self.entity.canFly == false then
-		print("fly_OFF")
+		print("fly_ON")
 		self.entity.canFly = true
 		self.entity.hasGravity = false
 	else
-		print("fly_ON")
+		print("fly_OFF")
 		self.entity.canFly = false
 		self.entity.hasGravity = true
 		self.entity.velocity.y = 0
