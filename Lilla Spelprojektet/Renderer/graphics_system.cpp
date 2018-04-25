@@ -36,8 +36,8 @@ GraphicsSystem::GraphicsSystem()
 		lights->colors[i] = glm::vec4(0, 0, 0, 0);
 	}
 	
-	t = new Texture2D("Resources/Sprites/background2.png");
-	s = new Sprite(shaders[0], t, nullptr);
+	blackFridayTexture = new Texture2D("Resources/Sprites/background2.png");
+	blackFridaySprite = new Sprite(shaders[0], blackFridayTexture, nullptr);
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -144,7 +144,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 				}
 				else if (x < 0 || y < 0 || x >= tileMap[0] || y >= tileMap[1])
 				{
-					s->draw(glm::vec2(x * 48, y * 48), view, projection);
+					blackFridaySprite->draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
 			}
 		}

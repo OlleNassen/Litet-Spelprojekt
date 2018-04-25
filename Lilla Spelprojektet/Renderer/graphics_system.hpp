@@ -37,8 +37,9 @@ private:
 	Sprite* background;
 	int numLights = 1;
 
-	Texture2D* t;
-	Sprite* s;
+	//For black sidething
+	Texture2D* blackFridayTexture;
+	Sprite* blackFridaySprite;
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
