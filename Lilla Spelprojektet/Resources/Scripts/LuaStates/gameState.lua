@@ -134,9 +134,9 @@ function checkUpgrades(deltaTime)
 
 			local tempX = towardsX - p.entity.x 
 			local tempY = towardsY - p.entity.y 
-			local lenght = math.sqrt((tempX * tempX) + (tempY * tempY))
-			tempX = (tempX / lenght)
-			tempY = (tempY / lenght)
+			local length = math.sqrt((tempX * tempX) + (tempY * tempY))
+			tempX = (tempX / length)
+			tempY = (tempY / length)
 	
 			p.entity.velocity.x = tempX * 2000
 			p.entity.velocity.y = tempY * 2000
@@ -145,7 +145,7 @@ function checkUpgrades(deltaTime)
 			print(p.entity.velocity.y)
 
 			--Dashing ends
-			if lenght < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
+			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
 				p.dashing = false
 				p.entity.hasGravity = true
 				hasFoundPosition = false
