@@ -10,6 +10,7 @@ function Player:create()
 		isJumping = false,
 		isFalling = false,
 		timeSinceJump = 0.0,
+		jumpPower = -1300,
     }
 
 	this.entity.x = 50
@@ -42,7 +43,7 @@ end
 function Player:jump()
 
 	if self.entity.collision_bottom == true then
-		 self.entity.velocity.y = -1300
+		 self.entity.velocity.y = self.jumpPower
 	end
 
 	return false
