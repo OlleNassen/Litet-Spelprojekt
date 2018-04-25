@@ -38,15 +38,17 @@ s.texture = newTexture("Resources/Sprites/player.png")
 s.sprite = newSprite(s.texture)
 s:addWorld(level)
 
-local light1 = PointLight:create(0.1,0.1,1,100,48,
+tileSize = 48
+
+local light1 = PointLight:create(0.1,0.1,1,100,tileSize,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local light2 = PointLight:create(0.1,0.1,1,500,100,
+local light2 = PointLight:create(0.1,0.1,1, tileSize * 10, tileSize * 2,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local light3 = PointLight:create(1,0.1,0.1,100,1000,
+local light3 = PointLight:create(1,0.1,0.1,tileSize * 2, tileSize * 20,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
