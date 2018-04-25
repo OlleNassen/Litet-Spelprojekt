@@ -17,27 +17,31 @@ s:setPosition(s.x, s.y)
 
 
 local play = Entity:create() 
+play.normalMap = newTexture("Resources/Sprites/mainMenu_normal.png")
 play.texture = newTexture("Resources/Sprites/play.png")
-play.sprite = newSprite(800,100, 0, play.texture)
+play.sprite = newSprite(800,100, play.normalMap, play.texture)
 play.width = 800
 play.height = 100
 play:setPosition(-400,-300)
 
 local editor = Entity:create() 
+editor.normalMap = newTexture("Resources/Sprites/mainMenu_normal.png")
 editor.texture = newTexture("Resources/Sprites/editor.png")
-editor.sprite = newSprite(800,100, 0, editor.texture)
+editor.sprite = newSprite(800,100, editor.normalMap, editor.texture)
 editor:setPosition(-400,-150)
 
 local exit = Entity:create() 
+exit.normalMap = newTexture("Resources/Sprites/mainMenu_normal.png")
 exit.texture = newTexture("Resources/Sprites/quit.png")
-exit.sprite = newSprite(800,100, 0, exit.texture)
+exit.sprite = newSprite(800,100, exit.normalMap, exit.texture)
 exit.width = 800
 exit.height = 100
 exit:setPosition(-400,-0)
 
 local b = Entity:create() 
+b.normalMap = newTexture("Resources/Sprites/mainMenu_normal.png")
 b.texture = newTexture("Resources/Sprites/menu.png")
-b.sprite = newSprite(1280,720, 0, b.texture)
+b.sprite = newSprite(1280,720, b.normalMap, b.texture)
 b:setPosition(-1280/2, -720/2)
 
 function moveUp(direction, deltaTime)
