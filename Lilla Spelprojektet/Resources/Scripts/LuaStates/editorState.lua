@@ -30,8 +30,8 @@ s:addWorld(level)
 
 local bg = Background:create()
 bg.texture = newTexture("Resources/Sprites/backgroundTileBig_diffuse.png")
---bg.normalMap = newTexture("Resources/Sprites/backgroundTileBig_normal.png")
-bg.sprite = newBackground(720 * 10, 720, 0, bg.texture)
+bg.normalMap = newTexture("Resources/Sprites/backgroundTileBig_normal.png")
+bg.sprite = newBackground(720 * 10, 720 * 10, bg.normalMap, bg.texture)
 
 local tileType = 0
 function tablelength(T) local count = 0 for v in pairs(T) do count = count + 1 end return count end
