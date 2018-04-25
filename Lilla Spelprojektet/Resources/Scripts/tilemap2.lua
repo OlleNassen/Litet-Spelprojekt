@@ -9,6 +9,7 @@ tilemap1 =
 		"Resources/Sprites/brickSolidMix_diffuse.png", 
 		"Resources/Sprites/saw_diffuse.png",	
 		"Resources/Sprites/solidScrew_diffuse.png",	
+		"Resources/Sprites/ironPillar_diffuse.png",
 	},
 
 	texturesNormal = 
@@ -20,6 +21,7 @@ tilemap1 =
 		"Resources/Sprites/brickSolidMix_normal.png",
 		"Resources/Sprites/saw_normal.png",	
 		"Resources/Sprites/solidScrew_normal.png",	
+		"Resources/Sprites/ironPillar_normal.png",
 	},
 	
 	tiles = 

@@ -51,7 +51,10 @@ function World:canMove(newX, newY)
 	x = math.floor(x + 1)
 	y = math.floor(y)
 	
-	if self.map.tiles[x + y * self.map.width] == 0 then
+	if self.map.tiles[x + y * self.map.width] == 0 or 
+		self.map.tiles[x + y * self.map.width] == 7 or 
+		self.map.tiles[x + y * self.map.width] == 8 or 
+		self.map.tiles[x + y * self.map.width] == 9 then
 		result = true		
 	end
 
