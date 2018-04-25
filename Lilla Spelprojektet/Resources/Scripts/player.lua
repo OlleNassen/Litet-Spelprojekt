@@ -17,13 +17,15 @@ function Player:create()
 
 	this.entity.x = 50
 	this.entity.y = 50
+	this.entity.width = 45
+	this.entity.height = 60
 	this.entity.maxSpeed.x = 500
 	this.entity.maxSpeed.y = 1000
 	this.entity.hasGravity = true
 	this.entity.canFly = false
 	this.entity.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/playerNormal.png")
-	this.entity.sprite = newSprite(this.entity.normalMap, this.entity.texture)
+	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
     setmetatable(this, self)
