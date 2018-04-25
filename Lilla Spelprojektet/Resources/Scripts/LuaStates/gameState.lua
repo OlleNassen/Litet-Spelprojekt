@@ -38,34 +38,32 @@ s.texture = newTexture("Resources/Sprites/player.png")
 s.sprite = newSprite(s.texture)
 s:addWorld(level)
 
-local light1 = PointLight:create(0.1,0.1,1,100,100,
-0,
-"Resources/Sprites/torch.png")
+local light1 = PointLight:create(0.1,0.1,1,100,48,
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
 
 local light2 = PointLight:create(0.1,0.1,1,500,100,
-0,
-"Resources/Sprites/torch.png")
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
 
 local light3 = PointLight:create(1,0.1,0.1,100,1000,
-0,
-"Resources/Sprites/torch.png")
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
 
 local light4 = PointLight:create(1,0.1,1,500,1000,
-0,
-"Resources/Sprites/torch.png")
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
 
 local light5 = PointLight:create(1,1,0.1,2000,100,
-0,
-"Resources/Sprites/torch.png")
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
 
 local light6 = PointLight:create(1,1,0.1,100,1400,
-0,
-"Resources/Sprites/torch.png")
---[[
-local light7 = PointLight:create(1,1,0.1,100,1400,
-0,
-"Resources/Sprites/torch.png")
-]]
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
+
+
+
 local g = Ai:create() -- goomba
 g.entity:addWorld(level)
 
