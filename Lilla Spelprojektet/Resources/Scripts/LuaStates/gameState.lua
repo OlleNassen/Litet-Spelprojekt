@@ -43,21 +43,29 @@ local light1 = PointLight:create(0.1,0.1,1,100,100,
 "Resources/Sprites/torch.png")
 
 local light2 = PointLight:create(0.1,0.1,1,500,100,
-"Resources/Sprites/torch.png",
-"Resources/Sprites/backgroundTile_diffuse.png")
-
-local light3 = PointLight:create(0.1,0.1,1,1000,100,
-"Resources/Sprites/torch.png",
-"Resources/Sprites/backgroundTile_diffuse.png")
-
-local light4 = PointLight:create(0.1,0.1,1,1000,100,
-"Resources/Sprites/torch.png",
+0,
 "Resources/Sprites/torch.png")
 
-local light5 = PointLight:create(0.1,0.1,1,1000,100,
-"Resources/Sprites/torch.png",
+local light3 = PointLight:create(1,0.1,0.1,100,1000,
+0,
 "Resources/Sprites/torch.png")
 
+local light4 = PointLight:create(1,0.1,1,500,1000,
+0,
+"Resources/Sprites/torch.png")
+
+local light5 = PointLight:create(1,1,0.1,2000,100,
+0,
+"Resources/Sprites/torch.png")
+
+local light6 = PointLight:create(1,1,0.1,100,1400,
+0,
+"Resources/Sprites/torch.png")
+--[[
+local light7 = PointLight:create(1,1,0.1,100,1400,
+0,
+"Resources/Sprites/torch.png")
+]]
 local g = Ai:create() -- goomba
 g.entity:addWorld(level)
 

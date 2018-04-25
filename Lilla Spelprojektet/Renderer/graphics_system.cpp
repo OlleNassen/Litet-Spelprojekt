@@ -30,11 +30,12 @@ GraphicsSystem::GraphicsSystem()
 
 	lights = new PointLights;
 	
-	for (int i = 0; i < NUM_LIGHTS; i++)
+	for (int i = 1; i < NUM_LIGHTS; i++)
 	{
 		lights->positions[i] = glm::vec3(-10000, -10000, 0);
 		lights->colors[i] = glm::vec4(0, 0, 0, 0);
 	}
+	
 	t = new Texture2D("Resources/Sprites/background2.png");
 	s = new Sprite(shaders[0], t, nullptr);
 }
@@ -75,8 +76,8 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 			glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
 			glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
 
-			lights->positions[numLights - 1] = lightP;
-			lights->colors[numLights - 1] = lightC;
+			lights->positions[0] = lightP;
+			lights->colors[0] = lightC;
 
 			shaders[2]->use();
 			glUniform3fv(glGetUniformLocation(shaders[2]->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
@@ -122,8 +123,8 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 					glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
 
 
-					lights->positions[10] = lightP;
-					lights->colors[10] = lightC;
+					lights->positions[0] = lightP;
+					lights->colors[0] = lightC;
 
 					shaders[2]->use();
 					glUniform3fv(glGetUniformLocation(shaders[2]->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
