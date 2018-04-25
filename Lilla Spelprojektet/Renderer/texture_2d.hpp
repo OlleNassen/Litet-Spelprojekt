@@ -93,7 +93,7 @@ public:
 		if (image) //set texture image
 		{
 			glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-			glGenerateMipmap(target);
+			//glGenerateMipmap(target);
 		}
 		else //Error
 		{
