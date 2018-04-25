@@ -21,7 +21,7 @@ uniform vec3 status;
 void main()
 {
 	float normalMapIntensity = 150.0;
-	float radius = 400.0;
+	float radius = 600.0;
 	vec4 ambientColor =  vec4(0.1, 0.1, 0.1, 0.1);
 
 	//RGBA of our diffuse color

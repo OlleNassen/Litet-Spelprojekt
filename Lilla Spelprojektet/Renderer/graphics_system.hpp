@@ -35,7 +35,10 @@ private:
 	std::vector<Texture2D*> tileTextures;
 	std::vector<Sprite*> tiles;
 	Sprite* background;
-	int numLights = 0;
+	int numLights = 1;
+
+	Texture2D* t;
+	Sprite* s;
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;

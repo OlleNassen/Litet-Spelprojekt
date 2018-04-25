@@ -25,7 +25,12 @@ function Entity:create()
 		collision_bottom = false,
 		hasGravity = true,
 		canFly = false,
+		hasPowerUp = {},
     }
+
+	for i=1,2,1 do 
+		table.insert(this.hasPowerUp, i, false)
+	end
 
     setmetatable(this, self)
     return this
@@ -170,7 +175,6 @@ function Entity:move(x, y)
 
 		elseif self.velocity.y < 0 then
 			self.collision_top = true
-
 		end
 
 		self.velocity.y = 0

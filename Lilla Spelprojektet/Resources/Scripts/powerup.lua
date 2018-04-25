@@ -11,10 +11,11 @@ function Powerup:create()
 		aquired = false,
     }
 
+
+
 	this.entity.x = 1000
 	this.entity.y = 1000
-	this.entity.maxSpeed.x = 0
-	this.entity.maxSpeed.y = 0
+	this.entity.speed = 0
 
 	this.entity.texture = newTexture("Resources/Sprites/powerup_speed1.png")
 	this.entity.sprite = newSprite(this.entity.texture)
@@ -25,12 +26,7 @@ function Powerup:create()
 end
 
 function Powerup:checkType(entity)
-	if self.type == 0 then -- speed upgrade
-		entity.maxSpeed.x = entity.maxSpeed.x * 3
-	elseif type == 1 then
-		entity.maxSpeed.x =  entity.maxSpeed.x * 5
-	end
-
+	entity.hasPowerUp[self.type + 1] = true
 end
 
 function Powerup:contains(entity)
@@ -38,5 +34,6 @@ function Powerup:contains(entity)
 		self:checkType(entity)
 		self.aquired = true
 		spritePos(self.entity.sprite, -10000, -10000)
+
 	end
 end

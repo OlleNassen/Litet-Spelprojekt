@@ -18,7 +18,12 @@ level:loadGraphics()
 
 
 
-
+-- PowerUps
+-- Dash
+dashing = false
+towardsX = 0
+towardsY = 0
+hasFoundPosition = false
 
 local p = Player:create() -- player
 p.entity:addWorld(level)
@@ -38,26 +43,34 @@ local light1 = PointLight:create(0.1,0.1,1,100,100,
 "Resources/Sprites/torch.png")
 
 local light2 = PointLight:create(0.1,0.1,1,500,100,
-"Resources/Sprites/torch.png",
-"Resources/Sprites/backgroundTile_diffuse.png")
-
-local light3 = PointLight:create(0.1,0.1,1,1000,100,
-"Resources/Sprites/torch.png",
-"Resources/Sprites/backgroundTile_diffuse.png")
-
-local light4 = PointLight:create(0.1,0.1,1,1000,100,
-"Resources/Sprites/torch.png",
+0,
 "Resources/Sprites/torch.png")
 
-local light5 = PointLight:create(0.1,0.1,1,1000,100,
-"Resources/Sprites/torch.png",
+local light3 = PointLight:create(1,0.1,0.1,100,1000,
+0,
 "Resources/Sprites/torch.png")
 
+local light4 = PointLight:create(1,0.1,1,500,1000,
+0,
+"Resources/Sprites/torch.png")
+
+local light5 = PointLight:create(1,1,0.1,2000,100,
+0,
+"Resources/Sprites/torch.png")
+
+local light6 = PointLight:create(1,1,0.1,100,1400,
+0,
+"Resources/Sprites/torch.png")
+--[[
+local light7 = PointLight:create(1,1,0.1,100,1400,
+0,
+"Resources/Sprites/torch.png")
+]]
 local g = Ai:create() -- goomba
 g.entity:addWorld(level)
 
 local power_speed = Powerup:create() -- Powerup speed 1
-power_speed.entity:setPosition(500, 500)
+power_speed.entity:setPosition(500, 1500)
 power_speed.type = 0
 
 local b = Entity:create() -- goomba
@@ -87,6 +100,10 @@ function jump()
 	return p:jump()
 end
 
+function dash()
+	dashing = true
+end
+
 function fly()
 	return p:fly()
 end
@@ -99,8 +116,38 @@ function mouse(x, y)
 	mY = mY + y
 end
 
+function checkUpgrades(deltaTime)
+	if p.entity.hasPowerUp[1] == true then
+		
+		if dashing == true then
+			p.entity.hasGravity = false;
+			if hasFoundPosition == false then
+				towardsX = s.x
+				towardsY = s.y
+				hasFoundPosition = true
+			end
+
+			local tempX = towardsX - p.entity.x 
+			local tempY = towardsY - p.entity.y 
+			local lenght = math.sqrt((tempX * tempX) + (tempY * tempY))
+			tempX = (tempX / lenght) * 20
+			tempY = (tempY / lenght) * 20
+			
+			p.entity:move(tempX, tempY)
+
+			if lenght < 30 or p.entity.collision_top == true then
+				dashing = false
+				p.entity.hasGravity = true
+				hasFoundPosition = false
+			end
+		end
+	end
+end
+
 function update(deltaTime)
 	
+	checkUpgrades(deltaTime)
+
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
