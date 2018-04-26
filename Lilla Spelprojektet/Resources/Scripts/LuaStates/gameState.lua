@@ -160,6 +160,8 @@ function update(deltaTime)
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
+	power_speed:contains(p.entity)
+
 	g:update(deltaTime)	
 	g:attack(p)
 	
