@@ -69,6 +69,10 @@ end
 
 function Player:update(deltaTime)
 	
+	if self.entity.health <= 0 then
+		push("Resources/Scripts/LuaStates/gameOverState.lua")
+	end
+	
 	--Decelerate
 	self.entity:decelerate(deltaTime)
 

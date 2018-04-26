@@ -167,7 +167,7 @@ function update(deltaTime)
 	power_speed:contains(p.entity)
 	
 	if p.entity:contains(b.x, b.y) then
-		push("Resources/Scripts/LuaStates/gameOverState.lua")
+		p.entity.health = 0
 	end
 
 	position = p:getPosition()

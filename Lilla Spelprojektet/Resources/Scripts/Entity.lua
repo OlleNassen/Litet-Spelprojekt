@@ -26,6 +26,7 @@ function Entity:create()
 		hasGravity = true,
 		canFly = false,
 		hasPowerUp = {},
+		health = 100
     }
 
 	for i=1,2,1 do 
