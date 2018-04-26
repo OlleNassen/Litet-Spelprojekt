@@ -108,6 +108,7 @@ function Player:takeDamage(dmg)
 	if self.timeSinceDamage > 1.0 then
 		self.entity.health = self.entity.health - dmg
 		self.timeSinceDamage = 0.0
+		self.entity.velocity.y = -1000
 		print "AJ!!!"
 	end
 end

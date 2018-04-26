@@ -50,3 +50,11 @@ function Ai:update(deltaTime)
 	end
 end
 
+function Ai:attack(player)
+	if self.entity:contains(player.entity.x, player.entity.y) or
+		self.entity:contains(player.entity.x + player.entity.width, player.entity.y) or
+		self.entity:contains(player.entity.x, player.entity.y + player.entity.height) or
+		self.entity:contains(player.entity.x + player.entity.width, player.entity.y + player.entity.height) then
+		player:takeDamage(50)
+	end
+end

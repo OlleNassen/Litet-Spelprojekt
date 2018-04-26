@@ -170,6 +170,8 @@ function update(deltaTime)
 		p:takeDamage(50)
 	end
 
+	g:attack(p)
+
 	position = p:getPosition()
 	bg:setPosition(position.x / 3 - (1280 / 2), position.y / 3 - (720 / 2))-- position.y - (720 / 2))
 
