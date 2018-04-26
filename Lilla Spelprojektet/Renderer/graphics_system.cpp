@@ -68,9 +68,7 @@ GraphicsSystem::~GraphicsSystem()
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
-{
-	sprites[0]->setTextureRect(40,95,86,0);
-	
+{	
 	if (sprites.size() > 0)
 	{
 		for (int itr = sprites.size() - 1; itr >= 0; itr--)
@@ -175,6 +173,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, spritepos);
 	lua_setglobal(luaState, "spritePos");
+
+	lua_pushcfunction(luaState, setspriterect);
+	lua_setglobal(luaState, "setSpriteRect");
 
 	lua_pushcfunction(luaState, newtiletexture);
 	lua_setglobal(luaState, "tileTexture");
@@ -406,6 +407,21 @@ int GraphicsSystem::spritepos(lua_State* luaState)
 	ptr->sprites[*id]->posX = x;
 	ptr->sprites[*id]->posY = y;
 	
+	return 0;
+}
+
+int GraphicsSystem::setspriterect(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	int height = lua_tointeger(luaState, -2);
+	int width = lua_tointeger(luaState, -3);
+	int y = lua_tointeger(luaState, -4);
+	int x = lua_tointeger(luaState, -5);
+	int* id = (int*)lua_touserdata(luaState, -6);
+
+	ptr->sprites[*id]->setTextureRect(x, height, width, y);
+
 	return 0;
 }
 

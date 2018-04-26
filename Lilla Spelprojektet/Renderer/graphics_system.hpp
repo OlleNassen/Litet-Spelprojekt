@@ -105,6 +105,7 @@ private:
 	static int newsprite(lua_State* luaState);
 	static int newLight(lua_State* luaState);
 	static int spritepos(lua_State* luaState);
+	static int setspriterect(lua_State* luaState);
 
 	static int newtiletexture(lua_State* luaState);
 

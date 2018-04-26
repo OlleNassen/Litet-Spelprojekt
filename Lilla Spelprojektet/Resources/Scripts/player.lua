@@ -27,6 +27,7 @@ function Player:create()
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/playerNormal.png")
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
+	setSpriteRect(this.entity.sprite,0,0,86,95)
 
     setmetatable(this, self)
     return this

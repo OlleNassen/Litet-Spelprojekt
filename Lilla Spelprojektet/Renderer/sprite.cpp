@@ -128,9 +128,6 @@ void Sprite::rotate(float degrees)
 
 void Sprite::setTextureRect(int left, int top, int right, int bottom)
 {
-	std::cout << texture->width << std::endl;
-	std::cout << texture->height << std::endl;
-
 	vertex[1] = glm::vec2(static_cast<float>(left) / texture->width, static_cast<float>(top) / texture->height);
 	vertex[3] = glm::vec2(static_cast<float>(right) / texture->width, static_cast<float>(bottom) / texture->height);
 	vertex[5] = glm::vec2(static_cast<float>(left) / texture->width, static_cast<float>(bottom) / texture->height);
