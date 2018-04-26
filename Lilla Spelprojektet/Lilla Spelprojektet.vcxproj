@@ -24,6 +24,7 @@
     <ClCompile Include="GameEngine\game.cpp" />
     <ClCompile Include="GameEngine\event_system.cpp" />
     <ClCompile Include="Renderer\particle_emitter.cpp" />
+    <ClCompile Include="Renderer\particle_system.cpp" />
     <ClCompile Include="Renderer\sprite.cpp" />
     <ClCompile Include="Renderer\graphics_system.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="GameEngine\input.hpp" />
     <ClInclude Include="GameEngine\libs.h" />
     <ClInclude Include="Renderer\particle_emitter.hpp" />
+    <ClInclude Include="Renderer\particle_system.hpp" />
     <ClInclude Include="Renderer\shader.hpp" />
     <ClInclude Include="Renderer\sprite.hpp" />
     <ClInclude Include="Renderer\graphics_system.hpp" />
@@ -55,6 +57,8 @@
     <None Include="Resources\Shaders\amazing_shader.vert" />
     <None Include="Resources\Shaders\basicShader.frag" />
     <None Include="Resources\Shaders\basicShader.vert" />
+    <None Include="Resources\Shaders\fabulous_shader.frag" />
+    <None Include="Resources\Shaders\fabulous_shader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

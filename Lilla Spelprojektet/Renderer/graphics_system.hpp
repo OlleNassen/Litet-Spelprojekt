@@ -10,6 +10,8 @@
 #include<SFML/System/Vector2.hpp>
 
 #include"particle_emitter.hpp"
+#include "particle_system.hpp"
+
 
 #define NUM_LIGHTS 10 + 1 // pixie in back
 
@@ -40,6 +42,8 @@ private:
 	//For black sidething
 	Texture2D* blackFridayTexture;
 	Sprite* blackFridaySprite;
+
+	ParticleSystem* particleSystem;
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
