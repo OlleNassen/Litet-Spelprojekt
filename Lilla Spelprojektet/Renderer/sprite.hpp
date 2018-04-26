@@ -10,7 +10,10 @@ class Texture2D;
 class Sprite
 {
 private:
+	glm::vec2 vertex[12];
+	
 	GLuint quadVAO;
+	GLuint VBO;
 	Shader *shader;
 
 	Texture2D* texture;
@@ -37,4 +40,6 @@ public:
 	void setTexture(Texture2D* texture);
 
 	void rotate(float degrees);
+
+	void setTextureRect(int left, int top, int right, int bottom);
 };

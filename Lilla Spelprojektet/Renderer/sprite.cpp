@@ -7,6 +7,21 @@
 Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const glm::vec2& size)
 	:normalMap(nullptr) // Needed for some reason
 {
+	vertex[0] = glm::vec2(0.0f, 1.0f);
+	vertex[2] = glm::vec2(1.0f, 0.0);
+	vertex[4] = glm::vec2(0.0f, 0.0f);
+	vertex[6] = glm::vec2(0.0f, 1.0f);
+	vertex[8] = glm::vec2(1.0f, 1.0f);
+	vertex[10] = glm::vec2(1.0f, 0.0f);
+
+	vertex[1] = glm::vec2(0.0f, 1.0f);
+	vertex[3] = glm::vec2(1.0f, 0.0);
+	vertex[5] = glm::vec2(0.0f, 0.0f);
+	vertex[7] = glm::vec2(0.0f, 1.0f);
+	vertex[9] = glm::vec2(1.0f, 1.0f);
+	vertex[11] = glm::vec2(1.0f, 0.0f);
+	
+
 	posX = 0.0f;
 	posY = 0.0f;
 
@@ -31,26 +46,12 @@ Sprite::~Sprite()
 
 void Sprite::initSprite()
 {
-	// Configure VAO/VBO
-	GLuint VBO;
-	//Fix this ugly mess
-	float vertices[] = {
-		// Pos and texture coordinates
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 0.0, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 0.0f,
-
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f
-	};
-
 	glGenVertexArrays(1, &this->quadVAO);
 	glBindVertexArray(this->quadVAO);
 
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
 
 
 	// Buffer offset. 
@@ -125,3 +126,16 @@ void Sprite::rotate(float degrees)
 	this->rotation = degrees;
 }
 
+void Sprite::setTextureRect(int left, int top, int right, int bottom)
+{
+	vertex[1] = glm::vec2(left / size.x, top / size.y);
+	vertex[3] = glm::vec2(right / size.x, bottom / size.y);
+	vertex[5] = glm::vec2(left / size.x, bottom / size.y);
+	
+	vertex[7] = glm::vec2(left / size.x, top / size.y);
+	vertex[9] = glm::vec2(right / size.x, top / size.y);
+	vertex[11] = glm::vec2(right / size.x, bottom / size.y);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
+}
