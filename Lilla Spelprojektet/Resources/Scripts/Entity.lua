@@ -151,7 +151,8 @@ function Entity:move(x, y)
 	self.collision_bottom = false
 
 	if self.world:canMove(self.x + x, self.y) and self.world:canMove(self.x + x + self.width, self.y + self.height) and 
-	self.world:canMove(self.x + x + self.width, self.y) and self.world:canMove(self.x + x, self.y + self.height) then
+	self.world:canMove(self.x + x + self.width, self.y) and self.world:canMove(self.x + x, self.y + self.height) and 	
+	self.world:canMove(self.x + x + self.width/2, self.y) and self.world:canMove(self.x + x, self.y + self.height/2)then
 		self.x = self.x + x
 	
 	else
