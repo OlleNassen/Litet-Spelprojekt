@@ -71,7 +71,7 @@ GraphicsSystem::~GraphicsSystem()
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
 {	
-
+	
 	if (sprites.size() > 0)
 	{
 		for (int itr = sprites.size() - 1; itr >= 0; itr--)
@@ -101,12 +101,16 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	emitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
 	emitter->update(0.0016f);
 	emitter->render(view, projection, 0.0016f);
+
+	
+
 	particleSystem->render();
 
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {		
+	
 	background->draw(glm::vec2(background->posX, background->posY), view, projection);
 
 	if (tileMap.size() > 0)
@@ -154,6 +158,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			}
 		}
 	}
+	
 }
 
 void GraphicsSystem::addLuaFunctions(lua_State* luaState)
@@ -200,7 +205,7 @@ void GraphicsSystem::loadShaders()
 	shaders.push_back(new Shader("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/2d_shader.vert", "Resources/Shaders/2d_shader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/amazing_shader.vert", "Resources/Shaders/amazing_shader.frag"));
-	shaders.push_back(new Shader("Resources/Shaders/fabulous_shader.vert", "Resources/Shaders/fabulous_shader.frag"));
+	shaders.push_back(new Shader("Resources/Shaders/particle_shader.vert", "Resources/Shaders/particle_shader.frag"));
 
 }
 

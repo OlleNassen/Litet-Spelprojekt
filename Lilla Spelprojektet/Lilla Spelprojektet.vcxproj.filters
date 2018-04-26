@@ -95,7 +95,7 @@
     <None Include="Resources\Shaders\amazing_shader.frag" />
     <None Include="Resources\Shaders\amazing_shader.vert" />
     <None Include="Resources\Scripts\point_light.lua" />
-    <None Include="Resources\Shaders\fabulous_shader.vert" />
-    <None Include="Resources\Shaders\fabulous_shader.frag" />
+    <None Include="Resources\Shaders\particle_shader.frag" />
+    <None Include="Resources\Shaders\particle_shader.vert" />
   </ItemGroup>
 </Project>
