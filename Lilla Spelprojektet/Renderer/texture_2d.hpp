@@ -13,6 +13,9 @@ private:
 	
 
 public:
+	int width;
+	int height;
+	
 	Texture2D()
 	{
 		this->texture = 0;
@@ -21,8 +24,6 @@ public:
 	Texture2D(std::string fileName)
 	{
 		//load image
-		int width = 0;
-		int height = 0;
 		unsigned char* image = SOIL_load_image(fileName.c_str(), &width, &height, NULL, SOIL_LOAD_RGBA);
 
 		GLenum target = GL_TEXTURE_2D;
@@ -74,8 +75,6 @@ public:
 		}
 
 		//load image
-		int width = 0;
-		int height = 0;
 		unsigned char* image = SOIL_load_image(fileName, &width, &height, NULL, SOIL_LOAD_RGBA);
 
 		GLenum target = GL_TEXTURE_2D;

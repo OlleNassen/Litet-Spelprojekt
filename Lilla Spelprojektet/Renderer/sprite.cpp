@@ -128,13 +128,16 @@ void Sprite::rotate(float degrees)
 
 void Sprite::setTextureRect(int left, int top, int right, int bottom)
 {
-	vertex[1] = glm::vec2(left / size.x, top / size.y);
-	vertex[3] = glm::vec2(right / size.x, bottom / size.y);
-	vertex[5] = glm::vec2(left / size.x, bottom / size.y);
+	std::cout << texture->width << std::endl;
+	std::cout << texture->height << std::endl;
+
+	vertex[1] = glm::vec2(static_cast<float>(left) / texture->width, static_cast<float>(top) / texture->height);
+	vertex[3] = glm::vec2(static_cast<float>(right) / texture->width, static_cast<float>(bottom) / texture->height);
+	vertex[5] = glm::vec2(static_cast<float>(left) / texture->width, static_cast<float>(bottom) / texture->height);
 	
-	vertex[7] = glm::vec2(left / size.x, top / size.y);
-	vertex[9] = glm::vec2(right / size.x, top / size.y);
-	vertex[11] = glm::vec2(right / size.x, bottom / size.y);
+	vertex[7] = glm::vec2(static_cast<float>(left) / texture->width, static_cast<float>(top) / texture->height);
+	vertex[9] = glm::vec2(static_cast<float>(right) / texture->width, static_cast<float>(top) / texture->height);
+	vertex[11] = glm::vec2(static_cast<float>(right) / texture->width, static_cast<float>(bottom) / texture->height);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);

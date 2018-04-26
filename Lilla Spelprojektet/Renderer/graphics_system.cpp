@@ -69,7 +69,7 @@ GraphicsSystem::~GraphicsSystem()
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
 {
-	//sprites[0]->setTextureRect(0,0,24,24);
+	sprites[0]->setTextureRect(40,95,86,0);
 	
 	if (sprites.size() > 0)
 	{
