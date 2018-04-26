@@ -167,7 +167,7 @@ function update(deltaTime)
 	power_speed:contains(p.entity)
 	
 	if p.entity:contains(b.x, b.y) then
-		p.entity.health = 0
+		p:takeDamage(50)
 	end
 
 	position = p:getPosition()

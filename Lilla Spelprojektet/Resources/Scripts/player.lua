@@ -13,6 +13,7 @@ function Player:create()
 		jumpPower = -1300,
 		dashing = false,
 		canDash = true,
+		timeSinceDamage = 0.0
     }
 
 	this.entity.x = 50
@@ -69,6 +70,8 @@ end
 
 function Player:update(deltaTime)
 	
+	self.timeSinceDamage = self.timeSinceDamage + deltaTime
+	
 	if self.entity.health <= 0 then
 		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
@@ -99,4 +102,12 @@ function Player:getPosition()
 	position.x = self.entity.x
 	position.y = self.entity.y
 	return position
+end
+
+function Player:takeDamage(dmg)
+	if self.timeSinceDamage > 1.0 then
+		self.entity.health = self.entity.health - dmg
+		self.timeSinceDamage = 0.0
+		print "AJ!!!"
+	end
 end
