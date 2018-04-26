@@ -3,7 +3,7 @@ require("Resources/Scripts/Entity")
 Ai = {}
 Ai.__index = Ai
 
-function Ai:create()
+function Ai:create(posX, posY, sizeX, sizeY)
     local this =
     {
 		entity = Entity:create(),
@@ -13,12 +13,14 @@ function Ai:create()
 		timer = 5,
     }
 
-	this.entity.x = 1055
-	this.entity.y = 1055
+	this.entity.x = posX
+	this.entity.y = posY
+	this.entity.width = sizeX
+	this.entity.height = sizeY
 	this.entity.maxSpeed.x = 700
 	this.entity.maxSpeed.y = 1000
 	this.entity.texture = newTexture("Resources/Sprites/goomba.png")
-	this.entity.sprite = newSprite(this.entity.texture)
+	this.entity.sprite = newSprite(sizeX, sizeY, 0, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
     setmetatable(this, self)

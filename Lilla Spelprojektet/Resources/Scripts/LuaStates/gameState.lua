@@ -60,20 +60,17 @@ local light5 = PointLight:create(1,1,0.1,tileSize * 2, tileSize * 36,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local g = Ai:create() -- goomba
-g.entity:addWorld(level)
-
 local power_speed = Powerup:create() -- Powerup speed 1
 power_speed.entity:setPosition(500, 1500)
 power_speed.type = 0
 
-local b = Entity:create() -- goomba
-b.x = 300
-b.y = 200
-b.texture = newTexture("Resources/Sprites/bossman.png")
-b.sprite = newSprite(b.texture)
-b:addWorld(level)
-b:move(0,0)
+
+local g = Ai:create(1055,1055, 48, 48) -- goomba
+g.entity:addWorld(level)
+
+local b = Ai:create(1500, 100, 500, 500) -- bossman
+b.entity:addWorld(level)
+
 
 local bg = Background:create()
 bg.texture = newTexture("Resources/Sprites/backgroundTileBig_diffuse.png")
@@ -163,15 +160,11 @@ function update(deltaTime)
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
-	g:update(deltaTime)
-	power_speed:contains(p.entity)
-	
-	if p.entity:contains(b.x, b.y) then
-		p:takeDamage(50)
-	end
-
+	g:update(deltaTime)	
 	g:attack(p)
-
+	
+	b:attack(p)
+	
 	position = p:getPosition()
 	bg:setPosition(position.x / 3 - (1280 / 2), position.y / 3 - (720 / 2))-- position.y - (720 / 2))
 
