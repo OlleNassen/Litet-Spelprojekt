@@ -18,6 +18,7 @@ GraphicsSystem::GraphicsSystem()
 	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
+
 	particleSystem = new ParticleSystem(shaders.back(), textures[0]);
 
 	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
@@ -98,13 +99,15 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		}
 	}
 
-	emitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
-	emitter->update(0.0016f);
-	emitter->render(view, projection, 0.0016f);
+	//emitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
+	//emitter->update(0.0016f);
+	//emitter->render(view, projection, 0.0016f);
 
+	//particleSystem->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
 	
-
+	particleSystem->update(0.00016f);
 	particleSystem->render(view, projection);
+	//particleSystem->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
 
 }
 

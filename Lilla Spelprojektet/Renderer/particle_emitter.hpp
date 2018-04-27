@@ -8,6 +8,8 @@ class Shader;
 class Texture2D;
 class Sprite;
 
+
+
 class ParticleEmitter
 {
 private:
