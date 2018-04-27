@@ -63,10 +63,19 @@ local light5 = PointLight:create(1,1,0.1,tileSize * 2, tileSize * 36,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local power_speed = Powerup:create() -- Powerup speed 1
-power_speed.entity:setPosition(500, 1500)
-power_speed.type = 0
-
+--powerups
+local power_dash = Powerup:create("Resources/Sprites/powerup_dash.png") -- GIVES DASH
+power_dash.entity:setPosition(500, 1500)
+power_dash.type = 0
+local power_speed = Powerup:create("Resources/Sprites/powerup_speed.png") -- GIVES SPEED INCREASE
+power_speed.entity:setPosition(1000, 1500)
+power_speed.type = 1
+local power_jump = Powerup:create("Resources/Sprites/powerup_jump.png") -- GIVES DOUBLE JUMP
+power_jump.entity:setPosition(1200, 1300)
+power_jump.type = 2
+local power_highjump = Powerup:create("Resources/Sprites/powerup_highjump.png") -- GIVES HIGH JUMP
+power_highjump.entity:setPosition(1000, 400)
+power_highjump.type = 3
 
 local g = Ai:create(1055,1055, 48, 48) -- goomba
 g.entity:addWorld(level)
@@ -117,7 +126,7 @@ function mouse(x, y)
 end
 
 function checkUpgrades(deltaTime)
-	if p.entity.hasPowerUp[1] == true then
+	if p.entity.hasPowerUp[1] == true then -- DASH UPGRADE
 	
 		if p.entity.collision_bottom == true then --Cant dash until on ground
 			p.canDash = true
@@ -154,6 +163,15 @@ function checkUpgrades(deltaTime)
 			end
 		end
 	end
+	if p.entity.hasPowerUp[2] == true then -- SPEED UPGRADE
+		p.entity.maxSpeed.x = 800
+	end
+	if p.entity.hasPowerUp[3] == true then -- DOUBLE JUMP UPGRADE
+		p.maxNrOfJumps = 2
+	end
+	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
+		p.jumpPower = -1800
+	end
 end
 
 function update(deltaTime)
@@ -163,7 +181,10 @@ function update(deltaTime)
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
+	power_dash:contains(p.entity)
 	power_speed:contains(p.entity)
+	power_jump:contains(p.entity)
+	power_highjump:contains(p.entity)
 
 	g:update(deltaTime)	
 	g:attack(p)

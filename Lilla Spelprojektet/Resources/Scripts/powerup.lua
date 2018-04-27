@@ -3,7 +3,7 @@ require("Resources/Scripts/Entity")
 Powerup = {}
 Powerup.__index = Powerup
 
-function Powerup:create()
+function Powerup:create(texture)
     local this =
     {
 		entity = Entity:create(),
@@ -11,13 +11,11 @@ function Powerup:create()
 		aquired = false,
     }
 
-
-
 	this.entity.x = 1000
 	this.entity.y = 1000
 	this.entity.speed = 0
 
-	this.entity.texture = newTexture("Resources/Sprites/powerup_speed1.png")
+	this.entity.texture = newTexture(texture)
 	this.entity.sprite = newSprite(this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 

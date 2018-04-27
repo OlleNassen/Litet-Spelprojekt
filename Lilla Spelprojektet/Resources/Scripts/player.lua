@@ -9,8 +9,9 @@ function Player:create()
 		entity = Entity:create(),
 		isJumping = false,
 		isFalling = false,
-		timeSinceJump = 0.0,
 		jumpPower = -1300,
+		maxNrOfJumps = 1,
+		nrOfJumps = 1,
 		dashing = false,
 		canDash = true,
 		timeSinceDamage = 0.0,
@@ -54,8 +55,9 @@ end
 
 function Player:jump()
 
-	if self.entity.collision_bottom == true then
+	if self.nrOfJumps > 0 then
 		 self.entity.velocity.y = self.jumpPower
+		 self.nrOfJumps = self.nrOfJumps - 1
 	end
 
 	return false
@@ -93,18 +95,11 @@ function Player:update(deltaTime)
 	self.entity:move(self.entity.velocity.x * deltaTime, self.entity.velocity.y * deltaTime)
 
 	--Jumping
-	if self.isJumping then
-		
-		self.timeSinceJump = self.timeSinceJump + deltaTime
-		self.entity:move(0, -500 * deltaTime)
-		
-		if self.timeSinceJump > 0.5 then
-			self.isJumping = false
-			self.timeSinceJump = 0.0
-		end
-	else
-		self.entity:update(deltaTime)
+	if self.entity.collision_bottom == true then
+		self.nrOfJumps = self.maxNrOfJumps 
 	end
+	
+	self.entity:update(deltaTime)
 
 	--Hp bar
 	self:updateHPBar()
