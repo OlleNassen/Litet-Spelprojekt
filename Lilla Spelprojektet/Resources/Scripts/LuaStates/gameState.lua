@@ -68,13 +68,13 @@ local power_dash = Powerup:create("Resources/Sprites/powerup_dash.png") -- GIVES
 power_dash.entity:setPosition(500, 1500)
 power_dash.type = 0
 local power_speed = Powerup:create("Resources/Sprites/powerup_speed.png") -- GIVES SPEED INCREASE
-power_speed.entity:setPosition(1000, 1500)
+power_speed.entity:setPosition(700, 1500)
 power_speed.type = 1
 local power_jump = Powerup:create("Resources/Sprites/powerup_jump.png") -- GIVES DOUBLE JUMP
-power_jump.entity:setPosition(1200, 1300)
+power_jump.entity:setPosition(800, 1500)
 power_jump.type = 2
 local power_highjump = Powerup:create("Resources/Sprites/powerup_highjump.png") -- GIVES HIGH JUMP
-power_highjump.entity:setPosition(1000, 400)
+power_highjump.entity:setPosition(900, 1500)
 power_highjump.type = 3
 
 local g = Ai:create(1055,1055, 48, 48) -- goomba
