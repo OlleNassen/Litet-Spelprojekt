@@ -31,8 +31,13 @@ function Player:create()
 	this.entity.maxSpeed.y = 1000
 	this.entity.hasGravity = true
 	this.entity.canFly = false
-	this.entity.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
-	this.entity.normalMap = newTexture("Resources/Sprites/Player/playerNormal.png")
+	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite.png")
+	this.entity.spriteWidth = 144
+	this.entity.spriteHeight = 144
+	this.entity:addAnimation(16, 28)
+	this.entity.currentAnimation = 1
+	this.entity.updateAnimationTime = 0.05
+	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)

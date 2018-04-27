@@ -29,6 +29,14 @@ function Entity:create()
 		canFly = false,
 		hasPowerUp = {},
 		health = 100,
+		currentAnimation = 1,
+		currentAnimationIndex = 1,
+		animationList = {},
+		updateAnimationTime = 1.0,
+		currentAnimationTime = 0.0,
+		spriteWidth = 144,
+		spriteHeight = 144,
+		isGoingRight = true,
     }
 
 	for i=1,2,1 do 
@@ -41,6 +49,8 @@ end
 
 function Entity:update(deltaTime)
 	
+	self:updateAnimation(deltaTime)
+
 	--Gravity
 	if self.hasGravity == true then
 		self:accelerate(0, 1, deltaTime)
@@ -60,6 +70,32 @@ end
 
 function Entity:addWorld(world)
 	self.world = world
+end
+
+function Entity:addAnimation(startIndex, endIndex)
+	table.insert(self.animationList, startIndex)
+	table.insert(self.animationList, endIndex)
+end
+
+function Entity:updateAnimation(deltaTime)
+	self.currentAnimationTime = self.currentAnimationTime + deltaTime
+
+	if self.currentAnimationTime >= self.updateAnimationTime then
+		self.currentAnimationIndex = self.currentAnimationIndex + 1
+
+		self.currentAnimationTime = 0.0
+		if self.animationList[1] ~= nil then
+			if self.currentAnimationIndex > self.animationList[self.currentAnimation + 1] then
+				self.currentAnimationIndex = self.animationList[self.currentAnimation]
+			end
+		end
+
+		if self.isGoingRight == false then
+			setSpriteRect(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1), 0, self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, self.spriteHeight)
+		else
+			setSpriteRect(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, 0,self.spriteWidth * (self.currentAnimationIndex - 1), self.spriteHeight)
+		end
+	end
 end
 
 function Entity:setPosition(x, y)
