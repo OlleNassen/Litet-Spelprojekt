@@ -1,7 +1,8 @@
 #include "particle_system.hpp"
 
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
-
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 #include <sstream>
 #include <string>
@@ -31,9 +32,13 @@ ParticleSystem::~ParticleSystem()
 {
 }
 
-void ParticleSystem::render()
+void ParticleSystem::render(const glm::mat4& view, const glm::mat4& projection)
 {
 	this->update();
+
+	this->shader->setMatrix4fv(model, "model");
+	this->shader->setMatrix4fv(view, "view");
+	this->shader->setMatrix4fv(projection, "projection");
 
 	texture->bind(0);
 
@@ -50,13 +55,22 @@ void ParticleSystem::render()
 
 void ParticleSystem::update()
 {
+	glm::vec2 position(0, 0);
+	// Prepare transformations
+	model = glm::mat4(1.f);
+	model = glm::translate(model, glm::vec3(position, 0.0f));
+
+	model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
+	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.f, 0.1f));
+	model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
+
+	model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
+
 	for (auto& translation : particles.translations)
 	{
 
 		translation.y-= 0.0016;
 	}
-
-
 }
 
 void ParticleSystem::initParticleSystem()

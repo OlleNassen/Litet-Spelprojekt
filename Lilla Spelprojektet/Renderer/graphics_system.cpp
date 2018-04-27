@@ -104,7 +104,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 	
 
-	particleSystem->render();
+	particleSystem->render(view, projection);
 
 }
 

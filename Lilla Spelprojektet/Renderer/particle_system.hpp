@@ -33,12 +33,13 @@ private:
 
 	Particles particles;
 
+	glm::mat4 model;
 
 public:
 	ParticleSystem(Shader* shader, Texture2D* diffuse, Texture2D* normalMap = nullptr);
 	~ParticleSystem();
 
-	void render();
+	void render(const glm::mat4& view, const glm::mat4& projection);
 	void update();
 private:
 	void initParticleSystem();
