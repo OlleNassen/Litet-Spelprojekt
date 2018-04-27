@@ -3,6 +3,7 @@
 #include "glm\glm.hpp"
 #include <queue>
 #include "Shader.hpp"
+#include "texture_2d.hpp"
 
 struct Particles
 {
@@ -22,6 +23,8 @@ class ParticleSystem
 {
 private:
 	Shader * shader;
+	Texture2D* texture;
+	Texture2D* normalMap;
 
 	GLuint VAO;
 	GLuint VBO;
@@ -32,7 +35,7 @@ private:
 
 
 public:
-	ParticleSystem(Shader* shader);
+	ParticleSystem(Shader* shader, Texture2D* diffuse, Texture2D* normalMap = nullptr);
 	~ParticleSystem();
 
 	void render();

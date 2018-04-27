@@ -1,13 +1,16 @@
 #version 440
-layout (location = 0) in vec2 vs_position;
-layout (location = 1) in vec3 vs_color;
-layout (location = 2) in vec2 vs_offset;
+layout (location = 0) in vec2 vertex_position;
+layout (location = 1) in vec2 vertex_texcoord;
+layout (location = 2) in vec3 vertex_color;
+layout (location = 3) in vec2 vertex_offset;
 
-out vec3 vertex_color;
+out vec2 vs_texcoord;
+out vec3 vs_color;
 
 void main()
 {
-    vertex_color = vs_color;
-    vec2 pos = vs_position * (gl_InstanceID / 100.0);
-    gl_Position = vec4(pos + vs_offset, 0.0, 1.0);
+	vs_texcoord = vertex_texcoord;
+    vs_color = vertex_color;
+
+    gl_Position = vec4(vertex_position + vertex_offset, 0.0, 1.0);
 }  

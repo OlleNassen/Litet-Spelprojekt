@@ -1,11 +1,16 @@
 #include "particle_system.hpp"
 
+#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
+
+
 #include <sstream>
 #include <string>
 
-ParticleSystem::ParticleSystem(Shader* shader)
+ParticleSystem::ParticleSystem(Shader* shader, Texture2D* diffuse, Texture2D* normalMap)
 {
 	this->shader = shader;
+
+	this->texture = diffuse;
 
 	float offset = 0.1f;
 	for (int y = -10; y < 10; y += 2)
@@ -30,6 +35,8 @@ void ParticleSystem::render()
 {
 	this->update();
 
+	texture->bind(0);
+
 	shader->use();
 	glBindVertexArray(VAO);
 
@@ -48,6 +55,8 @@ void ParticleSystem::update()
 
 		translation.y-= 0.0016;
 	}
+
+
 }
 
 void ParticleSystem::initParticleSystem()
@@ -58,14 +67,14 @@ void ParticleSystem::initParticleSystem()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	float quadVertices[] = {
-		// positions     // colors
-		-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
-		0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
-		-0.05f, -0.05f,  0.0f, 0.0f, 1.0f,
+		// positions //Texcoords     // colors
+		-0.05f,  0.05f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		0.05f, -0.05f, 1.0f, 0.0,  0.0f, 1.0f, 0.0f,
+		-0.05f, -0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
 
-		-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
-		0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
-		0.05f,  0.05f,  0.0f, 1.0f, 1.0f
+		-0.05f,  0.05f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		0.05f, -0.05f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		0.05f,  0.05f, 1.0f, 0.0f,  0.0f, 1.0f, 1.0f
 	};
 
 	glGenVertexArrays(1, &VAO);
@@ -73,16 +82,29 @@ void ParticleSystem::initParticleSystem()
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+
+	int offset = 0;
+
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 2;
+
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-	// also set instance data
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 2;
+
 	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 3;
+	
+	
+	// also set instance data
+	offset = 0;
+	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO); // this attribute comes from a different vertex buffer
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), BUFFER_OFFSET(offset));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glVertexAttribDivisor(2, 1); // tell OpenGL this is an instanced vertex attribute.
+	glVertexAttribDivisor(3, 1); // tell OpenGL this is an instanced vertex attribute.
 
 
 
