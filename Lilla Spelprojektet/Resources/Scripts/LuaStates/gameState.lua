@@ -37,6 +37,9 @@ s.texture = newTexture("Resources/Sprites/player.png")
 s.sprite = newSprite(s.texture)
 s:addWorld(level)
 
+p.spriteHPBar = newSprite(500, 50, 0, p.textureHPBar)
+p.spriteHPBarBack = newSprite(500, 50, 0, p.textureHPBarBack)
+
 tileSize = 48
 
 local light1 = PointLight:create(0.1,0.1,1,100,tileSize,

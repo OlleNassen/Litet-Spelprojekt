@@ -171,6 +171,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 	lua_pushcfunction(luaState, newLight);
 	lua_setglobal(luaState, "newLight");
 
+	lua_pushcfunction(luaState, spritesize);
+	lua_setglobal(luaState, "spriteSize");
+
 	lua_pushcfunction(luaState, spritepos);
 	lua_setglobal(luaState, "spritePos");
 
@@ -395,6 +398,18 @@ int GraphicsSystem::newLight(lua_State* luaState)
 	return 1;
 }
 
+int GraphicsSystem::spritesize(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	float sizeY = lua_tonumber(luaState, -2);
+	float sizeX = lua_tonumber(luaState, -3);
+	int* id = (int*)lua_touserdata(luaState, -4);
+
+	ptr->sprites[*id]->setSize(sizeX, sizeY);
+
+	return 0;
+}
 
 int GraphicsSystem::spritepos(lua_State* luaState)
 {

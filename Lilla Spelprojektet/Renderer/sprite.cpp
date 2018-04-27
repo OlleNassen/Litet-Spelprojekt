@@ -139,3 +139,9 @@ void Sprite::setTextureRect(int left, int top, int right, int bottom)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex), vertex, GL_STATIC_DRAW);
 }
+
+void Sprite::setSize(float x, float y)
+{
+	this->size.x = x;
+	this->size.y = y;
+}

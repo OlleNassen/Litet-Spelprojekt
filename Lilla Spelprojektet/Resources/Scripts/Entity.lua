@@ -26,7 +26,7 @@ function Entity:create()
 		hasGravity = true,
 		canFly = false,
 		hasPowerUp = {},
-		health = 100
+		health = 100,
     }
 
 	for i=1,2,1 do 
@@ -71,6 +71,20 @@ function Entity:setPosition(x, y)
 		spritePos(self.sprite, self.x, self.y)		
 	end
 end
+
+function Entity:setSize(x, y)
+	
+	--if self.world:canMove(x, y) then
+		self.width = x
+		self.height = y
+	--end
+		
+	if self.sprite ~= nil then
+		spriteSize(self.sprite, self.width, self.height)		
+	end
+end
+
+
 
 function Entity:getPosition()
 	local position = {x, y}

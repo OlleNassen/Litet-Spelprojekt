@@ -13,9 +13,13 @@ function Player:create()
 		jumpPower = -1300,
 		dashing = false,
 		canDash = true,
-		timeSinceDamage = 0.0
+		timeSinceDamage = 0.0,
+		textureHPBarBack = newTexture("Resources/Sprites/Player/hpbarback.png"),
+		textureHPBar = newTexture("Resources/Sprites/Player/hpbar.png"),
+		spriteHPBarBack,
+		spriteHPBar,
     }
-
+	
 	this.entity.x = 50
 	this.entity.y = 50
 	this.entity.width = 45
@@ -29,6 +33,8 @@ function Player:create()
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)
+
+
 
     setmetatable(this, self)
     return this
@@ -68,6 +74,10 @@ function Player:fly()
 	end
 end
 
+function Player:updateHPBar()
+	spriteSize(self.spriteHPBar, (self.entity.health/100)*500, 50)
+end
+
 function Player:update(deltaTime)
 	
 	self.timeSinceDamage = self.timeSinceDamage + deltaTime
@@ -75,7 +85,7 @@ function Player:update(deltaTime)
 	if self.entity.health <= 0 then
 		push("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
-	
+
 	--Decelerate
 	self.entity:decelerate(deltaTime)
 
@@ -95,6 +105,11 @@ function Player:update(deltaTime)
 	else
 		self.entity:update(deltaTime)
 	end
+
+	--Hp bar
+	self:updateHPBar()
+	spritePos(self.spriteHPBarBack, self.entity.x-590, self.entity.y-310)
+	spritePos(self.spriteHPBar, self.entity.x-590, self.entity.y-310)
 end
 
 function Player:getPosition()

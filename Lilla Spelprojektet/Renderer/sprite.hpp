@@ -42,4 +42,6 @@ public:
 	void rotate(float degrees);
 
 	void setTextureRect(int left, int top, int right, int bottom);
+
+	void setSize(float x, float y);
 };
