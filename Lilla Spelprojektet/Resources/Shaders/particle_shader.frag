@@ -9,5 +9,5 @@ uniform sampler2D normalMap;   //normal map
 
 void main()
 {
-    fragColor = vec4(vs_color, 1.0) * texture(diffuseMap, vs_texcoord);
+    fragColor = texture(diffuseMap, vs_texcoord);
 }

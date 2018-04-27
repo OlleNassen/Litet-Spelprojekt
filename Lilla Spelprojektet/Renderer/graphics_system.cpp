@@ -19,7 +19,7 @@ GraphicsSystem::GraphicsSystem()
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
 
-	particleEmitter = new ParticleEmitter(shaders.back(), textures[0]);
+	particleEmitter = new ParticleEmitter(shaders.back(), textures[2]);
 
 	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 
