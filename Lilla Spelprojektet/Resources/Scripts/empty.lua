@@ -13,9 +13,8 @@ tilemap1 =
 		"Resources/Sprites/lockerBottom_diffuse.png",
 		"Resources/Sprites/lockerTop_diffuse.png",
 		"Resources/Sprites/lampCoord_diffuse.png",
-		
-
-
+		"Resources/Sprites/durkplat_diffuse.png",
+		"Resources/Sprites/chain_diffuse.png",
 	},
 
 	texturesNormal =
@@ -31,6 +30,8 @@ tilemap1 =
 		"Resources/Sprites/lockerBottom_normal.png",
 		"Resources/Sprites/lockerTop_normal.png",
 		"Resources/Sprites/lampCoord_normal.png",
+		"Resources/Sprites/durkplat_normal.png",
+		"Resources/Sprites/chain_normal.png",
 	},
 
 	tiles = 
