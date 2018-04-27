@@ -3,7 +3,7 @@ require("Resources/Scripts/Entity")
 Powerup = {}
 Powerup.__index = Powerup
 
-function Powerup:create(texture)
+function Powerup:create(texture, normalMap)
     local this =
     {
 		entity = Entity:create(),
@@ -16,7 +16,8 @@ function Powerup:create(texture)
 	this.entity.speed = 0
 
 	this.entity.texture = newTexture(texture)
-	this.entity.sprite = newSprite(this.entity.texture)
+	this.entity.normalMap = newTexture(normalMap)
+	this.entity.sprite = newSprite(this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
     setmetatable(this, self)

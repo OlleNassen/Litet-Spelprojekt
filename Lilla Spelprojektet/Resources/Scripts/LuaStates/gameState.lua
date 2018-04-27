@@ -64,16 +64,16 @@ local light5 = PointLight:create(1,1,0.1,tileSize * 2, tileSize * 36,
 "Resources/Sprites/lamp_diffuse.png")
 
 --powerups
-local power_dash = Powerup:create("Resources/Sprites/powerup_dash.png") -- GIVES DASH
+local power_dash = Powerup:create("Resources/Sprites/powerupDash_diffuse.png", "Resources/Sprites/powerupDash_normal.png") -- GIVES DASH
 power_dash.entity:setPosition(500, 1500)
 power_dash.type = 0
-local power_speed = Powerup:create("Resources/Sprites/powerup_speed.png") -- GIVES SPEED INCREASE
+local power_speed = Powerup:create("Resources/Sprites/powerupSpeed_diffuse.png", "Resources/Sprites/powerupSpeed_normal.png") -- GIVES SPEED INCREASE
 power_speed.entity:setPosition(700, 1500)
 power_speed.type = 1
-local power_jump = Powerup:create("Resources/Sprites/powerup_jump.png") -- GIVES DOUBLE JUMP
+local power_jump = Powerup:create("Resources/Sprites/powerupDoubleJump_diffuse.png", "Resources/Sprites/powerupDoubleJump_normal.png") -- GIVES DOUBLE JUMP
 power_jump.entity:setPosition(800, 1500)
 power_jump.type = 2
-local power_highjump = Powerup:create("Resources/Sprites/powerup_highjump.png") -- GIVES HIGH JUMP
+local power_highjump = Powerup:create("Resources/Sprites/powerupHighJump_diffuse.png", "Resources/Sprites/powerupHighJump_normal.png") -- GIVES HIGH JUMP
 power_highjump.entity:setPosition(900, 1500)
 power_highjump.type = 3
 

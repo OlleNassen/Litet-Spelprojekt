@@ -9,6 +9,8 @@ function Entity:create()
 		sprite,
 		x = 0,
 		y = 0,
+		collision_width = 48,
+		collision_height = 48,
 		width = 48,
 		height = 48,
 		world = {},
