@@ -6,10 +6,13 @@
 
 struct Particles
 {
-	std::queue<glm::vec2> positions;
-	std::queue<glm::vec2> direction;
-	std::queue<glm::vec3> colors;
-	std::queue<float> timeLeft;
+	std::vector<glm::vec2> positions;
+	std::vector<glm::vec2> velocity;
+	std::vector<glm::vec3> colors;
+
+	std::vector<glm::vec2> translations;
+
+	std::vector<float> timeLeft;
 
 	float globalSpeed;
 
@@ -19,10 +22,11 @@ class ParticleSystem
 {
 private:
 	Shader * shader;
-	glm::vec2 translations[100];
 
 	GLuint VAO;
 	GLuint VBO;
+
+	GLuint instanceVBO;
 
 	Particles particles;
 

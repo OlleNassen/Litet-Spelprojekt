@@ -8,5 +8,6 @@ out vec3 vertex_color;
 void main()
 {
     vertex_color = vs_color;
-    gl_Position = vec4(vs_position + vs_offset, 0.0, 1.0);
+    vec2 pos = vs_position * (gl_InstanceID / 100.0);
+    gl_Position = vec4(pos + vs_offset, 0.0, 1.0);
 }  

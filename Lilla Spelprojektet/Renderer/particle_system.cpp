@@ -7,8 +7,6 @@ ParticleSystem::ParticleSystem(Shader* shader)
 {
 	this->shader = shader;
 
-
-	int index = 0;
 	float offset = 0.1f;
 	for (int y = -10; y < 10; y += 2)
 	{
@@ -17,7 +15,7 @@ ParticleSystem::ParticleSystem(Shader* shader)
 			glm::vec2 translation;
 			translation.x = (float)x / 10.0f + offset;
 			translation.y = (float)y / 10.0f + offset;
-			translations[index++] = translation;
+			particles.translations.push_back(translation);
 		}
 	}
 
@@ -30,9 +28,14 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::render()
 {
+	this->update();
 
 	shader->use();
 	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, 100 * sizeof(glm::vec2), &particles.translations[0], GL_STREAM_DRAW);
+
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100);
 	glBindVertexArray(0);
 
@@ -40,15 +43,18 @@ void ParticleSystem::render()
 
 void ParticleSystem::update()
 {
+	for (auto& translation : particles.translations)
+	{
 
+		translation.y-= 0.0016;
+	}
 }
 
 void ParticleSystem::initParticleSystem()
 {
-	unsigned int instanceVBO;
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * 100, &translations[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * 100, &particles.translations[0], GL_STREAM_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	float quadVertices[] = {
