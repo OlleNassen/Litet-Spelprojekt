@@ -11,6 +11,7 @@
 
 #include"particle_emitter.hpp"
 
+
 #define NUM_LIGHTS 10 + 1 // pixie in back
 
 struct lua_State;
@@ -41,11 +42,12 @@ private:
 	Texture2D* blackFridayTexture;
 	Sprite* blackFridaySprite;
 
+	ParticleEmitter* particleEmitter;
+
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
 	std::vector<Sprite*> sprites;
 	PointLights* lights;
-	ParticleEmitter* emitter;
 
 	//Shadow temp
 	float tempX;

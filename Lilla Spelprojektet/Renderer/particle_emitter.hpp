@@ -1,73 +1,57 @@
 #pragma once
+#include "GL\glew.h"
+#include "glm\glm.hpp"
+#include "Shader.hpp"
+#include "texture_2d.hpp"
 
-#include<vector>
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
+#define maxNumParticles 100
 
-class Shader;
-class Texture2D;
-class Sprite;
+struct Particles
+{
+	glm::vec2 translations[maxNumParticles];
+	float timeLeft[maxNumParticles];
+	bool exists[maxNumParticles];
+	//std::vector<glm::vec2> velocity;
+	//std::vector<glm::vec3> colors;
+
+	int first = 0;
+	int last = 1;
+
+	glm::vec2 globalVelocity;
+	//float globalVelocity = 10.f;
+	float globalTimeLeft = 10.f;
+	float globalSpeed;
+	glm::vec3 color;
+
+	
+	
+};
 
 class ParticleEmitter
 {
 private:
+	Shader * shader;
+	Texture2D* texture;
+	Texture2D* normalMap;
 
-	class Particle
-	{
-	public:
+	GLuint VAO;
+	GLuint VBO;
 
-		glm::vec2 velocity;
-		glm::vec2 position;
-		float lifeTime;
+	GLuint instanceVBO;
 
-		Particle(
-			const glm::vec2& position, 
-			const glm::vec2& velocity, 
-			const float& lifeTime)
-		{
-			this->position = position;
-			this->velocity = velocity;
-			this->lifeTime = lifeTime;
-		}
+	Particles particles;
 
-		void update(const float& dt)
-		{
-			if (this->lifeTime > 0.f)
-			{
-				this->lifeTime -= 100 * dt;
-				this->position.x += (rand()% (static_cast<int>(this->velocity.x)+1)) * dt;
-				this->position.y += (rand() % (static_cast<int>(this->velocity.y) + 1)*2 - (static_cast<int>(this->velocity.y) + 1)) * dt;
-			}
-		}
-	};
-
-	std::vector<Particle> particles;
-	Sprite* particle;
-	glm::vec2 velocity;
-	float lifeTime;
-
-	//Private functions
+	glm::mat4 model;
 
 public:
-	//Con & Des
-	ParticleEmitter(
-		Shader* shader,
-		Texture2D* texture,
-		Texture2D* normalMap,
-		const glm::vec2& size = glm::vec2(0, 0),
-		const glm::vec2& velocity = glm::vec2(0.f, 0.f),
-		const float& lifeTime = 0.f);
+	ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* normalMap = nullptr);
+	~ParticleEmitter();
 
-	virtual ~ParticleEmitter();
+	void render(const glm::mat4& view, const glm::mat4& projection);
+	void update(float dt, const glm::vec2& position);
 
-	//Functions
-	void push(const unsigned& amount, const float&x, const float&y);
-	void update(const float& dt);
-	void render(const glm::mat4& view, const glm::mat4& projection, const float& dt);
-
-	//Accessors
-
-	//Modifiers
-
+	void push(unsigned int amount, float x, float y);
+private:
+	void removeParticles();
+	void initParticleEmitter();
 };
-

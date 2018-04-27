@@ -1,66 +1,175 @@
 #include "particle_emitter.hpp"
-#include"../Renderer/sprite.hpp"
-#include"../Renderer/shader.hpp"
 
-//Static variables
+#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
-//Static functions
+#include <sstream>
+#include <string>
 
-//Private functions
-
-//Con & Des
-ParticleEmitter::ParticleEmitter(
-	Shader* shader, 
-	Texture2D* texture, 
-	Texture2D* normalMap,
-	const glm::vec2& size,
-	const glm::vec2& velocity,
-	const float& lifeTime)
+ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* normalMap)
 {
-	this->particle = new Sprite(shader, texture, normalMap, size);
-	this->velocity = velocity;
-	this->lifeTime = lifeTime;
+
+	this->shader = shader;
+
+	this->texture = diffuse;
+
+	this->particles.globalVelocity = glm::vec2(5.f, 3.f);
+
+		float offset = 0.1f;
+		for (int y = -10; y < 10; y += 2)
+		{
+			for (int x = -10; x < 10; x += 2)
+			{
+				glm::vec2 translation;
+				translation.x = (float)x / 10.0f + offset;
+				translation.y = (float)y / 10.0f + offset;
+
+				push(1, translation.x, translation.y);
+
+			}
+		}
+	
+	
+	
+	initParticleEmitter();
 }
 
 ParticleEmitter::~ParticleEmitter()
 {
-	delete this->particle;
 }
 
-//Operators
-
-//Functions
-void ParticleEmitter::push(const unsigned & amount, const float & x, const float & y)
+void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 {
-	for (size_t i = 0; i < amount; i++)
+	this->shader->setMatrix4fv(model, "model");
+	this->shader->setMatrix4fv(view, "view");
+	this->shader->setMatrix4fv(projection, "projection");
+
+	texture->bind(0);
+
+	shader->use();
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, maxNumParticles * sizeof(glm::vec2), &particles.translations[0], GL_STREAM_DRAW);
+
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, maxNumParticles);
+	glBindVertexArray(0);
+
+}
+
+void ParticleEmitter::update(float dt, const glm::vec2& position)
+{
+	// Prepare transformations
+	model = glm::mat4(1.f);
+	model = glm::translate(model, glm::vec3(position, 0.0f));
+
+	model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
+	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.f, 0.1f));
+	model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
+
+	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
+	
+	/*
+	for (auto& translation : particles.translations)
 	{
-		this->particles.push_back(Particle(glm::vec2(x, y), this->velocity, this->lifeTime));
+		translation.y-= 0.0016;
 	}
-}
+	*/
+	//FIX
 
-void ParticleEmitter::update(const float& dt)
-{
-	for (size_t i = 0; i < this->particles.size(); i++)
+
+	for (int i = 0; i < maxNumParticles; i++)
 	{
-		if (this->particles[i].lifeTime >= 0)
-			particles[i].update(dt);
+		if (particles.timeLeft[i] > 0.f)
+		{
+			particles.timeLeft[i] -= 100 * dt;
+			particles.translations[i].x += (rand() % (static_cast<int>(particles.globalVelocity.x) + 1)) * dt;
+			particles.translations[i].y += (rand() % (static_cast<int>(particles.globalVelocity.y) + 1) * 2 - (particles.globalVelocity.y) + 1) * dt;
+		}
+
 		else
 		{
-			particles.erase(this->particles.begin() + i);
+			particles.first = (particles.first + 1) % maxNumParticles;
+
+			particles.translations[i] = glm::vec2(-9999, -9999);
+			particles.timeLeft[i] = -1;
+
+			particles.exists[i] = false;
+		}
+
+	}
+	
+}
+
+void ParticleEmitter::push(unsigned int amount, float x, float y)
+{
+	if (particles.first != particles.last)
+	{
+		for (int i = 0; i < amount; i++)
+		{
+			particles.translations[particles.last] = glm::vec2(x, y);
+			particles.timeLeft[particles.last] = particles.globalTimeLeft;
+			particles.exists[particles.last] = true;
+			particles.last = (particles.last + 1) % maxNumParticles;
+
 		}
 	}
+	
 }
 
-void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection, const float& dt)
+void ParticleEmitter::removeParticles()
 {
-	for (size_t i = 0; i < this->particles.size(); i++)
-	{
-		this->particle->update(this->particles[i].position);
-		this->particle->rotate(rand()%90);
-		this->particle->draw(this->particles[i].position, view, projection);
-	}
 }
 
-//Accessors
+void ParticleEmitter::initParticleEmitter()
+{
+	glGenBuffers(1, &instanceVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * maxNumParticles, &particles.translations[0], GL_STREAM_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-//Modifiers
+	float quadVertices[] = {
+		// positions //Texcoords     // colors
+		-0.05f,  0.05f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		0.05f, -0.05f, 1.0f, 0.0,  0.0f, 1.0f, 0.0f,
+		-0.05f, -0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+
+		-0.05f,  0.05f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		0.05f, -0.05f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		0.05f,  0.05f, 1.0f, 0.0f,  0.0f, 1.0f, 1.0f
+	};
+
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+
+	int offset = 0;
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 2;
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 2;
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 3;
+	
+	
+	// also set instance data
+	offset = 0;
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO); // this attribute comes from a different vertex buffer
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), BUFFER_OFFSET(offset));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glVertexAttribDivisor(3, 1); // tell OpenGL this is an instanced vertex attribute.
+
+
+
+
+}

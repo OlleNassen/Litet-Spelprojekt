@@ -55,6 +55,8 @@
     <None Include="Resources\Shaders\amazing_shader.vert" />
     <None Include="Resources\Shaders\basicShader.frag" />
     <None Include="Resources\Shaders\basicShader.vert" />
+    <None Include="Resources\Shaders\particle_shader.frag" />
+    <None Include="Resources\Shaders\particle_shader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

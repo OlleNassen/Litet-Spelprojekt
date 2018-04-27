@@ -13,20 +13,15 @@ GraphicsSystem::GraphicsSystem()
 {
 	loadShaders();
 
+
 	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
 
-	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
+	particleEmitter = new ParticleEmitter(shaders.back(), textures[0]);
 
-	emitter = new ParticleEmitter(
-		shaders[2], 
-		textures[2], 
-		textures[3],
-		glm::vec2(20.f, 20.f), 
-		glm::vec2(1800.f, 2000.f), 
-		10.f);
+	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 
 	lights = new PointLights;
 	
@@ -64,11 +59,12 @@ GraphicsSystem::~GraphicsSystem()
 		delete shader;
 	}
 
-	delete this->emitter;
+	delete this->particleEmitter;
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
 {	
+	
 	if (sprites.size() > 0)
 	{
 		for (int itr = sprites.size() - 1; itr >= 0; itr--)
@@ -95,13 +91,23 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		}
 	}
 
-	emitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
-	emitter->update(0.0016f);
-	emitter->render(view, projection, 0.0016f);
+	//emitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
+	//emitter->update(0.0016f);
+	//emitter->render(view, projection, 0.0016f);
+
+	//ParticleEmitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
+	
+	particleEmitter->update(0.00016f,
+		glm::vec2(this->sprites[0]->posX, this->sprites[0]->posY));
+	
+	particleEmitter->render(view, projection);
+	particleEmitter->push(1, 0, 0);
+
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {		
+	
 	background->draw(glm::vec2(background->posX, background->posY), view, projection);
 
 	if (tileMap.size() > 0)
@@ -149,6 +155,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			}
 		}
 	}
+	
 }
 
 void GraphicsSystem::addLuaFunctions(lua_State* luaState)
@@ -198,6 +205,8 @@ void GraphicsSystem::loadShaders()
 	shaders.push_back(new Shader("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/2d_shader.vert", "Resources/Shaders/2d_shader.frag"));
 	shaders.push_back(new Shader("Resources/Shaders/amazing_shader.vert", "Resources/Shaders/amazing_shader.frag"));
+	shaders.push_back(new Shader("Resources/Shaders/particle_shader.vert", "Resources/Shaders/particle_shader.frag"));
+
 }
 
 void GraphicsSystem::initShadows()

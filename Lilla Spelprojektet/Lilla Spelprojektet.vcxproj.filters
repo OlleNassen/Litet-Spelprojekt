@@ -33,10 +33,10 @@
     <ClCompile Include="GameEngine\event_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\particle_emitter.cpp">
+    <ClCompile Include="GameEngine\audio_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngine\audio_system.cpp">
+    <ClCompile Include="Renderer\particle_emitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +68,10 @@
     <ClInclude Include="GameEngine\event_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\particle_emitter.hpp">
+    <ClInclude Include="GameEngine\audio_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngine\audio_system.hpp">
+    <ClInclude Include="Renderer\particle_emitter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,5 +89,7 @@
     <None Include="Resources\Shaders\amazing_shader.frag" />
     <None Include="Resources\Shaders\amazing_shader.vert" />
     <None Include="Resources\Scripts\point_light.lua" />
+    <None Include="Resources\Shaders\particle_shader.frag" />
+    <None Include="Resources\Shaders\particle_shader.vert" />
   </ItemGroup>
 </Project>
