@@ -188,7 +188,7 @@ function Entity:move(x, y)
 		self.y = self.y + y
 
 	else
-		if self.velocity.y > 0 then
+		if self.velocity.y >= 0 then
 			self.collision_bottom = true
 
 		elseif self.velocity.y < 0 then
