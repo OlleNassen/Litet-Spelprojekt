@@ -10,7 +10,6 @@
 #include<SFML/System/Vector2.hpp>
 
 #include"particle_emitter.hpp"
-#include "particle_system.hpp"
 
 
 #define NUM_LIGHTS 10 + 1 // pixie in back
@@ -43,13 +42,12 @@ private:
 	Texture2D* blackFridayTexture;
 	Sprite* blackFridaySprite;
 
-	ParticleSystem* particleSystem;
+	ParticleEmitter* particleEmitter;
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
 	std::vector<Sprite*> sprites;
 	PointLights* lights;
-	ParticleEmitter* emitter;
 
 	//Shadow temp
 	float tempX;

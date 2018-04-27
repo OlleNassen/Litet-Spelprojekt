@@ -19,17 +19,9 @@ GraphicsSystem::GraphicsSystem()
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
 
-	particleSystem = new ParticleSystem(shaders.back(), textures[0]);
+	particleEmitter = new ParticleEmitter(shaders.back(), textures[0]);
 
 	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
-
-	emitter = new ParticleEmitter(
-		shaders[2], 
-		textures[2], 
-		textures[3],
-		glm::vec2(20.f, 20.f), 
-		glm::vec2(1800.f, 2000.f), 
-		10.f);
 
 	lights = new PointLights;
 	
@@ -67,7 +59,7 @@ GraphicsSystem::~GraphicsSystem()
 		delete shader;
 	}
 
-	delete this->emitter;
+	delete this->particleEmitter;
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
@@ -103,11 +95,13 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	//emitter->update(0.0016f);
 	//emitter->render(view, projection, 0.0016f);
 
-	//particleSystem->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
+	//ParticleEmitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
 	
-	particleSystem->update(0.00016f);
-	particleSystem->render(view, projection);
-	//particleSystem->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
+	particleEmitter->update(0.00016f,
+		glm::vec2(this->sprites[0]->posX, this->sprites[0]->posY));
+	
+	particleEmitter->render(view, projection);
+	particleEmitter->push(1, 0, 0);
 
 }
 

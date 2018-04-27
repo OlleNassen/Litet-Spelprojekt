@@ -33,13 +33,10 @@
     <ClCompile Include="GameEngine\event_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\particle_emitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngine\audio_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\particle_system.cpp">
+    <ClCompile Include="Renderer\particle_emitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,13 +68,10 @@
     <ClInclude Include="GameEngine\event_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\particle_emitter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngine\audio_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\particle_system.hpp">
+    <ClInclude Include="Renderer\particle_emitter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
