@@ -23,7 +23,7 @@ function Player:create()
     }
 	
 	this.entity.x = 50
-	this.entity.y = 50
+	this.entity.y = 35 * 48
 	this.entity.collision_width = 48
 	this.entity.collision_height = 72
 	this.entity.offsetX = 24
