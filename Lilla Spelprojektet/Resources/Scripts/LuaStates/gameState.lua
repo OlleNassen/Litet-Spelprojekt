@@ -191,8 +191,8 @@ function update(deltaTime)
 	
 	b:attack(p)
 	
-	position = p:getPosition()
-	bg:setPosition(position.x / 3 - (1280 / 2), position.y / 3 - (720 / 2))-- position.y - (720 / 2))
+	pX, pY = getCameraPosition()
+	bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
 
 	return true
 end

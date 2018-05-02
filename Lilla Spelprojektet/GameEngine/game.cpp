@@ -156,7 +156,7 @@ void Game::update(float deltaTime)
 			lua_pop(luaState, 1);  /* pop returned value */
 		}
 	}	
-
+	states.back().graphicsSystem->updateCamera();
 }
 
 

@@ -111,9 +111,12 @@ function Player:update(deltaTime)
 	self.entity:update(deltaTime)
 
 	--Hp bar
+	pX, pY = getCameraPosition()
 	self:updateHPBar()
-	spritePos(self.spriteHPBarBack, self.entity.x-590, self.entity.y-310)
-	spritePos(self.spriteHPBar, self.entity.x-590, self.entity.y-310)
+	
+	spritePos(self.spriteHPBarBack, pX-590, pY-310)
+	spritePos(self.spriteHPBar, pX-590, pY-310)
+	
 end
 
 function Player:getPosition()
