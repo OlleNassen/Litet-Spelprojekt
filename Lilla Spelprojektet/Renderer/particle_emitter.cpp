@@ -14,6 +14,11 @@ ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* 
 
 	this->texture = diffuse;
 
+	this->normalMap = normalMap;
+
+	shader->setInt(0, "diffuseMap");
+	shader->setInt(1, "normalMap");
+
 	this->particles.globalVelocity = glm::vec2(5.f, 3.f);
 
 		float offset = 0.1f;
@@ -45,9 +50,15 @@ void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 	this->shader->setMatrix4fv(view, "view");
 	this->shader->setMatrix4fv(projection, "projection");
 
+
+	
+
 	texture->bind(0);
+	normalMap->bind(1);
 
 	shader->use();
+
+
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);

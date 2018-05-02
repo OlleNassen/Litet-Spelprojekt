@@ -30,7 +30,6 @@ struct Particles
 class ParticleEmitter
 {
 private:
-	Shader * shader;
 	Texture2D* texture;
 	Texture2D* normalMap;
 
@@ -44,6 +43,9 @@ private:
 	glm::mat4 model;
 
 public:
+	//Temp, put it above
+	Shader* shader;
+
 	ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* normalMap = nullptr);
 	~ParticleEmitter();
 

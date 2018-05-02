@@ -13,13 +13,12 @@ GraphicsSystem::GraphicsSystem()
 {
 	loadShaders();
 
-
 	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
 
-	particleEmitter = new ParticleEmitter(shaders.back(), textures[2]);
+	particleEmitter = new ParticleEmitter(shaders.back(), textures[2], textures[3]);
 
 	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 
@@ -96,10 +95,21 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	//emitter->render(view, projection, 0.0016f);
 
 	//ParticleEmitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
+	glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
+	glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
+
+	lights->positions[0] = lightP;
+	lights->colors[0] = lightC;
+
+	particleEmitter->shader->use();
+	glUniform3fv(glGetUniformLocation(particleEmitter->shader->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
+	glUniform4fv(glGetUniformLocation(particleEmitter->shader->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
+	particleEmitter->shader->unuse();
+
 	
+
 	particleEmitter->update(0.00016f,
 		glm::vec2(this->sprites[0]->posX, this->sprites[0]->posY));
-	
 	particleEmitter->render(view, projection);
 	particleEmitter->push(1, 0, 0);
 
