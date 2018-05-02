@@ -20,7 +20,7 @@ ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* 
 	shader->setInt(1, "normalMap");
 
 	this->particles.globalVelocity = glm::vec2(5.f, 3.f);
-
+	/*
 		float offset = 0.1f;
 		for (int y = -10; y < 10; y += 2)
 		{
@@ -34,7 +34,7 @@ ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* 
 
 			}
 		}
-	
+	*/
 	
 	
 	initParticleEmitter();
