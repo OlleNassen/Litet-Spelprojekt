@@ -55,5 +55,5 @@ private:
 	static int clear(lua_State* luaState);
 	static int setFramerate(lua_State* luaState);
 	static int setResolution(lua_State* luaState);
-	static int getCameraPosition(lua_State* luaState);
+
 };

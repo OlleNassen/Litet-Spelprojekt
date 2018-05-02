@@ -287,14 +287,3 @@ int Game::setResolution(lua_State* luaState)
 
 	return 0;
 }
-
-int Game::getCameraPosition(lua_State* luaState)
-{
-	lua_getglobal(luaState, "Game");
-	Game* game = (Game*)lua_touserdata(luaState, -1);
-
-	lua_pushnumber(luaState, game->camera->getCenter().x);
-	lua_pushnumber(luaState, game->camera->getCenter().y);
-
-	return 2;
-}
