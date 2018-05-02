@@ -48,6 +48,7 @@ public:
 	void move(float offsetX, float offsetY);
 	void move(const sf::Vector2f& offset);
 	void setPosition(const sf::Vector2f& setPosition);
+	glm::vec2 getPosition()const;
 	void zoom(float factor);
 
 	glm::mat4 getProjection();

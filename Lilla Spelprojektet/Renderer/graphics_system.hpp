@@ -18,6 +18,7 @@ struct lua_State;
 class Shader;
 class Texture2D;
 class Sprite;
+class Camera;
 
 struct PointLights
 {
@@ -30,6 +31,7 @@ struct PointLights
 class GraphicsSystem
 {
 private:
+	Camera* camera;
 	lua_State * luaState;
 	std::vector<int> tileMap;
 	std::vector<bool> visibleTiles; // For shadows
@@ -42,7 +44,8 @@ private:
 	Texture2D* blackFridayTexture;
 	Sprite* blackFridaySprite;
 
-	ParticleEmitter* particleEmitter;
+	ParticleEmitter* surajParticles;
+	ParticleEmitter* collinsLaser;
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
@@ -60,6 +63,8 @@ public:
 
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
+
+	void addCamera(Camera* cam);
 
 	void addLuaFunctions(lua_State* luaState);
 	sf::Vector2f getPlayerPos() const;

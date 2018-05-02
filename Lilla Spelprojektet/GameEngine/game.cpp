@@ -155,10 +155,7 @@ void Game::update(float deltaTime)
 			stopUpdate = lua_toboolean(luaState, -1);
 			lua_pop(luaState, 1);  /* pop returned value */
 		}
-	}
-
-
-	camera->setPosition(states.back().graphicsSystem->getPlayerPos());
+	}	
 
 }
 
@@ -217,6 +214,9 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_pushcfunction(luaState, clear);
 	lua_setglobal(luaState, "clear");
 
+	lua_pushcfunction(luaState, getCameraPosition);
+	lua_setglobal(luaState, "getCameraPosition");
+
 	eventSystem.addLuaRebind(luaState);
 }
 
@@ -235,6 +235,7 @@ int Game::push(lua_State* luaState)
 	newState.luaState = newLua;
 	newState.graphicsSystem = new GraphicsSystem;
 	newState.graphicsSystem->addLuaFunctions(newLua);
+	newState.graphicsSystem->addCamera(game->camera);
 	newState.audioSystem = new AudioSystem;
 	newState.audioSystem->addLuaFunctions(newLua);
 
@@ -288,4 +289,15 @@ int Game::setResolution(lua_State* luaState)
 	game->changeResolution(width, height);
 
 	return 0;
+}
+
+int Game::getCameraPosition(lua_State* luaState)
+{
+	lua_getglobal(luaState, "Game");
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+
+	lua_pushnumber(luaState, game->camera->getCenter().x);
+	lua_pushnumber(luaState, game->camera->getCenter().y);
+
+	return 2;
 }
