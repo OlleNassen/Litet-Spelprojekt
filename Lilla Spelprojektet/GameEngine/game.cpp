@@ -2,13 +2,12 @@
 #include <lua.hpp>
 #include <SFML/Window/Window.hpp>
 #include "../Renderer/graphics_system.hpp"
-#include "audio_system.hpp"
 #include "camera.hpp"
 
 #define WIDTH 1280
 #define HEIGHT 720
 
-Game::Game()
+Game::Game()	
 {
 	timePerFrame = sf::seconds(1.f / 60.f);
 	wantPop = false;
@@ -35,7 +34,7 @@ Game::Game()
 
 	//camera->zoom(0.5);
 	window->setMouseCursorVisible(false);
-	window->setMouseCursorGrabbed(true);
+	window->setMouseCursorGrabbed(true);	
 }
 
 Game::~Game()
@@ -59,7 +58,6 @@ void Game::run()
 		while (timeSinceLastUpdate > timePerFrame && !wantClear)
 		{
 			timeSinceLastUpdate -= timePerFrame;
-
 			handleEvents();
 			update(timePerFrame.asSeconds());
 		}
@@ -77,7 +75,6 @@ void Game::run()
 		{
 			lua_close(states.back().luaState);
 			delete states.back().graphicsSystem;
-			delete states.back().audioSystem;
 			states.pop_back();
 			wantPop = false;
 		}
@@ -193,6 +190,11 @@ void Game::initWindow()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
+	shaders.basic.load("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag");
+	shaders.shader2d.load("Resources/Shaders/2d_shader.vert", "Resources/Shaders/2d_shader.frag");
+	shaders.amazing.load("Resources/Shaders/amazing_shader.vert", "Resources/Shaders/amazing_shader.frag");
+	shaders.particle.load("Resources/Shaders/particle_shader.vert", "Resources/Shaders/particle_shader.frag");
+
 	//Set clearing color to red
 	glClearColor(0.0,0.0,0.0,0.0);
 }
@@ -233,10 +235,10 @@ int Game::push(lua_State* luaState)
 
 	State newState;
 	newState.luaState = newLua;
-	newState.graphicsSystem = new GraphicsSystem;
+	newState.graphicsSystem = new GraphicsSystem(game->shaders);
 	newState.graphicsSystem->addLuaFunctions(newLua);
 	newState.graphicsSystem->addCamera(game->camera);
-	newState.audioSystem = new AudioSystem;
+	newState.audioSystem = new AudioSystem();
 	newState.audioSystem->addLuaFunctions(newLua);
 
 	if (luaL_loadfile(newLua, name) || lua_pcall(newLua, 0, 0, 0))
@@ -246,7 +248,9 @@ int Game::push(lua_State* luaState)
 	}
 	
 	ptr->push_back(newState);
-
+	
+	std::cout << "LS pushed!" << std::endl;
+	
 	return 0;
 }
 

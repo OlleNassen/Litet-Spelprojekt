@@ -1,5 +1,7 @@
 #pragma once
 #include "event_system.hpp"
+#include "../Renderer/Shader.hpp"
+#include "audio_system.hpp"
 
 namespace sf
 {
@@ -8,7 +10,6 @@ namespace sf
 
 struct lua_State;
 class GraphicsSystem;
-class AudioSystem;
 class Camera;
 
 struct State
@@ -17,6 +18,14 @@ struct State
 	GraphicsSystem* graphicsSystem;
 	AudioSystem* audioSystem;
 
+};
+
+struct ShaderStruct
+{
+	Shader basic;
+	Shader shader2d;
+	Shader amazing;
+	Shader particle;
 };
 
 typedef std::vector<State> LuaVector;
@@ -30,6 +39,7 @@ private:
 	EventSystem eventSystem;
 	Camera* camera;
 	std::vector<State> states;
+	ShaderStruct shaders;
 
 public:
 	Game();
@@ -47,7 +57,7 @@ private:
 	void draw();
 
 	void initWindow();
-
+	
 	//Lua stuff
 	void addLuaLibraries(lua_State* luaState);
 	static int push(lua_State* luaState);
