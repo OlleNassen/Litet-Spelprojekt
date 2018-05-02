@@ -33,8 +33,9 @@ s.x = 200
 s.y = 100
 s.maxSpeed.x = 200
 s.maxSpeed.y = 200
+s.normalMap = newTexture("Resources/Sprites/player.png")
 s.texture = newTexture("Resources/Sprites/player.png")
-s.sprite = newSprite(s.texture)
+s.sprite = newSprite(s.normalMap, s.texture)
 s:addWorld(level)
 
 p.spriteHPBar = newSprite(500, 50, 0, p.textureHPBar)
