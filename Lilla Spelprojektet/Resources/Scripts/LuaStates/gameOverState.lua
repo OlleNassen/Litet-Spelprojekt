@@ -9,7 +9,6 @@ local cam = newSprite(1, 1, 0, p.texture)
 local s = Entity:create() 
 s.texture = newTexture("Resources/Sprites/gameover.png")
 s.sprite = newSprite(1280,720, 0, s.texture)
-s:setPosition(-1280/2, -720/2)
 
 timer = 0.0
 

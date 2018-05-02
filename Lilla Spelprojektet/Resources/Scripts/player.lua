@@ -112,8 +112,7 @@ function Player:update(deltaTime)
 
 	--Hp bar
 	self:updateHPBar()
-	spritePos(self.spriteHPBarBack, self.entity.x-590, self.entity.y-310)
-	spritePos(self.spriteHPBar, self.entity.x-590, self.entity.y-310)
+	
 end
 
 function Player:getPosition()

@@ -136,33 +136,11 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
-{		
-	sf::Vector2f camPos(getPlayerPos());
-	camera->setPosition(camPos);
-	
+{			
 	background->draw(glm::vec2(background->posX, background->posY), view, projection);
 
 	if (tileMap.size() > 0)
-	{
-		if (camPos.x < WIDTH / 2.0f)
-		{
-			camPos.x += WIDTH / 2.0f - camPos.x;
-		}
-		if (camPos.y < HEIGHT / 2.0f)
-		{
-			camPos.y += HEIGHT / 2.0f - camPos.y;
-		}
-
-		if (camPos.x > tileMap[0] * 48 - WIDTH / 2.0f)
-		{
-			camPos.x -= camPos.x - (tileMap[0] * 48 - WIDTH / 2.0f);
-		}
-		if (camPos.y > tileMap[1] * 48 - HEIGHT / 2.0f)
-		{
-			camPos.y -=  camPos.y - (tileMap[1] * 48 - HEIGHT / 2.0f);
-		}
-		camera->setPosition(camPos);
-		
+	{	
 		//Temp
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace))
 		{
@@ -208,6 +186,34 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 void GraphicsSystem::addCamera(Camera* cam)
 {
 	camera = cam;
+}
+
+void GraphicsSystem::updateCamera()
+{
+	sf::Vector2f camPos(getPlayerPos());
+	camera->setPosition(camPos);
+
+	if (tileMap.size() > 0)
+	{
+		if (camPos.x < WIDTH / 2.0f)
+		{
+			camPos.x += WIDTH / 2.0f - camPos.x;
+		}
+		if (camPos.y < HEIGHT / 2.0f)
+		{
+			camPos.y += HEIGHT / 2.0f - camPos.y;
+		}
+
+		if (camPos.x > tileMap[0] * 48 - WIDTH / 2.0f)
+		{
+			camPos.x -= camPos.x - (tileMap[0] * 48 - WIDTH / 2.0f);
+		}
+		if (camPos.y > tileMap[1] * 48 - HEIGHT / 2.0f)
+		{
+			camPos.y -= camPos.y - (tileMap[1] * 48 - HEIGHT / 2.0f);
+		}
+		camera->setPosition(camPos);
+	}
 }
 
 void GraphicsSystem::addLuaFunctions(lua_State* luaState)

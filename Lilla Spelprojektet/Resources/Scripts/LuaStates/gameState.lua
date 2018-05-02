@@ -33,12 +33,15 @@ s.x = 200
 s.y = 100
 s.maxSpeed.x = 200
 s.maxSpeed.y = 200
+s.normalMap = newTexture("Resources/Sprites/player.png")
 s.texture = newTexture("Resources/Sprites/player.png")
-s.sprite = newSprite(s.texture)
+s.sprite = newSprite(s.normalMap, s.texture)
 s:addWorld(level)
 
 p.spriteHPBar = newSprite(500, 50, 0, p.textureHPBar)
+spritePos(p.spriteHPBar, 50, 50)
 p.spriteHPBarBack = newSprite(500, 50, 0, p.textureHPBarBack)
+spritePos(p.spriteHPBarBack, 50, 50)
 
 tileSize = 48
 
@@ -191,8 +194,8 @@ function update(deltaTime)
 	
 	b:attack(p)
 	
-	position = p:getPosition()
-	bg:setPosition(position.x / 3 - (1280 / 2), position.y / 3 - (720 / 2))-- position.y - (720 / 2))
+	pX, pY = getCameraPosition()
+	bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
 
 	return true
 end

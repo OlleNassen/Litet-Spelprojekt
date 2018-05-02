@@ -20,7 +20,8 @@ function Ai:create(posX, posY, sizeX, sizeY)
 	this.entity.maxSpeed.x = 700
 	this.entity.maxSpeed.y = 1000
 	this.entity.texture = newTexture("Resources/Sprites/goomba.png")
-	this.entity.sprite = newSprite(sizeX, sizeY, 0, this.entity.texture)
+	this.entity.normalMap = newTexture("Resources/Sprites/goomba.png")
+	this.entity.sprite = newSprite(sizeX, sizeY, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
     setmetatable(this, self)

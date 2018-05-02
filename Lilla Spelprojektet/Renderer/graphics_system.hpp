@@ -65,6 +65,7 @@ public:
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
 
 	void addCamera(Camera* cam);
+	void updateCamera();
 
 	void addLuaFunctions(lua_State* luaState);
 	sf::Vector2f getPlayerPos() const;
