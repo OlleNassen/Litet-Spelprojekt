@@ -38,7 +38,9 @@ s.sprite = newSprite(s.texture)
 s:addWorld(level)
 
 p.spriteHPBar = newSprite(500, 50, 0, p.textureHPBar)
+spritePos(p.spriteHPBar, 50, 50)
 p.spriteHPBarBack = newSprite(500, 50, 0, p.textureHPBarBack)
+spritePos(p.spriteHPBarBack, 50, 50)
 
 tileSize = 48
 
