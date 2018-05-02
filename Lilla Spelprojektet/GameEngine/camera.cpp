@@ -77,6 +77,11 @@ void Camera::setPosition(const sf::Vector2f & setPosition)
 	setCenter(setPosition.x, setPosition.y);
 }
 
+glm::vec2 Camera::getPosition()const
+{
+	return glm::vec2(center.x, center.y);
+}
+
 void Camera::zoom(float factor)
 {
 	setSize(size.x * factor, size.y * factor);
