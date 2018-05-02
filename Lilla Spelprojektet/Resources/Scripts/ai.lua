@@ -19,8 +19,12 @@ function Ai:create(posX, posY, sizeX, sizeY)
 	this.entity.height = sizeY
 	this.entity.maxSpeed.x = 700
 	this.entity.maxSpeed.y = 1000
-	this.entity.texture = newTexture("Resources/Sprites/goomba.png")
-	this.entity.normalMap = newTexture("Resources/Sprites/goomba.png")
+	this.entity.texture = newTexture("Resources/Sprites/npc/mutant_sprite.png")
+	this.entity.normalMap = newTexture("Resources/Sprites/npc/mutant_normals.png")
+	this.entity.spriteWidth = 144
+	this.entity.spriteHeight = 144
+	this.entity:addAnimation(1,8)
+	this.entity.updateAnimationTime = 0.2
 	this.entity.sprite = newSprite(sizeX, sizeY, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
@@ -32,8 +36,10 @@ function Ai:randomizeDirection()
 	dir = 0
 	if math.random() >= 0.5 then
 	dir = 1
+	self.entity.isGoingRight = true
 	else
 	dir = -1
+	self.entity.isGoingRight = false
 	end
 	return dir
 end
