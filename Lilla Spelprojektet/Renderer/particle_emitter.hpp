@@ -4,7 +4,7 @@
 #include "Shader.hpp"
 #include "texture_2d.hpp"
 
-#define maxNumParticles 100
+#define maxNumParticles 10000
 
 struct Particles
 {
@@ -38,11 +38,11 @@ private:
 
 	GLuint instanceVBO;
 
-	Particles particles;
 
 	glm::mat4 model;
 
 public:
+	Particles particles;
 	//Temp, put it above
 	Shader* shader;
 

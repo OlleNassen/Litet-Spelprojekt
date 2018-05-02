@@ -14,8 +14,8 @@ GraphicsSystem::GraphicsSystem()
 {
 	loadShaders();
 
-	textures.push_back(new Texture2D("Resources/Sprites/brick_diffuse.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/brick_normal.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/laserParticle_diffuse.png"));
+	textures.push_back(new Texture2D("Resources/Sprites/laserParticle_normal.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
 
@@ -130,7 +130,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	collinsLaser->updateLaser(0.00016f,
 		glm::vec2(this->sprites[0]->posX, this->sprites[0]->posY), glm::vec2(getPixie().x, getPixie().y));
 	collinsLaser->render(view, projection);
-	collinsLaser->push(1, 0, 0);
+
 
 	
 }

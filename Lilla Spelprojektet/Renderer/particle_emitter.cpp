@@ -117,27 +117,39 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 {
 	// Prepare transformations
 	model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(position, 0.0f));
+	model = glm::translate(model, glm::vec3(position + 48.f, 0.0f));
 
-	model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
-	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.f, 0.1f));
-	model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
-
-	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
+	model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
+	glm::vec2 direction = glm::normalize(pixiePos - position);
+	push(1, 0, 0);
 
 	for (int i = 0; i < maxNumParticles; i++)
 	{
 		if (particles.timeLeft[i] > 0.f)
 		{
-			particles.timeLeft[i] -= 100 * dt;
 			
-			float multiple = 60.f;
+			float multiple = 500.f;
 
-			glm::vec2 direction = glm::normalize(pixiePos - position);
+			
 
-			particles.translations[i] += direction * multiple * dt;
+			glm::vec2 particlePos = model * 
+				glm::vec4(particles.translations[i].x, 
+						  particles.translations[i].y, 
+						  1.0f, 1.0f);
+
+			float length = glm::length(pixiePos - position);
+			float length2 = glm::length(particlePos - position);
+
+			if (length2 > length)
+			{
+				particles.timeLeft[i] = 0.0f;
+			}
+			else
+			{
+				particles.translations[i] += direction * multiple * dt;
+			}
+				
 		}
-
 		else
 		{
 			particles.first = (particles.first + 1) % maxNumParticles;
@@ -147,7 +159,7 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 
 			particles.exists[i] = false;
 		}
-
+		particles.timeLeft[i] -= 100 * dt;
 	}
 }
 
