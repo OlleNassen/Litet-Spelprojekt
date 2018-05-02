@@ -2,6 +2,7 @@
 #include"Shader.hpp"
 #include "texture_2d.hpp"
 #include "sprite.hpp"
+#include "../GameEngine/camera.hpp"
 #include <lua.hpp>
 #include <SFML\Window.hpp> // TEMP FOR SHADOWS
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
@@ -136,20 +137,41 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {		
+	sf::Vector2f camPos(getPlayerPos());
+	camera->setPosition(camPos);
 	
 	background->draw(glm::vec2(background->posX, background->posY), view, projection);
 
 	if (tileMap.size() > 0)
 	{
+		if (camPos.x < WIDTH / 2.0f)
+		{
+			camPos.x += WIDTH / 2.0f - camPos.x;
+		}
+		if (camPos.y < HEIGHT / 2.0f)
+		{
+			camPos.y += HEIGHT / 2.0f - camPos.y;
+		}
+
+		if (camPos.x > tileMap[0] * 48 - WIDTH / 2.0f)
+		{
+			camPos.x -= camPos.x - (tileMap[0] * 48 - WIDTH / 2.0f);
+		}
+		if (camPos.y > tileMap[1] * 48 - HEIGHT / 2.0f)
+		{
+			camPos.y -=  camPos.y - (tileMap[1] * 48 - HEIGHT / 2.0f);
+		}
+		camera->setPosition(camPos);
+		
 		//Temp
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace))
 		{
 			initShadows();
 		}
 
-		for (int y = (getPlayerPos().y - HEIGHT/2) / 48 - 1; y < (getPlayerPos().y + HEIGHT/2) / 48; y++)
+		for (int y = (camera->getPosition().y - HEIGHT/2) / 48 - 1; y < (camera->getPosition().y + HEIGHT/2) / 48; y++)
 		{
-			for (int x = (getPlayerPos().x - WIDTH/2) / 48 - 1; x < (getPlayerPos().x + WIDTH/2) / 48; x++)
+			for (int x = (camera->getPosition().x - WIDTH/2) / 48 - 1; x < (camera->getPosition().x + WIDTH/2) / 48; x++)
 			{
 				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
 					&& tileMap[x + 2 + y * tileMap[0]] != 0)
@@ -177,14 +199,15 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 
 					tiles[tileMap[x + 2 + y * tileMap[0]]]->draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
-				else if (x < 0 || y < 0 || x >= tileMap[0] || y >= tileMap[1])
-				{
-					blackFridaySprite->draw(glm::vec2(x * 48, y * 48), view, projection);
-				}
 			}
 		}
 	}
 	
+}
+
+void GraphicsSystem::addCamera(Camera* cam)
+{
+	camera = cam;
 }
 
 void GraphicsSystem::addLuaFunctions(lua_State* luaState)
