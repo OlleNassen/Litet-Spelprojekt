@@ -150,8 +150,8 @@ function checkUpgrades(deltaTime)
 			p.entity.velocity.x = tempX * 2000
 			p.entity.velocity.y = tempY * 2000
 
-			--print(p.entity.velocity.x)
-			--print(p.entity.velocity.y)
+			print(p.entity.velocity.x)
+			print(p.entity.velocity.y)
 
 			--Dashing ends
 			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then

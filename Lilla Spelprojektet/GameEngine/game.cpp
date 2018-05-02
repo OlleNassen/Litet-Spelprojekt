@@ -214,6 +214,9 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_pushcfunction(luaState, clear);
 	lua_setglobal(luaState, "clear");
 
+	lua_pushcfunction(luaState, getCameraPosition);
+	lua_setglobal(luaState, "getCameraPosition");
+
 	eventSystem.addLuaRebind(luaState);
 }
 
@@ -286,4 +289,15 @@ int Game::setResolution(lua_State* luaState)
 	game->changeResolution(width, height);
 
 	return 0;
+}
+
+int Game::getCameraPosition(lua_State* luaState)
+{
+	lua_getglobal(luaState, "Game");
+	Game* game = (Game*)lua_touserdata(luaState, -1);
+
+	lua_pushnumber(luaState, game->camera->getCenter().x);
+	lua_pushnumber(luaState, game->camera->getCenter().y);
+
+	return 2;
 }
