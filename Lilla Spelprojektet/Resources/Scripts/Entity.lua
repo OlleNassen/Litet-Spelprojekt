@@ -49,6 +49,13 @@ function Entity:create()
     return this
 end
 
+function Entity:setAnimation(animation)
+	if self.currentAnimation ~= animation then
+		self.currentAnimation = animation
+		self.currentAnimationIndex = self.animationList[(animation * 2) - 1]
+	end
+end
+
 function Entity:update(deltaTime)
 	
 	self:updateAnimation(deltaTime)
@@ -80,6 +87,7 @@ function Entity:addAnimation(startIndex, endIndex)
 end
 
 function Entity:updateAnimation(deltaTime)
+	result = false
 	self.currentAnimationTime = self.currentAnimationTime + deltaTime
 
 	if self.currentAnimationTime >= self.updateAnimationTime then
@@ -87,8 +95,9 @@ function Entity:updateAnimation(deltaTime)
 
 		self.currentAnimationTime = 0.0
 		if self.animationList[1] ~= nil then
-			if self.currentAnimationIndex > self.animationList[self.currentAnimation + 1] then
-				self.currentAnimationIndex = self.animationList[self.currentAnimation]
+			if self.currentAnimationIndex > self.animationList[(self.currentAnimation * 2)] then
+				self.currentAnimationIndex = self.animationList[(self.currentAnimation * 2) - 1]
+				result = true
 			end
 		end
 
@@ -98,6 +107,8 @@ function Entity:updateAnimation(deltaTime)
 			setSpriteRect(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, 0,self.spriteWidth * (self.currentAnimationIndex - 1), self.spriteHeight)
 		end
 	end
+
+	return result
 end
 
 function Entity:setPosition(x, y)
