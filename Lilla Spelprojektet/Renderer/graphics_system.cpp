@@ -18,7 +18,9 @@ GraphicsSystem::GraphicsSystem()
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
 	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
 
-	particleEmitter = new ParticleEmitter(shaders.back(), textures[2], textures[3]);
+	surajParticles = new ParticleEmitter(shaders.back(), textures[2], textures[3]);
+
+	collinsLaser = new ParticleEmitter(shaders.back(), textures[0], textures[1]);
 
 	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
 
@@ -58,7 +60,7 @@ GraphicsSystem::~GraphicsSystem()
 		delete shader;
 	}
 
-	delete this->particleEmitter;
+	delete this->surajParticles;
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
@@ -94,25 +96,42 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	//emitter->update(0.0016f);
 	//emitter->render(view, projection, 0.0016f);
 
-	//ParticleEmitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
+	//surajParticles->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
+
+	//::.. Suraj Particles ..:://
 	glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
 	glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
 
 	lights->positions[0] = lightP;
 	lights->colors[0] = lightC;
 
-	particleEmitter->shader->use();
-	glUniform3fv(glGetUniformLocation(particleEmitter->shader->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
-	glUniform4fv(glGetUniformLocation(particleEmitter->shader->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
-	particleEmitter->shader->unuse();
+	surajParticles->shader->use();
+	glUniform3fv(glGetUniformLocation(surajParticles->shader->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
+	glUniform4fv(glGetUniformLocation(surajParticles->shader->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
+	surajParticles->shader->unuse();
 
 	
 
-	particleEmitter->update(0.00016f,
+	surajParticles->update(0.00016f,
 		glm::vec2(this->sprites[0]->posX, this->sprites[0]->posY));
-	particleEmitter->render(view, projection);
-	particleEmitter->push(1, 0, 0);
+	surajParticles->render(view, projection);
+	surajParticles->push(1, 0, 0);
 
+	//::.. Collins Laser ..:://
+
+	collinsLaser->shader->use();
+	glUniform3fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
+	glUniform4fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
+	collinsLaser->shader->unuse();
+
+
+
+	collinsLaser->updateLaser(0.00016f,
+		glm::vec2(this->sprites[0]->posX, this->sprites[0]->posY), glm::vec2(getPixie().x, getPixie().y));
+	collinsLaser->render(view, projection);
+	collinsLaser->push(1, 0, 0);
+
+	
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)

@@ -113,6 +113,44 @@ void ParticleEmitter::update(float dt, const glm::vec2& position)
 	
 }
 
+void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const glm::vec2 pixiePos)
+{
+	// Prepare transformations
+	model = glm::mat4(1.f);
+	model = glm::translate(model, glm::vec3(position, 0.0f));
+
+	model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
+	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.f, 0.1f));
+	model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
+
+	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
+
+	for (int i = 0; i < maxNumParticles; i++)
+	{
+		if (particles.timeLeft[i] > 0.f)
+		{
+			particles.timeLeft[i] -= 100 * dt;
+			
+			float multiple = 60.f;
+
+			glm::vec2 direction = glm::normalize(pixiePos - position);
+
+			particles.translations[i] += direction * multiple * dt;
+		}
+
+		else
+		{
+			particles.first = (particles.first + 1) % maxNumParticles;
+
+			particles.translations[i] = glm::vec2(-9999, -9999);
+			particles.timeLeft[i] = -1;
+
+			particles.exists[i] = false;
+		}
+
+	}
+}
+
 void ParticleEmitter::push(unsigned int amount, float x, float y)
 {
 	if (particles.first != particles.last)

@@ -42,7 +42,8 @@ private:
 	Texture2D* blackFridayTexture;
 	Sprite* blackFridaySprite;
 
-	ParticleEmitter* particleEmitter;
+	ParticleEmitter* surajParticles;
+	ParticleEmitter* collinsLaser;
 
 	std::vector<Shader*> shaders;
 	std::vector<Texture2D*> textures;
