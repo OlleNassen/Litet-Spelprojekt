@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 World = {}
 World.__index = World
 
@@ -66,73 +65,4 @@ function World:canMove(newX, newY)
 	end
 
 	return result
-=======
-World = {}
-World.__index = World
-
-function World:create()
-    local this =
-    {
-		map = { },
-		tileSize = 48,
-    }
-
-    setmetatable(this, self)
-    return this
-end
-
-function World:addMap(map)
-	self.map = map
-end
-
-function World:loadGraphics()
-	
-	local tTex = tileTexture
-	local tGra = loadTileGraphics
-	
-	local i = 1
-	for k, v in pairs(self.map.texturesDiffuse) do
-		tTex(v, self.map.texturesNormal[i])
-		i = i + 1
-	end
-	--print(i)
-
-	tGra(self.map.width)
-	tGra(self.map.height)
-	
-	for k, v in pairs(self.map.tiles) do
-		tGra(v)
-	end
-end
-
-function World:emptyMap()
-	self.map = {}
-	clearTileMap()
-end
-
-function World:canMove(newX, newY)
-	
-	local result = false
-	
-	local x;
-	local y;
-			
-	x = newX / self.tileSize;
-	y = newY / self.tileSize;
-
-	x = math.floor(x + 1)
-	y = math.floor(y)
-	
-	if self.map.tiles[x + y * self.map.width] == 0 or 
-		self.map.tiles[x + y * self.map.width] == 7 or 
-		self.map.tiles[x + y * self.map.width] == 8 or 
-		self.map.tiles[x + y * self.map.width] == 9 or
-		self.map.tiles[x + y * self.map.width] == 10 or
-		self.map.tiles[x + y * self.map.width] == 11 or
-		self.map.tiles[x + y * self.map.width] == 12 then
-		result = true		
-	end
-
-	return result
->>>>>>> 9bc26a02e9bd1cb62a8c752b617732a892e5e007
 end
