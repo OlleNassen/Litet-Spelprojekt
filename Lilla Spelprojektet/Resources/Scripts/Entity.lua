@@ -1,6 +1,12 @@
 Entity = {}
 Entity.__index = Entity
 
+local rectFunc = setSpriteRect
+local posFunc = spritePos
+local sizeFunc = spriteSize
+local min = math.min
+local max = math.max
+
 function Entity:create()
     local this =
     {
@@ -69,10 +75,10 @@ end
 
 function Entity:contains(x, y)
 	
-	minX = math.min(self.x, self.x + self.width);
-	maxX = math.max(self.x, self.x + self.width);
-	minY = math.min(self.y, self.y + self.height);
-	maxY = math.max(self.y, self.y + self.height);
+	local minX = min(self.x, self.x + self.width);
+	local maxX = max(self.x, self.x + self.width);
+	local minY = min(self.y, self.y + self.height);
+	local maxY = max(self.y, self.y + self.height);
 
 	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
 end
@@ -102,9 +108,9 @@ function Entity:updateAnimation(deltaTime)
 		end
 
 		if self.isGoingRight == false then
-			setSpriteRect(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1), 0, self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, self.spriteHeight)
+			rectFunc(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1), 0, self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, self.spriteHeight)
 		else
-			setSpriteRect(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, 0,self.spriteWidth * (self.currentAnimationIndex - 1), self.spriteHeight)
+			rectFunc(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, 0,self.spriteWidth * (self.currentAnimationIndex - 1), self.spriteHeight)
 		end
 	end
 
@@ -119,7 +125,7 @@ function Entity:setPosition(x, y)
 	--end
 		
 	if self.sprite ~= nil then
-		spritePos(self.sprite, self.x, self.y)		
+		posFunc(self.sprite, self.x, self.y)		
 	end
 end
 
@@ -131,7 +137,7 @@ function Entity:setSize(x, y)
 	--end
 		
 	if self.sprite ~= nil then
-		spriteSize(self.sprite, self.width, self.height)		
+		sizeFunc(self.sprite, self.width, self.height)		
 	end
 end
 
@@ -250,7 +256,7 @@ function Entity:move(x, y)
 	end
 		
 	if self.sprite ~= nil then
-		spritePos(self.sprite, self.x, self.y)		
+		posFunc(self.sprite, self.x, self.y)		
 	end
 end
 
@@ -259,6 +265,6 @@ function Entity:moveIgnoreWall(x, y)
 	self.y = self.y + y
 
 	if self.sprite ~= nil then
-		spritePos(self.sprite, self.x, self.y)		
+		posFunc(self.sprite, self.x, self.y)		
 	end
 end

@@ -18,18 +18,21 @@ end
 
 function World:loadGraphics()
 	
+	local tTex = tileTexture
+	local tGra = loadTileGraphics
+	
 	local i = 1
 	for k, v in pairs(self.map.texturesDiffuse) do
-		tileTexture(v, self.map.texturesNormal[i])
+		tTex(v, self.map.texturesNormal[i])
 		i = i + 1
 	end
 	--print(i)
 
-	loadTileGraphics(self.map.width)
-	loadTileGraphics(self.map.height)
+	tGra(self.map.width)
+	tGra(self.map.height)
 	
 	for k, v in pairs(self.map.tiles) do
-		loadTileGraphics(v)
+		tGra(v)
 	end
 end
 
