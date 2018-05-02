@@ -4,8 +4,26 @@
 
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
-Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const glm::vec2& size)
-	:normalMap(nullptr) // Needed for some reason
+Sprite::Sprite()
+	: normalMap(nullptr) // Needed for some reason
+	, texture(nullptr)
+	, shader(nullptr)
+{
+	posX = 0.0f;
+	posY = 0.0f;
+	this->size.x = size.x;
+	this->size.y = size.y;
+	rotation = 0.f;
+	color = glm::vec3(0, 1, 0);
+	model = glm::mat4(1.f);
+}
+
+Sprite::~Sprite()
+{
+	
+}
+
+void Sprite::load(Shader* shader, Texture2D* texture, Texture2D* normalMap, const glm::vec2& size)
 {
 	vertex[0] = glm::vec2(0.0f, 1.0f);
 	vertex[2] = glm::vec2(1.0f, 0.0);
@@ -20,7 +38,7 @@ Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const g
 	vertex[7] = glm::vec2(0.0f, 1.0f);
 	vertex[9] = glm::vec2(1.0f, 1.0f);
 	vertex[11] = glm::vec2(1.0f, 0.0f);
-	
+
 
 	posX = 0.0f;
 	posY = 0.0f;
@@ -37,11 +55,6 @@ Sprite::Sprite(Shader* shader, Texture2D* texture, Texture2D* normalMap, const g
 	rotation = 0.f;
 	color = glm::vec3(0, 1, 0);
 	model = glm::mat4(1.f);
-}
-
-Sprite::~Sprite()
-{
-
 }
 
 void Sprite::initSprite()
@@ -70,37 +83,39 @@ void Sprite::initSprite()
 void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::mat4& projection)
 {
 	update(position);
-
-	if (this->normalMap == nullptr)
+	if (shader)
 	{
-		this->shader->setInt(0, "image");
-	}
-	else
-	{
-		shader->setInt(0, "diffuseMap");
-		shader->setInt(1, "normalMap");
-	}
-	static int test = 0;
-	this->shader->setMatrix4fv(model, "model");
-	this->shader->setMatrix4fv(view, "view");
-	this->shader->setMatrix4fv(projection, "projection");
+		if (this->normalMap == nullptr)
+		{
+			this->shader->setInt(0, "image");
+		}
+		else
+		{
+			shader->setInt(0, "diffuseMap");
+			shader->setInt(1, "normalMap");
+		}
+		static int test = 0;
+		this->shader->setMatrix4fv(model, "model");
+		this->shader->setMatrix4fv(view, "view");
+		this->shader->setMatrix4fv(projection, "projection");
 
-	this->shader->use();
+		this->shader->use();
 
-	if (this->normalMap == nullptr)
-	{
-		texture->bind(0);
+		if (this->normalMap == nullptr)
+		{
+			texture->bind(0);
 
+		}
+		else //Fix texture class and avoid this
+		{
+			texture->bind(0);
+			normalMap->bind(1);
+		}
+
+		glBindVertexArray(this->quadVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
 	}
-	else //Fix texture class and avoid this
-	{
-		texture->bind(0);
-		normalMap->bind(1);
-	}
-
-	glBindVertexArray(this->quadVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
 }
 
 void Sprite::update(const glm::vec2& position)

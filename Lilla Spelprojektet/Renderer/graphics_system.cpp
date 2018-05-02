@@ -4,64 +4,52 @@
 #include "sprite.hpp"
 #include "../GameEngine/camera.hpp"
 #include <lua.hpp>
-#include <SFML\Window.hpp> // TEMP FOR SHADOWS
+#include <SFML/Window.hpp> // TEMP FOR SHADOWS
+#include <iostream>
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 #define WIDTH 1280
 #define HEIGHT 720
 
-GraphicsSystem::GraphicsSystem()
+GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
+	: shaders(shad)
 {
-	loadShaders();
+	tileMap.reserve(sizeof(int) * 100);
+	visibleTiles.reserve(sizeof(bool) * 100);
+	tileTextures.reserve(sizeof(Texture2D) * 100);
+	tiles.reserve(sizeof(Sprite) * 100);
+	textures.reserve(sizeof(Texture2D) * 100);
+	sprites.reserve(sizeof(Sprite) * 100);
 
-	textures.push_back(new Texture2D("Resources/Sprites/laserParticle_diffuse.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/laserParticle_normal.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/starParticle_diffuse.png"));
-	textures.push_back(new Texture2D("Resources/Sprites/starParticle_normal.png"));
+	textures.push_back(Texture2D());
+	textures.back().loadFromFile("Resources/Sprites/laserParticle_diffuse.png");
 
-	surajParticles = new ParticleEmitter(shaders.back(), textures[2], textures[3]);
+	textures.push_back(Texture2D());
+	textures.back().loadFromFile("Resources/Sprites/laserParticle_normal.png");
 
-	collinsLaser = new ParticleEmitter(shaders.back(), textures[0], textures[1]);
+	textures.push_back(Texture2D());
+	textures.back().loadFromFile("Resources/Sprites/starParticle_diffuse.png");
 
-	background = new Sprite(shaders[2], textures[0], textures[1], glm::vec2(WIDTH, HEIGHT));
+	textures.push_back(Texture2D());
+	textures.back().loadFromFile("Resources/Sprites/starParticle_normal.png");
 
-	lights = new PointLights;
+
+	surajParticles = new ParticleEmitter(&shaders.particle, &textures[2], &textures[3]);
+	
+	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
 	
 	for (int i = 1; i < NUM_LIGHTS; i++)
 	{
-		lights->positions[i] = glm::vec3(-10000, -10000, 0);
-		lights->colors[i] = glm::vec4(0, 0, 0, 0);
+		lights.positions[i] = glm::vec3(-10000, -10000, 0);
+		lights.colors[i] = glm::vec4(0, 0, 0, 0);
 	}
-	
-	blackFridayTexture = new Texture2D("Resources/Sprites/background2.png");
-	blackFridaySprite = new Sprite(shaders[0], blackFridayTexture, nullptr);
+
+	std::cout << "GS constructor done!" << std::endl;
 }
 
 GraphicsSystem::~GraphicsSystem()
 {
-	//delete lights;
-
-	for (auto& tile : tiles)
-	{
-		delete tile;
-	}
-
-	for (auto& player : sprites)
-	{
-		delete player;
-	}
-
-	for (auto& texture : textures)
-	{
-		delete texture;
-	}
-
-	for (auto& shader : shaders)
-	{
-		delete shader;
-	}
-
-	delete this->surajParticles;
+	delete surajParticles;
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
@@ -74,22 +62,22 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 			glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
 			glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
 
-			lights->positions[0] = lightP;
-			lights->colors[0] = lightC;
+			lights.positions[0] = lightP;
+			lights.colors[0] = lightC;
 
-			shaders[2]->use();
-			glUniform3fv(glGetUniformLocation(shaders[2]->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
-			glUniform4fv(glGetUniformLocation(shaders[2]->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
-			shaders[2]->unuse();
+			shaders.amazing.use();
+			glUniform3fv(glGetUniformLocation(shaders.amazing.getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
+			glUniform4fv(glGetUniformLocation(shaders.amazing.getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
+			shaders.amazing.unuse();
 
 			glm::vec2 position;
-			position.x = sprites[itr]->posX;
-			position.y = sprites[itr]->posY;
+			position.x = sprites[itr].posX;
+			position.y = sprites[itr].posY;
 
 
-			shaders[2]->setVector3f(glm::vec3(1, 0, 0), "status");
+			shaders.amazing.setVector3f(glm::vec3(1, 0, 0), "status");
 
-			sprites[itr]->draw(position, view, projection);
+			sprites[itr].draw(position, view, projection);
 		}
 	}
 
@@ -103,32 +91,32 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
 	glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
 
-	lights->positions[0] = lightP;
-	lights->colors[0] = lightC;
+	lights.positions[0] = lightP;
+	lights.colors[0] = lightC;
 
 	surajParticles->shader->use();
-	glUniform3fv(glGetUniformLocation(surajParticles->shader->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
-	glUniform4fv(glGetUniformLocation(surajParticles->shader->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
+	glUniform3fv(glGetUniformLocation(surajParticles->shader->getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
+	glUniform4fv(glGetUniformLocation(surajParticles->shader->getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
 	surajParticles->shader->unuse();
 
 	
 
 	surajParticles->update(0.00016f,
-		glm::vec2(this->sprites[0]->posX, this->sprites[0]->posY));
+		glm::vec2(sprites[0].posX, sprites[0].posY));
 	surajParticles->render(view, projection);
 	surajParticles->push(1, 0, 0);
 
 	//::.. Collins Laser ..:://
 
 	collinsLaser->shader->use();
-	glUniform3fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
-	glUniform4fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
+	glUniform3fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
+	glUniform4fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
 	collinsLaser->shader->unuse();
 
 
 
 	collinsLaser->updateLaser(0.00016f,
-		glm::vec2(this->sprites[0]->posX, this->sprites[0]->posY), glm::vec2(getPixie().x, getPixie().y));
+		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
 	collinsLaser->render(view, projection);
 
 
@@ -137,7 +125,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {			
-	background->draw(glm::vec2(background->posX, background->posY), view, projection);
+	background.draw(glm::vec2(background.posX, background.posY), view, projection);
 
 	if (tileMap.size() > 0)
 	{	
@@ -158,24 +146,24 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 					glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
 
 
-					lights->positions[0] = lightP;
-					lights->colors[0] = lightC;
+					lights.positions[0] = lightP;
+					lights.colors[0] = lightC;
 
-					shaders[2]->use();
-					glUniform3fv(glGetUniformLocation(shaders[2]->getID(), "lightPos"), NUM_LIGHTS, &lights->positions[0][0]);
-					glUniform4fv(glGetUniformLocation(shaders[2]->getID(), "lightColor"), NUM_LIGHTS, &lights->colors[0][0]);
-					shaders[2]->unuse();
+					shaders.amazing.use();
+					glUniform3fv(glGetUniformLocation(shaders.amazing.getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
+					glUniform4fv(glGetUniformLocation(shaders.amazing.getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
+					shaders.amazing.unuse();
 
 					if (visibleTiles[x + 2 + y * tileMap[0]])
 					{
-						shaders[2]->setVector3f(glm::vec3(1, 0, 0), "status");
+						shaders.amazing.setVector3f(glm::vec3(1, 0, 0), "status");
 					}
 					else
 					{
-						shaders[2]->setVector3f(glm::vec3(0, 0, 0), "status");
+						shaders.amazing.setVector3f(glm::vec3(0, 0, 0), "status");
 					}
 
-					tiles[tileMap[x + 2 + y * tileMap[0]]]->draw(glm::vec2(x * 48, y * 48), view, projection);
+					tiles[tileMap[x + 2 + y * tileMap[0]]].draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
 			}
 		}
@@ -258,15 +246,6 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 	lua_setglobal(luaState, "backgroundPos");
 }
 
-void GraphicsSystem::loadShaders()
-{
-	shaders.push_back(new Shader("Resources/Shaders/basicShader.vert", "Resources/Shaders/basicShader.frag"));
-	shaders.push_back(new Shader("Resources/Shaders/2d_shader.vert", "Resources/Shaders/2d_shader.frag"));
-	shaders.push_back(new Shader("Resources/Shaders/amazing_shader.vert", "Resources/Shaders/amazing_shader.frag"));
-	shaders.push_back(new Shader("Resources/Shaders/particle_shader.vert", "Resources/Shaders/particle_shader.frag"));
-
-}
-
 void GraphicsSystem::initShadows()
 {
 	for (int i = 0; i < visibleTiles.size(); i++)
@@ -287,7 +266,7 @@ void GraphicsSystem::initShadows()
 
 			glm::vec2 rayDir{ dirX, dirY };
 
-			rayDir = glm::vec2(lights->positions[numLights]) + rayDir * range;
+			rayDir = glm::vec2(lights.positions[numLights]) + rayDir * range;
 
 			for (int y = (getPlayerPos().y - HEIGHT) / 48; y < (getPlayerPos().y + HEIGHT) / 48; y++)
 			{
@@ -302,12 +281,12 @@ void GraphicsSystem::initShadows()
 						int right = x * 48 + 48;
 						int bottom = y * 48 + 48;
 
-						if (get_line_intersection(lights->positions[numLights].x, lights->positions[numLights].y, rayDir.x, rayDir.y, left, top, right, top) ||
-							get_line_intersection(lights->positions[numLights].x, lights->positions[numLights].y, rayDir.x, rayDir.y, left, top, left, bottom) ||
-							get_line_intersection(lights->positions[numLights].x, lights->positions[numLights].y, rayDir.x, rayDir.y, right, bottom, right, top) ||
-							get_line_intersection(lights->positions[numLights].x, lights->positions[numLights].y, rayDir.x, rayDir.y, right, bottom, left, bottom))
+						if (get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, left, top, right, top) ||
+							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, left, top, left, bottom) ||
+							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, right, bottom, right, top) ||
+							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, right, bottom, left, bottom))
 						{
-							float value = glm::length(glm::vec2(lights->positions[numLights].x, lights->positions[numLights].y) - glm::vec2(tempX, tempY));
+							float value = glm::length(glm::vec2(lights.positions[numLights].x, lights.positions[numLights].y) - glm::vec2(tempX, tempY));
 							if (t > value)
 							{
 								t = value;
@@ -335,7 +314,7 @@ sf::Vector2f GraphicsSystem::getPlayerPos() const
 
 	if (sprites.size() > 0)
 	{
-		vec = sf::Vector2f(sprites[0]->posX, sprites[0]->posY);
+		vec = sf::Vector2f(sprites[0].posX, sprites[0].posY);
 	}
 	
 	return vec;
@@ -347,7 +326,7 @@ sf::Vector2f GraphicsSystem::getPixie() const
 
 	if (sprites.size() > 0)
 	{
-		vec = sf::Vector2f(sprites[1]->posX, sprites[1]->posY);
+		vec = sf::Vector2f(sprites[1].posX, sprites[1].posY);
 	}
 
 	return vec;
@@ -386,7 +365,8 @@ int GraphicsSystem::newtexture(lua_State* luaState)
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 	
-	ptr->textures.push_back(new Texture2D(filePath));
+	ptr->textures.push_back(Texture2D());
+	ptr->textures.back().loadFromFile(filePath);
 	*id = ptr->textures.size() - 1;
 
 	return 1;
@@ -406,18 +386,17 @@ int GraphicsSystem::newsprite(lua_State* luaState)
 
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
+	ptr->sprites.push_back(Sprite());
 	
 	if (normalMap)
 	{
-		ptr->sprites.push_back(
-			new Sprite(ptr->shaders[2], ptr->textures[*texture], 
-				ptr->textures[*normalMap], glm::vec2(x, y)));
+		ptr->sprites.back().load(&ptr->shaders.amazing, &ptr->textures[*texture],
+			&ptr->textures[*normalMap], glm::vec2(x, y));
 	}
 	else
-	{
-		ptr->sprites.push_back(
-			new Sprite(ptr->shaders[0], ptr->textures[*texture], 
-				nullptr, glm::vec2(x, y)));
+	{	
+		ptr->sprites.back().load(&ptr->shaders.basic, &ptr->textures[*texture],
+				nullptr, glm::vec2(x, y));
 	}
 	
 	*id = ptr->sprites.size() - 1;
@@ -438,27 +417,29 @@ int GraphicsSystem::newLight(lua_State* luaState)
 
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
+	ptr->sprites.push_back(Sprite());
 
 	if (normalMap)
-	{
-		ptr->sprites.push_back(
-			new Sprite(ptr->shaders[2], ptr->textures[*texture],
-				ptr->textures[*normalMap], glm::vec2(48, 48)));
-		ptr->lights->positions[ptr->numLights] = glm::vec3(x, y, 0);
-		ptr->lights->colors[ptr->numLights++] = glm::vec4(red, green, blue, 1);
-		ptr->sprites.back()->posX = x;
-		ptr->sprites.back()->posY = y;
+	{	
+		ptr->sprites.back().load(&ptr->shaders.amazing, &ptr->textures[*texture],
+			&ptr->textures[*normalMap], glm::vec2(48, 48));
+		
+		ptr->lights.positions[ptr->numLights] = glm::vec3(x, y, 0);
+		ptr->lights.colors[ptr->numLights++] = glm::vec4(red, green, blue, 1);
+		
+		ptr->sprites.back().posX = x;
+		ptr->sprites.back().posY = y;
 	}
 	else
 	{
-		ptr->sprites.push_back(
-			new Sprite(ptr->shaders[0], ptr->textures[*texture],
-				nullptr, glm::vec2(48, 48)));
+		ptr->sprites.back().load(&ptr->shaders.basic, &ptr->textures[*texture],
+				nullptr, glm::vec2(48, 48));
 
-		ptr->lights->positions[ptr->numLights] = glm::vec3(x, y, 0);
-		ptr->lights->colors[ptr->numLights++] = glm::vec4(red, green, blue, 1);
-		ptr->sprites.back()->posX = x;
-		ptr->sprites.back()->posY = y;
+		ptr->lights.positions[ptr->numLights] = glm::vec3(x, y, 0);
+		ptr->lights.colors[ptr->numLights++] = glm::vec4(red, green, blue, 1);
+		
+		ptr->sprites.back().posX = x;
+		ptr->sprites.back().posY = y;
 	}
 
 	*id = ptr->sprites.size() - 1;
@@ -473,7 +454,7 @@ int GraphicsSystem::spritesize(lua_State* luaState)
 	float sizeX = lua_tonumber(luaState, -3);
 	int* id = (int*)lua_touserdata(luaState, -4);
 
-	ptr->sprites[*id]->setSize(sizeX, sizeY);
+	ptr->sprites[*id].setSize(sizeX, sizeY);
 
 	return 0;
 }
@@ -486,8 +467,8 @@ int GraphicsSystem::spritepos(lua_State* luaState)
 	float x = lua_tonumber(luaState, -3);
 	int* id = (int*)lua_touserdata(luaState, -4);
 
-	ptr->sprites[*id]->posX = x;
-	ptr->sprites[*id]->posY = y;
+	ptr->sprites[*id].posX = x;
+	ptr->sprites[*id].posY = y;
 	
 	return 0;
 }
@@ -502,7 +483,7 @@ int GraphicsSystem::setspriterect(lua_State* luaState)
 	int x = lua_tointeger(luaState, -5);
 	int* id = (int*)lua_touserdata(luaState, -6);
 
-	ptr->sprites[*id]->setTextureRect(x, height, width, y);
+	ptr->sprites[*id].setTextureRect(x, height, width, y);
 
 	return 0;
 }
@@ -515,9 +496,14 @@ int GraphicsSystem::newtiletexture(lua_State* luaState)
 	const char* filePath1 = lua_tostring(luaState, -3);
 	lua_pop(luaState, 1);
 
-	ptr->tileTextures.push_back(new Texture2D(filePath1));
-	ptr->tileTextures.push_back(new Texture2D(filePath2));
-	ptr->tiles.push_back(new Sprite(ptr->shaders[2], ptr->tileTextures[ptr->tileTextures.size()-2], ptr->tileTextures[ptr->tileTextures.size() - 1]));
+	ptr->tileTextures.push_back(Texture2D());
+	ptr->tileTextures.back().loadFromFile(filePath1);
+
+	ptr->tileTextures.push_back(Texture2D());
+	ptr->tileTextures.back().loadFromFile(filePath2);
+
+	ptr->tiles.push_back(Sprite());
+	ptr->tiles.back().load(&ptr->shaders.amazing, &ptr->tileTextures[ptr->tileTextures.size()-2], &ptr->tileTextures[ptr->tileTextures.size() - 1]);
 
 	return 0;
 }
@@ -550,14 +536,12 @@ int GraphicsSystem::newbackground(lua_State* luaState)
 
 	if (normalMap)
 	{
-		ptr->background = 
-			new Sprite(ptr->shaders[2], ptr->textures[*texture],
-				ptr->textures[*normalMap], glm::vec2(x, y));
+		ptr->background.load(&ptr->shaders.amazing, &ptr->textures[*texture],
+				&ptr->textures[*normalMap], glm::vec2(x, y));
 	}
 	else
 	{
-		ptr->background = 
-			new Sprite(ptr->shaders[0], ptr->textures[*texture],
+		ptr->background.load(&ptr->shaders.basic, &ptr->textures[*texture],
 				nullptr, glm::vec2(x, y));
 	}
 
@@ -573,8 +557,8 @@ int GraphicsSystem::backgroundpos(lua_State* luaState)
 	float x = lua_tonumber(luaState, -3);
 	int* id = (int*)lua_touserdata(luaState, -4);
 
-	ptr->background->posX = x;
-	ptr->background->posY = y;
+	ptr->background.posX = x;
+	ptr->background.posY = y;
 
 	return 0;
 }

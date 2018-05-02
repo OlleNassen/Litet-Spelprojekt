@@ -2,6 +2,7 @@
 #include"Shader.hpp"
 #include "texture_2d.hpp"
 #include "sprite.hpp"
+#include "../GameEngine/game.hpp"
 
 #include<vector>
 #include<glm/gtc/matrix_transform.hpp>
@@ -32,25 +33,21 @@ class GraphicsSystem
 {
 private:
 	Camera* camera;
-	lua_State * luaState;
+	lua_State* luaState;
 	std::vector<int> tileMap;
 	std::vector<bool> visibleTiles; // For shadows
-	std::vector<Texture2D*> tileTextures;
-	std::vector<Sprite*> tiles;
-	Sprite* background;
+	std::vector<Texture2D> tileTextures;
+	std::vector<Sprite> tiles;
+	Sprite background;
 	int numLights = 1;
-
-	//For black sidething
-	Texture2D* blackFridayTexture;
-	Sprite* blackFridaySprite;
 
 	ParticleEmitter* surajParticles;
 	ParticleEmitter* collinsLaser;
 
-	std::vector<Shader*> shaders;
-	std::vector<Texture2D*> textures;
-	std::vector<Sprite*> sprites;
-	PointLights* lights;
+	ShaderStruct& shaders;
+	std::vector<Texture2D> textures;
+	std::vector<Sprite> sprites;
+	PointLights lights;
 
 	//Shadow temp
 	float tempX;
@@ -58,7 +55,7 @@ private:
 	float lastT = -1;
 
 public:
-	GraphicsSystem();
+	GraphicsSystem(ShaderStruct& shad);
 	~GraphicsSystem();
 
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
@@ -103,7 +100,6 @@ public:
 
 
 private:
-	void loadShaders();
 	void initShadows();
 	
 	static int loadTileMap(lua_State* luaState);
