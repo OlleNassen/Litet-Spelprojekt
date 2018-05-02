@@ -7,6 +7,8 @@ require("Resources/Scripts/level2")
 require("Resources/Scripts/powerup")
 require("Resources/Scripts/point_light")
 
+local textureFunc = newTexture
+local spriteFunc = newSprite
 
 function quit()
 	pop()
@@ -33,14 +35,14 @@ s.x = 200
 s.y = 100
 s.maxSpeed.x = 200
 s.maxSpeed.y = 200
-s.normalMap = newTexture("Resources/Sprites/player.png")
-s.texture = newTexture("Resources/Sprites/player.png")
-s.sprite = newSprite(s.normalMap, s.texture)
+s.normalMap = textureFunc("Resources/Sprites/player.png")
+s.texture = textureFunc("Resources/Sprites/player.png")
+s.sprite = spriteFunc(s.normalMap, s.texture)
 s:addWorld(level)
 
-p.spriteHPBar = newSprite(500, 50, 0, p.textureHPBar)
+p.spriteHPBar = spriteFunc(500, 50, 0, p.textureHPBar)
 spritePos(p.spriteHPBar, 50, 50)
-p.spriteHPBarBack = newSprite(500, 50, 0, p.textureHPBarBack)
+p.spriteHPBarBack = spriteFunc(500, 50, 0, p.textureHPBarBack)
 spritePos(p.spriteHPBarBack, 50, 50)
 
 tileSize = 48
@@ -88,8 +90,8 @@ b.entity:addWorld(level)
 
 
 local bg = Background:create()
-bg.texture = newTexture("Resources/Sprites/backgroundTileBig_diffuse.png")
-bg.normalMap = newTexture("Resources/Sprites/backgroundTileBig_normal.png")
+bg.texture = textureFunc("Resources/Sprites/backgroundTileBig_diffuse.png")
+bg.normalMap = textureFunc("Resources/Sprites/backgroundTileBig_normal.png")
 bg.sprite = newBackground(720 * 10, 720 * 10, bg.normalMap, bg.texture)
 --bg:setPosition(100, 100)]]
 
