@@ -23,10 +23,12 @@ function Player:create()
 	
 	this.entity.x = 50
 	this.entity.y = 50
-	this.entity.collision_width = 45
-	this.entity.collision_height = 60
-	this.entity.width = 45
-	this.entity.height = 60
+	this.entity.collision_width = 48
+	this.entity.collision_height = 72
+	this.entity.offsetX = 24
+	this.entity.offsetY = 48
+	this.entity.width = 120
+	this.entity.height = 120
 	this.entity.maxSpeed.x = 500
 	this.entity.maxSpeed.y = 1000
 	this.entity.hasGravity = true

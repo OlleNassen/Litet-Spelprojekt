@@ -29,7 +29,10 @@ function Powerup:checkType(entity)
 end
 
 function Powerup:contains(entity)
-	if self.aquired == false and (self.entity:contains(entity.x, entity.y) or self.entity:contains(entity.x + entity.width, entity.y + entity.height)) then
+	if self.aquired == false and (self.entity:contains(entity.x, entity.y) or
+		self.entity:contains(entity.x + entity.width, entity.y) or
+		self.entity:contains(entity.x, entity.y + entity.height) or
+		self.entity:contains(entity.x + entity.width, entity.y + entity.height)) then
 	
 		self:checkType(entity)
 		self.aquired = true
