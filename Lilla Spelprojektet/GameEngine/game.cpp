@@ -214,9 +214,6 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_pushcfunction(luaState, clear);
 	lua_setglobal(luaState, "clear");
 
-	lua_pushcfunction(luaState, getCameraPosition);
-	lua_setglobal(luaState, "getCameraPosition");
-
 	eventSystem.addLuaRebind(luaState);
 }
 
