@@ -15,8 +15,12 @@ function Ai:create(posX, posY, sizeX, sizeY)
 
 	this.entity.x = posX
 	this.entity.y = posY
+	this.entity.collision_width = 48
+	this.entity.collision_height = 72
 	this.entity.width = sizeX
 	this.entity.height = sizeY
+	this.entity.offsetX = 24
+	this.entity.offsetY = 48
 	this.entity.maxSpeed.x = 700
 	this.entity.maxSpeed.y = 1000
 	this.entity.texture = newTexture("Resources/Sprites/npc/mutant_sprite.png")

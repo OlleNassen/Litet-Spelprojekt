@@ -82,7 +82,7 @@ local power_highjump = Powerup:create("Resources/Sprites/powerupHighJump_diffuse
 power_highjump.entity:setPosition(900, 1500)
 power_highjump.type = 3
 
-local g = Ai:create(1055,1055, 48, 48) -- goomba
+local g = Ai:create(1055,1055, 120, 120) -- goomba
 g.entity:addWorld(level)
 
 local b = Ai:create(1500, 100, 500, 500) -- bossman
