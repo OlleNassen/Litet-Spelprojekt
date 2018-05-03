@@ -15,7 +15,8 @@ tilemap =
 		"Resources/Sprites/pyramid_diffuse.png",
 		"Resources/Sprites/ironPillar_diffuse.png",
 		"Resources/Sprites/lockerBottom_diffuse.png",
-		"Resources/Sprites/lockerTop_diffuse.png",	
+		"Resources/Sprites/lockerTop_diffuse.png",
+
 	},
 
 	texturesNormal = 
@@ -35,7 +36,7 @@ tilemap =
 		false, 
 		true, 
 		true, 
-		true, 
+		true,
 	},
 	
 	tiles = 
@@ -90,7 +91,6 @@ p.entity.x = 98
 p.entity.y = 48 * 16
 p.entity:addWorld(level)
 
-
 local s = Entity:create() -- pixie
 s.x = 200
 s.y = 100
@@ -100,6 +100,13 @@ s.normalMap = textureFunc("Resources/Sprites/player.png")
 s.texture = textureFunc("Resources/Sprites/player.png")
 s.sprite = spriteFunc(s.normalMap, s.texture)
 s:addWorld(level)
+
+local nextPortal = Entity:create()
+nextPortal.normalMap = textureFunc("Resources/Sprites/player.png")
+nextPortal.texture = textureFunc("Resources/Sprites/player.png")
+nextPortal.sprite = spriteFunc(nextPortal.normalMap, nextPortal.texture)
+nextPortal:addWorld(level)
+nextPortal:setPosition(48 * 47, 48 * 3)
 
 p.spriteHPBar = spriteFunc(500, 50, 0, p.textureHPBar)
 spritePos(p.spriteHPBar, 50, 50)
@@ -179,6 +186,10 @@ function update(deltaTime)
 	
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
+
+	if nextPortal:contains(p.entity.x + p.entity.width, p.entity.y + p.entity.height) then
+		push("Resources/Scripts/LuaStates/olleState.lua")
+	end
 
 	enemy1:update(deltaTime)	
 	enemy2:update(deltaTime)
