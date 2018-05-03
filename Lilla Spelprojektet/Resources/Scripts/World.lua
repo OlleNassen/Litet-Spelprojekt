@@ -42,9 +42,7 @@ function World:emptyMap()
 end
 
 function World:canMove(newX, newY)
-	
-	local result = false
-	
+		
 	local x;
 	local y;
 			
@@ -54,15 +52,7 @@ function World:canMove(newX, newY)
 	x = math.floor(x + 1)
 	y = math.floor(y)
 	
-	if self.map.tiles[x + y * self.map.width] == 0 or 
-		self.map.tiles[x + y * self.map.width] == 7 or 
-		self.map.tiles[x + y * self.map.width] == 8 or 
-		self.map.tiles[x + y * self.map.width] == 9 or
-		self.map.tiles[x + y * self.map.width] == 10 or
-		self.map.tiles[x + y * self.map.width] == 11 or
-		self.map.tiles[x + y * self.map.width] == 12 then
-		result = true		
-	end
+	local result = self.map.ignore[self.map.tiles[x + y * self.map.width] + 1]
 
 	return result
 end
