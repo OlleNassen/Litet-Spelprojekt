@@ -28,6 +28,7 @@ hasFoundPosition = false
 
 local p = Player:create() -- player
 p.entity:addWorld(level)
+p.entity:setPosition(48 * 1, 16 * 48)
 
 
 local s = Entity:create() -- pixie
@@ -64,9 +65,13 @@ local light4 = PointLight:create(0.1,0.1,0,tileSize * 34, tileSize * 6,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
+local light5 = PointLight:create(0.1,0.1,0,tileSize * 2, tileSize * 2,
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
+
 --powerups  [None]
 
-local g = Ai:create(tileSize * 15, tileSize * 16, 48, 48) -- goomba
+local g = Ai:create(tileSize * 15, tileSize * 16, 120, 120) -- goomba
 g.entity:addWorld(level)
 
 
