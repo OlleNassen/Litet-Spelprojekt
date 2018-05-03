@@ -34,6 +34,23 @@ olleTilemap =
 		"Resources/Sprites/chain_normal.png",
 	},
 
+	ignore=
+	{
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	},
+
 	tiles = 
 	{
 		1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,
