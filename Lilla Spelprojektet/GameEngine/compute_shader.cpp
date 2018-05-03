@@ -2,8 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
-
+#include <string>
+#include <GL/glew.h>
+#include <glm/glm.hpp>
 
 ComputeShader::ComputeShader()
 {
@@ -14,69 +15,83 @@ ComputeShader::~ComputeShader()
 {
 }
 
-void ComputeShader::load(const GLchar* computeShaderFile)
+void ComputeShader::load(const char* computeShaderFile)
 {
+	/** 1. retrieve the compute source code from filePath */
+	std::string computeCode;
+	std::ifstream shaderFile;
+
+	/** open files */
+	shaderFile.open(computeShaderFile);
+	std::stringstream shaderStream;
+
+	/** read file's buffer contents into streams */
+	shaderStream << shaderFile.rdbuf();
+
+	/** close file handlers */
+	shaderFile.close();
+
+	/** convert stream into string */
+	computeCode = shaderStream.str();
+
+	const char* shaderCode = computeCode.c_str();
+
+	/** 2. compile shaders */
 	int success;
 	char infoLog[512];
 
-	std::string s = this->load_from_file(computeShaderFile);
-	const GLchar* src = s.c_str();
+	/** compute shader */
+	unsigned int compute = glCreateShader(GL_COMPUTE_SHADER);
+	glShaderSource(compute, 1, &shaderCode, NULL);
+	glCompileShader(compute);
 
-	unsigned int computeShader = glCreateShader(GL_COMPUTE_SHADER);
-
-	glShaderSource(computeShader, 1, &src, nullptr);
-	glCompileShader(computeShader);
-
-	//glDispatchComputeGroupSize(num_groups_x, num_groups_y, num_groups_z,work_group_size_x,work_group_size_y,work_group_size_z);
-
-	//Error
-	glGetShaderiv(computeShader, GL_COMPILE_STATUS, &success);
-
+	/** print compile errors if any */
+	glGetShaderiv(compute, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		glGetShaderInfoLog(computeShader, 512, nullptr, infoLog);
-		std::cout << infoLog << "\n";
+		glGetShaderInfoLog(compute, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::COMPUTE::COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 
-	this->id = glCreateProgram();
-	glAttachShader(this->id, computeShader);
+	/** shader Program */
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, compute);
+	glLinkProgram(shaderProgram);
 
-	glLinkProgram(this->id);
-
-	//Error
-	glGetProgramiv(this->id, GL_LINK_STATUS, &success);
-
+	/** print linking errors if any */
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 	if (!success)
 	{
-		glGetProgramInfoLog(this->id, 512, nullptr, infoLog);
-
-		std::cout << infoLog << "\n";
+		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 	}
 
-	//Cleanup
-	glDeleteShader(computeShader);
-}
+	/** delete the shaders as they're linked into our program now and no longer necessery */
+	glDeleteShader(compute);
 
-std::string ComputeShader::load_from_file(const GLchar* fileName)
-{
-	std::ifstream in_file(fileName);
-	std::string line = "";
-	std::string file = "";
-
-	if (in_file.is_open())
+	struct Particles
 	{
-		while (std::getline(in_file, line))
-		{
-			file += line + "\n";
-		}
-	}
-	else
-	{
-		std::cout << "SHADER::LOAD_FROM_FILE::COULD_NOT_OPEN_FILE" << fileName << "\n";
-		throw("SHADER::LOAD_FROM_FILE::COULD_NOT_OPEN_FILE");
-	}
+		glm::vec3 positions[10000];
+		glm::vec4 color;
+		glm::vec2 from;
+		glm::vec2 to;
+	};
 
-	in_file.close();
+	Particles data;
 
-	return file;
+	/** Storage buffer */
+	glUseProgram(shaderProgram);
+	glGenBuffers(1, &storageBuffer);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Particles), &data, GL_STATIC_COPY);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, storageBuffer);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glUseProgram(shaderProgram);
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+
+	glDispatchCompute(10, 10, 1);
+
+	/** Gives data back to cpu */
+	Particles* ptr = (Particles*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
 }

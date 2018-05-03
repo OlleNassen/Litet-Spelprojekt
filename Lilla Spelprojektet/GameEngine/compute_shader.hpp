@@ -1,16 +1,16 @@
 #pragma once
 #include <GL/glew.h>
-#include <string>
+
 class ComputeShader
 {
 public:
 	ComputeShader();
 	~ComputeShader();
 
-	void load(const GLchar* computeShaderFile);
-	std::string load_from_file(const GLchar* fileName);
+	void load(const char* computeShaderFile);
 
 private:
-	unsigned int id;
+	unsigned int shaderProgram;
+	unsigned int storageBuffer;
 };
 
