@@ -127,10 +127,7 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 	{
 		if (particles.timeLeft[i] > 0.f)
 		{
-			
-			float multiple = 500.f;
-
-			
+			float multiple = 5000.f;
 
 			glm::vec2 particlePos = model * 
 				glm::vec4(particles.translations[i].x, 
@@ -142,10 +139,11 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 
 			if (length2 > length)
 			{
-				particles.timeLeft[i] = 0.0f;
+				particles.translations[i] = position;
 			}
 			else
 			{
+
 				particles.translations[i] += direction * multiple * dt;
 			}
 				

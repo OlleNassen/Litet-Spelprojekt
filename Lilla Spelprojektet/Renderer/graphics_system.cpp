@@ -86,7 +86,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	//emitter->render(view, projection, 0.0016f);
 
 	//surajParticles->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
-
+	
 	//::.. Suraj Particles ..:://
 	glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
 	glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
@@ -118,7 +118,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	collinsLaser->updateLaser(0.00016f,
 		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
 	collinsLaser->render(view, projection);
-
+	
 
 	
 }
