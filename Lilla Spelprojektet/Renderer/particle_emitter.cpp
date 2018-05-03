@@ -121,16 +121,13 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 
 	model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
 	glm::vec2 direction = glm::normalize(pixiePos - position);
-	push(1, 0, 0);
+	
 
 	for (int i = 0; i < maxNumParticles; i++)
 	{
 		if (particles.timeLeft[i] > 0.f)
 		{
-			
-			float multiple = 500.f;
-
-			
+			float multiple = 5000.f;
 
 			glm::vec2 particlePos = model * 
 				glm::vec4(particles.translations[i].x, 
@@ -142,10 +139,11 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 
 			if (length2 > length)
 			{
-				particles.timeLeft[i] = 0.0f;
+				particles.translations[i] = glm::vec2(0,0);
 			}
 			else
 			{
+
 				particles.translations[i] += direction * multiple * dt;
 			}
 				

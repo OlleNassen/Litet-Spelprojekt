@@ -69,7 +69,14 @@ private:
 	}
 
 public:
-	Shader(const std::string vertexShaderFile, const std::string fragmentShaderFile, const std::string geometryShaderFile = "")
+	Shader() {}
+
+	~Shader()
+	{
+		glDeleteProgram(this->id);
+	}
+
+	void load(const std::string vertexShaderFile, const std::string fragmentShaderFile, const std::string geometryShaderFile = "")
 	{
 		int success;
 		char infoLog[512];
@@ -90,8 +97,8 @@ public:
 		this->id = glCreateProgram();
 		glAttachShader(this->id, vertexShader);
 		glAttachShader(this->id, fragmentShader);
-		
-		if(geometry)
+
+		if (geometry)
 			glAttachShader(this->id, geometryShader);
 
 		glLinkProgram(this->id);
@@ -110,11 +117,6 @@ public:
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 		glDeleteShader(geometryShader);
-	}
-
-	virtual ~Shader()
-	{
-		glDeleteProgram(this->id);
 	}
 
 	//Accessors

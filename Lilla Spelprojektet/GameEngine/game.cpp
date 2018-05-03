@@ -241,15 +241,21 @@ int Game::push(lua_State* luaState)
 	newState.audioSystem = new AudioSystem();
 	newState.audioSystem->addLuaFunctions(newLua);
 
+	sf::Clock clock;
+	std::cout << "Compiling..." << std::endl;
+	clock.restart();
+	
 	if (luaL_loadfile(newLua, name) || lua_pcall(newLua, 0, 0, 0))
 	{
 		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(newLua, -1));
 
 	}
-	
+	std::cout << "Compiled: ";
+	std::cout << clock.restart().asSeconds() << std::endl;
+
 	ptr->push_back(newState);
 	
-	std::cout << "LS pushed!" << std::endl;
+	
 	
 	return 0;
 }
