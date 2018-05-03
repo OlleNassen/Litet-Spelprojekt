@@ -118,7 +118,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	collinsLaser->updateLaser(0.00016f,
 		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
 	collinsLaser->render(view, projection);
-	
+	collinsLaser->push(1, 0, 0);
 
 	
 }
