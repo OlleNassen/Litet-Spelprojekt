@@ -49,7 +49,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 
 GraphicsSystem::~GraphicsSystem()
 {
-	delete surajParticles;
+	//delete surajParticles;
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
