@@ -7,21 +7,16 @@ layout(std430, binding = 0) buffer storageBuffer
 {
     vec2 positions[10000];
     //vec4 color;
+	vec2 to_from;
 
-};
-
-layout(std430, binding = 1) buffer sharedBuffer
-{
-    vec4 from_to;
 };
 
 void main()
 {
     uint x = gl_GlobalInvocationID.x;
     uint y = gl_GlobalInvocationID.y;
-	vec2 direction = abs(from_to.zw - from_to.xy);
 	
-    positions[x + y * 10].x = direction.x * 0.01;
+    positions[x + y * 10].x = to_from.x / 256;
 	positions[x + y * 10].y = 0;
 
 }

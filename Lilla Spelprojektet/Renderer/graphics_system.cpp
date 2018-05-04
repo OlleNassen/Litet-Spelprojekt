@@ -34,7 +34,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	textures.back().loadFromFile("Resources/Sprites/starParticle_normal.png");
 
 
-	surajParticles = new ParticleEmitter(&shaders.particle, &textures[2], &textures[3]);
+	//surajParticles = new ParticleEmitter(&shaders.particle, &textures[2], &textures[3]);
 	
 	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
 	
