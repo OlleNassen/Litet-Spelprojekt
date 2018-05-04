@@ -35,6 +35,7 @@ function Player:create()
 	this.entity.hasGravity = true
 	this.entity.canFly = false
 	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite.png")
+	this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
 	this.entity.spriteWidth = 144
 	this.entity.spriteHeight = 144
 	this.entity:addAnimation(1,1) -- Idle = 1
@@ -47,10 +48,13 @@ function Player:create()
 	this.entity:setAnimation(2)
 	this.entity.updateAnimationTime = 0.05
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
+	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)
 
+	this.entity.spriteHB = newSprite(this.entity.collision_width, this.entity.collision_height, this.entity.normalHB, this.entity.textureHB)
+	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)
 
     setmetatable(this, self)
     return this

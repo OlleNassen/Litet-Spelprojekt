@@ -11,8 +11,11 @@ function Entity:create()
     local this =
     {
 		texture,
+		textureHB,
 		normalMap,
+		normalHB,
 		sprite,
+		spriteHB,
 		x = 0,
 		y = 0,
 		collision_width = 48,
@@ -256,7 +259,11 @@ function Entity:move(x, y)
 	end
 		
 	if self.sprite ~= nil then
-		posFunc(self.sprite, self.x, self.y)		
+		posFunc(self.sprite, self.x, self.y)
+	end
+
+	if self.spriteHB ~= nil then
+		posFunc(self.spriteHB, self.x + self.offsetX, self.y + self.offsetY)
 	end
 end
 
