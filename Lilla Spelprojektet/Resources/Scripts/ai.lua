@@ -33,10 +33,10 @@ function Ai:create(posX, posY, sizeX, sizeY)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
 	--Entity Visible collision box
-	this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	--[[this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
 	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
 	this.entity.spriteHB = newSprite(this.entity.collision_width, this.entity.collision_height, this.entity.normalHB, this.entity.textureHB)
-	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)
+	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)]]
 
     setmetatable(this, self)
     return this
