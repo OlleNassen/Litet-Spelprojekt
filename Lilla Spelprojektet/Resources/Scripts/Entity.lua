@@ -110,10 +110,17 @@ end
 
 function Entity:containsCollisionBox(x, y)
 	
-	local minX = min(self.x, self.x + self.collision_width);
+	--[[local minX = min(self.x + self.offsetX, self.x + self.collision_width);
 	local maxX = max(self.x + self.offsetX, self.x + self.offsetX + self.collision_width);
-	local minY = min(self.y, self.y + self.collision_height);
-	local maxY = max(self.y + self.offsetY, self.y + self.offsetY + self.collision_height);
+
+	local minY = min(self.y + self.offsetY, self.y + self.collision_height);
+	local maxY = max(self.y + self.offsetY, self.y + self.offsetY + self.collision_height);]]
+
+	local minX = self.x + self.offsetX
+	local maxX = self.x + self.offsetX + self.collision_width
+
+	local minY = self.y + self.offsetY
+	local maxY = self.y + self.offsetY + self.collision_height
 
 	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
 end
