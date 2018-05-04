@@ -39,6 +39,9 @@
     <ClCompile Include="Renderer\particle_emitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngine\compute_shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\libs.h">
@@ -74,6 +77,9 @@
     <ClInclude Include="Renderer\particle_emitter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngine\compute_shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />
@@ -91,5 +97,7 @@
     <None Include="Resources\Scripts\point_light.lua" />
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
+    <None Include="Resources\Scripts\olleTilemap.lua" />
+    <None Include="Resources\Shaders\shader.comp" />
   </ItemGroup>
 </Project>

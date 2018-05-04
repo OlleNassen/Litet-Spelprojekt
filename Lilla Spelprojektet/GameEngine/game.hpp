@@ -2,6 +2,8 @@
 #include "event_system.hpp"
 #include "../Renderer/Shader.hpp"
 #include "audio_system.hpp"
+#include "compute_shader.hpp"
+
 
 namespace sf
 {
@@ -26,6 +28,7 @@ struct ShaderStruct
 	Shader shader2d;
 	Shader amazing;
 	Shader particle;
+	ComputeShader compShader;
 };
 
 typedef std::vector<State> LuaVector;
@@ -40,6 +43,8 @@ private:
 	Camera* camera;
 	std::vector<State> states;
 	ShaderStruct shaders;
+
+	
 
 public:
 	Game();

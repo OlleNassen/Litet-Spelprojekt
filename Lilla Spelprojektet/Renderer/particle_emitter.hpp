@@ -3,14 +3,15 @@
 #include "glm\glm.hpp"
 #include "Shader.hpp"
 #include "texture_2d.hpp"
+#include "../GameEngine/compute_shader.hpp"
 
-#define maxNumParticles 10000
+#define MAX_NUM_PARTICLES 10000
 
 struct Particles
 {
-	glm::vec2 translations[maxNumParticles];
-	float timeLeft[maxNumParticles];
-	bool exists[maxNumParticles];
+	glm::vec2 translations[MAX_NUM_PARTICLES];
+	float timeLeft[MAX_NUM_PARTICLES];
+	bool exists[MAX_NUM_PARTICLES];
 	//std::vector<glm::vec2> velocity;
 	//std::vector<glm::vec3> colors;
 
@@ -38,13 +39,16 @@ private:
 
 	GLuint instanceVBO;
 
+	ParticleStruct* particleStruct;
 
 	glm::mat4 model;
 
 public:
-	Particles particles;
 	//Temp, put it above
+	Particles particles;
 	Shader* shader;
+
+	ComputeShader computeShader;
 
 	ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* normalMap = nullptr);
 	~ParticleEmitter();

@@ -21,6 +21,16 @@ tilemap1 =
 		"Resources/Sprites/saw_normal.png",	
 		"Resources/Sprites/solidScrew_normal.png",	
 	},
+	ignore=
+	{
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+	},
 	
 	tiles = 
 	{
