@@ -14,12 +14,15 @@ function Player:create()
 		nrOfJumps = 1,
 		dashing = false,
 		canDash = true,
+		isAttacking = false,
+		attackDamage = 10,
+		attackPushBack = {x = 100, y = -600},
 		timeSinceDamage = 0.0,
 		textureHPBarBack = newTexture("Resources/Sprites/Player/hpbarback.png"),
 		textureHPBar = newTexture("Resources/Sprites/Player/hpbar.png"),
 		spriteHPBarBack,
 		spriteHPBar,
-		standardAnimationTime = 0.05
+		standardAnimationTime = 0.05,
     }
 	
 	this.entity.x = 50
@@ -45,7 +48,7 @@ function Player:create()
 	this.entity:addAnimation(12, 12) -- Jump in air = 5
 	this.entity:addAnimation(13, 13) -- Fall = 6
 	this.entity:addAnimation(2,4) -- Attack = 7
-	this.entity:setAnimation(2)
+	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.05
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
 	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
@@ -62,13 +65,20 @@ end
 
 function Player:moveRight(directionX, deltaTime)
 	self.entity:accelerate(directionX, 0, deltaTime)
-	self.entity:setAnimation(2)
-	if directionX > 0 then
-		self.entity.isGoingRight = true
-	else
-		self.entity.isGoingRight = false
+	if self.isAttacking == false then
+		self.entity:setAnimation(2)
+		if directionX > 0 then
+			self.entity.isGoingRight = true
+			if self.attackPushBack.x < 0 then
+				self.attackPushBack.x = self.attackPushBack.x * -1
+			end
+		else
+			self.entity.isGoingRight = false
+			if self.attackPushBack.x > 0 then
+				self.attackPushBack.x = self.attackPushBack.x * -1
+			end
+		end
 	end
-
 	return true
 end
 
@@ -88,6 +98,13 @@ function Player:jump()
 	end
 
 	return false
+end
+
+function Player:attack()
+	if self.isAttacking == false then
+		self.entity:setAnimation(7)
+		self.isAttacking = true
+	end
 end
 
 function Player:fly()
@@ -125,12 +142,12 @@ function Player:update(deltaTime)
 	if self.entity.collision_bottom == true then
 		self.nrOfJumps = self.maxNrOfJumps 
 		
-		if self.entity.velocity.x == 0 then
+		if self.entity.velocity.x == 0 and self.isAttacking == false then
 			self.entity:setAnimation(1)
 		end
 	end
 
-	if self.isJumping == true then
+	if self.isJumping == true and self.isAttacking == false then
 		self.entity:setAnimation(4)
 		if self.entity.velocity.y > -300 then
 			self.isJumping = false
@@ -138,13 +155,18 @@ function Player:update(deltaTime)
 		end
 	end
 
-	if self.entity.velocity.y > 300 then
+	if self.entity.velocity.y > 300 and self.isAttacking == false then
 		self.entity:setAnimation(6)
 	end
 
 
 
-	self.entity:update(deltaTime)
+	local updateE = self.entity:update(deltaTime)
+	
+	if updateE == true and self.isAttacking == true then
+		self.isAttacking = false
+		self.entity:setAnimation(1)
+	end
 
 	--Hp bar
 	self:updateHPBar()

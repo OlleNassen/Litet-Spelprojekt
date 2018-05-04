@@ -53,14 +53,15 @@ function Ai:update(deltaTime)
 	--GOOMBA MOVEMENT
 	self.entity:update(deltaTime)	
 	self.timer = self.timer + deltaTime
-
 	if self.timer > 3 then
 		self.goombaDir = self:randomizeDirection()
 		self.timer = 0
 	else
-		self.entity:accelerate(self.goombaDir, 0, deltaTime)
-		self.entity:move(self.entity.velocity.x * deltaTime, self.entity.velocity.y * deltaTime)
+		if self.entity.canMove == true then
+			self.entity.velocity.x = 100 * self.goombaDir
+		end
 	end
+	self.entity:move(self.entity.velocity.x * deltaTime, self.entity.velocity.y * deltaTime)
 end
 
 function Ai:attack(player)
