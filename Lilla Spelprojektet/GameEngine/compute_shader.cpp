@@ -99,7 +99,7 @@ ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& t
 		//result = (ParticleStruct*)glMapNamedBuffer(storageBuffer, GL_READ_ONLY);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		glUseProgram(0);
-		std::cout << result->to_from.x << std::endl;
+		//std::cout << result->to_from.x << std::endl;
 	}
 	
 	return result;
