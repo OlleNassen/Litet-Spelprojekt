@@ -10,16 +10,18 @@ layout(std430, binding = 0) buffer storageBuffer
 
 };
 
-uniform vec2 from;
-uniform vec2 to;
+layout(std430, binding = 1) buffer sharedBuffer
+{
+    vec4 from_to;
+};
 
 void main()
 {
     uint x = gl_GlobalInvocationID.x;
     uint y = gl_GlobalInvocationID.y;
-	vec2 direction = abs(to - from);
+	vec2 direction = abs(from_to.zw - from_to.xy);
 	
-    positions[x + y * 10].x = to.x;
+    positions[x + y * 10].x = direction.x * 0.01;
 	positions[x + y * 10].y = 0;
 
 }

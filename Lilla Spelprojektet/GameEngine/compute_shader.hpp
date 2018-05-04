@@ -20,5 +20,6 @@ public:
 private:
 	unsigned int shaderProgram;
 	unsigned int storageBuffer;
+	unsigned int sharedBuffer;
 };
 
