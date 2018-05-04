@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngine\compute_shader.cpp" />
     <ClCompile Include="GameEngine\audio_system.cpp" />
     <ClCompile Include="GameEngine\camera.cpp" />
     <ClCompile Include="GameEngine\game.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="GameEngine\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEngine\compute_shader.hpp" />
     <ClInclude Include="GameEngine\audio_system.hpp" />
     <ClInclude Include="GameEngine\camera.hpp" />
     <ClInclude Include="GameEngine\event_system.hpp" />
@@ -58,6 +60,7 @@
     <None Include="Resources\Shaders\basicShader.vert" />
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
+    <None Include="Resources\Shaders\shader.comp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
