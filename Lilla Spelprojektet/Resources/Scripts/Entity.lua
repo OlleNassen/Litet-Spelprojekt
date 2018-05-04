@@ -83,6 +83,16 @@ function Entity:contains(x, y)
 	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
 end
 
+function Entity:containsCollisionBox(x, y)
+	
+	local minX = min(self.x, self.x + self.collision_width);
+	local maxX = max(self.x + self.offsetX, self.x + self.offsetX + self.collision_width);
+	local minY = min(self.y, self.y + self.collision_height);
+	local maxY = max(self.y + self.offsetY, self.y + self.offsetY + self.collision_height);
+
+	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
+end
+
 function Entity:addWorld(world)
 	self.world = world
 end
@@ -222,11 +232,14 @@ function Entity:move(x, y)
 	self.collision_top = false
 	self.collision_bottom = false
 
-	if self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height) and 
-	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height) and 
-	
-	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height/2) and
-	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height/2) then
+	if self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height/2) and
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height/2) then
 		self.x = self.x + x
 	
 	else

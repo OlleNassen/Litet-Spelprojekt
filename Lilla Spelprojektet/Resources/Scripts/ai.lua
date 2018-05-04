@@ -15,16 +15,16 @@ function Ai:create(posX, posY, sizeX, sizeY)
 
 	this.entity.x = posX
 	this.entity.y = posY
-	this.entity.collision_width = 48
+	this.entity.collision_width = 13
 	this.entity.collision_height = 72
+	this.entity.offsetX = 58
+	this.entity.offsetY = 48
 	this.entity.width = sizeX
 	this.entity.height = sizeY
-	this.entity.offsetX = 24
-	this.entity.offsetY = 48
-	this.entity.maxSpeed.x = 700
+	this.entity.maxSpeed.x = 0--700
 	this.entity.maxSpeed.y = 1000
-	this.entity.texture = newTexture("Resources/Sprites/npc/mutant_sprite.png")
-	this.entity.normalMap = newTexture("Resources/Sprites/npc/mutant_normals.png")
+	this.entity.texture = newTexture("Resources/Sprites/npc/mutant_sprite_test.png")
+	this.entity.normalMap = newTexture("Resources/Sprites/npc/mutant_normals_test.png")
 	this.entity.spriteWidth = 144
 	this.entity.spriteHeight = 144
 	this.entity:addAnimation(1,8)
@@ -64,10 +64,13 @@ function Ai:update(deltaTime)
 end
 
 function Ai:attack(player)
-	if self.entity:contains(player.entity.x, player.entity.y) or
+	--[[if self.entity:contains(player.entity.x, player.entity.y) or
 		self.entity:contains(player.entity.x + player.entity.width, player.entity.y) or
 		self.entity:contains(player.entity.x, player.entity.y + player.entity.height) or
-		self.entity:contains(player.entity.x + player.entity.width, player.entity.y + player.entity.height) then
+		self.entity:contains(player.entity.x + player.entity.width, player.entity.y + player.entity.height) then]]
+	
+	if self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX, player.entity.y + player.entity.offsetY) then
+		--self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX + player.entity.collision_width, player.entity.y + player.entity.offsetY + player.entity.collision_height) then
 		player:takeDamage(20)
 	end
 end

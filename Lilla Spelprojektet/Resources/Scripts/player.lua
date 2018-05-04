@@ -24,9 +24,9 @@ function Player:create()
 	
 	this.entity.x = 50
 	this.entity.y = 16 * 48
-	this.entity.collision_width = 48
+	this.entity.collision_width = 43
 	this.entity.collision_height = 72
-	this.entity.offsetX = 24
+	this.entity.offsetX = 40
 	this.entity.offsetY = 48
 	this.entity.width = 120
 	this.entity.height = 120
@@ -34,7 +34,7 @@ function Player:create()
 	this.entity.maxSpeed.y = 1000
 	this.entity.hasGravity = true
 	this.entity.canFly = false
-	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite.png")
+	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite_test.png")
 	this.entity.spriteWidth = 144
 	this.entity.spriteHeight = 144
 	this.entity:addAnimation(1,1) -- Idle = 1
@@ -46,7 +46,7 @@ function Player:create()
 	this.entity:addAnimation(2,4) -- Attack = 7
 	this.entity:setAnimation(2)
 	this.entity.updateAnimationTime = 0.05
-	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
+	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals_test.png")
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)
