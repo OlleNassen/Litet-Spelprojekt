@@ -33,10 +33,10 @@ function Ai:create(posX, posY, sizeX, sizeY)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
 	--Entity Visible collision box
-	this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	--[[this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
 	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
 	this.entity.spriteHB = newSprite(this.entity.collision_width, this.entity.collision_height, this.entity.normalHB, this.entity.textureHB)
-	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)
+	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)]]
 
     setmetatable(this, self)
     return this
@@ -64,7 +64,7 @@ function Ai:update(deltaTime)
 		self.timer = 0
 	else
 		if self.entity.canMove == true then
-			self.entity.velocity.x = 100 * self.goombaDir
+			--self.entity.velocity.x = 100 * self.goombaDir
 		end
 	end
 	self.entity:move(self.entity.velocity.x * deltaTime, self.entity.velocity.y * deltaTime)
@@ -76,10 +76,12 @@ function Ai:attack(player)
 		self.entity:contains(player.entity.x, player.entity.y + player.entity.height) or
 		self.entity:contains(player.entity.x + player.entity.width, player.entity.y + player.entity.height) then]]
 	
-	if self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX, player.entity.y + player.entity.offsetY) or --top left
+	--[[if self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX, player.entity.y + player.entity.offsetY) or --top left
 		self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX + player.entity.collision_width, player.entity.y + player.entity.offsetY) or --top right 
 		self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX, player.entity.y + player.entity.offsetY + player.entity.collision_height) or --bottom left 
-		self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX + player.entity.collision_width, player.entity.y + player.entity.offsetY + player.entity.collision_height) then --bottom right
+		self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX + player.entity.collision_width, player.entity.y + player.entity.offsetY + player.entity.collision_height) then]] --bottom right
+
+	if self.entity:containsCollisionBox(player) then
 		player:takeDamage(20)
 	end
 end
