@@ -3,6 +3,7 @@
 #include "glm\glm.hpp"
 #include "Shader.hpp"
 #include "texture_2d.hpp"
+#include "../GameEngine/compute_shader.hpp"
 
 #define MAX_NUM_PARTICLES 10000
 
@@ -38,13 +39,16 @@ private:
 
 	GLuint instanceVBO;
 
+	ParticleStruct* particleStruct;
 
 	glm::mat4 model;
 
 public:
-	Particles particles;
 	//Temp, put it above
+	Particles particles;
 	Shader* shader;
+
+	ComputeShader computeShader;
 
 	ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* normalMap = nullptr);
 	~ParticleEmitter();

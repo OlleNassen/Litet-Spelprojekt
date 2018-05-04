@@ -5,6 +5,7 @@
 #include <string>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 ComputeShader::ComputeShader()
 {
@@ -69,29 +70,36 @@ void ComputeShader::load(const char* computeShaderFile)
 	/** delete the shaders as they're linked into our program now and no longer necessery */
 	glDeleteShader(compute);
 
-	struct Particles
-	{
-		glm::vec3 positions[10000];
-		glm::vec4 color;
-		glm::vec2 from;
-		glm::vec2 to;
-	};
-
-	Particles data;
+	ParticleStruct data;
 
 	/** Storage buffer */
 	glUseProgram(shaderProgram);
 	glGenBuffers(1, &storageBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(Particles), &data, GL_STATIC_COPY);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &data, GL_STATIC_COPY);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, storageBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	glUseProgram(shaderProgram);
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+}
 
-	glDispatchCompute(10, 10, 1);
+ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& to)
+{
+	ParticleStruct* result = nullptr;
+	
+	if (shaderProgram)
+	{
+		glUseProgram(shaderProgram);
 
-	/** Gives data back to cpu */
-	Particles* ptr = (Particles*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+		glUniform2fv(glGetUniformLocation(shaderProgram, "from"), 1, glm::value_ptr(from));
+		glUniform2fv(glGetUniformLocation(shaderProgram, "to"), 1, glm::value_ptr(to));
+
+		//std::cout << to.x << " " << to.y << std::endl;
+
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+		glDispatchCompute(10, 10, 1);
+		result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+	}
+	
+	return result;
+	
 }

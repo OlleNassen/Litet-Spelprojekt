@@ -2,18 +2,24 @@
 
 layout(local_size_x = 10, local_size_y = 10, local_size_z = 1) in;
 
+
 layout(std430, binding = 0) buffer storageBuffer
 {
-    vec3 positions[10000];
-    vec4 color;
-    vec2 from;
-    vec2 to;
+    vec2 positions[10000];
+    //vec4 color;
+
 };
+
+uniform vec2 from;
+uniform vec2 to;
 
 void main()
 {
     uint x = gl_GlobalInvocationID.x;
     uint y = gl_GlobalInvocationID.y;
+	vec2 direction = abs(to - from);
+	
+    positions[x + y * 10].x = to.x;
+	positions[x + y * 10].y = 0;
 
-    positions[x + y * 10].x = x + y * 10;
 }

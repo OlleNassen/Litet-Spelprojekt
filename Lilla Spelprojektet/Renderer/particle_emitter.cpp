@@ -10,6 +10,8 @@
 ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* normalMap)
 {
 
+	computeShader.load("Resources/Shaders/shader.comp");
+
 	this->shader = shader;
 
 	this->texture = diffuse;
@@ -62,7 +64,7 @@ void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particles.translations[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particleStruct->positions[0], GL_DYNAMIC_DRAW);
 
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, MAX_NUM_PARTICLES);
 	glBindVertexArray(0);
@@ -115,13 +117,15 @@ void ParticleEmitter::update(float dt, const glm::vec2& position)
 
 void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const glm::vec2 pixiePos)
 {
+	particleStruct = computeShader.compute(position, pixiePos);
+
 	// Prepare transformations
 	model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(position + 48.f, 0.0f));
 
-	model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
+	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
+	/*
 	glm::vec2 direction = glm::normalize(pixiePos - position);
-	
 
 	for (int i = 0; i < MAX_NUM_PARTICLES; i++)
 	{
@@ -159,6 +163,7 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 		}
 		particles.timeLeft[i] -= 100 * dt;
 	}
+	*/
 }
 
 void ParticleEmitter::push(unsigned int amount, float x, float y)
