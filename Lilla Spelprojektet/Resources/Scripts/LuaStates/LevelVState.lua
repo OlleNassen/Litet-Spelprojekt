@@ -71,7 +71,7 @@ local light5 = PointLight:create(0.1,0.1,0,tileSize * 2, tileSize * 2,
 
 --powerups  [None]
 
-local g = Ai:create(tileSize * 15, tileSize * 16, 120, 120) -- goomba
+local g = Ai:create(tileSize * 16, tileSize * 16, 120, 120) -- goomba
 g.entity:addWorld(level)
 
 

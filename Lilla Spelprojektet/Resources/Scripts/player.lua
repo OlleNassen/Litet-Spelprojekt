@@ -25,8 +25,8 @@ function Player:create()
 		standardAnimationTime = 0.05,
     }
 	
-	this.entity.x = 48 * 10
-	this.entity.y = 15 * 48
+	this.entity.x = 50
+	this.entity.y = 16 * 48
 	this.entity.collision_width = 43
 	this.entity.collision_height = 72
 	this.entity.offsetX = 40
@@ -37,7 +37,7 @@ function Player:create()
 	this.entity.maxSpeed.y = 1000
 	this.entity.hasGravity = true
 	this.entity.canFly = false
-	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite.png")
+	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite_test.png")
 	this.entity.spriteWidth = 144
 	this.entity.spriteHeight = 144
 	this.entity:addAnimation(1,1) -- Idle = 1
@@ -49,11 +49,16 @@ function Player:create()
 	this.entity:addAnimation(2,4) -- Attack = 7
 	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.05
-	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
+	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals_test.png")
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)
-
+	
+	--Player Visible collision box
+	this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
+	this.entity.spriteHB = newSprite(this.entity.collision_width, this.entity.collision_height, this.entity.normalHB, this.entity.textureHB)
+	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)
 
     setmetatable(this, self)
     return this

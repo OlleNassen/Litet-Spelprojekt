@@ -44,8 +44,6 @@ private:
 	std::vector<State> states;
 	ShaderStruct shaders;
 
-	
-
 public:
 	Game();
 	~Game();

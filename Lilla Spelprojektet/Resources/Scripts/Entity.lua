@@ -11,8 +11,11 @@ function Entity:create()
     local this =
     {
 		texture,
+		textureHB,
 		normalMap,
+		normalHB,
 		sprite,
+		spriteHB,
 		x = 0,
 		y = 0,
 		collision_width = 48,
@@ -101,6 +104,16 @@ function Entity:contains(x, y)
 	local maxX = max(self.x, self.x + self.width);
 	local minY = min(self.y, self.y + self.height);
 	local maxY = max(self.y, self.y + self.height);
+
+	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
+end
+
+function Entity:containsCollisionBox(x, y)
+	
+	local minX = min(self.x, self.x + self.collision_width);
+	local maxX = max(self.x + self.offsetX, self.x + self.offsetX + self.collision_width);
+	local minY = min(self.y, self.y + self.collision_height);
+	local maxY = max(self.y + self.offsetY, self.y + self.offsetY + self.collision_height);
 
 	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
 end
@@ -244,11 +257,14 @@ function Entity:move(x, y)
 	self.collision_top = false
 	self.collision_bottom = false
 
-	if self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height) and 
-	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height) and 
-	
-	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height/2) and
-	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height/2) then
+	if self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height/2) and
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height/2) then
 		self.x = self.x + x
 	
 	else
@@ -278,7 +294,11 @@ function Entity:move(x, y)
 	end
 		
 	if self.sprite ~= nil then
-		posFunc(self.sprite, self.x, self.y)		
+		posFunc(self.sprite, self.x, self.y)
+	end
+
+	if self.spriteHB ~= nil then
+		posFunc(self.spriteHB, self.x + self.offsetX, self.y + self.offsetY)
 	end
 end
 
