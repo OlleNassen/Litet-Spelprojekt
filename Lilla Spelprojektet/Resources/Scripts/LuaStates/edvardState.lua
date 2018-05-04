@@ -187,7 +187,7 @@ function update(deltaTime)
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
-	if nextPortal:contains(p.entity.x + p.entity.width, p.entity.y + p.entity.height) then
+	if nextPortal:containsCollisionBox(p) then
 		push("Resources/Scripts/LuaStates/olleState.lua")
 	end
 
