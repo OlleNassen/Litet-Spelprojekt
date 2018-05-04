@@ -25,11 +25,11 @@ function Player:create()
 		standardAnimationTime = 0.05,
     }
 	
-	this.entity.x = 50
-	this.entity.y = 16 * 48
-	this.entity.collision_width = 48
+	this.entity.x = 48 * 10
+	this.entity.y = 15 * 48
+	this.entity.collision_width = 43
 	this.entity.collision_height = 72
-	this.entity.offsetX = 24
+	this.entity.offsetX = 40
 	this.entity.offsetY = 48
 	this.entity.width = 120
 	this.entity.height = 120
