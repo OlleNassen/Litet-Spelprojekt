@@ -11,8 +11,11 @@ function Entity:create()
     local this =
     {
 		texture,
+		textureHB,
 		normalMap,
+		normalHB,
 		sprite,
+		spriteHB,
 		x = 0,
 		y = 0,
 		collision_width = 48,
@@ -37,6 +40,10 @@ function Entity:create()
 		canFly = false,
 		hasPowerUp = {},
 		health = 100,
+		canTakeDamage = true,
+		damageTimerStart = false,
+		damageTimer = 0.00,
+		waitDamageTime = 0.45,
 		currentAnimation = 1,
 		currentAnimationIndex = 1,
 		animationList = {},
@@ -45,6 +52,7 @@ function Entity:create()
 		spriteWidth = 144,
 		spriteHeight = 144,
 		isGoingRight = true,
+		canMove = true,
     }
 
 	for i=1,2,1 do 
@@ -64,13 +72,30 @@ end
 
 function Entity:update(deltaTime)
 	
-	self:updateAnimation(deltaTime)
+	local result = self:updateAnimation(deltaTime)
+
+	if self.damageTimerStart == true then
+		self.damageTimer = self.damageTimer + deltaTime
+
+		if self.damageTimer >= self.waitDamageTime then
+			self:resetCanMove()
+		end
+	end
 
 	--Gravity
 	if self.hasGravity == true then
 		self:accelerate(0, 1, deltaTime)
 	end
 
+	return result
+
+end
+
+function Entity:resetCanMove()
+	self.damageTimer = 0.00
+	self.damageTimerStart = false
+	self.canTakeDamage = true
+	self.canMove = true
 end
 
 function Entity:contains(x, y)
@@ -79,6 +104,23 @@ function Entity:contains(x, y)
 	local maxX = max(self.x, self.x + self.width);
 	local minY = min(self.y, self.y + self.height);
 	local maxY = max(self.y, self.y + self.height);
+
+	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
+end
+
+function Entity:containsCollisionBox(x, y)
+	
+	--[[local minX = min(self.x + self.offsetX, self.x + self.collision_width);
+	local maxX = max(self.x + self.offsetX, self.x + self.offsetX + self.collision_width);
+
+	local minY = min(self.y + self.offsetY, self.y + self.collision_height);
+	local maxY = max(self.y + self.offsetY, self.y + self.offsetY + self.collision_height);]]
+
+	local minX = self.x + self.offsetX
+	local maxX = self.x + self.offsetX + self.collision_width
+
+	local minY = self.y + self.offsetY
+	local maxY = self.y + self.offsetY + self.collision_height
 
 	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
 end
@@ -92,8 +134,8 @@ function Entity:addAnimation(startIndex, endIndex)
 	table.insert(self.animationList, endIndex)
 end
 
-function Entity:updateAnimation(deltaTime)
-	result = false
+ function Entity:updateAnimation(deltaTime)
+	local result = false
 	self.currentAnimationTime = self.currentAnimationTime + deltaTime
 
 	if self.currentAnimationTime >= self.updateAnimationTime then
@@ -222,11 +264,14 @@ function Entity:move(x, y)
 	self.collision_top = false
 	self.collision_bottom = false
 
-	if self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height) and 
-	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height) and 
-	
-	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height/2) and
-	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height/2) then
+	if self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y + self.collision_height/2) and
+	self.world:canMove(self.offsetX + self.x + x + self.collision_width, self.offsetY + self.y) and 
+	self.world:canMove(self.offsetX + self.x + x, self.offsetY + self.y + self.collision_height/2) then
 		self.x = self.x + x
 	
 	else
@@ -256,8 +301,34 @@ function Entity:move(x, y)
 	end
 		
 	if self.sprite ~= nil then
-		posFunc(self.sprite, self.x, self.y)		
+		posFunc(self.sprite, self.x, self.y)
 	end
+
+	if self.spriteHB ~= nil then
+		posFunc(self.spriteHB, self.x + self.offsetX, self.y + self.offsetY)
+	end
+end
+
+function Entity:checkHealth()
+	if self.health <= 0 then
+		self.x = -1000
+	end
+end	
+
+function Entity:takeDamage(damage, pushBackX, pushBackY, stopMoving)
+	if self.canTakeDamage == true then
+		self.health = self.health - damage
+		self.velocity.x = pushBackX
+		self.velocity.y = pushBackY
+		self:checkHealth()
+		self.damageTimerStart = true
+		self.canTakeDamage = false
+		stopMoving = stopMoving or false
+		if stopMoving == true then
+			self.canMove = false
+		end
+	end
+
 end
 
 function Entity:moveIgnoreWall(x, y)

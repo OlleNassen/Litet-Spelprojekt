@@ -71,7 +71,7 @@ local light5 = PointLight:create(0.1,0.1,0,tileSize * 2, tileSize * 2,
 
 --powerups  [None]
 
-local g = Ai:create(tileSize * 15, tileSize * 16, 120, 120) -- goomba
+local g = Ai:create(tileSize * 16, tileSize * 16, 120, 120) -- goomba
 g.entity:addWorld(level)
 
 
@@ -83,6 +83,10 @@ bg.sprite = newBackground(720 * 10, 720 * 10, bg.normalMap, bg.texture)
 
 function moveUp(direction, deltaTime)
 	return p:moveUp(direction, deltaTime)
+end
+
+function mouseLeft()
+	return p:attack()
 end
 
 function moveRight(direction, deltaTime)
@@ -178,8 +182,12 @@ function update(deltaTime)
 
 	g:update(deltaTime)	
 	g:attack(p)
-	
-	--b:attack(p)
+
+	if p.isAttacking == true then
+		if g.entity:contains(p.entity.x + p.entity.width, p.entity.y + (p.entity.height / 2)) == true then
+			g.entity:takeDamage(p.attackDamage, p.attackPushBack.x, p.attackPushBack.y, true)
+		end
+	end
 	
 	pX, pY = getCameraPosition()
 	bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
