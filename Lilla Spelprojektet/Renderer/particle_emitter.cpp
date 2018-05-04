@@ -123,7 +123,7 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 	model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(position + 48.f, 0.0f));
 
-	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
+	model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
 	/*
 	glm::vec2 direction = glm::normalize(pixiePos - position);
 
