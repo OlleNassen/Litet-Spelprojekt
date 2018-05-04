@@ -62,7 +62,7 @@ void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particles.translations[0], GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particles.translations[0], GL_DYNAMIC_DRAW);
 
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, MAX_NUM_PARTICLES);
 	glBindVertexArray(0);
@@ -185,7 +185,7 @@ void ParticleEmitter::initParticleEmitter()
 {
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &particles.translations[0], GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &particles.translations[0], GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	float quadVertices[] = {
