@@ -64,7 +64,7 @@ function Ai:update(deltaTime)
 		self.timer = 0
 	else
 		if self.entity.canMove == true then
-			--self.entity.velocity.x = 100 * self.goombaDir
+			self.entity.velocity.x = 100 * self.goombaDir
 		end
 	end
 	self.entity:move(self.entity.velocity.x * deltaTime, self.entity.velocity.y * deltaTime)

@@ -322,3 +322,5 @@ ASALocalRun/
 
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
+/Lilla Spelprojektet/Resources/Sprites/player/testn.png
+/Lilla Spelprojektet/Resources/Sprites/player/test.png
