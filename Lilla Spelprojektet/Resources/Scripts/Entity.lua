@@ -37,6 +37,10 @@ function Entity:create()
 		canFly = false,
 		hasPowerUp = {},
 		health = 100,
+		canTakeDamage = true,
+		damageTimerStart = false,
+		damageTimer = 0.00,
+		waitDamageTime = 0.45,
 		currentAnimation = 1,
 		currentAnimationIndex = 1,
 		animationList = {},
@@ -45,6 +49,7 @@ function Entity:create()
 		spriteWidth = 144,
 		spriteHeight = 144,
 		isGoingRight = true,
+		canMove = true,
     }
 
 	for i=1,2,1 do 
@@ -64,13 +69,30 @@ end
 
 function Entity:update(deltaTime)
 	
-	self:updateAnimation(deltaTime)
+	local result = self:updateAnimation(deltaTime)
+
+	if self.damageTimerStart == true then
+		self.damageTimer = self.damageTimer + deltaTime
+
+		if self.damageTimer >= self.waitDamageTime then
+			self:resetCanMove()
+		end
+	end
 
 	--Gravity
 	if self.hasGravity == true then
 		self:accelerate(0, 1, deltaTime)
 	end
 
+	return result
+
+end
+
+function Entity:resetCanMove()
+	self.damageTimer = 0.00
+	self.damageTimerStart = false
+	self.canTakeDamage = true
+	self.canMove = true
 end
 
 function Entity:contains(x, y)
@@ -92,8 +114,8 @@ function Entity:addAnimation(startIndex, endIndex)
 	table.insert(self.animationList, endIndex)
 end
 
-function Entity:updateAnimation(deltaTime)
-	result = false
+ function Entity:updateAnimation(deltaTime)
+	local result = false
 	self.currentAnimationTime = self.currentAnimationTime + deltaTime
 
 	if self.currentAnimationTime >= self.updateAnimationTime then
@@ -258,6 +280,28 @@ function Entity:move(x, y)
 	if self.sprite ~= nil then
 		posFunc(self.sprite, self.x, self.y)		
 	end
+end
+
+function Entity:checkHealth()
+	if self.health <= 0 then
+		self.x = -1000
+	end
+end	
+
+function Entity:takeDamage(damage, pushBackX, pushBackY, stopMoving)
+	if self.canTakeDamage == true then
+		self.health = self.health - damage
+		self.velocity.x = pushBackX
+		self.velocity.y = pushBackY
+		self:checkHealth()
+		self.damageTimerStart = true
+		self.canTakeDamage = false
+		stopMoving = stopMoving or false
+		if stopMoving == true then
+			self.canMove = false
+		end
+	end
+
 end
 
 function Entity:moveIgnoreWall(x, y)
