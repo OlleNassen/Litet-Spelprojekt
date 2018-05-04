@@ -108,7 +108,7 @@ function Entity:contains(x, y)
 	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
 end
 
-function Entity:containsCollisionBox(x, y)
+function Entity:containsCollisionBox(player)
 	
 	--[[local minX = min(self.x + self.offsetX, self.x + self.collision_width);
 	local maxX = max(self.x + self.offsetX, self.x + self.offsetX + self.collision_width);
@@ -116,13 +116,54 @@ function Entity:containsCollisionBox(x, y)
 	local minY = min(self.y + self.offsetY, self.y + self.collision_height);
 	local maxY = max(self.y + self.offsetY, self.y + self.offsetY + self.collision_height);]]
 
-	local minX = self.x + self.offsetX
+	--[[local minX = self.x + self.offsetX
 	local maxX = self.x + self.offsetX + self.collision_width
 
 	local minY = self.y + self.offsetY
 	local maxY = self.y + self.offsetY + self.collision_height
 
-	return (x >= minX) and (x < maxX) and (y >= minY) and (y < maxY)
+	return (x >= minX) and (x <= maxX) and (y >= minY) and (y <= maxY)]]
+
+	--Player Rectancle
+	local left = player.entity.x + player.entity.offsetX
+	local top = player.entity.y + player.entity.offsetY
+	local width = player.entity.collision_width
+	local height = player.entity.collision_height
+
+	local r1MinX = min(left, left + width)
+	local r1MaxX = max(left, left + width)
+
+	local r1MinY = min(top, top + height)
+	local r1MaxY = max(top, top + height)
+	--//--
+
+	--Entity Rectancle
+	left = self.x + self.offsetX
+	top = self.y + self.offsetY
+	width = self.collision_width
+	height = self.collision_height
+
+	local r2MinX = min(left, left + width)
+	local r2MaxX = max(left, left + width)
+		  
+	local r2MinY = min(top, top + height)
+	local r2MaxY = max(top, top + height)
+	--//--
+
+	local interLeft = max(r1MinX, r2MinX)
+	local interTop = max(r1MinY, r2MinY)
+	local interRight = min(r1MaxX, r2MaxX)
+	local interBottom = min(r1MaxY, r2MaxY)
+
+	intersection = false
+
+	if (interLeft < interRight) and (interTop < interBottom) then
+		intersection = true
+	else
+		intersection = false
+	end
+
+	return intersection
 end
 
 function Entity:addWorld(world)
