@@ -4,13 +4,13 @@
 #include "Shader.hpp"
 #include "texture_2d.hpp"
 
-#define maxNumParticles 10000
+#define MAX_NUM_PARTICLES 10000
 
 struct Particles
 {
-	glm::vec2 translations[maxNumParticles];
-	float timeLeft[maxNumParticles];
-	bool exists[maxNumParticles];
+	glm::vec2 translations[MAX_NUM_PARTICLES];
+	float timeLeft[MAX_NUM_PARTICLES];
+	bool exists[MAX_NUM_PARTICLES];
 	//std::vector<glm::vec2> velocity;
 	//std::vector<glm::vec3> colors;
 

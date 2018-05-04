@@ -62,9 +62,9 @@ void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, maxNumParticles * sizeof(glm::vec2), &particles.translations[0], GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particles.translations[0], GL_STREAM_DRAW);
 
-	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, maxNumParticles);
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, MAX_NUM_PARTICLES);
 	glBindVertexArray(0);
 
 }
@@ -90,7 +90,7 @@ void ParticleEmitter::update(float dt, const glm::vec2& position)
 	//FIX
 
 
-	for (int i = 0; i < maxNumParticles; i++)
+	for (int i = 0; i < MAX_NUM_PARTICLES; i++)
 	{
 		if (particles.timeLeft[i] > 0.f)
 		{
@@ -101,7 +101,7 @@ void ParticleEmitter::update(float dt, const glm::vec2& position)
 
 		else
 		{
-			particles.first = (particles.first + 1) % maxNumParticles;
+			particles.first = (particles.first + 1) % MAX_NUM_PARTICLES;
 
 			particles.translations[i] = glm::vec2(-9999, -9999);
 			particles.timeLeft[i] = -1;
@@ -123,7 +123,7 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 	glm::vec2 direction = glm::normalize(pixiePos - position);
 	
 
-	for (int i = 0; i < maxNumParticles; i++)
+	for (int i = 0; i < MAX_NUM_PARTICLES; i++)
 	{
 		if (particles.timeLeft[i] > 0.f)
 		{
@@ -150,7 +150,7 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 		}
 		else
 		{
-			particles.first = (particles.first + 1) % maxNumParticles;
+			particles.first = (particles.first + 1) % MAX_NUM_PARTICLES;
 
 			particles.translations[i] = glm::vec2(-9999, -9999);
 			particles.timeLeft[i] = -1;
@@ -170,7 +170,7 @@ void ParticleEmitter::push(unsigned int amount, float x, float y)
 			particles.translations[particles.last] = glm::vec2(x, y);
 			particles.timeLeft[particles.last] = particles.globalTimeLeft;
 			particles.exists[particles.last] = true;
-			particles.last = (particles.last + 1) % maxNumParticles;
+			particles.last = (particles.last + 1) % MAX_NUM_PARTICLES;
 
 		}
 	}
@@ -185,7 +185,7 @@ void ParticleEmitter::initParticleEmitter()
 {
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * maxNumParticles, &particles.translations[0], GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &particles.translations[0], GL_STREAM_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	float quadVertices[] = {
