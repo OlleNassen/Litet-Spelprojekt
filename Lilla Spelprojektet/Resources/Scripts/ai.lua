@@ -21,7 +21,7 @@ function Ai:create(posX, posY, sizeX, sizeY)
 	this.entity.offsetY = 48
 	this.entity.width = sizeX
 	this.entity.height = sizeY
-	this.entity.maxSpeed.x = 0--700
+	this.entity.maxSpeed.x = 700
 	this.entity.maxSpeed.y = 1000
 	this.entity.texture = newTexture("Resources/Sprites/npc/mutant_sprite_test.png")
 	this.entity.normalMap = newTexture("Resources/Sprites/npc/mutant_normals_test.png")
@@ -31,6 +31,12 @@ function Ai:create(posX, posY, sizeX, sizeY)
 	this.entity.updateAnimationTime = 0.2
 	this.entity.sprite = newSprite(sizeX, sizeY, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
+
+	--Entity Visible collision box
+	this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
+	this.entity.spriteHB = newSprite(this.entity.collision_width, this.entity.collision_height, this.entity.normalHB, this.entity.textureHB)
+	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)
 
     setmetatable(this, self)
     return this
