@@ -85,6 +85,10 @@ function moveUp(direction, deltaTime)
 	return p:moveUp(direction, deltaTime)
 end
 
+function mouseLeft()
+	return p:attack()
+end
+
 function moveRight(direction, deltaTime)
 	return p:moveRight(direction, deltaTime)
 end
@@ -178,8 +182,12 @@ function update(deltaTime)
 
 	g:update(deltaTime)	
 	g:attack(p)
-	
-	--b:attack(p)
+
+	if p.isAttacking == true then
+		if g.entity:contains(p.entity.x + p.entity.width, p.entity.y + (p.entity.height / 2)) == true then
+			g.entity:takeDamage(p.attackDamage, p.attackPushBack.x, p.attackPushBack.y, true)
+		end
+	end
 	
 	pX, pY = getCameraPosition()
 	bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))

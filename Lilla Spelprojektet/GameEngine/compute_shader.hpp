@@ -6,6 +6,7 @@ struct ParticleStruct
 {
 	glm::vec2 positions[10000]; //Position x,y and timeLeft on Z
 	//glm::vec4 color;
+	glm::vec2 to_from;
 };
 
 class ComputeShader
@@ -20,6 +21,5 @@ public:
 private:
 	unsigned int shaderProgram;
 	unsigned int storageBuffer;
-	unsigned int sharedBuffer;
 };
 

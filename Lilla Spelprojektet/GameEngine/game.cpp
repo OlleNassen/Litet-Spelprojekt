@@ -196,7 +196,6 @@ void Game::initWindow()
 	shaders.shader2d.load("Resources/Shaders/2d_shader.vert", "Resources/Shaders/2d_shader.frag");
 	shaders.amazing.load("Resources/Shaders/amazing_shader.vert", "Resources/Shaders/amazing_shader.frag");
 	shaders.particle.load("Resources/Shaders/particle_shader.vert", "Resources/Shaders/particle_shader.frag");
-	shaders.compShader.load("Resources/Shaders/shader.comp");
 	//Set clearing color to red
 	glClearColor(0.0,0.0,0.0,0.0);
 }

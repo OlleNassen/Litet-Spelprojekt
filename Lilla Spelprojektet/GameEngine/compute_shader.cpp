@@ -5,7 +5,7 @@
 #include <string>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
-#include<glm/gtc/type_ptr.hpp>
+#include<glm/gtc/type_ptr.hpp>'
 
 ComputeShader::ComputeShader()
 {
@@ -79,33 +79,30 @@ void ComputeShader::load(const char* computeShaderFile)
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &data, GL_STATIC_COPY);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, storageBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
-	glm::vec4 vec;
-	
-	glGenBuffers(1, &sharedBuffer);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, sharedBuffer);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec4), &vec, GL_STATIC_COPY);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, sharedBuffer);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
 }
 
 ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& to)
 {
 	ParticleStruct* result = nullptr;
-	glm::vec4 vec(from.x, from.y, to.x, to.y);
+	ParticleStruct data;
+	data.to_from = glm::vec2(to - from);
 
 	if (shaderProgram)
 	{
 		glUseProgram(shaderProgram);
-
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, sharedBuffer);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec4), &vec, GL_STATIC_COPY);
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, sharedBuffer);
-
+		glGenBuffers(1, &storageBuffer);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &data, GL_STATIC_COPY);
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, storageBuffer);
 		glDispatchCompute(10, 10, 1);
+		
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+		glDeleteBuffers(1, &storageBuffer);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		glUseProgram(0);
+		std::cout << data.to_from.x << std::endl;
+		std::cout << result->to_from.x << std::endl;
 	}
 	
 	return result;

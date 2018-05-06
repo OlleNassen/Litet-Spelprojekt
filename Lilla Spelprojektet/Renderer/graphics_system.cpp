@@ -34,7 +34,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	textures.back().loadFromFile("Resources/Sprites/starParticle_normal.png");
 
 
-	surajParticles = new ParticleEmitter(&shaders.particle, &textures[2], &textures[3]);
+	//surajParticles = new ParticleEmitter(&shaders.particle, &textures[2], &textures[3]);
 	
 	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
 	
@@ -49,7 +49,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 
 GraphicsSystem::~GraphicsSystem()
 {
-	delete surajParticles;
+	//delete surajParticles;
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)

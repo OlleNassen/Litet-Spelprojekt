@@ -64,7 +64,7 @@ void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particleStruct->positions[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particleStruct->positions[0], GL_STATIC_DRAW);
 
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, MAX_NUM_PARTICLES);
 	glBindVertexArray(0);
@@ -123,7 +123,7 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 	model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(position + 48.f, 0.0f));
 
-	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
+	model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
 	/*
 	glm::vec2 direction = glm::normalize(pixiePos - position);
 
@@ -190,7 +190,7 @@ void ParticleEmitter::initParticleEmitter()
 {
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &particles.translations[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &particles.translations[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	float quadVertices[] = {
