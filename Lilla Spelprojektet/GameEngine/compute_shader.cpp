@@ -85,24 +85,19 @@ ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& t
 {
 	ParticleStruct* result = nullptr;
 	ParticleStruct data;
-	data.to_from = glm::vec2(to - from);
+	glm::vec2 to_from = glm::vec2(to - from);
 
 	if (shaderProgram)
 	{
 		glUseProgram(shaderProgram);
-		glGenBuffers(1, &storageBuffer);
+		glUniform2fv(glGetUniformLocation(shaderProgram, "to_from"), 1, glm::value_ptr(to_from));
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &data, GL_STATIC_COPY);
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, storageBuffer);
 		glDispatchCompute(10, 10, 1);
 		
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-		glDeleteBuffers(1, &storageBuffer);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		glUseProgram(0);
-		std::cout << data.to_from.x << std::endl;
-		std::cout << result->to_from.x << std::endl;
 	}
 	
 	return result;
