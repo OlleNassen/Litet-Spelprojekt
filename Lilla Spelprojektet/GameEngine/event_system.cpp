@@ -148,13 +148,10 @@ EventSystem::~EventSystem()
 	
 }
 
-void EventSystem::addVector(std::vector<State>* vector)
-{
-	luaVector = vector;
-}
-
 void EventSystem::addLuaRebind(lua_State* luaState)
 {
+	this->luaState = luaState;
+	
 	lua_pushcfunction(luaState, luaRebind);
 	lua_setglobal(luaState, "rebind");
 
@@ -200,9 +197,7 @@ void EventSystem::setEvent(sf::Event currentEvent)
 }
 
 void EventSystem::update(float deltaTime)
-{
-	luaState = luaVector->back().luaState;
-	
+{	
 	for (unsigned int id = 0; id < InputEnum::inputCount; id++)
 	{
 		float direction = getAxisPosition(0, jAxis[id]);

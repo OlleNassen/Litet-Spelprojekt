@@ -12,7 +12,7 @@ local textureFunc = newTexture
 local spriteFunc = newSprite
 
 function quit()
-	pop()
+	deleteState()
 end
 
 local level = World:create()
@@ -197,7 +197,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
-		push("Resources/Scripts/LuaStates/victoryState.lua")
+		newState("Resources/Scripts/LuaStates/victoryState.lua")
 	end
 
 	power_dash:contains(p.entity)

@@ -38,15 +38,15 @@ b.texture = textureFunc("Resources/Sprites/menu.png")
 b.sprite = spriteFunc(1280,720, 0, b.texture)
 
 function quit(direction, deltaTime)
-	pop()
+	deleteState()
 end
 
 function selectGame(direction, deltaTime)
-	push("Resources/Scripts/LuaStates/gameState.lua")
+	newState("Resources/Scripts/LuaStates/gameState.lua")
 end
 
 function selectEditor(direction, deltaTime)
-	push("Resources/Scripts/LuaStates/editorState.lua")
+	newState("Resources/Scripts/LuaStates/editorState.lua")
 end
 
 local mX = 0.0
@@ -65,11 +65,11 @@ end
 
 function mouseLeft()
 	if play:contains(s.x, s.y) then
-		push("Resources/Scripts/LuaStates/gameState.lua")
+		newState("Resources/Scripts/LuaStates/gameState.lua")
 	end
 
 	if exit:contains(s.x, s.y) then
-		pop()
+		deleteState()
 	end
 end
 

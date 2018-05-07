@@ -5,7 +5,7 @@ require("Resources/Scripts/Background")
 package.loaded["Resources/Scripts/empty"] = nil
 
 function quit()
-	pop()
+	deleteState()
 end
 
 local level = World:create()

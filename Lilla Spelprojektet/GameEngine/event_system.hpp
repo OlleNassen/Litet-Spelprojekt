@@ -13,8 +13,6 @@ public:
 	EventSystem();
 	virtual ~EventSystem();
 
-	/** Adds vector of lua states */
-	void addVector(std::vector<State>* vector);
 	
 	/** Adds function 'bool rebind("input", isOpposite)' to lua state */
 	void addLuaRebind(lua_State* luaState); 
@@ -28,8 +26,6 @@ public:
 private:
 	/** Temporary lua state */
 	lua_State* luaState; 
-	
-	std::vector<State>* luaVector;
 		
 	/** Returns if specific asxis is move above threshold */
 	float getAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const; 	

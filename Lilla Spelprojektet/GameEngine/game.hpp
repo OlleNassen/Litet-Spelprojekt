@@ -3,6 +3,8 @@
 #include "../Renderer/Shader.hpp"
 #include "audio_system.hpp"
 
+#include <iostream>
+
 
 namespace sf
 {
@@ -34,13 +36,12 @@ typedef std::vector<State> LuaVector;
 class Game
 {
 private:
-	bool wantPop;
-	bool wantClear;
 	sf::Window* window;
 	EventSystem eventSystem;
 	Camera* camera;
-	std::vector<State> states;
+	State currentState;
 	ShaderStruct shaders;
+	std::string stateName;
 
 public:
 	Game();
@@ -48,22 +49,21 @@ public:
 
 	void run();
 
-	LuaVector* getVector();
 	sf::Time timePerFrame;
 	void changeResolution(int width, int height);
 
 private:
 	void handleEvents();
 	void update(float deltaTime);
+	void updateState();
 	void draw();
 
 	void initWindow();
 	
 	//Lua stuff
 	void addLuaLibraries(lua_State* luaState);
-	static int push(lua_State* luaState);
-	static int pop(lua_State* luaState);
-	static int clear(lua_State* luaState);
+	static int newState(lua_State* luaState);
+	static int deleteState(lua_State* luaState);
 	static int setFramerate(lua_State* luaState);
 	static int setResolution(lua_State* luaState);
 	static int getCameraPosition(lua_State* luaState);

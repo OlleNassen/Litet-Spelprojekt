@@ -9,16 +9,16 @@
 
 Game::Game()	
 {
+	currentState.luaState = nullptr;
+	currentState.graphicsSystem = nullptr;
+	currentState.audioSystem = nullptr;
+	
 	timePerFrame = sf::seconds(1.f / 60.f);
-	wantPop = false;
-	wantClear = false;
 	//initializes window and glew
 	initWindow();
 
 	//Get width and height from lua
 	camera = new Camera(WIDTH, HEIGHT);
-
-	eventSystem.addVector(&states);
 
 	//Initializes and starts lua
 	lua_State* L = luaL_newstate();
@@ -51,13 +51,15 @@ void Game::run()
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	float lastTime = 0.f;
 
-	while (!states.empty() && !wantClear)
-	{
+	updateState();
+
+	while (currentState.luaState)
+	{		
 		handleEvents();
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
 		
-		while (timeSinceLastUpdate > timePerFrame && !wantClear)
+		while (currentState.luaState && timeSinceLastUpdate > timePerFrame)
 		{
 			timeSinceLastUpdate -= timePerFrame;
 			handleEvents();
@@ -72,21 +74,60 @@ void Game::run()
 
 		// end the current frame (internally swaps the front and back buffers)
 		window->display();
-
-		if (wantPop)
-		{
-			lua_close(states.back().luaState);
-			delete states.back().graphicsSystem;
-			states.pop_back();
-			wantPop = false;
-		}
-
 		
-
 		glClearColor(0.0, 0.0, 0.0, 0.0);
+
+		updateState();
 	}
 		
 	// release resources...
+}
+
+void Game::updateState()
+{
+	if (!stateName.empty())
+	{
+		if (currentState.luaState)
+		{
+			lua_close(currentState.luaState);
+			delete currentState.graphicsSystem;
+			delete currentState.audioSystem;
+			currentState.luaState = nullptr;
+			currentState.graphicsSystem = nullptr;
+			currentState.audioSystem = nullptr;
+		}
+		
+		if (stateName[0] != 'D')
+		{
+			lua_State* newLua = luaL_newstate();
+			luaL_openlibs(newLua);
+			addLuaLibraries(newLua);
+
+			State newState;
+			newState.luaState = newLua;
+			newState.graphicsSystem = new GraphicsSystem(shaders);
+			newState.graphicsSystem->addLuaFunctions(newLua);
+			newState.graphicsSystem->addCamera(camera);
+			newState.audioSystem = new AudioSystem();
+			newState.audioSystem->addLuaFunctions(newLua);
+
+			sf::Clock clock;
+			std::cout << "Compiling..." << std::endl;
+			clock.restart();
+
+			if (luaL_loadfile(newLua, stateName.c_str()) || lua_pcall(newLua, 0, 0, 0))
+			{
+				fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(newLua, -1));
+
+			}
+			std::cout << "Compiled: ";
+			std::cout << clock.restart().asSeconds() << std::endl;
+
+			currentState = newState;
+
+			stateName = "";
+		}
+	}
 }
 
 void Game::changeResolution(int width, int height)
@@ -122,47 +163,28 @@ void Game::handleEvents()
 	}
 }
 
-LuaVector* Game::getVector()
-{
-	return &states;
-}
-
 void Game::update(float deltaTime)
 {	
 	eventSystem.update(deltaTime);	
-	
-	bool stopUpdate = false;
-	
-	for (int id = states.size() - 1; id >= 0 && !stopUpdate; id--)
+			
+	/* push functions and arguments */
+	lua_getglobal(currentState.luaState, "update");  /* function to be called */
+	lua_pushnumber(currentState.luaState, deltaTime);
+	if (lua_pcall(currentState.luaState, 1, 1, 0))
 	{
-		lua_State* luaState = states[id].luaState;
-		
-		/* push functions and arguments */
-		lua_getglobal(luaState, "update");  /* function to be called */
-		lua_pushnumber(luaState, deltaTime);   
-		if (lua_pcall(luaState, 1, 1, 0))
-		{
-			fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(luaState, -1));
-			window->setMouseCursorGrabbed(false);
-			window->setMouseCursorVisible(true);
-			system("pause");
-			wantClear = true;
-			stopUpdate = true;
-		}
-		else
-		{
-			stopUpdate = lua_toboolean(luaState, -1);
-			lua_pop(luaState, 1);  /* pop returned value */
-		}
-	}	
-	states.back().graphicsSystem->updateCamera();
+		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(currentState.luaState, -1));
+		window->setMouseCursorGrabbed(false);
+		window->setMouseCursorVisible(true);
+		system("pause");
+	}
+	currentState.graphicsSystem->updateCamera();
 }
 
 
 void Game::draw()
 {
-	states.back().graphicsSystem->drawTiles(camera->getView(), camera->getProjection());
-	states.back().graphicsSystem->drawSprites(camera->getView(), camera->getProjection());
+	currentState.graphicsSystem->drawTiles(camera->getView(), camera->getProjection());
+	currentState.graphicsSystem->drawSprites(camera->getView(), camera->getProjection());
 }
 
 void Game::initWindow()
@@ -210,12 +232,10 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_pushcfunction(luaState, setFramerate);
 	lua_setglobal(luaState, "setFramerate");
 
-	lua_pushcfunction(luaState, push);
-	lua_setglobal(luaState, "push");
-	lua_pushcfunction(luaState, pop);
-	lua_setglobal(luaState, "pop");
-	lua_pushcfunction(luaState, clear);
-	lua_setglobal(luaState, "clear");
+	lua_pushcfunction(luaState, newState);
+	lua_setglobal(luaState, "newState");
+	lua_pushcfunction(luaState, deleteState);
+	lua_setglobal(luaState, "deleteState");
 
 	lua_pushcfunction(luaState, getCameraPosition);
 	lua_setglobal(luaState, "getCameraPosition");
@@ -223,58 +243,21 @@ void Game::addLuaLibraries(lua_State* luaState)
 	eventSystem.addLuaRebind(luaState);
 }
 
-int Game::push(lua_State* luaState)
+int Game::newState(lua_State* luaState)
 {	
 	lua_getglobal(luaState, "Game");
   	Game* game = (Game*)lua_touserdata(luaState, -1);
 	const char* name = lua_tostring(luaState, -2);
-	LuaVector* ptr = game->getVector();
-
-	lua_State* newLua = luaL_newstate();
-	luaL_openlibs(newLua);
-	game->addLuaLibraries(newLua);
-
-	State newState;
-	newState.luaState = newLua;
-	newState.graphicsSystem = new GraphicsSystem(game->shaders);
-	newState.graphicsSystem->addLuaFunctions(newLua);
-	newState.graphicsSystem->addCamera(game->camera);
-	newState.audioSystem = new AudioSystem();
-	newState.audioSystem->addLuaFunctions(newLua);
-
-	sf::Clock clock;
-	std::cout << "Compiling..." << std::endl;
-	clock.restart();
-	
-	if (luaL_loadfile(newLua, name) || lua_pcall(newLua, 0, 0, 0))
-	{
-		fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(newLua, -1));
-
-	}
-	std::cout << "Compiled: ";
-	std::cout << clock.restart().asSeconds() << std::endl;
-
-	ptr->push_back(newState);
-	
-	
-	
+	game->stateName = name;
+		
 	return 0;
 }
 
-int Game::pop(lua_State* luaState)
+int Game::deleteState(lua_State* luaState)
 {
 	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
-	game->wantPop = true;
-
-	return 0;
-}
-
-int Game::clear(lua_State* luaState)
-{
-	lua_getglobal(luaState, "Game");
-	Game* game = (Game*)lua_touserdata(luaState, -1);
-	game->wantClear = true;
+	game->stateName = "D";
 
 	return 0;
 }

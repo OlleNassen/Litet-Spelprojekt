@@ -71,7 +71,7 @@ local textureFunc = newTexture
 local spriteFunc = newSprite
 
 function quit()
-	pop()
+	deleteState()
 end
 
 local level = World:create()
@@ -188,7 +188,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
-		push("Resources/Scripts/LuaStates/olleState.lua")
+		newState("Resources/Scripts/LuaStates/olleState.lua")
 	end
 
 	enemy1:update(deltaTime)	
