@@ -10,12 +10,22 @@ layout(std430, binding = 0) buffer storageBuffer
 
 uniform vec2 to_from;
 
+float random (vec2 st)
+{
+    return fract(sin(dot(st.xy, vec2(12.9898,78.233)))*43758.5453123);
+}
+
 void main()
 {
     uint x = gl_GlobalInvocationID.x;
     uint y = gl_GlobalInvocationID.y;
+
+	float xVal = to_from.x * (x + y * 10);
+	float yVal = to_from.y * (x + y * 10);
+
+	float val = random(vec2(xVal, yVal));
 	
-    positions[x + y * 10].x = to_from.x * (x + y * 10) * 0.00002;
-	positions[x + y * 10].y = to_from.y * (x + y * 10) * 0.00002;
+    positions[x + y * 10].x = val * (to_from.x * (x + y * 10) * 0.00002);
+	positions[x + y * 10].y = val * (to_from.y * (x + y * 10) * 0.00002);
 
 }
