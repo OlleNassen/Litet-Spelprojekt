@@ -183,7 +183,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
-		push("Resources/Scripts/LuaStates/victoryState.lua")
+		push("Resources/Scripts/LuaStates/gameState.lua")
 	end
 
 	--power_dash:contains(p.entity)

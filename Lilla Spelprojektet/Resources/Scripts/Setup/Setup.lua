@@ -17,4 +17,4 @@ bindKeyboard("next", keyboard.E, keyboard.Q)
 bindKeyboard("save", keyboard.K, keyboard.None)
 bindKeyboard("load", keyboard.L, keyboard.None)
 
-push("Resources/Scripts/LuaStates/gameState.lua")
+push("Resources/Scripts/LuaStates/edvardState.lua")
