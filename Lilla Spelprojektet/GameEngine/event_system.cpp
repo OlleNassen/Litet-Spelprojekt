@@ -152,6 +152,9 @@ void EventSystem::addLuaRebind(lua_State* luaState)
 {
 	this->luaState = luaState;
 	
+	lua_pushlightuserdata(luaState, this);
+	lua_setglobal(luaState, "EventSystem");
+
 	lua_pushcfunction(luaState, luaRebind);
 	lua_setglobal(luaState, "rebind");
 
@@ -163,6 +166,12 @@ void EventSystem::addLuaRebind(lua_State* luaState)
 
 	lua_pushcfunction(luaState, bindjoystick);
 	lua_setglobal(luaState, "bindJoystick");
+
+	lua_pushcfunction(luaState, loadData);
+	lua_setglobal(luaState, "loadData");
+
+	lua_pushcfunction(luaState, saveData);
+	lua_setglobal(luaState, "saveData");
 }
 
 void EventSystem::setEvent(sf::Event currentEvent)
@@ -252,4 +261,31 @@ void EventSystem::updateMouse()
 	lua_pushinteger(luaState, position.x);
 	lua_pushinteger(luaState, position.y);
 	lua_pcall(luaState, 2, 0, 0);
+}
+
+int EventSystem::loadData(lua_State* luaState)
+{
+	lua_getglobal(luaState, "EventSystem");
+	EventSystem* ptr = (EventSystem*)lua_touserdata(luaState, -1);
+	int index = lua_tointeger(luaState, -2);
+	lua_pushinteger(luaState, ptr->saveVector[index]);
+
+	return 1;
+}
+
+int EventSystem::saveData(lua_State* luaState)
+{
+	lua_getglobal(luaState, "EventSystem");
+	EventSystem* ptr = (EventSystem*)lua_touserdata(luaState, -1);
+	int value = lua_tointeger(luaState, -2);
+	int index = lua_tointeger(luaState, -3);
+
+	if (ptr->saveVector.size() < index)
+	{
+		ptr->saveVector.resize(index + 1);
+	}
+
+	ptr->saveVector[index] = value;
+
+	return 0;
 }

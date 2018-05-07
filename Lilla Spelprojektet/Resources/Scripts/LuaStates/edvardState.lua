@@ -67,6 +67,9 @@ tilemap =
 	height = 20
 }
 
+saveData(1000, 5)
+loadData(1000)
+
 local textureFunc = newTexture
 local spriteFunc = newSprite
 

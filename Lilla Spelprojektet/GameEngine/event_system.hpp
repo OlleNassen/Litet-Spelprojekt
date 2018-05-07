@@ -26,6 +26,7 @@ public:
 private:
 	/** Temporary lua state */
 	lua_State* luaState; 
+	std::vector<int> saveVector;
 		
 	/** Returns if specific asxis is move above threshold */
 	float getAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const; 	
@@ -34,5 +35,8 @@ private:
 	
 	 /** Current mouse position */
 	sf::Vector2i mousePosition;
+
+	static int loadData(lua_State* luaState);
+	static int saveData(lua_State* luaState);
 };
 
