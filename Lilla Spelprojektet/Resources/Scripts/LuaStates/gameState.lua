@@ -2,6 +2,7 @@ require("Resources/Scripts/Entity")
 require("Resources/Scripts/background")
 require("Resources/Scripts/player")
 require("Resources/Scripts/ai")
+require("Resources/Scripts/boss")
 require("Resources/Scripts/World")
 require("Resources/Scripts/level2")
 require("Resources/Scripts/powerup")
@@ -85,7 +86,7 @@ power_highjump.type = 3
 local g = Ai:create(1055,1055, 120, 120) -- goomba
 g.entity:addWorld(level)
 
-local b = Ai:create(1500, 100, 500, 500) -- bossman
+local b = Boss:create(1500, 100, 500, 500) -- bossman
 b.entity:addWorld(level)
 
 
@@ -159,8 +160,6 @@ function checkUpgrades(deltaTime)
 			p.entity.velocity.x = tempX * 2000
 			p.entity.velocity.y = tempY * 2000
 
-			print(p.entity.velocity.x)
-			print(p.entity.velocity.y)
 
 			--Dashing ends
 			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
@@ -198,6 +197,7 @@ function update(deltaTime)
 	g:update(deltaTime)	
 	g:attack(p)
 	
+	b:update(deltaTime, p)
 	b:attack(p)
 	
 	if p.isAttacking == true then
