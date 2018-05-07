@@ -53,6 +53,12 @@ void main()
 	}
 
 	fragColor = vec4(result, diffuseColor.a);
+
+	if(diffuseColor.a == 0)
+	{
+		fragColor = vec4(1,0,0,1);
+	}
+
 	//fragColor = vec4(1,0,0,1);
 
 }
