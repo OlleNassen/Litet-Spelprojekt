@@ -40,6 +40,13 @@ s.texture = textureFunc("Resources/Sprites/player.png")
 s.sprite = spriteFunc(s.normalMap, s.texture)
 s:addWorld(level)
 
+local nextPortal = Entity:create()
+nextPortal.normalMap = textureFunc("Resources/Sprites/player.png")
+nextPortal.texture = textureFunc("Resources/Sprites/player.png")
+nextPortal.sprite = spriteFunc(nextPortal.normalMap, nextPortal.texture)
+nextPortal:addWorld(level)
+nextPortal:setPosition(48 * 24, 48 * 2)
+
 p.spriteHPBar = spriteFunc(500, 50, 0, p.textureHPBar)
 spritePos(p.spriteHPBar, 50, 50)
 p.spriteHPBarBack = spriteFunc(500, 50, 0, p.textureHPBarBack)
@@ -204,6 +211,11 @@ function update(deltaTime)
 
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
+
+	if nextPortal:containsCollisionBox(p) then
+		push("Resources/Scripts/LuaStates/LevelVState.lua")
+	end
+
 	--[[
 	power_dash:contains(p.entity)
 	power_speed:contains(p.entity)
