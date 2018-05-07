@@ -108,18 +108,18 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	*/
 	//::.. Collins Laser ..:://
 
-	collinsLaser->shader->use();
-	glUniform3fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
-	glUniform4fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
-	collinsLaser->shader->unuse();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
+	{
+		collinsLaser->shader->use();
+		glUniform3fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
+		glUniform4fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
+		collinsLaser->shader->unuse();
 
-
-
-	collinsLaser->updateLaser(0.00016f,
-		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
-	collinsLaser->render(view, projection);
-	collinsLaser->push(1, 0, 0);
-
+		collinsLaser->updateLaser(0.00016f,
+			glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
+		collinsLaser->render(view, projection);
+		collinsLaser->push(1, 0, 0);
+	}
 	
 }
 
