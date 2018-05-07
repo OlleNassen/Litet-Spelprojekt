@@ -155,9 +155,8 @@ local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
 enemy5.entity:addWorld(level)
 
 local bg = Background:create()
-bg.texture = textureFunc("Resources/Sprites/backgroundTileBig_diffuse.png")
-bg.normalMap = textureFunc("Resources/Sprites/backgroundTileBig_normal.png")
-bg.sprite = newBackground(720 * 10, 720 * 10, bg.normalMap, bg.texture)
+bg.texture = textureFunc("Resources/Sprites/background2.png")
+bg.sprite = newBackground(720 * 10, 720 * 10, 0, bg.texture)
 
 
 function moveUp(direction, deltaTime)

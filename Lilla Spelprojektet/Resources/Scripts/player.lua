@@ -130,7 +130,7 @@ function Player:update(deltaTime)
 	self.timeSinceDamage = self.timeSinceDamage + deltaTime
 	
 	if self.entity.health <= 0 then
-		push("Resources/Scripts/LuaStates/gameOverState.lua")
+		newState("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
 
 	--Decelerate
