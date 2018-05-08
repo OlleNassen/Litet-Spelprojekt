@@ -75,7 +75,7 @@ void Game::run()
 		// end the current frame (internally swaps the front and back buffers)
 		window->display();
 		
-		glClearColor(0.0, 0.0, 0.0, 0.0);
+		glClearColor(0.05f, 0.1f, 0.15f, 1.0);
 
 		updateState();
 	}
@@ -219,7 +219,7 @@ void Game::initWindow()
 	shaders.amazing.load("Resources/Shaders/amazing_shader.vert", "Resources/Shaders/amazing_shader.frag");
 	shaders.particle.load("Resources/Shaders/particle_shader.vert", "Resources/Shaders/particle_shader.frag");
 	//Set clearing color to red
-	glClearColor(0.0,0.0,0.0,0.0);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 }
 
 void Game::addLuaLibraries(lua_State* luaState)
