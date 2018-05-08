@@ -20,8 +20,8 @@ void main()
     uint x = gl_GlobalInvocationID.x;
     uint y = gl_GlobalInvocationID.y;
 
-	float xVal = to_from.x * (x + y * 10);
-	float yVal = to_from.y * (x + y * 10);
+	float xVal = positions[x].x;
+	float yVal = positions[x].y;
 
 	float val = random(vec2(xVal, yVal));
 	
