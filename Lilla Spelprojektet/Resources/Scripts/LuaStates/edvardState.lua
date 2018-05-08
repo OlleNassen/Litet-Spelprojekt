@@ -208,7 +208,7 @@ function update(deltaTime)
 	
 	pX, pY = getCameraPosition()
 	--bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
-	bg:setPosition(pX, pY)-- position.y - (720 / 2))
+	bg:setPosition(pX / -4 + 700, pY / -4 + 100)-- position.y - (720 / 2))
 
 end
 
