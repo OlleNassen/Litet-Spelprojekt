@@ -67,8 +67,10 @@ tilemap =
 	height = 20
 }
 
+saveData(3000, 9)
+saveData(2000, 7)
 saveData(1000, 5)
-loadData(1000)
+loadData(3000)
 
 local textureFunc = newTexture
 local spriteFunc = newSprite
@@ -155,8 +157,8 @@ local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
 enemy5.entity:addWorld(level)
 
 local bg = Background:create()
-bg.texture = textureFunc("Resources/Sprites/background2.png")
-bg.sprite = newBackground(720 * 10, 720 * 10, 0, bg.texture)
+bg.texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse.png")
+bg.sprite = newBackground(100, 800, 0, bg.texture)
 
 
 function moveUp(direction, deltaTime)
@@ -205,8 +207,8 @@ function update(deltaTime)
 	enemy5:attack(p)
 	
 	pX, pY = getCameraPosition()
-	bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
+	--bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
+	bg:setPosition(pX, pY)-- position.y - (720 / 2))
 
-	return true
 end
 
