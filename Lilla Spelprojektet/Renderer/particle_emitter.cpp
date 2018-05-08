@@ -121,9 +121,10 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 
 	// Prepare transformations
 	model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(position + 48.f, 0.0f));
+	model = glm::translate(model, glm::vec3(position, 0.0f));
 
-	model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
+	//model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
+
 	/*
 	glm::vec2 direction = glm::normalize(pixiePos - position);
 
@@ -195,13 +196,13 @@ void ParticleEmitter::initParticleEmitter()
 
 	float quadVertices[] = {
 		// positions //Texcoords     // colors
-		-0.05f,  0.05f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
-		0.05f, -0.05f, 1.0f, 0.0,  0.0f, 1.0f, 0.0f,
-		-0.05f, -0.05f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+		0.f,  12.f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		12.f, 0.f, 1.0f, 0.0,  0.0f, 1.0f, 0.0f,
+		0.f, 0.f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
 
-		-0.05f,  0.05f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
-		0.05f, -0.05f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
-		0.05f,  0.05f, 1.0f, 0.0f,  0.0f, 1.0f, 1.0f
+		0.f,  12.f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		12.f, 0.f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		12.f,  12.f, 1.0f, 0.0f,  0.0f, 1.0f, 1.0f
 	};
 
 	glGenVertexArrays(1, &VAO);
