@@ -23,6 +23,7 @@ void Billboard::update()
 
 void Billboard::initBillboards()
 {
+	/*
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &particles.translations[0], GL_STATIC_DRAW);
@@ -67,4 +68,7 @@ void Billboard::initBillboards()
 	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), BUFFER_OFFSET(offset));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glVertexAttribDivisor(3, 1); // tell OpenGL this is an instanced vertex attribute.
+
+	*/
+
 }
