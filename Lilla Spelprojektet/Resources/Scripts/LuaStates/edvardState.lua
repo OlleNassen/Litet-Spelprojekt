@@ -233,14 +233,15 @@ function update(deltaTime)
 	
 	pX, pY = getCameraPosition()
 	--bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
-
-	for i, k in pairs(bgs) do
-		if i <= totalFurthestSprites then
-			bgs[i]:setPosition(pX / -6 + (400 * i), pY / -4 + 100, i)
+	
+	for k, v in pairs(bgs) do
+		if k <= totalFurthestSprites then
+			v:setPosition(pX / 6 + (400 * k), pY / 4, k)
 		else
-			bgs[i]:setPosition(pX / -3 + (500 * (i - totalFurthestSprites)), pY / -4 + 100, i)
+			v:setPosition(1000-pX*0.1 , 1000-pY*0.1, k)
+			--v:setPosition(pX / -3,pY / -4 + 100, k)
+			print(pX, pY)
 		end
 	end
-
 end
 

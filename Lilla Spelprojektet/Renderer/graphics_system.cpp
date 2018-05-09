@@ -529,24 +529,10 @@ int GraphicsSystem::newbackground(lua_State* luaState)
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
-	if (normalMap)
-	{
-		//ptr->background.load(&ptr->shaders.amazing, &ptr->textures[*texture],
-				//&ptr->textures[*normalMap], glm::vec2(x, y));
-		Sprite temp;
-		ptr->backgrounds.push_back(temp);
-		ptr->backgrounds.back().load(&ptr->shaders.amazing, &ptr->textures[*texture],
-			&ptr->textures[*normalMap], glm::vec2(x, y));
-	}
-	else
-	{
-		//ptr->background.load(&ptr->shaders.basic, &ptr->textures[*texture],
-				//nullptr, glm::vec2(x, y));
-		Sprite temp;
-		ptr->backgrounds.push_back(temp);
-		ptr->backgrounds.back().load(&ptr->shaders.basic, &ptr->textures[*texture],
+	Sprite temp;
+	ptr->backgrounds.push_back(temp);
+	ptr->backgrounds.back().load(&ptr->shaders.trash, &ptr->textures[*texture],
 			nullptr, glm::vec2(x, y));
-	}
 
 	//*id = ptr->sprites.size() - 1;
 	return 1;

@@ -107,5 +107,7 @@
     <None Include="Resources\Shaders\shader.comp" />
     <None Include="Resources\Scripts\LuaStates\victoryState.lua" />
     <None Include="Resources\Scripts\save.lua" />
+    <None Include="Resources\Shaders\trash.frag" />
+    <None Include="Resources\Shaders\trash.vert" />
   </ItemGroup>
 </Project>

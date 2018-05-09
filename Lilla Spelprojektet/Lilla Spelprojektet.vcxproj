@@ -65,6 +65,8 @@
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
     <None Include="Resources\Shaders\shader.comp" />
+    <None Include="Resources\Shaders\trash.frag" />
+    <None Include="Resources\Shaders\trash.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
