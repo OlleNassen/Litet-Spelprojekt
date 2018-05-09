@@ -120,24 +120,24 @@ spritePos(p.spriteHPBarBack, 50, 50)
 
 tileSize = 48
 
-local light1 = PointLight:create(0.1,0.1,1,100,tileSize,
+local light1 = PointLight:create(0.5,0.5,0.5, 10 * tileSize, tileSize * 9,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local light2 = PointLight:create(0.1,0.1,1, tileSize * 10, tileSize * 2,
+local light2 = PointLight:create(0.5,0.5,0.5, 24 * tileSize, tileSize,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local light3 = PointLight:create(1,0.1,0.1,tileSize * 2, tileSize * 20,
+local light3 = PointLight:create(0.5,0.5,0.5, tileSize, tileSize * 14,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
 
-local light4 = PointLight:create(1,1,0.1,tileSize * 40, tileSize,
+local light4 = PointLight:create(0.5,0.5,0.5,tileSize * 39, tileSize,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local light5 = PointLight:create(1,1,0.1,tileSize * 2, tileSize * 36,
+local light5 = PointLight:create(0.5,0.5,0.5,tileSize * 2, tileSize * 36,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
