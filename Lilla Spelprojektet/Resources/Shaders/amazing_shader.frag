@@ -20,8 +20,8 @@ uniform vec3 status;
 
 void main()
 {
-	float normalMapIntensity = 150.0;
-	float radius = 600.0;
+	float normalMapIntensity = 100.0;
+	float radius = 1000.0;
 	vec4 ambientColor =  vec4(0.1, 0.1, 0.1, 0.1);
 
 	//RGBA of our diffuse color
@@ -50,7 +50,7 @@ void main()
 
 		float diff = max(dot(N,L), 0.0);
 
-		vec3 diffuse = diff * (lightColor[i].rgb + diffuseColor.rgb);
+		vec3 diffuse = diff * (lightColor[i].rgb * diffuseColor.rgb);
 		
 		result += max((ambient + diffuse) * fall, 0);
 	}
