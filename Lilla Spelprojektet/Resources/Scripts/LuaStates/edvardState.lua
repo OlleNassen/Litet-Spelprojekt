@@ -240,7 +240,7 @@ function update(deltaTime)
 		else
 			v:setPosition(1000-pX*0.1 , 1000-pY*0.1, k)
 			--v:setPosition(pX / -3,pY / -4 + 100, k)
-			print(pX, pY)
+			print("Vincents Print:", pX, pY)
 		end
 	end
 end
