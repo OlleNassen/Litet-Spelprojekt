@@ -10,7 +10,7 @@ function getUpgrade(name)
 
 	for k, v in pairs(powerup) do
 		if powerup[id] == name then
-			return id
+			return localLoad(id)
 		end
 	end
 	return -1
@@ -18,6 +18,7 @@ end
 
 function setUpgrade(name, id)
 
+	localSave(0, id)
 	powerup[id] = name
 
 end
