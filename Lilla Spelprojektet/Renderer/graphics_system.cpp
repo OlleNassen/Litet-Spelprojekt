@@ -38,7 +38,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	
 	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
 	
-	for (int i = 1; i < NUM_LIGHTS; i++)
+	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
 		lights.positions[i] = glm::vec3(-10000, -10000, 0);
 		lights.colors[i] = glm::vec4(0, 0, 0, 0);
@@ -59,11 +59,6 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	{
 		for (int itr = sprites.size() - 1; itr >= 0; itr--)
 		{
-			glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
-			glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
-
-			lights.positions[0] = lightP;
-			lights.colors[0] = lightC;
 
 			shaders.amazing.use();
 			glUniform3fv(glGetUniformLocation(shaders.amazing.getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
@@ -150,12 +145,6 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
 					&& tileMap[x + 2 + y * tileMap[0]] != 0)
 				{
-					glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
-					glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
-
-
-					lights.positions[0] = lightP;
-					lights.colors[0] = lightC;
 
 					shaders.amazing.use();
 					glUniform3fv(glGetUniformLocation(shaders.amazing.getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);

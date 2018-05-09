@@ -91,6 +91,11 @@ ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& t
 	{
 		glUseProgram(shaderProgram);
 		glUniform2fv(glGetUniformLocation(shaderProgram, "to_from"), 1, glm::value_ptr(to_from));
+
+		glUniform2fv(glGetUniformLocation(shaderProgram, "from"), 1, glm::value_ptr(from));
+		glUniform2fv(glGetUniformLocation(shaderProgram, "to"), 1, glm::value_ptr(to));
+
+
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
 		glDispatchCompute(10, 10, 1);
 		
