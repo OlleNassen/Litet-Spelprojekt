@@ -120,14 +120,12 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {			
-	//background.draw(glm::vec2(background.posX, background.posY), view, projection);
-
-	
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
-		this->backgrounds.at(i).draw(glm::vec2(
-			this->backgrounds.at(i).posX,
-			this->backgrounds.at(i).posY), view, projection);
+		shaders.basic.use();
+		backgrounds[i].draw(glm::vec2(
+			backgrounds[i].posX,
+			backgrounds[i].posY), view, projection);
 	}
 
 	if (tileMap.size() > 0)

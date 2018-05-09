@@ -9,7 +9,7 @@ function Player:create()
 		entity = Entity:create(),
 		isJumping = false,
 		isFalling = false,
-		jumpPower = -1300,
+		jumpPower = -2000,
 		maxNrOfJumps = 1,
 		nrOfJumps = 1,
 		dashing = false,

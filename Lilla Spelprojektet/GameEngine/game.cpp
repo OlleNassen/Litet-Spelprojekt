@@ -176,6 +176,7 @@ void Game::update(float deltaTime)
 		window->setMouseCursorGrabbed(false);
 		window->setMouseCursorVisible(true);
 		system("pause");
+		stateName = "D";
 	}
 	currentState.graphicsSystem->updateCamera();
 }
