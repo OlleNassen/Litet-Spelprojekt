@@ -100,5 +100,6 @@
     <None Include="Resources\Scripts\olleTilemap.lua" />
     <None Include="Resources\Shaders\shader.comp" />
     <None Include="Resources\Scripts\LuaStates\victoryState.lua" />
+    <None Include="Resources\Scripts\save.lua" />
   </ItemGroup>
 </Project>

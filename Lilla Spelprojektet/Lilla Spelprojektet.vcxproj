@@ -53,6 +53,7 @@
     <None Include="Resources\Scripts\object.lua" />
     <None Include="Resources\Scripts\olleTilemap.lua" />
     <None Include="Resources\Scripts\point_light.lua" />
+    <None Include="Resources\Scripts\save.lua" />
     <None Include="Resources\Shaders\2d_shader.frag" />
     <None Include="Resources\Shaders\2d_shader.vert" />
     <None Include="Resources\Shaders\amazing_shader.frag" />
