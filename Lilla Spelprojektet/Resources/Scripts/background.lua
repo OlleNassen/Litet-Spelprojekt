@@ -15,13 +15,13 @@ function Background:create()
     return this
 end
 
-function Background:setPosition(x, y)
+function Background:setPosition(x, y, i)
 	
 	self.x = x
 	self.y = y
 		
 	if self.sprite ~= nil then
-		backgroundPos(self.sprite, self.x, self.y)		
+		backgroundPos(self.sprite, self.x, self.y, i)		
 	end
 end
 

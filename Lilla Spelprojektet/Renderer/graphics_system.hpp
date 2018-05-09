@@ -38,7 +38,8 @@ private:
 	std::vector<bool> visibleTiles; // For shadows
 	std::vector<Texture2D> tileTextures;
 	std::vector<Sprite> tiles;
-	Sprite background;
+	std::vector<Sprite> backgrounds;
+	//Sprite background;
 	int numLights = 1;
 
 	ParticleEmitter* surajParticles;

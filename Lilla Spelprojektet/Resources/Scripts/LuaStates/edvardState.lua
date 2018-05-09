@@ -156,10 +156,29 @@ enemy4.entity:addWorld(level)
 local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
 enemy5.entity:addWorld(level)
 
-local bg = Background:create()
-bg.texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse.png")
-bg.sprite = newBackground(100, 800, 0, bg.texture)
+local bgs = {}
 
+bgs[1] = Background:create()
+bgs[1].texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse_48.png")
+bgs[1].sprite = newBackground(50, 1200, 0, bgs[1].texture)
+
+bgs[2] = Background:create()
+bgs[2].sprite = newBackground(50, 1200, 0, bgs[1].texture)
+
+bgs[3] = Background:create()
+bgs[3].sprite = newBackground(50, 1200, 0, bgs[1].texture)
+
+local totalFurthestSprites = 3
+
+bgs[4] = Background:create()
+bgs[4].texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse.png")
+bgs[4].sprite = newBackground(100, 800, 0, bgs[4].texture)
+
+bgs[5] = Background:create()
+bgs[5].sprite = newBackground(100, 800, 0, bgs[4].texture)
+
+bgs[6] = Background:create()
+bgs[6].sprite = newBackground(100, 800, 0, bgs[4].texture)
 
 function moveUp(direction, deltaTime)
 	return p:moveUp(direction, deltaTime)
@@ -208,7 +227,14 @@ function update(deltaTime)
 	
 	pX, pY = getCameraPosition()
 	--bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
-	bg:setPosition(pX / -4 + 700, pY / -4 + 100)-- position.y - (720 / 2))
+
+	for i, k in pairs(bgs) do
+		if i <= totalFurthestSprites then
+			bgs[i]:setPosition(pX / -6 + (400 * i), pY / -4 + 100, i)
+		else
+			bgs[i]:setPosition(pX / -3 + (500 * (i - totalFurthestSprites)), pY / -4 + 100, i)
+		end
+	end
 
 end
 
