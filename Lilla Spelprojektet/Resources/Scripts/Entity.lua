@@ -213,11 +213,8 @@ function Entity:setPosition(x, y)
 end
 
 function Entity:setSize(x, y)
-	
-	--if self.world:canMove(x, y) then
-		self.width = x
-		self.height = y
-	--end
+	self.width = x
+	self.height = y
 		
 	if self.sprite ~= nil then
 		sizeFunc(self.sprite, self.width, self.height)		
