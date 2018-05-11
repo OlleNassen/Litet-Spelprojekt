@@ -20,6 +20,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	tiles.reserve(sizeof(Sprite) * 100);
 	textures.reserve(sizeof(Texture2D) * 100);
 	sprites.reserve(sizeof(Sprite) * 100);
+	backgrounds.reserve(sizeof(Sprite) * 25);
 
 	textures.push_back(Texture2D());
 	textures.back().loadFromFile("Resources/Sprites/laserParticle_diffuse.png");
@@ -550,8 +551,8 @@ int GraphicsSystem::backgroundpos(lua_State* luaState)
 	//ptr->background.posX = x;
 	//ptr->background.posY = y;
 
-	ptr->backgrounds.at(i - 1).posX = x;
-	ptr->backgrounds.at(i - 1).posY = y;
+	ptr->backgrounds[i - 1].posX = x;
+	ptr->backgrounds[i - 1].posY = y;
 
 	return 0;
 }

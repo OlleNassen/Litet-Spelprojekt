@@ -178,13 +178,13 @@ local totalFurthestSprites = 3
 
 bgs[4] = Background:create()
 bgs[4].texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse.png")
-bgs[4].sprite = newBackground(100, 800, 0, bgs[4].texture)
+bgs[4].sprite = newBackground(100, 1600, 0, bgs[4].texture)
 
 bgs[5] = Background:create()
-bgs[5].sprite = newBackground(100, 800, 0, bgs[4].texture)
+bgs[5].sprite = newBackground(100, 1600, 0, bgs[4].texture)
 
 bgs[6] = Background:create()
-bgs[6].sprite = newBackground(100, 800, 0, bgs[4].texture)
+bgs[6].sprite = newBackground(100, 1600, 0, bgs[4].texture)--[[]]
 
 function moveUp(direction, deltaTime)
 	return p:moveUp(direction, deltaTime)
@@ -231,16 +231,13 @@ function update(deltaTime)
 	enemy4:attack(p)
 	enemy5:attack(p)
 	
-	pX, pY = getCameraPosition()
-	--bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
-	
+	pX, pY = getCameraPosition()	
 	for k, v in pairs(bgs) do
 		if k <= totalFurthestSprites then
-			v:setPosition(pX / 6 + (400 * k), pY / 4, k)
+			v:setPosition(pX * -0.05  + (600 * k), pY * -0.05 - 100, k)
 		else
-			v:setPosition(1000-pX*0.1 , 1000-pY*0.1, k)
-			--v:setPosition(pX / -3,pY / -4 + 100, k)
-			print("Vincents Print:", pX, pY)
+			index = k - totalFurthestSprites
+			v:setPosition(pX * -0.2 + (index * 800), pY * -0.2, k)
 		end
 	end
 end
