@@ -20,6 +20,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	tiles.reserve(sizeof(Sprite) * 100);
 	textures.reserve(sizeof(Texture2D) * 100);
 	sprites.reserve(sizeof(Sprite) * 100);
+	backgrounds.reserve(sizeof(Sprite) * 25);
 
 	textures.push_back(Texture2D());
 	textures.back().loadFromFile("Resources/Sprites/laserParticle_diffuse.png");
@@ -37,6 +38,8 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	//surajParticles = new ParticleEmitter(&shaders.particle, &textures[2], &textures[3]);
 	
 	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
+	
+	billboards = new Billboard(&shaders.billboard, &textures[0]);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -115,19 +118,20 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		collinsLaser->render(view, projection);
 		collinsLaser->push(1, 0, 0);
 	}
+
+	//billboards->update();
+	//billboards->render(projection);
 	
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {			
-	//background.draw(glm::vec2(background.posX, background.posY), view, projection);
-
-	
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
-		this->backgrounds.at(i).draw(glm::vec2(
-			this->backgrounds.at(i).posX,
-			this->backgrounds.at(i).posY), view, projection);
+		shaders.basic.use();
+		backgrounds[i].draw(glm::vec2(
+			backgrounds[i].posX,
+			backgrounds[i].posY), view, projection);
 	}
 
 	if (tileMap.size() > 0)
@@ -531,24 +535,10 @@ int GraphicsSystem::newbackground(lua_State* luaState)
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
-	if (normalMap)
-	{
-		//ptr->background.load(&ptr->shaders.amazing, &ptr->textures[*texture],
-				//&ptr->textures[*normalMap], glm::vec2(x, y));
-		Sprite temp;
-		ptr->backgrounds.push_back(temp);
-		ptr->backgrounds.back().load(&ptr->shaders.amazing, &ptr->textures[*texture],
-			&ptr->textures[*normalMap], glm::vec2(x, y));
-	}
-	else
-	{
-		//ptr->background.load(&ptr->shaders.basic, &ptr->textures[*texture],
-				//nullptr, glm::vec2(x, y));
-		Sprite temp;
-		ptr->backgrounds.push_back(temp);
-		ptr->backgrounds.back().load(&ptr->shaders.basic, &ptr->textures[*texture],
+	Sprite temp;
+	ptr->backgrounds.push_back(temp);
+	ptr->backgrounds.back().load(&ptr->shaders.trash, &ptr->textures[*texture],
 			nullptr, glm::vec2(x, y));
-	}
 
 	//*id = ptr->sprites.size() - 1;
 	return 1;
@@ -566,8 +556,8 @@ int GraphicsSystem::backgroundpos(lua_State* luaState)
 	//ptr->background.posX = x;
 	//ptr->background.posY = y;
 
-	ptr->backgrounds.at(i - 1).posX = x;
-	ptr->backgrounds.at(i - 1).posY = y;
+	ptr->backgrounds[i - 1].posX = x;
+	ptr->backgrounds[i - 1].posY = y;
 
 	return 0;
 }

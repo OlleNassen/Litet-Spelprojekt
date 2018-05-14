@@ -29,6 +29,8 @@ struct ShaderStruct
 	Shader shader2d;
 	Shader amazing;
 	Shader particle;
+	Shader trash;
+	Shader billboard;
 };
 
 typedef std::vector<State> LuaVector;

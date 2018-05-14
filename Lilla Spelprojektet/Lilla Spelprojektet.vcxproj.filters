@@ -42,6 +42,9 @@
     <ClCompile Include="GameEngine\compute_shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\billboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\libs.h">
@@ -80,6 +83,9 @@
     <ClInclude Include="GameEngine\compute_shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\billboard.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />
@@ -101,5 +107,7 @@
     <None Include="Resources\Shaders\shader.comp" />
     <None Include="Resources\Scripts\LuaStates\victoryState.lua" />
     <None Include="Resources\Scripts\save.lua" />
+    <None Include="Resources\Shaders\trash.frag" />
+    <None Include="Resources\Shaders\trash.vert" />
   </ItemGroup>
 </Project>

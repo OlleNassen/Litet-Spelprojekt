@@ -178,13 +178,13 @@ local totalFurthestSprites = 3
 
 bgs[4] = Background:create()
 bgs[4].texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse.png")
-bgs[4].sprite = newBackground(100, 800, 0, bgs[4].texture)
+bgs[4].sprite = newBackground(100, 1600, 0, bgs[4].texture)
 
 bgs[5] = Background:create()
-bgs[5].sprite = newBackground(100, 800, 0, bgs[4].texture)
+bgs[5].sprite = newBackground(100, 1600, 0, bgs[4].texture)
 
 bgs[6] = Background:create()
-bgs[6].sprite = newBackground(100, 800, 0, bgs[4].texture)
+bgs[6].sprite = newBackground(100, 1600, 0, bgs[4].texture)--[[]]
 
 function moveUp(direction, deltaTime)
 	return p:moveUp(direction, deltaTime)
@@ -217,7 +217,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
-		newState("Resources/Scripts/LuaStates/olleState.lua")
+		newState("Resources/Scripts/LuaStates/LevelVState.lua")
 	end
 
 	enemy1:update(deltaTime)	
@@ -231,16 +231,14 @@ function update(deltaTime)
 	enemy4:attack(p)
 	enemy5:attack(p)
 	
-	pX, pY = getCameraPosition()
-	--bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2))-- position.y - (720 / 2))
-
-	for i, k in pairs(bgs) do
-		if i <= totalFurthestSprites then
-			bgs[i]:setPosition(pX / -6 + (400 * i), pY / -4 + 100, i)
+	pX, pY = getCameraPosition()	
+	for k, v in pairs(bgs) do
+		if k <= totalFurthestSprites then
+			v:setPosition(pX * -0.05  + (600 * k), pY * -0.05 - 100, k)
 		else
-			bgs[i]:setPosition(pX / -3 + (500 * (i - totalFurthestSprites)), pY / -4 + 100, i)
+			index = k - totalFurthestSprites
+			v:setPosition(pX * -0.2 + (index * 800), pY * -0.2, k)
 		end
 	end
-
 end
 
