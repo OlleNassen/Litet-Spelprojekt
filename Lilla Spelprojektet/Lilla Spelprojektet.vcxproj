@@ -29,7 +29,9 @@
     <ClCompile Include="Renderer\sprite.cpp" />
     <ClCompile Include="Renderer\graphics_system.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
-    <ClCompile Include="Resources\Scripts\projectile.lua" />
+    <None Include="Resources\Scripts\projectile.lua">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\compute_shader.hpp" />

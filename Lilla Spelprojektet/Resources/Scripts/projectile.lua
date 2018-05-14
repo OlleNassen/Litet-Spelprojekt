@@ -1,5 +1,3 @@
-require("Resources/Scripts/Entity")
-
 Boss = {}
 Boss.__index = Boss
 
