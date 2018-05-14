@@ -25,7 +25,7 @@ public:
 	~Billboard();
 
 	void render(const glm::mat4& projection);
-	void update();
+	void update(const glm::vec2& camPos);
 
 private:
 	void initBillboards();

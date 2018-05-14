@@ -119,8 +119,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		collinsLaser->push(1, 0, 0);
 	}
 
-	//billboards->update();
-	//billboards->render(projection);
+	
 	
 }
 
@@ -133,6 +132,8 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			backgrounds[i].posX,
 			backgrounds[i].posY), view, projection);
 	}
+	billboards->update(camera->getPosition());
+	billboards->render(projection);
 
 	if (tileMap.size() > 0)
 	{	

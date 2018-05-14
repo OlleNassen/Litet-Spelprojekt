@@ -51,21 +51,18 @@ void Billboard::render(const glm::mat4& projection)
 	glBindVertexArray(0);
 }
 
-void Billboard::update()
+void Billboard::update(const glm::vec2& camPos)
 {
 
-	static int test = 0;
-	if (test >= 100)
-		test = 0;
 	model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(positions[test++], 0.0f));
+	model = glm::translate(model, glm::vec3(glm::vec2(0,0), 0.0f));
 
 	for (int i = 0; i < NUM_BILLBOARDS; i++)
 	{
-		if (positions[i].y > 720)
+		if (positions[i].y < -1.f)
 		{
-			//positions[i].y = -5;
-			//positions[i].x = rand() % 1280;
+			positions[i].y = 1;
+			positions[i].x = ((rand() % 2000) / 1000.0f) - 1;
 		}
 		positions[i].y -= 0.001;
 	}
