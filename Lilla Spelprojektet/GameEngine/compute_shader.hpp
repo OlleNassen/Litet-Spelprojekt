@@ -16,6 +16,9 @@ public:
 	void load(const char* computeShaderFile);
 	ParticleStruct* compute(const glm::vec2& from, const glm::vec2& to);
 
+	ParticleStruct* pixie(const glm::vec2& from);
+
+
 private:
 	unsigned int shaderProgram;
 	unsigned int storageBuffer;

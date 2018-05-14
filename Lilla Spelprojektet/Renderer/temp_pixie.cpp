@@ -1,68 +1,57 @@
-#include "billboard.hpp"
-
+#include "temp_pixie.hpp"
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
-#include <ctime>
 
 
-Billboard::Billboard(Shader* shader, Texture2D* texture)
+PixieParticles::PixieParticles(Shader* shader, Texture2D* texture)
 {
 	this->shader = shader;
 	this->texture = texture;
+	compShader.load("Resources/Shaders/pixie.comp");
 
-	initBillboards();
+	initPixie();
+}
 
-	srand(time(NULL));
-
-	for (int i = 0; i < NUM_BILLBOARDS; i++)
-	{
-		positions[i].y = ((rand() % 2000) / 1000.0f) - 1;
-		positions[i].x = ((rand() % 2000) / 1000.0f) - 1;
-	}
+PixieParticles::~PixieParticles()
+{
 
 }
 
-Billboard::~Billboard()
+void PixieParticles::render(const glm::mat4& view, const glm::mat4& projection)
 {
-}
-
-void Billboard::render()
-{
-
-	shader->setInt(0, "image");
-
-	this->texture->bind(0);
+	this->shader->setMatrix4fv(model, "model");
+	this->shader->setMatrix4fv(view, "view");
+	this->shader->setMatrix4fv(projection, "projection");
 
 	this->shader->use();
 
-	glBindVertexArray(this->VAO);
+	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, NUM_BILLBOARDS * sizeof(glm::vec2), &positions[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &positions[0], GL_STATIC_DRAW);
 
-	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, NUM_BILLBOARDS); // 100 triangles of 6 vertices each
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, MAX_NUM_PARTICLES);
 	glBindVertexArray(0);
 }
 
-void Billboard::update(float delta)
+void PixieParticles::update(const glm::vec2& pixiePos)
 {
+	model = glm::mat4(1.f);
+	model = glm::translate(model, glm::vec3(pixiePos, 0.0f));
 
-	for (int i = 0; i < NUM_BILLBOARDS; i++)
-	{
-		if (positions[i].y < -1.f)
-		{
-			positions[i].y = 1;
-			positions[i].x = ((rand() % 2000) / 1000.0f) - 1;
-		}
-		static float speed = 14;
-		positions[i].y -= speed * delta;
-	}
+	model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
+	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.f, 0.1f));
+	model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
+
+	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
+
+	particleStruct = compShader.pixie(pixiePos);
 }
 
-void Billboard::initBillboards()
+void PixieParticles::initPixie()
 {
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * NUM_BILLBOARDS, &positions[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &positions[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	float quadVertices[] = {

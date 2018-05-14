@@ -12,7 +12,7 @@
 #include<SFML/System/Vector2.hpp>
 
 #include"particle_emitter.hpp"
-
+#include "temp_pixie.hpp"
 
 #define NUM_LIGHTS 10 + 1 // pixie in back
 
@@ -45,6 +45,7 @@ private:
 
 	ParticleEmitter* collinsLaser;
 	Billboard* billboards;
+	PixieParticles* pixie;
 
 	ShaderStruct& shaders;
 	std::vector<Texture2D> textures;

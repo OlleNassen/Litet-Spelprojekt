@@ -29,6 +29,7 @@
     <ClCompile Include="Renderer\sprite.cpp" />
     <ClCompile Include="Renderer\graphics_system.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
+    <ClCompile Include="Renderer\temp_pixie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\compute_shader.hpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Renderer\shader.hpp" />
     <ClInclude Include="Renderer\sprite.hpp" />
     <ClInclude Include="Renderer\graphics_system.hpp" />
+    <ClInclude Include="Renderer\temp_pixie.hpp" />
     <ClInclude Include="Renderer\texture_2d.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +66,7 @@
     <None Include="Resources\Shaders\basicShader.vert" />
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
+    <None Include="Resources\Shaders\pixie.comp" />
     <None Include="Resources\Shaders\shader.comp" />
     <None Include="Resources\Shaders\trash.frag" />
     <None Include="Resources\Shaders\trash.vert" />

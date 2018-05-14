@@ -39,6 +39,8 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
 	
+	pixie = new PixieParticles(&shaders.basic, &textures[0]);
+
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
 		lights.positions[i] = glm::vec3(-10000, -10000, 0);
@@ -92,12 +94,16 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		collinsLaser->push(1, 0, 0);
 	}
 
-	
+	pixie->update(glm::vec2(getPixie().x, getPixie().y));
+	pixie->render(view, projection);
 	
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {			
+
+	billboards->update(0.00016);
+	billboards->render();
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
 		shaders.basic.use();
@@ -105,8 +111,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			backgrounds[i].posX,
 			backgrounds[i].posY), view, projection);
 	}
-	billboards->update(camera->getPosition());
-	billboards->render(projection);
+
 
 	if (tileMap.size() > 0)
 	{	
