@@ -38,6 +38,8 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	
 	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
 	
+	billboards = new Billboard(&shaders.billboard, &textures[0]);
+	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
 		lights.positions[i] = glm::vec3(-10000, -10000, 0);
@@ -115,6 +117,9 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		collinsLaser->render(view, projection);
 		collinsLaser->push(1, 0, 0);
 	}
+
+	//billboards->update();
+	//billboards->render(projection);
 	
 }
 
