@@ -237,7 +237,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
-		newState("Resources/Scripts/LuaStates/olleState.lua")
+		newState("Resources/Scripts/LuaStates/LevelVState.lua")
 	end
 
 	if power_speed.entity:containsCollisionBox(p) then
@@ -259,10 +259,10 @@ function update(deltaTime)
 	pX, pY = getCameraPosition()	
 	for k, v in pairs(bgs) do
 		if k <= totalFurthestSprites then
-			v:setPosition(pX * -0.05  + (600 * k), pY * -0.05 - 100, k)
+			v:setPosition(pX * 0.01  + (600 * k), pY * -0.05 - 100, k)
 		else
 			index = k - totalFurthestSprites
-			v:setPosition(pX * -0.2 + (index * 800), pY * -0.2, k)
+			v:setPosition(pX * 0.1 + (index * 800), pY * -0.2, k)
 		end
 	end
 end

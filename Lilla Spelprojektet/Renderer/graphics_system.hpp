@@ -3,6 +3,7 @@
 #include "texture_2d.hpp"
 #include "sprite.hpp"
 #include "../GameEngine/game.hpp"
+#include "billboard.hpp"
 
 #include<vector>
 #include<glm/gtc/matrix_transform.hpp>
@@ -42,8 +43,8 @@ private:
 	//Sprite background;
 	int numLights = 1;
 
-	ParticleEmitter* surajParticles;
 	ParticleEmitter* collinsLaser;
+	Billboard* billboards;
 
 	ShaderStruct& shaders;
 	std::vector<Texture2D> textures;

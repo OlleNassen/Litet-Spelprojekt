@@ -34,10 +34,10 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	textures.push_back(Texture2D());
 	textures.back().loadFromFile("Resources/Sprites/starParticle_normal.png");
 
-
-	//surajParticles = new ParticleEmitter(&shaders.particle, &textures[2], &textures[3]);
 	
 	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
+	
+	billboards = new Billboard(&shaders.billboard, &textures[0]);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -50,7 +50,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 
 GraphicsSystem::~GraphicsSystem()
 {
-	//delete surajParticles;
+
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
@@ -76,32 +76,7 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 			sprites[itr].draw(position, view, projection);
 		}
 	}
-
-	//emitter->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
-	//emitter->update(0.0016f);
-	//emitter->render(view, projection, 0.0016f);
-
-	//surajParticles->push(1, this->sprites[0]->posX + 24.f, this->sprites[0]->posY + 48.f);
-	/*
-	//::.. Suraj Particles ..:://
-	glm::vec3 lightP{ getPixie().x + 24.f, getPixie().y + 24.f, 0.075f };
-	glm::vec4 lightC{ 0.8f, 0.2f, 0.1f, 0.f };
-
-	lights.positions[0] = lightP;
-	lights.colors[0] = lightC;
-
-	surajParticles->shader->use();
-	glUniform3fv(glGetUniformLocation(surajParticles->shader->getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
-	glUniform4fv(glGetUniformLocation(surajParticles->shader->getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
-	surajParticles->shader->unuse();
-
 	
-
-	surajParticles->update(0.00016f,
-		glm::vec2(sprites[0].posX, sprites[0].posY));
-	surajParticles->render(view, projection);
-	surajParticles->push(1, 0, 0);
-	*/
 	//::.. Collins Laser ..:://
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
@@ -116,6 +91,8 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		collinsLaser->render(view, projection);
 		collinsLaser->push(1, 0, 0);
 	}
+
+	
 	
 }
 
@@ -128,6 +105,8 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			backgrounds[i].posX,
 			backgrounds[i].posY), view, projection);
 	}
+	billboards->update(camera->getPosition());
+	billboards->render(projection);
 
 	if (tileMap.size() > 0)
 	{	

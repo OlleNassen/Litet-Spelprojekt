@@ -1,28 +1,31 @@
 #pragma once
 #include "../GameEngine/compute_shader.hpp"
 #include "shader.hpp"
+#include "texture_2d.hpp"
 
-#define MAX_NUM_PARTICLES 10000
+#define NUM_BILLBOARDS 100
 
 class Billboard
 {
 private:
-	ComputeShader computeShader;
 	Shader* shader;
+	Texture2D* texture;
 
 	glm::mat4 model;
 
 	GLuint VAO;
 	GLuint VBO;
-
 	GLuint instanceVBO;
 
+	glm::vec2 positions[NUM_BILLBOARDS];
+
+
 public:
-	Billboard(Shader* shader);
+	Billboard(Shader* shader, Texture2D* texture);
 	~Billboard();
 
-	void render();
-	void update();
+	void render(const glm::mat4& projection);
+	void update(const glm::vec2& camPos);
 
 private:
 	void initBillboards();
