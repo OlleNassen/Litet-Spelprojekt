@@ -1,8 +1,10 @@
 #include "audio_system.hpp"
+#include <iostream>
 
 AudioSystem::AudioSystem()
 {
-
+	soundBuffers.resize(100);
+	sounds.resize(100);
 }
 
 
@@ -38,6 +40,7 @@ int AudioSystem::newMusic(lua_State* luaState)
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
 	ptr->music.openFromFile(filePath);
+	ptr->music.setLoop(true);
 	ptr->music.play();
 	*id = 1;
 
@@ -64,12 +67,14 @@ int AudioSystem::newSound(lua_State* luaState)
 	lua_getglobal(luaState, "AudioSystem");
 	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
 	int* soundBuffer = (int*)lua_touserdata(luaState, -2);
+	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
-
+	
 	ptr->sounds.push_back(sf::Sound());
 	ptr->sounds.back().setBuffer(ptr->soundBuffers[*soundBuffer]);
-
+	
 	*id = ptr->sounds.size() - 1;
+
 	return 1;
 }
 

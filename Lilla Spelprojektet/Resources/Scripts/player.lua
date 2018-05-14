@@ -1,4 +1,15 @@
-require("Resources/Scripts/Entity")
+
+local walkBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local walkSound = newSound(walkBuffer)
+
+local jumpBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local jumpSound = newSound(jumpBuffer)
+
+local attackBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local attackSound = newSound(attackBuffer)
+
+local soundFunc = playSound
+
 
 Player = {}
 Player.__index = Player
@@ -91,8 +102,8 @@ function Player:moveUp(directionY, deltaTime)
 end
 
 function Player:jump()
-
 	if self.nrOfJumps > 0 then
+		 soundFunc(jumpSound)
 		 self.entity.velocity.y = self.jumpPower
 		 self.nrOfJumps = self.nrOfJumps - 1
 		 self.isJumping = true
@@ -103,6 +114,7 @@ end
 
 function Player:attack()
 	if self.isAttacking == false then
+		soundFunc(attackSound)
 		self.entity:setAnimation(7)
 		self.isAttacking = true
 	end

@@ -6,6 +6,8 @@ require("Resources/Scripts/World")
 require("Resources/Scripts/powerup")
 require("Resources/Scripts/point_light")
 
+m = newMusic("Resources/Sound/canary.wav")
+
 tilemap =
 {
 	texturesDiffuse = 
