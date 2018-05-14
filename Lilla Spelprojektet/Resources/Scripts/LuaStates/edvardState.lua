@@ -164,6 +164,26 @@ enemy4.entity:addWorld(level)
 local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
 enemy5.entity:addWorld(level)
 
+local power_speed = Powerup:create("Resources/Sprites/PowerUps/powerupSpeed_diffuse.png", "Resources/Sprites/PowerUps/powerup_normal.png") -- GIVES SPEED INCREASE
+power_speed.entity.collision_width = 16
+power_speed.entity.collision_height = 42
+power_speed.entity.offsetX = 16
+power_speed.entity.offsetY = 3
+power_speed.entity.spriteWidth = 48
+power_speed.entity.spriteHeight = 48
+power_speed.entity.updateAnimationTime = 0.05
+power_speed.entity:addAnimation(1,17) 
+power_speed.entity:setAnimation(1)
+power_speed.entity:setPosition(400, 500)
+setSpriteRect(power_speed.entity.sprite,0,0,48,48)
+power_speed.type = 1
+
+--Player Visible collision box
+	--[[power_speed.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	power_speed.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
+	power_speed.entity.spriteHB = newSprite(power_speed.entity.collision_width, power_speed.entity.collision_height, power_speed.entity.normalHB, power_speed.entity.textureHB)
+	spritePos(power_speed.entity.spriteHB, power_speed.entity.x + power_speed.entity.offsetX, power_speed.entity.y + power_speed.entity.offsetY)]]
+
 local bgs = {}
 
 bgs[1] = Background:create()
@@ -215,12 +235,19 @@ end
 
 function update(deltaTime)
 	
+	checkUpgrades(deltaTime)
+
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
 		newState("Resources/Scripts/LuaStates/LevelVState.lua")
 	end
+
+	if power_speed.entity:containsCollisionBox(p) then
+		power_speed:activatePowerUp(p.entity)
+	end
+	power_speed.entity:updateAnimation(deltaTime)
 
 	enemy1:update(deltaTime)	
 	enemy2:update(deltaTime)
@@ -244,3 +271,51 @@ function update(deltaTime)
 	end
 end
 
+function checkUpgrades(deltaTime)
+	if p.entity.hasPowerUp[1] == true then -- DASH UPGRADE
+	
+		if p.entity.collision_bottom == true then --Cant dash until on ground
+			p.canDash = true
+		end
+
+		if p.dashing == true then --Dashing
+			p.entity.hasGravity = false
+			p.canDash = false
+			if hasFoundPosition == false then
+				towardsX = s.x
+				towardsY = s.y
+				hasFoundPosition = true
+			end
+
+			local tempX = towardsX - p.entity.x 
+			local tempY = towardsY - p.entity.y 
+			local length = math.sqrt((tempX * tempX) + (tempY * tempY))
+			tempX = (tempX / length)
+			tempY = (tempY / length)
+	
+			p.entity.velocity.x = tempX * 2000
+			p.entity.velocity.y = tempY * 2000
+
+			print(p.entity.velocity.x)
+			print(p.entity.velocity.y)
+
+			--Dashing ends
+			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
+				p.dashing = false
+				p.entity.hasGravity = true
+				hasFoundPosition = false
+				p.entity.velocity.x = p.entity.velocity.x / 5
+				p.entity.velocity.y = p.entity.velocity.y / 5
+			end
+		end
+	end
+	if p.entity.hasPowerUp[2] == true then -- SPEED UPGRADE
+		p.entity.maxSpeed.x = 800
+	end
+	if p.entity.hasPowerUp[3] == true then -- DOUBLE JUMP UPGRADE
+		p.maxNrOfJumps = 2
+	end
+	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
+		p.jumpPower = -1800
+	end
+end

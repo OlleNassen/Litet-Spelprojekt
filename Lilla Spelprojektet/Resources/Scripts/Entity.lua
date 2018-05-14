@@ -51,8 +51,9 @@ function Entity:create()
 		currentAnimationTime = 0.0,
 		spriteWidth = 144,
 		spriteHeight = 144,
-		isGoingRight = true,
+		isGoingRight = false,
 		canMove = true,
+		constantMovement = false,
     }
 
 	for i=1,2,1 do 
@@ -231,6 +232,7 @@ function Entity:getPosition()
 end
 
 function Entity:accelerate(directionX, directionY, deltaTime)
+	
 
 	--Acceleration
 	if directionX > 0 then -- Right
@@ -266,33 +268,34 @@ function Entity:accelerate(directionX, directionY, deltaTime)
 end
 
 function Entity:decelerate(deltaTime)
-
-	--Deceleration X
-	if self.velocity.x < 0 then
-		self.velocity.x = self.velocity.x + (self.deceletation.x * deltaTime)
-		if self.velocity.x > 0 then
-			self.velocity.x = 0
-		end
-	elseif self.velocity.x > 0 then
-		self.velocity.x = self.velocity.x - (self.deceletation.x * deltaTime)
+	
+	if self.constantMovement == false then
+		--Deceleration X
 		if self.velocity.x < 0 then
-			self.velocity.x = 0
+			self.velocity.x = self.velocity.x + (self.deceletation.x * deltaTime)
+			if self.velocity.x > 0 then
+				self.velocity.x = 0
+			end
+		elseif self.velocity.x > 0 then
+			self.velocity.x = self.velocity.x - (self.deceletation.x * deltaTime)
+			if self.velocity.x < 0 then
+				self.velocity.x = 0
+			end
 		end
-	end
 
-	--Deceleration Y
-	if self.velocity.y < 0 then
-		self.velocity.y = self.velocity.y + (self.deceletation.y * deltaTime)
-		if self.velocity.y > 0 then
-			self.velocity.y = 0
-		end
-	elseif self.velocity.y > 0 then
-		self.velocity.y = self.velocity.y - (self.deceletation.y * deltaTime)
+		--Deceleration Y
 		if self.velocity.y < 0 then
-			self.velocity.y = 0
+			self.velocity.y = self.velocity.y + (self.deceletation.y * deltaTime)
+			if self.velocity.y > 0 then
+				self.velocity.y = 0
+			end
+		elseif self.velocity.y > 0 then
+			self.velocity.y = self.velocity.y - (self.deceletation.y * deltaTime)
+			if self.velocity.y < 0 then
+				self.velocity.y = 0
+			end
 		end
 	end
-
 end
 
 function Entity:move(x, y)

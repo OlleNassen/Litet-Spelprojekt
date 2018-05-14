@@ -7,8 +7,9 @@ function Boss:create(posX, posY, sizeX, sizeY)
     local this =
     {
 		entity = Entity:create(),
-		isJumping = false,
-		timeSinceJump = 0.0,
+		currentState = 0, -- 0 = idle, 1 = close attack, 2 = rangeAttack
+		idleTimer = 0.00,
+		stopIdleTimer = 2.00,
     }
 
 	this.entity.x = posX
@@ -44,22 +45,44 @@ function Boss:create(posX, posY, sizeX, sizeY)
 end
 
 function Boss:update(deltaTime, player)
-	
-	distance = math.abs(player.entity.x - self.entity.x)
-	
-	if distance < 500 then
-		self.entity:setAnimation(2)
-	
-	elseif distance < 5000 then
-		-- add projectile
-				self.entity:setAnimation(1)
-	else
 
+	hasFinished = self.entity:update(deltaTime)
+	self:stateHandler(deltaTime, player)
+	if self.idleTimer >= self.stopIdleTimer or (hasFinished == true and self.currentState ~= 0) then
+		self:changeState(player)
 	end
 
-	--print(distance)
+end
 
-	self.entity:update(deltaTime)
+function Boss:stateHandler(deltaTime, player)
+	if self.currentState == 0 then
+		self.entity:setAnimation(1)
+		self.idleTimer = self.idleTimer + deltaTime
+	elseif self.currentState == 1 then
+		self.entity:setAnimation(2)
+	elseif self.currentState == 2 then
+		self.entity:setAnimation(3)
+	else
+		print("ERROR: Boss state not found")
+	end
+end
+
+function Boss:changeState(player)
+	
+	self.idleTimer = 0.00
+	if self.currentState == 0 then
+		local distance = math.abs(player.entity.x - self.entity.x)
+
+		if distance <= 500 then
+			self.currentState = 1
+		elseif distance <= 1000 then
+			self.currentState = 2
+		else
+			self.currentState = 0
+		end
+	else
+		self.currentState = 0
+	end
 end
 
 function Boss:attack(player)
