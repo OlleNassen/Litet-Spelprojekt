@@ -42,9 +42,13 @@ s.sprite = spriteFunc(s.normalMap, s.texture)
 s:addWorld(level)
 
 local nextPortal = Entity:create()
-nextPortal.normalMap = textureFunc("Resources/Sprites/player.png")
-nextPortal.texture = textureFunc("Resources/Sprites/player.png")
+nextPortal.offsetX = 12
+nextPortal.collision_width = 24
+nextPortal.collision_height = 96
+nextPortal.texture = textureFunc("Resources/Sprites/door_diffuse.png")
+nextPortal.normalMap = textureFunc("Resources/Sprites/door_normal.png")
 nextPortal.sprite = spriteFunc(nextPortal.normalMap, nextPortal.texture)
+nextPortal:setSize(48, 96)
 nextPortal:addWorld(level)
 nextPortal:setPosition(48 * 5, 48 * 2)
 
@@ -201,7 +205,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
-		newState("Resources/Scripts/LuaStates/gameState.lua")
+		newState("Resources/Scripts/LuaStates/olleState.lua")
 	end
 
 	--power_dash:contains(p.entity)

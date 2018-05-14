@@ -217,7 +217,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
-		newState("Resources/Scripts/LuaStates/olleState.lua")
+		newState("Resources/Scripts/LuaStates/LevelVState.lua")
 	end
 
 	enemy1:update(deltaTime)	
