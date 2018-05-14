@@ -43,7 +43,6 @@ private:
 	//Sprite background;
 	int numLights = 1;
 
-	ParticleEmitter* surajParticles;
 	ParticleEmitter* collinsLaser;
 	Billboard* billboards;
 

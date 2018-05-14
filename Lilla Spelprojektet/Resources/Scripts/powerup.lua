@@ -40,3 +40,9 @@ function Powerup:contains(entity)
 
 	end
 end
+
+function Powerup:activatePowerUp(entity)
+	self:checkType(entity)
+	self.aquired = true
+	spritePos(self.entity.sprite, -10000, -10000)
+end

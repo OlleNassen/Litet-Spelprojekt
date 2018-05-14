@@ -13,18 +13,12 @@ Billboard::Billboard(Shader* shader, Texture2D* texture)
 
 	srand(time(NULL));
 
-	int index = 0;
-	float offset = 0.1f;
-	for (int y = -10; y < 10; y += 2)
+	for (int i = 0; i < NUM_BILLBOARDS; i++)
 	{
-		for (int x = -10; x < 10; x += 2)
-		{
-			glm::vec2 translation;
-			translation.x = (float)x / 10.0f + offset;
-			translation.y = (float)y / 10.0f + offset;
-			positions[index++] = translation;
-		}
+		positions[i].y = ((rand() % 2000) / 1000.0f) - 1;
+		positions[i].x = ((rand() % 2000) / 1000.0f) - 1;
 	}
+
 }
 
 Billboard::~Billboard()
@@ -36,9 +30,9 @@ void Billboard::render(const glm::mat4& projection)
 	this->shader->setMatrix4fv(model, "model");
 	this->shader->setMatrix4fv(projection, "projection");
 
-	//shader->setInt(0, "image");
+	shader->setInt(0, "image");
 
-	//this->texture->bind(0);
+	this->texture->bind(0);
 
 	this->shader->use();
 
@@ -51,23 +45,20 @@ void Billboard::render(const glm::mat4& projection)
 	glBindVertexArray(0);
 }
 
-void Billboard::update()
+void Billboard::update(const glm::vec2& camPos)
 {
 
-	static int test = 0;
-	if (test >= 100)
-		test = 0;
 	model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(positions[test++], 0.0f));
+	model = glm::translate(model, glm::vec3(glm::vec2(0,0), 0.0f));
 
 	for (int i = 0; i < NUM_BILLBOARDS; i++)
 	{
-		if (positions[i].y > 720)
+		if (positions[i].y < -1.f)
 		{
-			//positions[i].y = -5;
-			//positions[i].x = rand() % 1280;
+			positions[i].y = 1;
+			positions[i].x = ((rand() % 2000) / 1000.0f) - 1;
 		}
-		positions[i].y -= 0.001;
+		positions[i].y -= 0.01;
 	}
 }
 
@@ -81,13 +72,13 @@ void Billboard::initBillboards()
 
 	float quadVertices[] = {
 		// positions     // colors
-		-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
-		0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
-		-0.05f, -0.05f,  0.0f, 0.0f, 1.0f,
+		0.0f, 0.01f, 0.0f, 1.0f,  1.f, 1.f, 1.f,
+		0.005f, 0.0f, 1.0f, 0.0f,    1.f, 1.f, 1.f,
+		0.0f, 0.0f, 0.0f, 0.0f,   1.f, 1.f, 1.f,
 
-		-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
-		0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
-		0.05f,  0.05f,  0.0f, 1.0f, 1.0f
+		0.0f, 0.01f, 0.0f, 1.0f,  1.f, 1.f, 1.f,
+		0.005f, 0.01f, 1.0f, 1.0f,   1.f, 1.f, 1.f,
+		0.005f, 0.0f, 1.0f, 0.0f,  1.f, 1.f, 1.f
 	};
 
 	glGenVertexArrays(1, &VAO);
@@ -95,15 +86,29 @@ void Billboard::initBillboards()
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+
+	int offset = 0;
+
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 2;
+
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-	// also set instance data
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 2;
+
 	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
+	offset += sizeof(float) * 3;
+
+
+	// also set instance data
+	offset = 0;
+	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO); // this attribute comes from a different vertex buffer
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), BUFFER_OFFSET(offset));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glVertexAttribDivisor(2, 1); // tell OpenGL this is an instanced vertex attribute.
+	glVertexAttribDivisor(3, 1); // tell OpenGL this is an instanced vertex attribute.
+
 
 }
