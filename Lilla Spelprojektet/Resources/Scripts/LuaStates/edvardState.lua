@@ -162,6 +162,26 @@ enemy4.entity:addWorld(level)
 local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
 enemy5.entity:addWorld(level)
 
+local power_speed = Powerup:create("Resources/Sprites/PowerUps/powerupSpeed_diffuse.png", "Resources/Sprites/PowerUps/powerup_normal.png") -- GIVES SPEED INCREASE
+power_speed.entity.collision_width = 16
+power_speed.entity.collision_height = 42
+power_speed.entity.offsetX = 16
+power_speed.entity.offsetY = 3
+power_speed.entity.spriteWidth = 48
+power_speed.entity.spriteHeight = 48
+power_speed.entity.updateAnimationTime = 0.05
+power_speed.entity:addAnimation(1,17) 
+power_speed.entity:setAnimation(1)
+power_speed.entity:setPosition(400, 500)
+setSpriteRect(power_speed.entity.sprite,0,0,48,48)
+power_speed.type = 1
+
+--Player Visible collision box
+	--[[power_speed.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	power_speed.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
+	power_speed.entity.spriteHB = newSprite(power_speed.entity.collision_width, power_speed.entity.collision_height, power_speed.entity.normalHB, power_speed.entity.textureHB)
+	spritePos(power_speed.entity.spriteHB, power_speed.entity.x + power_speed.entity.offsetX, power_speed.entity.y + power_speed.entity.offsetY)]]
+
 local bgs = {}
 
 bgs[1] = Background:create()
@@ -219,6 +239,11 @@ function update(deltaTime)
 	if nextPortal:containsCollisionBox(p) then
 		newState("Resources/Scripts/LuaStates/olleState.lua")
 	end
+
+	if power_speed.entity:containsCollisionBox(p) then
+		power_speed:activatePowerUp(p.entity)
+	end
+	power_speed.entity:updateAnimation(deltaTime)
 
 	enemy1:update(deltaTime)	
 	enemy2:update(deltaTime)
