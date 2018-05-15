@@ -1,4 +1,5 @@
 require("Resources/Scripts/Entity")
+require("Resources/Scripts/save")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite

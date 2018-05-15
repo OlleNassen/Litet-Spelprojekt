@@ -5,6 +5,7 @@ require("Resources/Scripts/ai")
 require("Resources/Scripts/World")
 require("Resources/Scripts/powerup")
 require("Resources/Scripts/point_light")
+require("Resources/Scripts/save")
 
 m = newMusic("Resources/Sound/canary.wav")
 
@@ -68,11 +69,6 @@ tilemap =
 	width = 50,
 	height = 20
 }
-
-saveData(3000, 9)
-saveData(2000, 7)
-saveData(1000, 5)
-loadData(3000)
 
 local textureFunc = newTexture
 local spriteFunc = newSprite

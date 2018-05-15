@@ -6,6 +6,7 @@ require("Resources/Scripts/World")
 require("Resources/Scripts/olleTilemap")
 require("Resources/Scripts/powerup")
 require("Resources/Scripts/point_light")
+require("Resources/Scripts/save")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite

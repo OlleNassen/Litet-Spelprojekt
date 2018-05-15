@@ -268,7 +268,15 @@ int EventSystem::loadData(lua_State* luaState)
 	lua_getglobal(luaState, "EventSystem");
 	EventSystem* ptr = (EventSystem*)lua_touserdata(luaState, -1);
 	int index = lua_tointeger(luaState, -2);
-	lua_pushinteger(luaState, ptr->saveVector[index]);
+	
+	if (ptr->saveVector.size() > index)
+	{
+		lua_pushinteger(luaState, ptr->saveVector[index - 1]);
+	}
+	else
+	{
+		lua_pushinteger(luaState, 0);
+	}
 
 	return 1;
 }
@@ -280,7 +288,7 @@ int EventSystem::saveData(lua_State* luaState)
 	int value = lua_tointeger(luaState, -2);
 	int index = lua_tointeger(luaState, -3);
 
-	if (ptr->saveVector.size() < index)
+	if (ptr->saveVector.size() < index + 1)
 	{
 		ptr->saveVector.resize(index + 1);
 	}

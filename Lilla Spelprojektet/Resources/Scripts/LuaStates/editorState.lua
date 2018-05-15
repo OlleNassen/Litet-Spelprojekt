@@ -2,6 +2,7 @@ require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
 require("Resources/Scripts/empty")
 require("Resources/Scripts/Background")
+require("Resources/Scripts/save")
 package.loaded["Resources/Scripts/empty"] = nil
 
 function quit()

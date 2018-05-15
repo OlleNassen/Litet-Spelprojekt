@@ -64,6 +64,23 @@ function Player:create()
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)
+
+	powerTable = 
+	{
+		false,
+		false,
+		false,
+		false,
+		false
+	}
+
+	loadPowerup(powerTable)
+
+	this.entity.hasPowerUp = powerTable
+
+	print(this.entity.hasPowerUp[1])
+	print(this.entity.hasPowerUp[2])
+	print(this.entity.hasPowerUp[3])
 	
 	--Player Visible collision box
 	--[[this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
