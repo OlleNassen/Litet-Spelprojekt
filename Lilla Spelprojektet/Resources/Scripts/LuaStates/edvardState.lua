@@ -165,7 +165,11 @@ enemy4.entity:addWorld(level)
 local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
 enemy5.entity:addWorld(level)
 
-local saw = Saw:create(500, 500)
+local saws = {}
+saws[1] = Saw:create(48 * 2, 48 * 3)
+saws[2] = Saw:create(48 * 3, 48 * 3)
+saws[3] = Saw:create(48 * 4, 48 * 3)
+
 local power_speed = Powerup:create("speed", 400, 500) -- GIVES SPEED INCREASE
 
 --Player Visible collision box
@@ -247,10 +251,12 @@ function update(deltaTime)
 	end
 	power_speed.entity:updateAnimation(deltaTime)
 
-	if saw.entity:containsCollisionBox(p) then
-		saw:takeDamage(p)
-	end
-	saw.entity:updateAnimation(deltaTime)
+	for k, v in pairs(saws) do
+		if v.entity:containsCollisionBox(p) then
+			v:takeDamage(p)
+		end
+		v.entity:updateAnimation(deltaTime)
+	end 
 	
 	enemy1:update(deltaTime)	
 	enemy2:update(deltaTime)

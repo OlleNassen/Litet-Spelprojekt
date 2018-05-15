@@ -22,7 +22,7 @@ function Saw:create(posX, posY)
 	this.entity.spriteWidth = 48
 	this.entity.spriteHeight = 48
 	this.entity.updateAnimationTime = 0.03
-	this.entity:addAnimation(1,17) 
+	this.entity:addAnimation(1,24) 
 
 	this.entity.texture = newTexture("Resources/Sprites/Saw/saw_diffuse.png")
 	this.entity.normalMap = newTexture("Resources/Sprites/Saw/saw_normal.png")
