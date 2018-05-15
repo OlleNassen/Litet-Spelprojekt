@@ -91,8 +91,19 @@ towardsY = 0
 hasFoundPosition = false
 
 local p = Player:create() -- player
-p.entity.x = 98
-p.entity.y = 48 * 16
+
+if loadData(0) == 0 then
+	p.entity.x = 98
+	p.entity.y = 48 * 16
+	saveData(0, 0)
+
+elseif loadData(0) == 1 then 
+	p.entity.x = 48 * 45
+	p.entity.y = 48 * 3
+	saveData(0, 0)
+
+end
+
 p.entity:addWorld(level)
 
 local s = Entity:create() -- pixie

@@ -141,6 +141,8 @@ EventSystem::EventSystem()
 		jAxis[id] = (sf::Joystick::Axis)sf::Joystick::AxisCount;
 		repeat[id] = true;
 	}	
+
+	saveVector.push_back(0);
 }
 
 EventSystem::~EventSystem()
