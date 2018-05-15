@@ -12,6 +12,9 @@ ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* 
 
 	computeShader.load("Resources/Shaders/shader.comp");
 
+	//init particleStruct
+	particleStruct = computeShader.compute(glm::vec2(0,0), glm::vec2(50,50));
+
 	this->shader = shader;
 
 	this->texture = diffuse;
@@ -37,7 +40,6 @@ ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* 
 			}
 		}
 	*/
-	
 	
 	initParticleEmitter();
 }
@@ -191,7 +193,7 @@ void ParticleEmitter::initParticleEmitter()
 {
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &particles.translations[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, &particleStruct->positions[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	float quadVertices[] = {
@@ -233,8 +235,4 @@ void ParticleEmitter::initParticleEmitter()
 	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), BUFFER_OFFSET(offset));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glVertexAttribDivisor(3, 1); // tell OpenGL this is an instanced vertex attribute.
-
-
-
-
 }
