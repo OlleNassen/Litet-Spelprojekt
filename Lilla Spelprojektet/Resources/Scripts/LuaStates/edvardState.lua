@@ -164,19 +164,7 @@ enemy4.entity:addWorld(level)
 local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
 enemy5.entity:addWorld(level)
 
-local power_speed = Powerup:create("Resources/Sprites/PowerUps/powerupSpeed_diffuse.png", "Resources/Sprites/PowerUps/powerup_normal.png") -- GIVES SPEED INCREASE
-power_speed.entity.collision_width = 16
-power_speed.entity.collision_height = 42
-power_speed.entity.offsetX = 16
-power_speed.entity.offsetY = 3
-power_speed.entity.spriteWidth = 48
-power_speed.entity.spriteHeight = 48
-power_speed.entity.updateAnimationTime = 0.05
-power_speed.entity:addAnimation(1,17) 
-power_speed.entity:setAnimation(1)
-power_speed.entity:setPosition(400, 500)
-setSpriteRect(power_speed.entity.sprite,0,0,48,48)
-power_speed.type = 1
+local power_speed = Powerup:create("speed", 400, 500) -- GIVES SPEED INCREASE
 
 --Player Visible collision box
 	--[[power_speed.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
@@ -214,6 +202,14 @@ end
 
 function moveRight(direction, deltaTime)
 	return p:moveRight(direction, deltaTime)
+end
+
+function dash()
+	if p.canDash == true and p.entity.hasPowerUp[1] == true then --Activate dash
+		p.entity.collision_bottom = false
+		p.dashing = true
+		p.canDash = false
+	end
 end
 
 function jump()
@@ -296,8 +292,8 @@ function checkUpgrades(deltaTime)
 			p.entity.velocity.x = tempX * 2000
 			p.entity.velocity.y = tempY * 2000
 
-			print(p.entity.velocity.x)
-			print(p.entity.velocity.y)
+			--print(p.entity.velocity.x)
+			--print(p.entity.velocity.y)
 
 			--Dashing ends
 			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
