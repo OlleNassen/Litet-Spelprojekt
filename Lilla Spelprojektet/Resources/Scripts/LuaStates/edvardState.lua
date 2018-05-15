@@ -235,6 +235,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
+		savePowerup(p.entity.hasPowerUp)
 		newState("Resources/Scripts/LuaStates/LevelVState.lua")
 	end
 

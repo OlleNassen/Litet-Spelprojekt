@@ -77,10 +77,6 @@ function Player:create()
 	loadPowerup(powerTable)
 
 	this.entity.hasPowerUp = powerTable
-
-	print(this.entity.hasPowerUp[1])
-	print(this.entity.hasPowerUp[2])
-	print(this.entity.hasPowerUp[3])
 	
 	--Player Visible collision box
 	--[[this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
