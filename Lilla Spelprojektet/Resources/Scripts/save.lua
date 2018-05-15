@@ -9,7 +9,6 @@ function loadPowerup(powerupTable)
 	for k, v in pairs(powerupTable) do
 		if localLoad(k) > 0 then
 			powerupTable[k] = true
-			print (k)
 		end
 	end
 end
@@ -18,7 +17,6 @@ function savePowerup(powerupTable)
 	for k, v in pairs(powerupTable) do
 		if v then
 			localSave(k, 1)
-			print (k)
 		end
 	end
 end
