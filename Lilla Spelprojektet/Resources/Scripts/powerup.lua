@@ -6,9 +6,10 @@ Powerup.__index = Powerup
 powerUpTypes = {}
 powerUpTypes["dash"] = { 0, "Resources/Sprites/PowerUps/powerupDash_diffuse.png" }
 powerUpTypes["speed"] = { 1, "Resources/Sprites/PowerUps/powerupSpeed_diffuse.png" }
-powerUpTypes["doubleJump"] = { 2, "Resources/Sprites/PowerUps/powerupdoubleJump_diffuse.png" }
+powerUpTypes["doubleJump"] = { 2, "Resources/Sprites/PowerUps/powerupDoubleJump_diffuse.png" }
 powerUpTypes["highJump"] = { 3, "Resources/Sprites/PowerUps/powerupHighJump_diffuse.png" }
 powerUpTypes["laser"] = { 4, "Resources/Sprites/PowerUps/powerupLaser_diffuse.png" }
+powerUpTypes["health"] = { 5, "Resources/Sprites/PowerUps/powerupHealth_diffuse.png" }
 
 function Powerup:create(type, posX, posY)
     local this =
@@ -64,6 +65,11 @@ end
 
 function Powerup:activatePowerUp(entity)
 	self:checkType(entity)
+	self.aquired = true
+	spritePos(self.entity.sprite, -10000, -10000)
+end
+
+function Powerup:disablePowerup()
 	self.aquired = true
 	spritePos(self.entity.sprite, -10000, -10000)
 end
