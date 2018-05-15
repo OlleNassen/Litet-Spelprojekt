@@ -39,6 +39,7 @@ function Entity:create()
 		hasGravity = true,
 		canFly = false,
 		hasPowerUp = {},
+		maxHealth = 100,
 		health = 100,
 		canTakeDamage = true,
 		damageTimerStart = false,

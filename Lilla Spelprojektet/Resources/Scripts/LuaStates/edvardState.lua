@@ -166,7 +166,8 @@ saws[1] = Saw:create(48 * 2, 48 * 3)
 saws[2] = Saw:create(48 * 3, 48 * 3)
 saws[3] = Saw:create(48 * 4, 48 * 3)
 
-local power_speed = Powerup:create("speed", 400, 500) -- GIVES SPEED INCREASE
+local power_health = Powerup:create("health", 400, 500) -- GIVES HEALTH
+local power_speed = Powerup:create("speed", 450, 500) -- GIVES SPEED INCREASE
 
 --Player Visible collision box
 	--[[saw.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
@@ -232,7 +233,6 @@ end
 
 
 function update(deltaTime)
-	
 	checkUpgrades(deltaTime)
 
 	p:update(deltaTime)
@@ -242,38 +242,9 @@ function update(deltaTime)
 		newState("Resources/Scripts/LuaStates/LevelVState.lua")
 	end
 
-	if power_speed.entity:containsCollisionBox(p) then
-		power_speed:activatePowerUp(p.entity)
-	end
-	power_speed.entity:updateAnimation(deltaTime)
+	updateEntitys(deltaTime)
 
-	for k, v in pairs(saws) do
-		if v.entity:containsCollisionBox(p) then
-			v:takeDamage(p)
-		end
-		v.entity:updateAnimation(deltaTime)
-	end 
-	
-	enemy1:update(deltaTime)	
-	enemy2:update(deltaTime)
-	enemy3:update(deltaTime)
-	enemy4:update(deltaTime)
-	enemy5:update(deltaTime)
-	enemy1:attack(p)
-	enemy2:attack(p)
-	enemy3:attack(p)
-	enemy4:attack(p)
-	enemy5:attack(p)
-	
-	pX, pY = getCameraPosition()	
-	for k, v in pairs(bgs) do
-		if k <= totalFurthestSprites then
-			v:setPosition(pX * 0.01  + (600 * k), pY * -0.05 - 100, k)
-		else
-			index = k - totalFurthestSprites
-			v:setPosition(pX * 0.1 + (index * 800), pY * -0.2, k)
-		end
-	end
+	updateBackground()
 end
 
 function checkUpgrades(deltaTime)
@@ -322,5 +293,50 @@ function checkUpgrades(deltaTime)
 	end
 	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
 		p.jumpPower = -1800
+	end
+end
+
+function updateEntitys(deltaTime)
+	if power_health.entity:containsCollisionBox(p) then
+		if power_health.aquired == false then
+			p:healPlayer(20)
+			power_health:disablePowerup()
+		end
+	end
+	power_health.entity:updateAnimation(deltaTime)
+
+	if power_speed.entity:containsCollisionBox(p) then
+		power_speed:activatePowerUp(p.entity)
+	end
+
+	power_speed.entity:updateAnimation(deltaTime)
+	for k, v in pairs(saws) do
+		if v.entity:containsCollisionBox(p) then
+			v:takeDamage(p)
+		end
+		v.entity:updateAnimation(deltaTime)
+	end 
+
+	enemy1:update(deltaTime)	
+	enemy2:update(deltaTime)
+	enemy3:update(deltaTime)
+	enemy4:update(deltaTime)
+	enemy5:update(deltaTime)
+	enemy1:attack(p)
+	enemy2:attack(p)
+	enemy3:attack(p)
+	enemy4:attack(p)
+	enemy5:attack(p)
+end
+
+function updateBackground()
+	pX, pY = getCameraPosition()	
+	for k, v in pairs(bgs) do
+		if k <= totalFurthestSprites then
+			v:setPosition(pX * 0.01  + (600 * k), pY * -0.05 - 100, k)
+		else
+			index = k - totalFurthestSprites
+			v:setPosition(pX * 0.1 + (index * 800), pY * -0.2, k)
+		end
 	end
 end
