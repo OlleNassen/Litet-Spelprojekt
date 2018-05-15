@@ -4,6 +4,7 @@ require("Resources/Scripts/player")
 require("Resources/Scripts/ai")
 require("Resources/Scripts/World")
 require("Resources/Scripts/powerup")
+require("Resources/Scripts/saw")
 require("Resources/Scripts/point_light")
 require("Resources/Scripts/save")
 
@@ -160,13 +161,14 @@ enemy4.entity:addWorld(level)
 local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
 enemy5.entity:addWorld(level)
 
+local saw = Saw:create(500, 500)
 local power_speed = Powerup:create("speed", 400, 500) -- GIVES SPEED INCREASE
 
 --Player Visible collision box
-	--[[power_speed.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
-	power_speed.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
-	power_speed.entity.spriteHB = newSprite(power_speed.entity.collision_width, power_speed.entity.collision_height, power_speed.entity.normalHB, power_speed.entity.textureHB)
-	spritePos(power_speed.entity.spriteHB, power_speed.entity.x + power_speed.entity.offsetX, power_speed.entity.y + power_speed.entity.offsetY)]]
+	--[[saw.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	saw.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
+	saw.entity.spriteHB = newSprite(saw.entity.collision_width, saw.entity.collision_height, saw.entity.normalHB, saw.entity.textureHB)
+	spritePos(saw.entity.spriteHB, saw.entity.x + saw.entity.offsetX, saw.entity.y + saw.entity.offsetY)]]
 
 local bgs = {}
 
@@ -241,6 +243,11 @@ function update(deltaTime)
 	end
 	power_speed.entity:updateAnimation(deltaTime)
 
+	if saw.entity:containsCollisionBox(p) then
+		saw:takeDamage(p)
+	end
+	saw.entity:updateAnimation(deltaTime)
+	
 	enemy1:update(deltaTime)	
 	enemy2:update(deltaTime)
 	enemy3:update(deltaTime)

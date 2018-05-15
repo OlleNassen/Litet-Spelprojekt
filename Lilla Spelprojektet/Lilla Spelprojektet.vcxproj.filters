@@ -112,5 +112,6 @@
     <None Include="Resources\Scripts\projectile.lua">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="Resources\Scripts\saw.lua" />
   </ItemGroup>
 </Project>

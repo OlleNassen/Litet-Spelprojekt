@@ -127,7 +127,7 @@ public:
 
 	inline void use()
 	{
-		if(this->id)
+		if (this->id)
 			glUseProgram(this->id);
 		else
 		{
