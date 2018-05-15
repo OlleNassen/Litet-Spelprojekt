@@ -38,6 +38,8 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
 	
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
+
+	//pixie = new PixieParticles(&shaders.basic, &textures[0]);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -92,6 +94,8 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		collinsLaser->push(1, 0, 0);
 	}
 
+	//pixie->update(glm::vec2(getPixie().x, getPixie().y));
+	//pixie->render(view, projection);
 	
 	
 }

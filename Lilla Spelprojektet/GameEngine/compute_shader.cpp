@@ -70,8 +70,6 @@ void ComputeShader::load(const char* computeShaderFile)
 	/** delete the shaders as they're linked into our program now and no longer necessery */
 	glDeleteShader(compute);
 
-	ParticleStruct data;
-
 	/** Storage buffer */
 	glUseProgram(shaderProgram);
 	glGenBuffers(1, &storageBuffer);
@@ -84,7 +82,6 @@ void ComputeShader::load(const char* computeShaderFile)
 ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& to)
 {
 	ParticleStruct* result = nullptr;
-	ParticleStruct data;
 	glm::vec2 to_from = glm::vec2(to - from);
 
 	if (shaderProgram)
@@ -107,4 +104,26 @@ ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& t
 	
 	return result;
 	
+}
+
+ParticleStruct * ComputeShader::pixie(const glm::vec2& pixiePos)
+{
+	ParticleStruct* result = nullptr;
+
+	if (shaderProgram)
+	{
+		glUseProgram(shaderProgram);
+
+		glUniform2fv(glGetUniformLocation(shaderProgram, "pixiePos"), 1, glm::value_ptr(pixiePos));
+
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+		glDispatchCompute(10, 10, 1);
+
+		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+		result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		glUseProgram(0);
+	}
+
+	return result;
 }

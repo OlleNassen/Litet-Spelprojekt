@@ -45,6 +45,9 @@
     <ClCompile Include="Renderer\billboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\temp_pixie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\libs.h">
@@ -86,6 +89,9 @@
     <ClInclude Include="Renderer\billboard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\temp_pixie.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />
@@ -113,5 +119,6 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="Resources\Scripts\saw.lua" />
+    <None Include="Resources\Shaders\pixie.comp" />
   </ItemGroup>
 </Project>
