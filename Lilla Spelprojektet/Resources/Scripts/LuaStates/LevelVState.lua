@@ -28,8 +28,15 @@ towardsY = 0
 hasFoundPosition = false
 
 local p = Player:create() -- player
+
+if loadData(0) == 0 then
+	p.entity.x = 98
+	p.entity.y = 48 * 16
+	saveData(0, 1)
+end
+
 p.entity:addWorld(level)
-p.entity:setPosition(48 * 1, 16 * 48)
+p.entity:setPosition(48 * 2, 16 * 48)
 
 
 local s = Entity:create() -- pixie
@@ -52,6 +59,17 @@ nextPortal.sprite = spriteFunc(nextPortal.normalMap, nextPortal.texture)
 nextPortal:setSize(48, 96)
 nextPortal:addWorld(level)
 nextPortal:setPosition(48 * 5, 48 * 2)
+
+local backPortal = Entity:create()
+backPortal.offsetX = 12
+backPortal.collision_width = 24
+backPortal.collision_height = 96
+backPortal.texture = textureFunc("Resources/Sprites/door_diffuse.png")
+backPortal.normalMap = textureFunc("Resources/Sprites/door_normal.png")
+backPortal.sprite = spriteFunc(nextPortal.normalMap, nextPortal.texture)
+backPortal:setSize(48, 96)
+backPortal:addWorld(level)
+backPortal:setPosition(48, 17 * 48)
 
 p.spriteHPBar = spriteFunc(500, 50, 0, p.textureHPBar)
 spritePos(p.spriteHPBar, 50, 50)
@@ -208,6 +226,11 @@ function update(deltaTime)
 	if nextPortal:containsCollisionBox(p) then
 		savePowerup(p.entity.hasPowerUp)
 		newState("Resources/Scripts/LuaStates/olleState.lua")
+	end
+
+	if backPortal:containsCollisionBox(p) then
+		savePowerup(p.entity.hasPowerUp)
+		newState("Resources/Scripts/LuaStates/edvardState.lua")
 	end
 
 	--power_dash:contains(p.entity)

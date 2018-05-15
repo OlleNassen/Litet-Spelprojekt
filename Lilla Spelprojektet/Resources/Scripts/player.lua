@@ -147,7 +147,7 @@ function Player:fly()
 end
 
 function Player:updateHPBar()
-	spriteSize(self.spriteHPBar, (self.entity.health/100)*500, 50)
+	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 500, 50)
 end
 
 function Player:update(deltaTime)
@@ -216,4 +216,14 @@ function Player:takeDamage(dmg)
 		self.entity:setAnimation(3)
 
 	end
+end
+
+function Player:healPlayer(heal)
+	self.entity.health = self.entity.health + heal
+
+	if self.entity.health > self.entity.maxHealth then
+		self.entity.health = self.entity.maxHealth
+	end
+
+	self:updateHPBar()
 end
