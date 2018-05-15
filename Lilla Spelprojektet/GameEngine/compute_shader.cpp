@@ -5,7 +5,7 @@
 #include <string>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
-#include<glm/gtc/type_ptr.hpp>'
+#include<glm/gtc/type_ptr.hpp>
 
 ComputeShader::ComputeShader()
 {
@@ -75,7 +75,8 @@ void ComputeShader::load(const char* computeShaderFile)
 	glGenBuffers(1, &storageBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &data, GL_STATIC_COPY);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, storageBuffer);
+	static int index = 0;
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, index++, storageBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -114,15 +115,19 @@ ParticleStruct * ComputeShader::pixie(const glm::vec2& pixiePos)
 	{
 		glUseProgram(shaderProgram);
 
-		glUniform2fv(glGetUniformLocation(shaderProgram, "pixiePos"), 1, glm::value_ptr(pixiePos));
+		glUniform2fv(glGetUniformLocation(shaderProgram, "pixie"), 1, glm::value_ptr(pixiePos));
 
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+
+		/*
 		glDispatchCompute(10, 10, 1);
+		*/
 
 		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 		result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		glUseProgram(0);
+
 	}
 
 	return result;
