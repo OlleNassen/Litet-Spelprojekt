@@ -271,7 +271,7 @@ int EventSystem::loadData(lua_State* luaState)
 	
 	if (ptr->saveVector.size() > index)
 	{
-		lua_pushinteger(luaState, ptr->saveVector[index - 1]);
+		lua_pushinteger(luaState, ptr->saveVector[index]);
 	}
 	else
 	{
@@ -288,7 +288,7 @@ int EventSystem::saveData(lua_State* luaState)
 	int value = lua_tointeger(luaState, -2);
 	int index = lua_tointeger(luaState, -3);
 
-	if (ptr->saveVector.size() < index + 1)
+	if (ptr->saveVector.size() < index)
 	{
 		ptr->saveVector.resize(index + 1);
 	}

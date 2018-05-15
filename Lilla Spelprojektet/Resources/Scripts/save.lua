@@ -5,16 +5,10 @@ local localLoad = loadData
 local localSave = saveData
 
 function loadPowerup(powerupTable)
-
-	for k, v in pairs(powerupTable) do
-		if localLoad(k) > 0 then
-			v = true
-		end
-	end
 	
 	for k, v in pairs(powerupTable) do
 		if localLoad(k) > 0 then
-			v = true
+			powerupTable[k] = true
 		end
 	end
 end
