@@ -26,19 +26,19 @@ private:
 			while (std::getline(in_file, line))
 			{
 				file += line + "\n";
-			}
+			}	
 		}
 		else
 		{
 			std::cout << "SHADER::LOAD_FROM_FILE::COULD_NOT_OPEN_FILE" << fileName << "\n";
 			throw("SHADER::LOAD_FROM_FILE::COULD_NOT_OPEN_FILE");
 		}
-
+			
 		in_file.close();
 
 		return file;
 	}
-
+	
 	GLuint create_shader(const std::string fileName, GLenum type)
 	{
 		int success;
