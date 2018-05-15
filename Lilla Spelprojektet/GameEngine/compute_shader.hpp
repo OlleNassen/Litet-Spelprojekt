@@ -22,5 +22,7 @@ public:
 private:
 	unsigned int shaderProgram;
 	unsigned int storageBuffer;
+
+	ParticleStruct data;
 };
 
