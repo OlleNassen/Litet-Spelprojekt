@@ -37,14 +37,13 @@ void PixieParticles::update(const glm::vec2& pixiePos)
 {
 	model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(pixiePos, 0.0f));
-
-	model = glm::translate(model, glm::vec3(0.5f * 48.f, 0.5f * 48.f, 0.0f));
-	model = glm::rotate(model, 0.f, glm::vec3(0.0f, 0.f, 0.1f));
-	model = glm::translate(model, glm::vec3(-0.5f * 48.f, -0.5f * 48.f, 0.0f));
-
 	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
 
 	particleStruct = compShader.pixie(pixiePos);
+
+	for(int i = 0; i < MAX_NUM_PARTICLES; i++)
+		positions[i] = particleStruct->positions[i];
+
 }
 
 void PixieParticles::initPixie()

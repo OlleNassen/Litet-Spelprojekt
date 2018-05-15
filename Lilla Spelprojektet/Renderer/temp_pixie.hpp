@@ -21,7 +21,7 @@ private:
 
 	glm::vec2 positions[MAX_NUM_PARTICLES];
 
-	ParticleStruct* particleStruct;
+	ParticleStruct* particleStruct = nullptr;
 
 public:
 	PixieParticles(Shader* shader, Texture2D* texture);
