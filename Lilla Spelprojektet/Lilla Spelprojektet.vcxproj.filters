@@ -122,5 +122,6 @@
     <None Include="Resources\Shaders\pixie.comp" />
     <None Include="Resources\Scripts\enemyContainer.lua" />
     <None Include="Resources\Scripts\playerInput.lua" />
+    <None Include="Resources\Scripts\common.lua" />
   </ItemGroup>
 </Project>
