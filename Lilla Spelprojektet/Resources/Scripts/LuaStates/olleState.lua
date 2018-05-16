@@ -137,12 +137,14 @@ function update(deltaTime)
 
 	--Update portals
 	if nextPortal:containsCollisionBox(p) then
-		savePowerup(p.entity.hasPowerUp)
+		--savePowerup(p.entity.hasPowerUp)
 		newState("Resources/Scripts/LuaStates/gameState.lua")
 	end
 
 	--Update powerups
-	power_jump:contains(p.entity)
+	if power_jump.entity:containsCollisionBox(p) then
+		power_jump:activatePowerUp(p.entity)
+	end
 	power_jump.entity:updateAnimation(deltaTime)
 	
 	--Update enemies

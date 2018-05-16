@@ -80,7 +80,7 @@ local power_highjump = Powerup:create("Resources/Sprites/powerupHighJump_diffuse
 power_highjump.entity:setPosition(900, 1500)
 power_highjump.type = 3
 
-addEnemy(1055, 1055, 120, 120. level)
+addEnemy(1055, 1055, 120, 120, level)
 
 local b = Boss:create(1500, 100, 500, 500) -- bossman
 b.entity:addWorld(level)
