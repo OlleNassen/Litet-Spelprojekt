@@ -75,15 +75,9 @@ tilemap =
 local textureFunc = newTexture
 local spriteFunc = newSprite
 
-function quit()
-	deleteState()
-end
-
 local level = World:create()
 level:addMap(tilemap)
 level:loadGraphics()
-
-
 
 -- PowerUps
 -- Dash
@@ -91,7 +85,7 @@ towardsX = 0
 towardsY = 0
 hasFoundPosition = false
 
-local p = Player:create() -- player
+p = Player:create() -- player
 
 if loadData(0) == 0 then
 	p.entity.x = 98
@@ -204,42 +198,7 @@ bgs[5].sprite = newBackground(100, 1600, 0, bgs[4].texture)
 bgs[6] = Background:create()
 bgs[6].sprite = newBackground(100, 1600, 0, bgs[4].texture)--[[]]
 
-function moveUp(direction, deltaTime)
-	return p:moveUp(direction, deltaTime)
-end
-
-function moveRight(direction, deltaTime)
-	return p:moveRight(direction, deltaTime)
-end
-
-function dash()
-	if p.canDash == true and p.entity.hasPowerUp[1] == true then --Activate dash
-		p.entity.collision_bottom = false
-		p.dashing = true
-		p.canDash = false
-	end
-end
-
-function jump()
-	return p:jump()
-end
-
-function fly()
-	return p:fly()
-end
-
-function mouseLeft()
-	return p:attack()
-end
-
-mX = 0.0
-mY = 0.0
-
-function mouse(x, y)
-	mX = mX + x
-	mY = mY + y
-end
-
+require("Resources/Scripts/playerInput")
 
 function update(deltaTime)
 	checkUpgrades(deltaTime)
