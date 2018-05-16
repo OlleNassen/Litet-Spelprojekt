@@ -20,7 +20,7 @@ function World:loadGraphics()
 	local tTex = tileTexture
 	local tGra = loadTileGraphics
 	for i = 1, self.map.tilesets[1].tilecount, 1 do
-		tTex(self.map.tilesets[1].tiles[i].image, self.map.tilesets[1].tiles[i].image)
+		tTex(self.map.tilesets[1].tiles[i].image, self.map.tilesets[2].tiles[i].image)
 	end
 	--print(i)
 
