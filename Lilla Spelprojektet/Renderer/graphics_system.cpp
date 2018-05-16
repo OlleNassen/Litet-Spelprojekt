@@ -39,7 +39,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
 
-	//pixie = new PixieParticles(&shaders.basic, &textures[0]);
+	pixie = new PixieParticles(&shaders.basic, &textures[0]);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{

@@ -22,6 +22,8 @@ void PixieParticles::render(const glm::mat4& view, const glm::mat4& projection)
 	this->shader->setMatrix4fv(view, "view");
 	this->shader->setMatrix4fv(projection, "projection");
 
+	this->texture->bind(0);
+
 	this->shader->use();
 
 	glBindVertexArray(VAO);
