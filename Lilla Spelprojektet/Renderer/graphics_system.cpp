@@ -110,12 +110,6 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 
 	if (tileMap.size() > 0)
 	{	
-		//Temp
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace))
-		{
-			initShadows();
-		}
-
 		for (int y = (camera->getPosition().y - HEIGHT/2) / 48 - 1; y < (camera->getPosition().y + HEIGHT/2) / 48; y++)
 		{
 			for (int x = (camera->getPosition().x - WIDTH/2) / 48 - 1; x < (camera->getPosition().x + WIDTH/2) / 48; x++)
@@ -129,7 +123,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 					glUniform4fv(glGetUniformLocation(shaders.amazing.getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
 					shaders.amazing.unuse();
 
-					if (visibleTiles[x + 2 + y * tileMap[0]])
+					if (visibleTiles[x + 1 + y * tileMap[0]])
 					{
 						shaders.amazing.setVector3f(glm::vec3(1, 0, 0), "status");
 					}
@@ -138,7 +132,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 						shaders.amazing.setVector3f(glm::vec3(0, 0, 0), "status");
 					}
 
-					tiles[tileMap[x + 2 + y * tileMap[0]]].draw(glm::vec2(x * 48, y * 48), view, projection);
+					tiles[tileMap[x + 2 + y * tileMap[0]] - 1].draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
 			}
 		}

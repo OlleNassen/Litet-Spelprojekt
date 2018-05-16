@@ -1,5 +1,5 @@
 
-require("Resources/Scripts/LuaStates/Map/Levels/Level1")
+tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level")
 require("Resources/Scripts/common")
 
 m = newMusic("Resources/Sound/canary.wav")

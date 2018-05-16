@@ -4,8 +4,7 @@ World.__index = World
 function World:create()
     local this =
     {
-		map = { },
-		tileSize = 48,
+		map = { }
     }
 
     setmetatable(this, self)
@@ -20,25 +19,17 @@ function World:loadGraphics()
 	
 	local tTex = tileTexture
 	local tGra = loadTileGraphics
-	
-	local i = 1
-	for k, v in pairs(self.map.texturesDiffuse) do
-		tTex(v, self.map.texturesNormal[i])
-		i = i + 1
+	for i = 1, self.map.tilesets[1].tilecount, 1 do
+		tTex(self.map.tilesets[1].tiles[i].image, self.map.tilesets[1].tiles[i].image)
 	end
 	--print(i)
 
 	tGra(self.map.width)
 	tGra(self.map.height)
-	
-	for k, v in pairs(self.map.tiles) do
-		tGra(v)
-	end
-end
 
-function World:emptyMap()
-	self.map = {}
-	clearTileMap()
+	for i = 1, self.map.width * self.map.height, 1 do
+		tGra(self.map.layers[1].data[i])
+	end
 end
 
 function World:canMove(newX, newY)
@@ -46,13 +37,19 @@ function World:canMove(newX, newY)
 	local x;
 	local y;
 			
-	x = newX / self.tileSize;
-	y = newY / self.tileSize;
+	x = newX / self.map.tilewidth;
+	y = newY / self.map.tileheight;
 
 	x = math.floor(x + 1)
 	y = math.floor(y)
-	
-	local result = self.map.ignore[self.map.tiles[x + y * self.map.width] + 1]
+
+	local id = self.map.layers[1].data[x + y * self.map.width]
+
+	local result = true
+
+	if id ~= 0 then
+		result = self.map.tilesets[1].tiles[id].properties["ignore"]
+	end
 
 	return result
 end
