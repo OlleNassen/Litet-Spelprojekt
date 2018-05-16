@@ -1,7 +1,7 @@
 PointLight = {}
 PointLight.__index = PointLight
 
-function PointLight:create(red, green, blue, x, y, normal, diffuse)
+function PointLight:create(red, green, blue, x, y)
     
 	if normal ~= 0 then
 		t = newTexture("Resources/Sprites/lamp_normal.png")
@@ -9,12 +9,10 @@ function PointLight:create(red, green, blue, x, y, normal, diffuse)
 		t = 0
 	end
 	
-	,
-	"Resources/Sprites/lamp_diffuse.png"
 	local this =
     {
 		normaltext = t,
-		diffusetext = newTexture(diffuse),
+		diffusetext = newTexture("Resources/Sprites/lamp_diffuse.png"),
 		sprite
     }
 	this.sprite = newLight(red, green, blue, x, y, this.normaltext, this.diffusetext)
