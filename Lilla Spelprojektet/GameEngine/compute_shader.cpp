@@ -94,8 +94,9 @@ ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& t
 	glDispatchCompute(10, 10, 1);
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	glUseProgram(0);
 	
 	return result;
@@ -112,8 +113,9 @@ ParticleStruct * ComputeShader::pixie(const glm::vec2& pixiePos)
 	glDispatchCompute(10, 10, 1);
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	glUseProgram(0);
 
 	return result;

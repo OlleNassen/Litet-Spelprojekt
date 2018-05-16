@@ -35,11 +35,11 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	textures.back().loadFromFile("Resources/Sprites/starParticle_normal.png");
 
 	
-	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
+	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0]);
 	
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
 
-	pixie = new PixieParticles(&shaders.basic, &textures[0]);
+	pixie = new PixieParticles(&shaders.particle, &textures[0]);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -84,18 +84,14 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
 	{
 		collinsLaser->shader->use();
-		glUniform3fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
-		glUniform4fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
-		collinsLaser->shader->unuse();
 
-		collinsLaser->updateLaser(0.00016f,
+			collinsLaser->updateLaser(0.00016f,
 			glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
 		collinsLaser->render(view, projection);
-		collinsLaser->push(1, 0, 0);
 	}
 
-	//pixie->update(glm::vec2(getPixie().x, getPixie().y));
-	//pixie->render(view, projection);
+	pixie->update(glm::vec2(getPixie().x, getPixie().y));
+	pixie->render(view, projection);
 	
 	
 }

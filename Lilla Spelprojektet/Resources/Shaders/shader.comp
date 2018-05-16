@@ -29,11 +29,13 @@ void main()
 
 	float val = random(vec2(xVal, yVal));
 
-	positions[x + y * 10].x = from.x;
-	positions[x + y * 10].y = from.y;
+
+	//positions[x + y * 10].x = xVal;
+	//positions[x + y * 10].y = yVal;
+	//positions[x + y * 10].xy = vec2(xVal,yVal);
+	positions[x + y * 10].xy = (to - from);
 
 
-	positions[x + y * 10].x = val * (to.x - from.x);
-	positions[x + y * 10].y = val * (to.y - from.y);
 
+	positions[x + y * 10].xy *= val;
 }

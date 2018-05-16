@@ -19,7 +19,7 @@ public:
 	ParticleStruct* pixie(const glm::vec2& pixiePos);
 
 private:
-	ParticleStruct data;
+	glm::vec2 data[10000];
 	unsigned int shaderProgram;
 	unsigned int storageBuffer;
 };

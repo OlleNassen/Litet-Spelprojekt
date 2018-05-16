@@ -39,7 +39,6 @@ void PixieParticles::update(const glm::vec2& pixiePos)
 {
 	model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(pixiePos, 0.0f));
-	model = glm::scale(model, glm::vec3(256.f, 256.f, 1.0f));
 
 	particleStruct = compShader.pixie(pixiePos);
 }
@@ -53,13 +52,13 @@ void PixieParticles::initPixie()
 
 	float quadVertices[] = {
 		// positions     // colors
-		0.0f, 0.01f, 0.0f, 1.0f,  1.f, 1.f, 1.f,
-		0.005f, 0.0f, 1.0f, 0.0f,    1.f, 1.f, 1.f,
+		0.0f, 12.f, 0.0f, 1.0f,  1.f, 1.f, 1.f,
+		12.f, 0.0f, 1.0f, 0.0f,    1.f, 1.f, 1.f,
 		0.0f, 0.0f, 0.0f, 0.0f,   1.f, 1.f, 1.f,
 
-		0.0f, 0.01f, 0.0f, 1.0f,  1.f, 1.f, 1.f,
-		0.005f, 0.01f, 1.0f, 1.0f,   1.f, 1.f, 1.f,
-		0.005f, 0.0f, 1.0f, 0.0f,  1.f, 1.f, 1.f
+		0.0f, 12.f, 0.0f, 1.0f,  1.f, 1.f, 1.f,
+		12.f, 12.f, 1.0f, 1.0f,   1.f, 1.f, 1.f,
+		12.f, 0.0f, 1.0f, 0.0f,  1.f, 1.f, 1.f
 	};
 
 	glGenVertexArrays(1, &VAO);
