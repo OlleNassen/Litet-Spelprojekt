@@ -17,4 +17,4 @@ bindKeyboard("next", keyboard.E, keyboard.Q)
 bindKeyboard("save", keyboard.K, keyboard.None)
 bindKeyboard("load", keyboard.L, keyboard.None)
 
-newState("Resources/Scripts/LuaStates/Map/Level1State.lua")
+newState("Resources/Scripts/LuaStates/edvardState.lua")
