@@ -58,25 +58,25 @@ local bgs = {}
 
 bgs[1] = Background:create()
 bgs[1].texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse_48.png")
-bgs[1].sprite = newBackground(50, 1200, 0, bgs[1].texture)
+bgs[1].sprite = newBackground(50, 2400, 0, bgs[1].texture)
 
 bgs[2] = Background:create()
-bgs[2].sprite = newBackground(50, 1200, 0, bgs[1].texture)
+bgs[2].sprite = newBackground(50, 2400, 0, bgs[1].texture)
 
 bgs[3] = Background:create()
-bgs[3].sprite = newBackground(50, 1200, 0, bgs[1].texture)
+bgs[3].sprite = newBackground(50, 2400, 0, bgs[1].texture)
 
 local totalFurthestSprites = 3
 
 bgs[4] = Background:create()
 bgs[4].texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse.png")
-bgs[4].sprite = newBackground(100, 1600, 0, bgs[4].texture)
+bgs[4].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 
 bgs[5] = Background:create()
-bgs[5].sprite = newBackground(100, 1600, 0, bgs[4].texture)
+bgs[5].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 
 bgs[6] = Background:create()
-bgs[6].sprite = newBackground(100, 1600, 0, bgs[4].texture)--[[]]
+bgs[6].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 
 function updateBackground()
 	pX, pY = getCameraPosition()	
