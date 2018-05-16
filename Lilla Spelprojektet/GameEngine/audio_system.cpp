@@ -29,6 +29,9 @@ void AudioSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, playSound);
 	lua_setglobal(luaState, "playSound");
+
+	lua_pushcfunction(luaState, playSound);
+	lua_setglobal(luaState, "pauseSound");
 }
 
 int AudioSystem::newMusic(lua_State* luaState)
@@ -84,7 +87,22 @@ int AudioSystem::playSound(lua_State* luaState)
 	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
 	int* id = (int*)lua_touserdata(luaState, -2);
 
-	ptr->sounds[*id].play();
+	if (ptr->sounds[*id].getStatus() != sf::Sound::Playing)
+	{
+		ptr->sounds[*id].play();
+	}
+	
+
+	return 0;
+}
+
+int AudioSystem::pauseSound(lua_State* luaState)
+{
+	lua_getglobal(luaState, "AudioSystem");
+	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
+	int* id = (int*)lua_touserdata(luaState, -2);
+
+	ptr->sounds[*id].pause();
 
 	return 0;
 }

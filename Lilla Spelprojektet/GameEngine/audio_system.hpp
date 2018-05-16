@@ -22,5 +22,6 @@ private:
 	static int newSoundBuffer(lua_State* luaState);
 	static int newSound(lua_State* luaState);
 	static int playSound(lua_State* luaState);
+	static int pauseSound(lua_State* luaState);
 };
 

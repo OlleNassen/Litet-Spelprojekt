@@ -85,50 +85,38 @@ ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& t
 	ParticleStruct* result = nullptr;
 	glm::vec2 to_from = glm::vec2(to - from);
 
-	if (shaderProgram)
-	{
-		glUseProgram(shaderProgram);
-		glUniform2fv(glGetUniformLocation(shaderProgram, "to_from"), 1, glm::value_ptr(to_from));
+	glUseProgram(shaderProgram);
 
-		glUniform2fv(glGetUniformLocation(shaderProgram, "from"), 1, glm::value_ptr(from));
-		glUniform2fv(glGetUniformLocation(shaderProgram, "to"), 1, glm::value_ptr(to));
+	glUniform2fv(glGetUniformLocation(shaderProgram, "to_from"), 1, glm::value_ptr(to_from));
+	glUniform2fv(glGetUniformLocation(shaderProgram, "from"), 1, glm::value_ptr(from));
+	glUniform2fv(glGetUniformLocation(shaderProgram, "to"), 1, glm::value_ptr(to));
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+	glDispatchCompute(10, 10, 1);
+	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+	result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
 
 
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
-		glDispatchCompute(10, 10, 1);
-		
-		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-		result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		glUseProgram(0);
-	}
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glUseProgram(0);
 	
 	return result;
-	
 }
 
 ParticleStruct * ComputeShader::pixie(const glm::vec2& pixiePos)
 {
 	ParticleStruct* result = nullptr;
 
-	if (shaderProgram)
-	{
-		glUseProgram(shaderProgram);
+	glUseProgram(shaderProgram);
 
-		glUniform2fv(glGetUniformLocation(shaderProgram, "pixie"), 1, glm::value_ptr(pixiePos));
+	glUniform2fv(glGetUniformLocation(shaderProgram, "pixie"), 1, glm::value_ptr(pixiePos));
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+	glDispatchCompute(10, 10, 1);
+	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+	result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
 
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
 
-		/*
-		glDispatchCompute(10, 10, 1);
-		*/
-
-		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-		result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		glUseProgram(0);
-
-	}
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glUseProgram(0);
 
 	return result;
 }

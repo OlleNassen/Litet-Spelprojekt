@@ -7,6 +7,7 @@ require("Resources/Scripts/powerup")
 require("Resources/Scripts/saw")
 require("Resources/Scripts/point_light")
 require("Resources/Scripts/save")
+require("Resources/Scripts/enemyContainer")
 
 m = newMusic("Resources/Sound/canary.wav")
 
@@ -74,15 +75,9 @@ tilemap =
 local textureFunc = newTexture
 local spriteFunc = newSprite
 
-function quit()
-	deleteState()
-end
-
 local level = World:create()
 level:addMap(tilemap)
 level:loadGraphics()
-
-
 
 -- PowerUps
 -- Dash
@@ -90,7 +85,7 @@ towardsX = 0
 towardsY = 0
 hasFoundPosition = false
 
-local p = Player:create() -- player
+p = Player:create() -- player
 
 if loadData(0) == 0 then
 	p.entity.x = 98
@@ -148,7 +143,6 @@ local light3 = PointLight:create(color, color, color, tileSize, tileSize * 14,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-
 local light4 = PointLight:create(color, color, color,tileSize * 39, tileSize,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
@@ -157,20 +151,13 @@ local light5 = PointLight:create(color, color, color, tileSize * 2, tileSize * 3
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local enemy1 = Ai:create(42 * 48, 48 * 9, 120, 120) -- goomba
-enemy1.entity:addWorld(level)
+--Enemies
+addEnemy(42 * 48, 48 * 9, 120, 120, level)
+addEnemy(38 * 48, 48 * 9, 120, 120, level)
+addEnemy(34 * 48, 48 * 9, 120, 120, level)
+addEnemy(30 * 48, 48 * 9, 120, 120, level)
+addEnemy(26 * 48, 48 * 9, 120, 120, level)
 
-local enemy2 = Ai:create(38 * 48, 48 * 9, 120, 120) -- goomba
-enemy2.entity:addWorld(level)
-
-local enemy3 = Ai:create(34 * 48, 48 * 9, 120, 120) -- goomba
-enemy3.entity:addWorld(level)
-
-local enemy4 = Ai:create(30 * 48, 48 * 9, 120, 120) -- goomba
-enemy4.entity:addWorld(level)
-
-local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
-enemy5.entity:addWorld(level)
 
 local saws = {}
 saws[1] = Saw:create(48 * 2, 48 * 3)
@@ -210,38 +197,7 @@ bgs[5].sprite = newBackground(100, 1600, 0, bgs[4].texture)
 bgs[6] = Background:create()
 bgs[6].sprite = newBackground(100, 1600, 0, bgs[4].texture)--[[]]
 
-function moveUp(direction, deltaTime)
-	return p:moveUp(direction, deltaTime)
-end
-
-function moveRight(direction, deltaTime)
-	return p:moveRight(direction, deltaTime)
-end
-
-function dash()
-	if p.canDash == true and p.entity.hasPowerUp[1] == true then --Activate dash
-		p.entity.collision_bottom = false
-		p.dashing = true
-		p.canDash = false
-	end
-end
-
-function jump()
-	return p:jump()
-end
-
-function fly()
-	return p:fly()
-end
-
-mX = 0.0
-mY = 0.0
-
-function mouse(x, y)
-	mX = mX + x
-	mY = mY + y
-end
-
+require("Resources/Scripts/playerInput")
 
 function update(deltaTime)
 	checkUpgrades(deltaTime)
@@ -254,58 +210,11 @@ function update(deltaTime)
 		newState("Resources/Scripts/LuaStates/LevelVState.lua")
 	end
 
+	updateEnemies(p, deltaTime)
+
 	updateEntitys(deltaTime)
 
 	updateBackground()
-end
-
-function checkUpgrades(deltaTime)
-	if p.entity.hasPowerUp[1] == true then -- DASH UPGRADE
-	
-		if p.entity.collision_bottom == true then --Cant dash until on ground
-			p.canDash = true
-		end
-
-		if p.dashing == true then --Dashing
-			p.entity.hasGravity = false
-			p.canDash = false
-			if hasFoundPosition == false then
-				towardsX = s.x
-				towardsY = s.y
-				hasFoundPosition = true
-			end
-
-			local tempX = towardsX - p.entity.x 
-			local tempY = towardsY - p.entity.y 
-			local length = math.sqrt((tempX * tempX) + (tempY * tempY))
-			tempX = (tempX / length)
-			tempY = (tempY / length)
-	
-			p.entity.velocity.x = tempX * 2000
-			p.entity.velocity.y = tempY * 2000
-
-			--print(p.entity.velocity.x)
-			--print(p.entity.velocity.y)
-
-			--Dashing ends
-			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
-				p.dashing = false
-				p.entity.hasGravity = true
-				hasFoundPosition = false
-				p.entity.velocity.x = p.entity.velocity.x / 5
-				p.entity.velocity.y = p.entity.velocity.y / 5
-			end
-		end
-	end
-	if p.entity.hasPowerUp[2] == true then -- SPEED UPGRADE
-		p.entity.maxSpeed.x = 800
-	end
-	if p.entity.hasPowerUp[3] == true then -- DOUBLE JUMP UPGRADE
-		p.maxNrOfJumps = 2
-	end
-	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
-		p.jumpPower = -1800
-	end
 end
 
 function updateEntitys(deltaTime)
@@ -328,17 +237,6 @@ function updateEntitys(deltaTime)
 		end
 		v.entity:updateAnimation(deltaTime)
 	end 
-
-	enemy1:update(deltaTime)	
-	enemy2:update(deltaTime)
-	enemy3:update(deltaTime)
-	enemy4:update(deltaTime)
-	enemy5:update(deltaTime)
-	enemy1:attack(p)
-	enemy2:attack(p)
-	enemy3:attack(p)
-	enemy4:attack(p)
-	enemy5:attack(p)
 end
 
 function updateBackground()
