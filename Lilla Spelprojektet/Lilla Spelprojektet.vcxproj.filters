@@ -120,5 +120,6 @@
     </None>
     <None Include="Resources\Scripts\saw.lua" />
     <None Include="Resources\Shaders\pixie.comp" />
+    <None Include="Resources\Scripts\enemyContainer.lua" />
   </ItemGroup>
 </Project>

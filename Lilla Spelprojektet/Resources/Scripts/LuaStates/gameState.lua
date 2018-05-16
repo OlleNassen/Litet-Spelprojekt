@@ -8,6 +8,7 @@ require("Resources/Scripts/level2")
 require("Resources/Scripts/powerup")
 require("Resources/Scripts/point_light")
 require("Resources/Scripts/save")
+require("Resources/Scripts/enemyContainer")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite
@@ -19,8 +20,6 @@ end
 local level = World:create()
 level:addMap(tilemap1)
 level:loadGraphics()
-
-
 
 -- PowerUps
 -- Dash
@@ -91,8 +90,7 @@ local power_highjump = Powerup:create("Resources/Sprites/powerupHighJump_diffuse
 power_highjump.entity:setPosition(900, 1500)
 power_highjump.type = 3
 
-local g = Ai:create(1055,1055, 120, 120) -- goomba
-g.entity:addWorld(level)
+addEnemy(1055, 1055, 120, 120. level)
 
 local b = Boss:create(1500, 100, 500, 500) -- bossman
 b.entity:addWorld(level)
@@ -207,17 +205,10 @@ function update(deltaTime)
 	power_jump:contains(p.entity)
 	power_highjump:contains(p.entity)
 
-	g:update(deltaTime)	
-	g:attack(p)
+	updateEnemies(p, deltaTime)
 	
 	b:update(deltaTime, p)
 	b:attack(p)
-	
-	if p.isAttacking == true then
-		if g.entity:contains(p.entity.x + p.entity.width, p.entity.y + (p.entity.height / 2)) == true then
-			g.entity:takeDamage(p.attackDamage, p.attackPushBack.x, p.attackPushBack.y, true)
-		end
-	end
 
 	pX, pY = getCameraPosition()
 	bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2), 1)-- position.y - (720 / 2))

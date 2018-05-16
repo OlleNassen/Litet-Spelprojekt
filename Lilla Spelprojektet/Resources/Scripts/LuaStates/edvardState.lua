@@ -7,6 +7,7 @@ require("Resources/Scripts/powerup")
 require("Resources/Scripts/saw")
 require("Resources/Scripts/point_light")
 require("Resources/Scripts/save")
+require("Resources/Scripts/enemyContainer")
 
 m = newMusic("Resources/Sound/canary.wav")
 
@@ -157,20 +158,13 @@ local light5 = PointLight:create(color, color, color, tileSize * 2, tileSize * 3
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
-local enemy1 = Ai:create(42 * 48, 48 * 9, 120, 120) -- goomba
-enemy1.entity:addWorld(level)
+--Enemies
+addEnemy(42 * 48, 48 * 9, 120, 120, level)
+addEnemy(38 * 48, 48 * 9, 120, 120, level)
+addEnemy(34 * 48, 48 * 9, 120, 120, level)
+addEnemy(30 * 48, 48 * 9, 120, 120, level)
+addEnemy(26 * 48, 48 * 9, 120, 120, level)
 
-local enemy2 = Ai:create(38 * 48, 48 * 9, 120, 120) -- goomba
-enemy2.entity:addWorld(level)
-
-local enemy3 = Ai:create(34 * 48, 48 * 9, 120, 120) -- goomba
-enemy3.entity:addWorld(level)
-
-local enemy4 = Ai:create(30 * 48, 48 * 9, 120, 120) -- goomba
-enemy4.entity:addWorld(level)
-
-local enemy5 = Ai:create(26 * 48, 48 * 9, 120, 120) -- goomba
-enemy5.entity:addWorld(level)
 
 local saws = {}
 saws[1] = Saw:create(48 * 2, 48 * 3)
@@ -234,6 +228,10 @@ function fly()
 	return p:fly()
 end
 
+function mouseLeft()
+	return p:attack()
+end
+
 mX = 0.0
 mY = 0.0
 
@@ -253,6 +251,8 @@ function update(deltaTime)
 		savePowerup(p.entity.hasPowerUp)
 		newState("Resources/Scripts/LuaStates/LevelVState.lua")
 	end
+
+	updateEnemies(p, deltaTime)
 
 	updateEntitys(deltaTime)
 
@@ -328,17 +328,6 @@ function updateEntitys(deltaTime)
 		end
 		v.entity:updateAnimation(deltaTime)
 	end 
-
-	enemy1:update(deltaTime)	
-	enemy2:update(deltaTime)
-	enemy3:update(deltaTime)
-	enemy4:update(deltaTime)
-	enemy5:update(deltaTime)
-	enemy1:attack(p)
-	enemy2:attack(p)
-	enemy3:attack(p)
-	enemy4:attack(p)
-	enemy5:attack(p)
 end
 
 function updateBackground()

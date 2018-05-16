@@ -30,6 +30,7 @@
     <ClCompile Include="Renderer\graphics_system.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
     <ClCompile Include="Renderer\temp_pixie.cpp" />
+    <None Include="Resources\Scripts\enemyContainer.lua" />
     <None Include="Resources\Scripts\projectile.lua">
       <FileType>Document</FileType>
     </None>
