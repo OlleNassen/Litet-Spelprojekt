@@ -17,7 +17,7 @@ local level = World:create()
 level:addMap(tilemap1)
 level:loadGraphics()
 
-local p = Player:create() -- player
+p = Player:create() -- player
 p.entity:addWorld(level)
 
 
