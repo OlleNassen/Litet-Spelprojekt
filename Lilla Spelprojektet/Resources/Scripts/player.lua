@@ -93,6 +93,7 @@ function Player:moveRight(directionX, deltaTime)
 	
 	if self.isAttacking == false then
 		self.entity:setAnimation(2)
+		
 		if directionX > 0 then
 			self.entity.isGoingRight = true
 			if self.attackPushBack.x < 0 then
@@ -106,7 +107,9 @@ function Player:moveRight(directionX, deltaTime)
 		end
 	end
 
-	soundFunc(walkSound)
+	if self.entity.velocity.x > 100 or self.entity.velocity.x < -100  then
+		soundFunc(walkSound)
+	end
 	
 	return true
 end
