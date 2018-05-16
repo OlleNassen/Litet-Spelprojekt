@@ -4,12 +4,13 @@ PointLight.__index = PointLight
 function PointLight:create(red, green, blue, x, y, normal, diffuse)
     
 	if normal ~= 0 then
-		t = newTexture(normal)
+		t = newTexture("Resources/Sprites/lamp_normal.png")
 	else
 		t = 0
 	end
 	
-	
+	,
+	"Resources/Sprites/lamp_diffuse.png"
 	local this =
     {
 		normaltext = t,

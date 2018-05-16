@@ -87,7 +87,15 @@ tileSize = 48
 
 local color = 1
 
-local light1 = PointLight:create(color, color, color, 3 * tileSize, tileSize * 1,
+local light1 = PointLight:create(color, color, color, 3 * tileSize, tileSize * 32,
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
+
+local light2 = PointLight:create(color, color, color, 24 * tileSize, tileSize * 32,
+"Resources/Sprites/lamp_normal.png",
+"Resources/Sprites/lamp_diffuse.png")
+
+local light3 = PointLight:create(color, color, color, 13.5 * tileSize, tileSize * 31,
 "Resources/Sprites/lamp_normal.png",
 "Resources/Sprites/lamp_diffuse.png")
 
