@@ -74,7 +74,7 @@ void ComputeShader::load(const char* computeShaderFile)
 	glUseProgram(shaderProgram);
 	glGenBuffers(1, &storageBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &data, GL_STATIC_COPY);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &positions, GL_STATIC_COPY);
 	static int index = 0;
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, index++, storageBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
