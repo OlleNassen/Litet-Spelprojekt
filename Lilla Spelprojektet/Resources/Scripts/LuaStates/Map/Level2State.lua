@@ -1,11 +1,23 @@
 tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level2")
 require("Resources/Scripts/common")
 
+if loadData(0) == 0 then
+	p.entity.x = 48 * 2
+	p.entity.y = 48 * 16
+	saveData(0, 0)
+
+elseif loadData(0) == 1 then 
+	p.entity.x = 48 * 46
+	p.entity.y = 48 * 3
+	saveData(0, 0)
+end
+
 local textureFunc = newTexture
 local spriteFunc = newSprite
 
-local level3Portal = Portal:create(48 * 47, 48 * 4)
-local discoPortal = Portal:create(48 * 47, 48 * 17)
+local level3Portal = Portal:create(48 * 48, 48 * 4)
+local level1Portal = Portal:create(48 * 1, 48 * 17)
+local discoPortal = Portal:create(48 * 48, 48 * 17)
 
 local color = 1
 
@@ -32,6 +44,11 @@ function update(deltaTime)
 	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
+	if level1Portal.entity:containsCollisionBox(p) then
+		savePowerup(p.entity.hasPowerUp)
+		saveData(0, 1)
+		newState("Resources/Scripts/LuaStates/Map/Level1State.lua")
+	end	
 	
 	if level3Portal.entity:containsCollisionBox(p) then
 		savePowerup(p.entity.hasPowerUp)
