@@ -222,7 +222,6 @@ function Player:takeDamage(dmg)
 		print "AJ!!!"
 
 		self.entity:setAnimation(3)
-
 	end
 end
 
@@ -232,7 +231,6 @@ function Player:healPlayer(heal)
 	if self.entity.health > self.entity.maxHealth then
 		self.entity.health = self.entity.maxHealth
 	end
-
 	self:updateHPBar()
 end
 
