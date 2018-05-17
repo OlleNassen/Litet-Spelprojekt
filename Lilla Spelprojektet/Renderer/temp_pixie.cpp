@@ -27,12 +27,10 @@ void PixieParticles::render(const glm::mat4& view, const glm::mat4& projection)
 	this->shader->use();
 
 	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particleStruct->positions[0], GL_STATIC_DRAW);
-
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, MAX_NUM_PARTICLES);
 	glBindVertexArray(0);
+
+	this->shader->unuse();
 }
 
 void PixieParticles::update(const glm::vec2& pixiePos)
@@ -41,6 +39,9 @@ void PixieParticles::update(const glm::vec2& pixiePos)
 	model = glm::translate(model, glm::vec3(pixiePos, 0.0f));
 
 	particleStruct = compShader.pixie(pixiePos);
+
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particleStruct->positions[0], GL_STATIC_DRAW);
 }
 
 void PixieParticles::initPixie()

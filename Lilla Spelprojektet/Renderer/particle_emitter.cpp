@@ -53,27 +53,24 @@ void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 	this->shader->setMatrix4fv(view, "view");
 	this->shader->setMatrix4fv(projection, "projection");
 
-
-	
-
 	texture->bind(0);
 
 	shader->use();
 
-
 	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particleStruct->positions[0], GL_STATIC_DRAW);
-
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, MAX_NUM_PARTICLES);
 	glBindVertexArray(0);
+
+	shader->unuse();
 
 }
 
 void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const glm::vec2 pixiePos)
 {
 	particleStruct = computeShader.compute(position, pixiePos);
+
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &particleStruct->positions[0], GL_STATIC_DRAW);
 
 	// Prepare transformations
 	model = glm::mat4(1.f);
