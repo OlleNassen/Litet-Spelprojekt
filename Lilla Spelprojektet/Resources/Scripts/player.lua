@@ -1,5 +1,5 @@
 
-local walkBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local walkBuffer = newSoundBuffer("Resources/Sound/walk.wav")
 local walkSound = newSound(walkBuffer)
 
 local jumpBuffer = newSoundBuffer("Resources/Sound/ball.wav")

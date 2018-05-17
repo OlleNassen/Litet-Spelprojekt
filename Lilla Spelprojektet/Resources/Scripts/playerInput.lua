@@ -87,6 +87,6 @@ function checkUpgrades(deltaTime)
 		p.maxNrOfJumps = 2
 	end
 	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
-		p.jumpPower = -1800
+		p.jumpPower = -1500
 	end
 end
