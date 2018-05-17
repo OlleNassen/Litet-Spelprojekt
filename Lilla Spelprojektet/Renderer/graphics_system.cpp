@@ -80,24 +80,26 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	}
 	
 	//::.. Collins Laser ..:://
-
+	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
 	{
-		collinsLaser->shader->use();
-
-			collinsLaser->updateLaser(0.00016f,
-			glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
+		
+		
 		collinsLaser->render(view, projection);
 	}
 
-	pixie->update(glm::vec2(getPixie().x, getPixie().y));
+	
 	pixie->render(view, projection);
 	
 	
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
-{			
+{	
+	pixie->update(glm::vec2(getPixie().x, getPixie().y));
+	collinsLaser->updateLaser(0.00016f,
+		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
+
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
 		shaders.basic.use();
