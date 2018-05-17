@@ -1,6 +1,5 @@
 tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level2")
 require("Resources/Scripts/common")
-newMusic("Resources/Sound/canary.wav")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite

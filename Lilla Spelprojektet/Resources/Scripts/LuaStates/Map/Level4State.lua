@@ -1,6 +1,5 @@
 tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level4")
 require("Resources/Scripts/common")
-m = newMusic("Resources/Sound/canary.wav")
 
 --Min 28x15 tiles
 
