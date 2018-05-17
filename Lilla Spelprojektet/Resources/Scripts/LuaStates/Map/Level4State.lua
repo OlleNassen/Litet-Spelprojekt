@@ -7,6 +7,7 @@ if loadData(0) == 0 then
 	p.entity.x = 48 * 2
 	p.entity.y = 48 * 1
 	saveData(0, 0)
+	p.entity.health = loadData(9)
 end
 
 local level3Portal = Portal:create(48 * 1, 48 * 2)
@@ -26,6 +27,11 @@ if p.entity.hasPowerUp[4] == false then
 	power_highJump = Powerup:create("highJump", 48 * 29.5, 48 * 13.5)
 end
 
+local health
+if loadData(10) == 0 then
+	health = Powerup:create("health", 48 * 2, 48 * 13.5)
+end
+
 function update(deltaTime)
 	checkUpgrades(deltaTime)
 
@@ -33,6 +39,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if level3Portal.entity:containsCollisionBox(p) then
+		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		saveData(0, 1)
 		newState("Resources/Scripts/LuaStates/Map/Level3State.lua")
@@ -51,5 +58,16 @@ function updateEntitys(deltaTime)
 			power_highJump:activatePowerUp(p.entity)
 		end
 		power_highJump.entity:updateAnimation(deltaTime)
+	end
+
+	if loadData(10) == 0 then
+		if health.entity:containsCollisionBox(p) then
+			if health.aquired == false then
+				saveData(10, 1)
+				p:healPlayer(20)
+				health:disablePowerup()
+			end
+		end
+		health.entity:updateAnimation(deltaTime)
 	end
 end

@@ -7,11 +7,13 @@ if loadData(0) == 0 then
 	p.entity.x = 48 * 1
 	p.entity.y = 48 * 1
 	saveData(0, 0)
+	saveData(9, p.entity.health)
 
 elseif loadData(0) == 1 then 
 	p.entity.x = 48 * 26
 	p.entity.y = 48 * 5
 	saveData(0, 0)
+	p.entity.health = loadData(9)
 end
 
 local level2Portal = Portal:create(48 * 28, 48 * 6)
@@ -33,6 +35,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if level2Portal.entity:containsCollisionBox(p) then
+		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		newState("Resources/Scripts/LuaStates/Map/Level2State.lua")
 	end

@@ -7,27 +7,38 @@ if loadData(0) == 0 then
 	p.entity.x = 48 * 1.5
 	p.entity.y = 48 * 35
 	saveData(0, 0)
+	p.entity.health = loadData(9)
 
 elseif loadData(0) == 1 then 
 	p.entity.x = 48 * 23.5
 	p.entity.y = 48 * 35
 	saveData(0, 0)
+	p.entity.health = loadData(9)
 
 elseif loadData(0) == 2 then 
 	p.entity.x = 48 * 24
 	p.entity.y = 48 * 21
 	saveData(0, 0)
+	p.entity.health = loadData(9)
 
 elseif loadData(0) == 3 then 
 	p.entity.x = 48 * 24
 	p.entity.y = 48 * 9
 	saveData(0, 0)
+	p.entity.health = loadData(9)
+
+elseif loadData(0) == 4 then 
+	p.entity.x = 48 * 2
+	p.entity.y = 48 * 9
+	saveData(0, 0)
+	p.entity.health = loadData(9)
 end
 
 local level2Portal = Portal:create(48 * 1, 48 * 36)
 local level3Portal = Portal:create(48 * 26, 48 * 36)
 local level5PortalBottom = Portal:create(48 * 26, 48 * 22)
 local level5PortalTop = Portal:create(48 * 26, 48 * 10)
+local level6Portal = Portal:create(48 * 1, 48 * 10)
 
 local saws = {}
 saws[1] = Saw:create(48 * 8, 48 * 37)
@@ -64,27 +75,38 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if level2Portal.entity:containsCollisionBox(p) then
+		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		saveData(0, 1)
 		newState("Resources/Scripts/LuaStates/Map/Level2State.lua")
 	end
 
 	if level3Portal.entity:containsCollisionBox(p) then
+		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		saveData(0, 0)
 		newState("Resources/Scripts/LuaStates/Map/Level4State.lua")
 	end
 
 	if level5PortalBottom.entity:containsCollisionBox(p) then
+		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		saveData(0, 0)
 		newState("Resources/Scripts/LuaStates/Map/Level5State.lua")
 	end
 
 	if level5PortalTop.entity:containsCollisionBox(p) then
+		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		saveData(0, 1)
 		newState("Resources/Scripts/LuaStates/Map/Level5State.lua")
+	end
+
+	if level6Portal.entity:containsCollisionBox(p) then
+		saveData(9, p.entity.health)
+		savePowerup(p.entity.hasPowerUp)
+		saveData(0, 0)
+		newState("Resources/Scripts/LuaStates/Map/Level6State.lua")
 	end
 
 	updateEntitys(deltaTime)
