@@ -48,10 +48,10 @@ function Player:create()
 	this.entity.maxSpeed.y = 1000
 	this.entity.hasGravity = true
 	this.entity.canFly = false
-	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite_test.png")
+	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite.png")
 	this.entity.spriteWidth = 144
 	this.entity.spriteHeight = 144
-	this.entity:addAnimation(1,1) -- Idle = 1
+	this.entity:addAnimation(1,4) -- Idle = 1
 	this.entity:addAnimation(16, 28) -- Run = 2
 	this.entity:addAnimation(10, 10) -- Hurt = 3
 	this.entity:addAnimation(11, 11) -- Jump up = 4
@@ -59,8 +59,8 @@ function Player:create()
 	this.entity:addAnimation(13, 13) -- Fall = 6
 	this.entity:addAnimation(2,4) -- Attack = 7
 	this.entity:setAnimation(1)
-	this.entity.updateAnimationTime = 0.05
-	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals_test.png")
+	this.entity.updateAnimationTime = 0.2
+	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)
@@ -92,6 +92,7 @@ function Player:moveRight(directionX, deltaTime)
 	self.entity:accelerate(directionX, 0, deltaTime)
 	
 	if self.isAttacking == false then
+		self.entity.updateAnimationTime = 0.05
 		self.entity:setAnimation(2)
 		
 		if directionX > 0 then
@@ -233,4 +234,9 @@ function Player:healPlayer(heal)
 	end
 
 	self:updateHPBar()
+end
+
+function Player:setIdle()
+	self.entity.updateAnimationTime = 0.3
+	self.entity:setAnimation(1)
 end
