@@ -67,10 +67,10 @@ void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 
 void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const glm::vec2 pixiePos)
 {
+	particleStruct = computeShader.compute(position, pixiePos);
+
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
 	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), (void*)particleStruct, GL_STATIC_DRAW);
-
-	particleStruct = computeShader.compute(position, pixiePos);
 
 	// Prepare transformations
 	model = glm::mat4(1.f);

@@ -38,10 +38,10 @@ void PixieParticles::update(const glm::vec2& pixiePos)
 	model = glm::mat4(1.f);
 	model = glm::translate(model, glm::vec3(pixiePos, 0.0f));
 
+	particleStruct = compShader.pixie(pixiePos);
+
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
 	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), (void*)particleStruct, GL_STATIC_DRAW);
-
-	particleStruct = compShader.pixie(pixiePos);
 }
 
 void PixieParticles::initPixie()
