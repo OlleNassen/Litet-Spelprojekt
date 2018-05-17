@@ -9,6 +9,7 @@ local attackBuffer = newSoundBuffer("Resources/Sound/ball.wav")
 local attackSound = newSound(attackBuffer)
 
 local soundFunc = playSound
+local offFunc = stopSound
 
 
 Player = {}
@@ -107,10 +108,6 @@ function Player:moveRight(directionX, deltaTime)
 			end
 		end
 	end
-
-	if self.entity.velocity.x > 100 or self.entity.velocity.x < -100  then
-		soundFunc(walkSound)
-	end
 	
 	return true
 end
@@ -124,6 +121,8 @@ end
 
 function Player:jump()
 	if self.nrOfJumps > 0 then
+		 offFunc(walkSound)
+		 offFunc(attackSound)
 		 soundFunc(jumpSound)
 		 self.entity.velocity.y = self.jumpPower
 		 self.nrOfJumps = self.nrOfJumps - 1
@@ -186,11 +185,18 @@ function Player:update(deltaTime)
 		if self.entity.velocity.y > -300 then
 			self.isJumping = false
 			self.entity:setAnimation(5)
+			
 		end
+	end
+
+	if self.entity.velocity.x > 100 or self.entity.velocity.x < -100 then
+		soundFunc(walkSound)
 	end
 
 	if self.entity.velocity.y > 300 and self.isAttacking == false then
 		self.entity:setAnimation(6)
+		offFunc(walkSound)
+		offFunc(attackSound)
 	end
 
 
