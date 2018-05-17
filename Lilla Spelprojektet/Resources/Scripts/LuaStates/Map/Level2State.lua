@@ -31,6 +31,8 @@ local light4 = PointLight:create(color, color, color,tileSize * 39, tileSize)
 
 local light5 = PointLight:create(color, color, color, tileSize * 2, tileSize * 36)
 
+local health = Powerup:create("health", 48 * 4, 48 * 4)
+
 --Enemies
 addEnemy(42 * 48, 48 * 9, 120, 120, level)
 addEnemy(38 * 48, 48 * 9, 120, 120, level)
@@ -68,5 +70,11 @@ function update(deltaTime)
 end
 
 function updateEntitys(deltaTime)
-	
+	if health.entity:containsCollisionBox(p) then
+		if health.aquired == false then
+			p:healPlayer(20)
+			health:disablePowerup()
+		end
+	end
+	health.entity:updateAnimation(deltaTime)
 end
