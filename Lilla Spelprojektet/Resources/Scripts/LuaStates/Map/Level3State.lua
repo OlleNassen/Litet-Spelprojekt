@@ -122,7 +122,7 @@ function updateEntitys(deltaTime)
 		v.entity:updateAnimation(deltaTime)
 	end 
 
-	if p.entity.hasPowerUp[4] == false then
+	if p.entity.hasPowerUp[3] == false then
 		if power_doubleJump.entity:containsCollisionBox(p) then
 			power_doubleJump:activatePowerUp(p.entity)
 		end
