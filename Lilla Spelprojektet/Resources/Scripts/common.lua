@@ -13,6 +13,8 @@ require("Resources/Scripts/enemyContainer")
 local textureFunc = newTexture
 local spriteFunc = newSprite
 
+newMusic("Resources/Sound/darktimes.wav")
+
 level = World:create()
 level:addMap(tilemap)
 level:loadGraphics()
