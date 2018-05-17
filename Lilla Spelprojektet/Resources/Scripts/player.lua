@@ -9,6 +9,7 @@ local attackBuffer = newSoundBuffer("Resources/Sound/ball.wav")
 local attackSound = newSound(attackBuffer)
 
 local soundFunc = playSound
+local offFunc = stopSound
 
 
 Player = {}
@@ -52,12 +53,12 @@ function Player:create()
 	this.entity.spriteWidth = 144
 	this.entity.spriteHeight = 144
 	this.entity:addAnimation(1,4) -- Idle = 1
-	this.entity:addAnimation(16, 28) -- Run = 2
-	this.entity:addAnimation(10, 10) -- Hurt = 3
-	this.entity:addAnimation(11, 11) -- Jump up = 4
-	this.entity:addAnimation(12, 12) -- Jump in air = 5
-	this.entity:addAnimation(13, 13) -- Fall = 6
-	this.entity:addAnimation(2,4) -- Attack = 7
+	this.entity:addAnimation(19, 31) -- Run = 2
+	this.entity:addAnimation(13, 13) -- Hurt = 3
+	this.entity:addAnimation(14, 14) -- Jump up = 4
+	this.entity:addAnimation(15, 15) -- Jump in air = 5
+	this.entity:addAnimation(16, 16) -- Fall = 6
+	this.entity:addAnimation(5,7) -- Attack = 7
 	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.2
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
@@ -107,10 +108,6 @@ function Player:moveRight(directionX, deltaTime)
 			end
 		end
 	end
-
-	if self.entity.velocity.x > 100 or self.entity.velocity.x < -100  then
-		soundFunc(walkSound)
-	end
 	
 	return true
 end
@@ -124,6 +121,8 @@ end
 
 function Player:jump()
 	if self.nrOfJumps > 0 then
+		 offFunc(walkSound)
+		 offFunc(attackSound)
 		 soundFunc(jumpSound)
 		 self.entity.velocity.y = self.jumpPower
 		 self.nrOfJumps = self.nrOfJumps - 1
@@ -186,11 +185,18 @@ function Player:update(deltaTime)
 		if self.entity.velocity.y > -300 then
 			self.isJumping = false
 			self.entity:setAnimation(5)
+			
 		end
+	end
+
+	if self.entity.velocity.x > 100 or self.entity.velocity.x < -100 then
+		soundFunc(walkSound)
 	end
 
 	if self.entity.velocity.y > 300 and self.isAttacking == false then
 		self.entity:setAnimation(6)
+		offFunc(walkSound)
+		offFunc(attackSound)
 	end
 
 

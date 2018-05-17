@@ -9,6 +9,8 @@
 
 ComputeShader::ComputeShader()
 {
+	for (int i = 0; i < 10000; i++)
+		positions.positions[i] = glm::vec2(0,0);
 }
 
 
