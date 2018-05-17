@@ -79,6 +79,8 @@ void ComputeShader::load(const char* computeShaderFile)
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &positions, GL_STATIC_COPY);
 	static int index = 0;
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, index++, storageBuffer);
+	if (index == 2)
+		index = 0;
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -96,7 +98,11 @@ ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& t
 	glDispatchCompute(10, 10, 1);
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-
+	/*
+	for (int i = 0; i < 10000; i++)
+		if (result->positions[i].y != 0)
+			std::cout << result->positions[i].x << std::endl;
+			*/
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	glUseProgram(0);
