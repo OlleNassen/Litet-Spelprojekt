@@ -124,5 +124,6 @@
     <None Include="Resources\Scripts\playerInput.lua" />
     <None Include="Resources\Scripts\common.lua" />
     <None Include="Resources\Scripts\LuaStates\Map\Levels\bestlevel.lua" />
+    <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
   </ItemGroup>
 </Project>

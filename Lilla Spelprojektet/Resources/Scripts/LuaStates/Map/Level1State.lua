@@ -1,7 +1,5 @@
-
-tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level")
+tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level1")
 require("Resources/Scripts/common")
-
 m = newMusic("Resources/Sound/canary.wav")
 
 --Min 28x15 tiles
@@ -23,7 +21,7 @@ local color = 1
 
 local light1 = PointLight:create(color, color, color, 3 * tileSize, tileSize * 1)
 
-local light2 = PointLight:create(color, color, color, 6 * tileSize, tileSize * 16)
+local light2 = PointLight:create(color, color, color, 6 * tileSize, tileSize * 15)
 
 local light3 = PointLight:create(color, color, color, 13 * tileSize, tileSize * 10)
 

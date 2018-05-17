@@ -67,11 +67,11 @@ function Player:create()
 
 	powerTable = 
 	{
-		false,
-		false,
-		false,
-		false,
-		false
+		false,	--Dash
+		false,	--Speed
+		false,	--DoubleJump
+		false,	--HighJump
+		false	--Laser
 	}
 
 	loadPowerup(powerTable)

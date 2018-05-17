@@ -19,7 +19,7 @@ level:loadGraphics()
 
 p = Player:create() -- player
 
-if loadData(0) == 0 then
+--[[if loadData(0) == 0 then
 	p.entity.x = 98
 	p.entity.y = 48 * 16
 	saveData(0, 0)
@@ -28,8 +28,7 @@ elseif loadData(0) == 1 then
 	p.entity.x = 48 * 45
 	p.entity.y = 48 * 3
 	saveData(0, 0)
-
-end
+end]]
 
 p.entity:addWorld(level)
 
