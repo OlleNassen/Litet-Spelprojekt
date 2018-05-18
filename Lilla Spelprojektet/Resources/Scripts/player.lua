@@ -271,6 +271,7 @@ function Player:update(deltaTime)
 	--Dash animation
 	if self.dashing == true then
 		self.entity:setAnimation(8)
+	end
 
 	--Hp bar
 	self:updateHPBar()
