@@ -1,5 +1,3 @@
-require("Resources/Scripts/Entity")
-
 Powerup = {}
 Powerup.__index = Powerup
 
