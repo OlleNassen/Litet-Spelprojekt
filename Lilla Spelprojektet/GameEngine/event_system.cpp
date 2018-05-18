@@ -141,6 +141,8 @@ EventSystem::EventSystem()
 		jAxis[id] = (sf::Joystick::Axis)sf::Joystick::AxisCount;
 		repeat[id] = true;
 	}	
+
+	saveVector.push_back(0);
 }
 
 EventSystem::~EventSystem()
@@ -268,7 +270,15 @@ int EventSystem::loadData(lua_State* luaState)
 	lua_getglobal(luaState, "EventSystem");
 	EventSystem* ptr = (EventSystem*)lua_touserdata(luaState, -1);
 	int index = lua_tointeger(luaState, -2);
-	lua_pushinteger(luaState, ptr->saveVector[index]);
+	
+	if (ptr->saveVector.size() > index)
+	{
+		lua_pushinteger(luaState, ptr->saveVector[index]);
+	}
+	else
+	{
+		lua_pushinteger(luaState, 0);
+	}
 
 	return 1;
 }

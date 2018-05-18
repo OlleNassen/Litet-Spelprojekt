@@ -35,9 +35,11 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	textures.back().loadFromFile("Resources/Sprites/starParticle_normal.png");
 
 	
-	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0], &textures[1]);
+	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0]);
 	
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
+
+	pixie = new PixieParticles(&shaders.particle, &textures[0]);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -78,26 +80,26 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	}
 	
 	//::.. Collins Laser ..:://
-
+	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
 	{
-		collinsLaser->shader->use();
-		glUniform3fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
-		glUniform4fv(glGetUniformLocation(collinsLaser->shader->getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
-		collinsLaser->shader->unuse();
-
-		collinsLaser->updateLaser(0.00016f,
-			glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
+		
+		
 		collinsLaser->render(view, projection);
-		collinsLaser->push(1, 0, 0);
 	}
 
+	
+	pixie->render(view, projection);
 	
 	
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
-{			
+{	
+	pixie->update(glm::vec2(getPixie().x, getPixie().y));
+	collinsLaser->updateLaser(0.00016f,
+		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
+
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
 		shaders.basic.use();
@@ -110,12 +112,6 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 
 	if (tileMap.size() > 0)
 	{	
-		//Temp
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::BackSpace))
-		{
-			initShadows();
-		}
-
 		for (int y = (camera->getPosition().y - HEIGHT/2) / 48 - 1; y < (camera->getPosition().y + HEIGHT/2) / 48; y++)
 		{
 			for (int x = (camera->getPosition().x - WIDTH/2) / 48 - 1; x < (camera->getPosition().x + WIDTH/2) / 48; x++)
@@ -129,7 +125,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 					glUniform4fv(glGetUniformLocation(shaders.amazing.getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
 					shaders.amazing.unuse();
 
-					if (visibleTiles[x + 2 + y * tileMap[0]])
+					if (visibleTiles[x + 1 + y * tileMap[0]])
 					{
 						shaders.amazing.setVector3f(glm::vec3(1, 0, 0), "status");
 					}
@@ -138,7 +134,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 						shaders.amazing.setVector3f(glm::vec3(0, 0, 0), "status");
 					}
 
-					tiles[tileMap[x + 2 + y * tileMap[0]]].draw(glm::vec2(x * 48, y * 48), view, projection);
+					tiles[tileMap[x + 2 + y * tileMap[0]] - 1].draw(glm::vec2(x * 48, y * 48), view, projection);
 				}
 			}
 		}

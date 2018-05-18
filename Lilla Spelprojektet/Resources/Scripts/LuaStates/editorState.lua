@@ -2,11 +2,73 @@ require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
 require("Resources/Scripts/empty")
 require("Resources/Scripts/Background")
+require("Resources/Scripts/save")
 package.loaded["Resources/Scripts/empty"] = nil
 
 function quit()
 	deleteState()
 end
+
+tilemap =
+{
+	texturesDiffuse = 
+	{
+		"Resources/Sprites/brickwall.png",
+		"Resources/Sprites/brick_diffuse.png", 
+		"Resources/Sprites/pyramid_diffuse.png",
+		"Resources/Sprites/ironPillar_diffuse.png",
+		"Resources/Sprites/lockerBottom_diffuse.png",
+		"Resources/Sprites/lockerTop_diffuse.png",
+
+	},
+
+	texturesNormal = 
+	{
+		"Resources/Sprites/brickwall_normal.png", 
+		"Resources/Sprites/brick_normal.png", 
+		"Resources/Sprites/pyramid_normal.png",
+		"Resources/Sprites/ironPillar_normal.png",
+		"Resources/Sprites/lockerBottom_normal.png",
+		"Resources/Sprites/lockerTop_normal.png",
+	},
+
+	ignore = 
+	{
+		true, 
+		false, 
+		false, 
+		true, 
+		true, 
+		true,
+	},
+	
+	tiles = 
+	{
+		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+		1,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,3,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,3,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,3,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,3,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,3,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,2,0,0,0,0,0,2,0,0,2,2,0,0,2,2,0,0,2,2,2,2,2,1,
+		1,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,2,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,3,2,1,1,1,1,
+		1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,3,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,3,0,2,1,1,1,
+		1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,3,0,0,2,1,1,		
+		1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,3,3,0,0,3,3,0,0,3,0,0,0,2,1,
+		1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2,2,0,0,2,2,0,0,2,0,0,0,0,1,
+		1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,2,2,0,0,2,2,0,0,0,0,0,1,
+		1,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+		1,0,0,0,0,0,0,0,2,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+		1,5,0,0,0,0,0,2,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,1,
+		1,4,0,0,0,0,2,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,
+		1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+	},
+
+	width = 50,
+	height = 20
+}
 
 local level = World:create()
 level:addMap(tilemap1)
@@ -27,11 +89,6 @@ s.texture = newTexture("Resources/Sprites/mouseDiffuse.png")
 s.normalMap = newTexture("Resources/Sprites/mouseNormal.png")
 s.sprite = newSprite(s.normalMap, s.texture)
 s:addWorld(level)
-
-local bg = Background:create()
-bg.texture = newTexture("Resources/Sprites/backgroundTileBig_diffuse.png")
-bg.normalMap = newTexture("Resources/Sprites/backgroundTileBig_normal.png")
-bg.sprite = newBackground(720 * 10, 720 * 10, bg.normalMap, bg.texture)
 
 local tileType = 0
 function tablelength(T) local count = 0 for v in pairs(T) do count = count + 1 end return count end
@@ -80,10 +137,6 @@ function quit(direction, deltaTime)
 end
 
 function update(deltatime)
-
-	position = p:getPosition()
-	bg:setPosition(position.x / 3 - (1280 / 2), position.y / 3 - (720 / 2))
-
 	return true
 end
 

@@ -29,6 +29,15 @@
     <ClCompile Include="Renderer\sprite.cpp" />
     <ClCompile Include="Renderer\graphics_system.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
+    <ClCompile Include="Renderer\temp_pixie.cpp" />
+    <None Include="Resources\Scripts\enemyContainer.lua" />
+    <None Include="Resources\Scripts\common.lua" />
+    <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
+    <None Include="Resources\Scripts\LuaStates\Map\Levels\bestlevel.lua" />
+    <None Include="Resources\Scripts\playerInput.lua" />
+    <None Include="Resources\Scripts\projectile.lua">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\compute_shader.hpp" />
@@ -43,6 +52,7 @@
     <ClInclude Include="Renderer\shader.hpp" />
     <ClInclude Include="Renderer\sprite.hpp" />
     <ClInclude Include="Renderer\graphics_system.hpp" />
+    <ClInclude Include="Renderer\temp_pixie.hpp" />
     <ClInclude Include="Renderer\texture_2d.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +66,7 @@
     <None Include="Resources\Scripts\olleTilemap.lua" />
     <None Include="Resources\Scripts\point_light.lua" />
     <None Include="Resources\Scripts\save.lua" />
+    <None Include="Resources\Scripts\saw.lua" />
     <None Include="Resources\Shaders\2d_shader.frag" />
     <None Include="Resources\Shaders\2d_shader.vert" />
     <None Include="Resources\Shaders\amazing_shader.frag" />
@@ -64,6 +75,7 @@
     <None Include="Resources\Shaders\basicShader.vert" />
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
+    <None Include="Resources\Shaders\pixie.comp" />
     <None Include="Resources\Shaders\shader.comp" />
     <None Include="Resources\Shaders\trash.frag" />
     <None Include="Resources\Shaders\trash.vert" />

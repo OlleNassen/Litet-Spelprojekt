@@ -5,10 +5,12 @@
 #include <string>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
-#include<glm/gtc/type_ptr.hpp>'
+#include<glm/gtc/type_ptr.hpp>
 
 ComputeShader::ComputeShader()
 {
+	for (int i = 0; i < 10000; i++)
+		positions.positions[i] = glm::vec2(0,0);
 }
 
 
@@ -70,41 +72,59 @@ void ComputeShader::load(const char* computeShaderFile)
 	/** delete the shaders as they're linked into our program now and no longer necessery */
 	glDeleteShader(compute);
 
-	ParticleStruct data;
-
 	/** Storage buffer */
 	glUseProgram(shaderProgram);
 	glGenBuffers(1, &storageBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &data, GL_STATIC_COPY);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, storageBuffer);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ParticleStruct), &positions, GL_STATIC_COPY);
+	static int index = 0;
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, index++, storageBuffer);
+	if (index == 2)
+		index = 0;
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 ParticleStruct* ComputeShader::compute(const glm::vec2& from, const glm::vec2& to)
 {
 	ParticleStruct* result = nullptr;
-	ParticleStruct data;
 	glm::vec2 to_from = glm::vec2(to - from);
 
-	if (shaderProgram)
-	{
-		glUseProgram(shaderProgram);
-		glUniform2fv(glGetUniformLocation(shaderProgram, "to_from"), 1, glm::value_ptr(to_from));
+	glUseProgram(shaderProgram);
 
-		glUniform2fv(glGetUniformLocation(shaderProgram, "from"), 1, glm::value_ptr(from));
-		glUniform2fv(glGetUniformLocation(shaderProgram, "to"), 1, glm::value_ptr(to));
+	glUniform2fv(glGetUniformLocation(shaderProgram, "to_from"), 1, glm::value_ptr(to_from));
+	glUniform2fv(glGetUniformLocation(shaderProgram, "from"), 1, glm::value_ptr(from));
+	glUniform2fv(glGetUniformLocation(shaderProgram, "to"), 1, glm::value_ptr(to));
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+	glDispatchCompute(10, 10, 1);
+	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+	result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+	/*
+	for (int i = 0; i < 10000; i++)
+		if (result->positions[i].y != 0)
+			std::cout << result->positions[i].x << std::endl;
+			*/
 
-
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
-		glDispatchCompute(10, 10, 1);
-		
-		glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-		result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		glUseProgram(0);
-	}
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glUseProgram(0);
 	
 	return result;
-	
+}
+
+ParticleStruct * ComputeShader::pixie(const glm::vec2& pixiePos)
+{
+	ParticleStruct* result = nullptr;
+
+	glUseProgram(shaderProgram);
+
+	glUniform2fv(glGetUniformLocation(shaderProgram, "pixie"), 1, glm::value_ptr(pixiePos));
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, storageBuffer);
+	glDispatchCompute(10, 10, 1);
+	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
+	result = (ParticleStruct*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
+
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	glUseProgram(0);
+
+	return result;
 }

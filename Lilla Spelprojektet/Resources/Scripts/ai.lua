@@ -1,5 +1,3 @@
-require("Resources/Scripts/Entity")
-
 Ai = {}
 Ai.__index = Ai
 

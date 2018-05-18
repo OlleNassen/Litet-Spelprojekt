@@ -7,27 +7,17 @@ require("Resources/Scripts/World")
 require("Resources/Scripts/level2")
 require("Resources/Scripts/powerup")
 require("Resources/Scripts/point_light")
+require("Resources/Scripts/save")
+require("Resources/Scripts/enemyContainer")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite
-
-function quit()
-	deleteState()
-end
 
 local level = World:create()
 level:addMap(tilemap1)
 level:loadGraphics()
 
-
-
--- PowerUps
--- Dash
-towardsX = 0
-towardsY = 0
-hasFoundPosition = false
-
-local p = Player:create() -- player
+p = Player:create() -- player
 p.entity:addWorld(level)
 
 
@@ -90,8 +80,7 @@ local power_highjump = Powerup:create("Resources/Sprites/powerupHighJump_diffuse
 power_highjump.entity:setPosition(900, 1500)
 power_highjump.type = 3
 
-local g = Ai:create(1055,1055, 120, 120) -- goomba
-g.entity:addWorld(level)
+addEnemy(1055, 1055, 120, 120, level)
 
 local b = Boss:create(1500, 100, 500, 500) -- bossman
 b.entity:addWorld(level)
@@ -103,91 +92,7 @@ bg.normalMap = textureFunc("Resources/Sprites/backgroundTileBig_normal.png")
 bg.sprite = newBackground(720 * 10, 720 * 10, bg.normalMap, bg.texture)
 --bg:setPosition(100, 100)]]
 
-
-function moveUp(direction, deltaTime)
-	return p:moveUp(direction, deltaTime)
-end
-
-function moveRight(direction, deltaTime)
-	return p:moveRight(direction, deltaTime)
-end
-
-function jump()
-	return p:jump()
-end
-
-function mouseLeft()
-	return p:attack()
-end
-
-function dash()
-	
-	if p.canDash == true and p.entity.hasPowerUp[1] == true then --Activate dash
-		p.entity.collision_bottom = false
-		p.dashing = true
-		p.canDash = false
-	end
-	
-end
-
-function fly()
-	return p:fly()
-end
-
-mX = 0.0
-mY = 0.0
-
-function mouse(x, y)
-	mX = mX + x
-	mY = mY + y
-end
-
-function checkUpgrades(deltaTime)
-	if p.entity.hasPowerUp[1] == true then -- DASH UPGRADE
-	
-		if p.entity.collision_bottom == true then --Cant dash until on ground
-			p.canDash = true
-		end
-
-		if p.dashing == true then --Dashing
-			p.entity.hasGravity = false
-			p.canDash = false
-			if hasFoundPosition == false then
-				towardsX = s.x
-				towardsY = s.y
-				hasFoundPosition = true
-			end
-
-			local tempX = towardsX - p.entity.x 
-			local tempY = towardsY - p.entity.y 
-			local length = math.sqrt((tempX * tempX) + (tempY * tempY))
-			tempX = (tempX / length)
-			tempY = (tempY / length)
-	
-			p.entity.velocity.x = tempX * 2000
-			p.entity.velocity.y = tempY * 2000
-
-
-			--Dashing ends
-			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
-				p.dashing = false
-				p.entity.hasGravity = true
-				hasFoundPosition = false
-				p.entity.velocity.x = p.entity.velocity.x / 5
-				p.entity.velocity.y = p.entity.velocity.y / 5
-			end
-		end
-	end
-	if p.entity.hasPowerUp[2] == true then -- SPEED UPGRADE
-		p.entity.maxSpeed.x = 800
-	end
-	if p.entity.hasPowerUp[3] == true then -- DOUBLE JUMP UPGRADE
-		p.maxNrOfJumps = 2
-	end
-	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
-		p.jumpPower = -1800
-	end
-end
+require("Resources/Scripts/playerInput")
 
 function update(deltaTime)
 	
@@ -197,6 +102,7 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
+		savePowerup(p.entity.hasPowerUp)
 		newState("Resources/Scripts/LuaStates/victoryState.lua")
 	end
 
@@ -205,17 +111,10 @@ function update(deltaTime)
 	power_jump:contains(p.entity)
 	power_highjump:contains(p.entity)
 
-	g:update(deltaTime)	
-	g:attack(p)
+	updateEnemies(p, deltaTime)
 	
 	b:update(deltaTime, p)
 	b:attack(p)
-	
-	if p.isAttacking == true then
-		if g.entity:contains(p.entity.x + p.entity.width, p.entity.y + (p.entity.height / 2)) == true then
-			g.entity:takeDamage(p.attackDamage, p.attackPushBack.x, p.attackPushBack.y, true)
-		end
-	end
 
 	pX, pY = getCameraPosition()
 	bg:setPosition(pX / 3 - (1280 / 2), pY / 3 - (720 / 2), 1)-- position.y - (720 / 2))

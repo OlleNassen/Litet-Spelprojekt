@@ -6,19 +6,14 @@ require("Resources/Scripts/World")
 require("Resources/Scripts/vincent")
 require("Resources/Scripts/powerup")
 require("Resources/Scripts/point_light")
+require("Resources/Scripts/save")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite
 
-function quit()
-	deleteState()
-end
-
 local level = World:create()
 level:addMap(tilemap1)
 level:loadGraphics()
-
-
 
 -- PowerUps
 -- Dash
@@ -26,9 +21,16 @@ towardsX = 0
 towardsY = 0
 hasFoundPosition = false
 
-local p = Player:create() -- player
+p = Player:create() -- player
+
+if loadData(0) == 0 then
+	p.entity.x = 98
+	p.entity.y = 48 * 16
+	saveData(0, 1)
+end
+
 p.entity:addWorld(level)
-p.entity:setPosition(48 * 1, 16 * 48)
+p.entity:setPosition(48 * 2, 16 * 48)
 
 
 local s = Entity:create() -- pixie
@@ -51,6 +53,17 @@ nextPortal.sprite = spriteFunc(nextPortal.normalMap, nextPortal.texture)
 nextPortal:setSize(48, 96)
 nextPortal:addWorld(level)
 nextPortal:setPosition(48 * 5, 48 * 2)
+
+local backPortal = Entity:create()
+backPortal.offsetX = 12
+backPortal.collision_width = 24
+backPortal.collision_height = 96
+backPortal.texture = textureFunc("Resources/Sprites/door_diffuse.png")
+backPortal.normalMap = textureFunc("Resources/Sprites/door_normal.png")
+backPortal.sprite = spriteFunc(nextPortal.normalMap, nextPortal.texture)
+backPortal:setSize(48, 96)
+backPortal:addWorld(level)
+backPortal:setPosition(48, 17 * 48)
 
 p.spriteHPBar = spriteFunc(500, 50, 0, p.textureHPBar)
 spritePos(p.spriteHPBar, 50, 50)
@@ -110,92 +123,7 @@ bgs[5].sprite = newBackground(100, 1600, 0, bgs[4].texture)
 bgs[6] = Background:create()
 bgs[6].sprite = newBackground(100, 1600, 0, bgs[4].texture)--[[]]
 
-function moveUp(direction, deltaTime)
-	return p:moveUp(direction, deltaTime)
-end
-
-function mouseLeft()
-	return p:attack()
-end
-
-function moveRight(direction, deltaTime)
-	return p:moveRight(direction, deltaTime)
-end
-
-function jump()
-	return p:jump()
-end
-
-function dash()
-	
-	if p.canDash == true and p.entity.hasPowerUp[1] == true then --Activate dash
-		p.entity.collision_bottom = false
-		p.dashing = true
-		p.canDash = false
-	end
-	
-end
-
-function fly()
-	return p:fly()
-end
-
-mX = 0.0
-mY = 0.0
-
-function mouse(x, y)
-	mX = mX + x
-	mY = mY + y
-end
-
-function checkUpgrades(deltaTime)
-	if p.entity.hasPowerUp[1] == true then -- DASH UPGRADE
-	
-		if p.entity.collision_bottom == true then --Cant dash until on ground
-			p.canDash = true
-		end
-
-		if p.dashing == true then --Dashing
-			p.entity.hasGravity = false
-			p.canDash = false
-			if hasFoundPosition == false then
-				towardsX = s.x
-				towardsY = s.y
-				hasFoundPosition = true
-			end
-
-			local tempX = towardsX - p.entity.x 
-			local tempY = towardsY - p.entity.y 
-			local length = math.sqrt((tempX * tempX) + (tempY * tempY))
-			tempX = (tempX / length)
-			tempY = (tempY / length)
-	
-			p.entity.velocity.x = tempX * 2000
-			p.entity.velocity.y = tempY * 2000
-
-			print(p.entity.velocity.x)
-			print(p.entity.velocity.y)
-
-			--Dashing ends
-			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
-				p.dashing = false
-				p.entity.hasGravity = true
-				hasFoundPosition = false
-				p.entity.velocity.x = p.entity.velocity.x / 5
-				p.entity.velocity.y = p.entity.velocity.y / 5
-			end
-		end
-	end
-	if p.entity.hasPowerUp[2] == true then -- SPEED UPGRADE
-		p.entity.maxSpeed.x = 800
-	end
-	if p.entity.hasPowerUp[3] == true then -- DOUBLE JUMP UPGRADE
-		p.maxNrOfJumps = 2
-	end
-	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
-		p.jumpPower = -1800
-	end
-end
+require("Resources/Scripts/playerInput")
 
 function update(deltaTime)
 	
@@ -205,7 +133,13 @@ function update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if nextPortal:containsCollisionBox(p) then
+		savePowerup(p.entity.hasPowerUp)
 		newState("Resources/Scripts/LuaStates/olleState.lua")
+	end
+
+	if backPortal:containsCollisionBox(p) then
+		savePowerup(p.entity.hasPowerUp)
+		newState("Resources/Scripts/LuaStates/edvardState.lua")
 	end
 
 	--power_dash:contains(p.entity)

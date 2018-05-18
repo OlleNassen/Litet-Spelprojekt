@@ -1,8 +1,10 @@
 #include "audio_system.hpp"
+#include <iostream>
 
 AudioSystem::AudioSystem()
 {
-
+	soundBuffers.resize(100);
+	sounds.resize(100);
 }
 
 
@@ -27,6 +29,12 @@ void AudioSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, playSound);
 	lua_setglobal(luaState, "playSound");
+
+	lua_pushcfunction(luaState, stopSound);
+	lua_setglobal(luaState, "stopSound");
+
+	lua_pushcfunction(luaState, pauseSound);
+	lua_setglobal(luaState, "pauseSound");
 }
 
 int AudioSystem::newMusic(lua_State* luaState)
@@ -38,6 +46,7 @@ int AudioSystem::newMusic(lua_State* luaState)
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
 	ptr->music.openFromFile(filePath);
+	ptr->music.setLoop(true);
 	ptr->music.play();
 	*id = 1;
 
@@ -64,12 +73,14 @@ int AudioSystem::newSound(lua_State* luaState)
 	lua_getglobal(luaState, "AudioSystem");
 	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
 	int* soundBuffer = (int*)lua_touserdata(luaState, -2);
+	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
-
+	
 	ptr->sounds.push_back(sf::Sound());
 	ptr->sounds.back().setBuffer(ptr->soundBuffers[*soundBuffer]);
-
+	
 	*id = ptr->sounds.size() - 1;
+
 	return 1;
 }
 
@@ -79,7 +90,33 @@ int AudioSystem::playSound(lua_State* luaState)
 	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
 	int* id = (int*)lua_touserdata(luaState, -2);
 
-	ptr->sounds[*id].play();
+	if (ptr->sounds[*id].getStatus() != sf::Sound::Playing)
+	{
+		ptr->sounds[*id].play();
+	}
+	
+
+	return 0;
+}
+
+int AudioSystem::stopSound(lua_State* luaState)
+{
+	lua_getglobal(luaState, "AudioSystem");
+	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
+	int* id = (int*)lua_touserdata(luaState, -2);
+
+	ptr->sounds[*id].stop();
+
+	return 0;
+}
+
+int AudioSystem::pauseSound(lua_State* luaState)
+{
+	lua_getglobal(luaState, "AudioSystem");
+	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
+	int* id = (int*)lua_touserdata(luaState, -2);
+
+	ptr->sounds[*id].pause();
 
 	return 0;
 }

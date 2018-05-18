@@ -24,12 +24,15 @@ void main()
     uint x = gl_GlobalInvocationID.x;
     uint y = gl_GlobalInvocationID.y;
 
-	float xVal = positions[x + y * 10].x;
-	float yVal = positions[x + y * 10].y;
+	float xVal = positions[x + y * 100].x;
+	float yVal = positions[x + y * 100].y;
 
 	float val = random(vec2(xVal, yVal));
 
-	positions[x + y * 10].x = val * (to.x - from.x);
-	positions[x + y * 10].y = val * (to.y - from.y);
+	//positions[x + y * 100].xy = vec2(xVal,yVal);
+	positions[x + y * 100].xy = (to - from);
 
+
+
+	positions[x + y * 100].xy *= val;
 }

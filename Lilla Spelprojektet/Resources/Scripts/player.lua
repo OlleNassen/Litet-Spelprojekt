@@ -1,4 +1,16 @@
-require("Resources/Scripts/Entity")
+
+local walkBuffer = newSoundBuffer("Resources/Sound/walk.wav")
+local walkSound = newSound(walkBuffer)
+
+local jumpBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local jumpSound = newSound(jumpBuffer)
+
+local attackBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local attackSound = newSound(attackBuffer)
+
+local soundFunc = playSound
+local offFunc = stopSound
+
 
 Player = {}
 Player.__index = Player
@@ -37,22 +49,35 @@ function Player:create()
 	this.entity.maxSpeed.y = 1000
 	this.entity.hasGravity = true
 	this.entity.canFly = false
-	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite_test.png")
+	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite.png")
 	this.entity.spriteWidth = 144
 	this.entity.spriteHeight = 144
-	this.entity:addAnimation(1,1) -- Idle = 1
-	this.entity:addAnimation(16, 28) -- Run = 2
-	this.entity:addAnimation(10, 10) -- Hurt = 3
-	this.entity:addAnimation(11, 11) -- Jump up = 4
-	this.entity:addAnimation(12, 12) -- Jump in air = 5
-	this.entity:addAnimation(13, 13) -- Fall = 6
-	this.entity:addAnimation(2,4) -- Attack = 7
+	this.entity:addAnimation(1,4) -- Idle = 1
+	this.entity:addAnimation(19, 31) -- Run = 2
+	this.entity:addAnimation(13, 13) -- Hurt = 3
+	this.entity:addAnimation(14, 14) -- Jump up = 4
+	this.entity:addAnimation(15, 15) -- Jump in air = 5
+	this.entity:addAnimation(16, 16) -- Fall = 6
+	this.entity:addAnimation(5,7) -- Attack = 7
 	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.05
-	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals_test.png")
+	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
 	this.entity.sprite = newSprite(this.entity.width, this.entity.height, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)
+
+	powerTable = 
+	{
+		false,	--Dash
+		false,	--Speed
+		false,	--DoubleJump
+		false,	--HighJump
+		false	--Laser
+	}
+
+	loadPowerup(powerTable)
+
+	this.entity.hasPowerUp = powerTable
 	
 	--Player Visible collision box
 	--[[this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
@@ -66,8 +91,11 @@ end
 
 function Player:moveRight(directionX, deltaTime)
 	self.entity:accelerate(directionX, 0, deltaTime)
+	
 	if self.isAttacking == false then
+		self.entity.updateAnimationTime = self.standardAnimationTime
 		self.entity:setAnimation(2)
+		
 		if directionX > 0 then
 			self.entity.isGoingRight = true
 			if self.attackPushBack.x < 0 then
@@ -80,6 +108,7 @@ function Player:moveRight(directionX, deltaTime)
 			end
 		end
 	end
+	
 	return true
 end
 
@@ -91,8 +120,10 @@ function Player:moveUp(directionY, deltaTime)
 end
 
 function Player:jump()
-
 	if self.nrOfJumps > 0 then
+		 offFunc(walkSound)
+		 offFunc(attackSound)
+		 soundFunc(jumpSound)
 		 self.entity.velocity.y = self.jumpPower
 		 self.nrOfJumps = self.nrOfJumps - 1
 		 self.isJumping = true
@@ -103,6 +134,8 @@ end
 
 function Player:attack()
 	if self.isAttacking == false then
+		soundFunc(attackSound)
+		self.entity.updateAnimationTime = self.standardAnimationTime
 		self.entity:setAnimation(7)
 		self.isAttacking = true
 	end
@@ -122,7 +155,7 @@ function Player:fly()
 end
 
 function Player:updateHPBar()
-	spriteSize(self.spriteHPBar, (self.entity.health/100)*500, 50)
+	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 500, 50)
 end
 
 function Player:update(deltaTime)
@@ -145,19 +178,28 @@ function Player:update(deltaTime)
 		
 		if self.entity.velocity.x == 0 and self.isAttacking == false then
 			self.entity:setAnimation(1)
+			--self:setIdle()
 		end
 	end
 
 	if self.isJumping == true and self.isAttacking == false then
+		self.entity.updateAnimationTime = self.standardAnimationTime
 		self.entity:setAnimation(4)
 		if self.entity.velocity.y > -300 then
 			self.isJumping = false
 			self.entity:setAnimation(5)
+			
 		end
+	end
+
+	if self.entity.velocity.x > 100 or self.entity.velocity.x < -100 then
+		soundFunc(walkSound)
 	end
 
 	if self.entity.velocity.y > 300 and self.isAttacking == false then
 		self.entity:setAnimation(6)
+		offFunc(walkSound)
+		offFunc(attackSound)
 	end
 
 
@@ -167,6 +209,7 @@ function Player:update(deltaTime)
 	if updateE == true and self.isAttacking == true then
 		self.isAttacking = false
 		self.entity:setAnimation(1)
+		--self:setIdle()
 	end
 
 	--Hp bar
@@ -189,6 +232,20 @@ function Player:takeDamage(dmg)
 		print "AJ!!!"
 
 		self.entity:setAnimation(3)
-
 	end
+end
+
+function Player:healPlayer(heal)
+	self.entity.health = self.entity.health + heal
+
+	if self.entity.health > self.entity.maxHealth then
+		self.entity.health = self.entity.maxHealth
+	end
+	self:updateHPBar()
+end
+
+function Player:setIdle()
+	self.entity:setAnimation(1)
+	self.entity.updateAnimationTime = 0.2
+
 end
