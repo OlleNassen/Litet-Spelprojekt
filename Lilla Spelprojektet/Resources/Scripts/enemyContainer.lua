@@ -30,9 +30,6 @@ function updateEnemies(player, deltaTime)
 
 		--Charge attack (right and left resp.)
 		if player.isAttacking and player.releaseCharge then
-		
-			print("CHARGE ATTACK!")
-			player.releaseCharge = false
 
 			if player.isAttacking == true and player.entity.isGoingRight == true then
 				if enemy.entity:contains(player.entity.x + player.entity.width - 30, player.entity.y + (player.entity.height / 2)) == true then

@@ -146,10 +146,14 @@ function Player:attack()
 		self.isAttacking = true
 		
 		--Reset charge timer
-		self.chargeTime = 0
-		self.startCharging = false
-		self.releaseCharge = false
+		self:resetCharge()
 	end
+end
+
+function Player:resetCharge()
+	self.chargeTime = 0
+	self.startCharging = false
+	self.releaseCharge = false
 end
 
 function Player:chargeAttack()
@@ -256,7 +260,9 @@ function Player:update(deltaTime)
 		--self:setIdle()
 	end
 
-	if self.releaseCharge == true then
+	if updateE == true and self.releaseCharge == true then
+		self.releaseCharge = false
+		self.isAttacking = false
 		self.entity:setAnimation(1)
 		--self:setIdle()
 	end
@@ -279,6 +285,7 @@ function Player:takeDamage(dmg)
 		self.timeSinceDamage = 0.0
 		self.entity.velocity.y = -1000
 		print "AJ!!!"
+		self:resetCharge()
 
 		self.entity:setAnimation(3)
 	end
