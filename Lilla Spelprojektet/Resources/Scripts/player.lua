@@ -58,7 +58,8 @@ function Player:create()
 	this.entity:addAnimation(14, 14) -- Jump up = 4
 	this.entity:addAnimation(15, 15) -- Jump in air = 5
 	this.entity:addAnimation(16, 16) -- Fall = 6
-	this.entity:addAnimation(5,7) -- Attack = 7
+	this.entity:addAnimation(5, 7) -- Attack = 7
+	this.entity:addAnimation(33, 33) -- Dash = 8
 	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.05
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
@@ -212,6 +213,10 @@ function Player:update(deltaTime)
 		--self:setIdle()
 	end
 
+	if self.dashing == true then
+		self.entity:setAnimation(8)
+	end
+		
 	--Hp bar
 	self:updateHPBar()
 	
