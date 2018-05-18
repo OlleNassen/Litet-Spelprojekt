@@ -11,6 +11,8 @@ function Ai:create(posX, posY, sizeX, sizeY)
 		timer = 5,
     }
 
+	this.entity.maxHealth = 60
+	this.entity.health = 60
 	this.entity.x = posX
 	this.entity.y = posY
 	this.entity.collision_width = 13
