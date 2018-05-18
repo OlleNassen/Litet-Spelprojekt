@@ -35,6 +35,12 @@ function Player:create()
 		spriteHPBarBack,
 		spriteHPBar,
 		standardAnimationTime = 0.05,
+
+		--Charge attack
+		chargeTimeMax = 1,
+		chargeTime = 0,
+		startCharging = false,
+		releaseCharge = false,
     }
 	
 	this.entity.x = 10 * 48
@@ -58,8 +64,7 @@ function Player:create()
 	this.entity:addAnimation(14, 14) -- Jump up = 4
 	this.entity:addAnimation(15, 15) -- Jump in air = 5
 	this.entity:addAnimation(16, 16) -- Fall = 6
-	this.entity:addAnimation(5, 7) -- Attack = 7
-	this.entity:addAnimation(33, 33) -- Dash = 8
+	this.entity:addAnimation(5,7) -- Attack = 7
 	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.05
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
@@ -139,7 +144,44 @@ function Player:attack()
 		self.entity.updateAnimationTime = self.standardAnimationTime
 		self.entity:setAnimation(7)
 		self.isAttacking = true
+		
+		--Reset charge timer
+		self:resetCharge()
 	end
+end
+
+function Player:resetCharge()
+	self.chargeTime = 0
+	self.startCharging = false
+	self.releaseCharge = false
+end
+
+function Player:chargeAttack()
+
+	--Start charge timer
+	if self.startCharging == false then
+		self.startCharging = true
+	end
+
+end
+
+function Player:updateChargeAttack(deltaTime)
+
+	--Update timer
+	if self.startCharging then
+		self.chargeTime = self.chargeTime + deltaTime
+	end	
+
+	--Check timer
+	if self.chargeTime >= self.chargeTimeMax then
+		self.chargeTime = 0
+		self.startCharging = false
+		self.releaseCharge = true
+		self.isAttacking = true
+		self.entity.updateAnimationTime = self.standardAnimationTime
+		self.entity:setAnimation(7)
+	end
+
 end
 
 function Player:fly()
@@ -183,6 +225,10 @@ function Player:update(deltaTime)
 		end
 	end
 
+	--Charge attack
+	self:updateChargeAttack(deltaTime)
+
+	--Jump animation
 	if self.isJumping == true and self.isAttacking == false then
 		self.entity.updateAnimationTime = self.standardAnimationTime
 		self.entity:setAnimation(4)
@@ -193,6 +239,7 @@ function Player:update(deltaTime)
 		end
 	end
 
+	--Walk animation
 	if self.entity.velocity.x > 100 or self.entity.velocity.x < -100 then
 		soundFunc(walkSound)
 	end
@@ -203,20 +250,23 @@ function Player:update(deltaTime)
 		offFunc(attackSound)
 	end
 
-
-
+	--Entity update
 	local updateE = self.entity:update(deltaTime)
 	
+	--Attack animation
 	if updateE == true and self.isAttacking == true then
 		self.isAttacking = false
 		self.entity:setAnimation(1)
 		--self:setIdle()
 	end
 
-	if self.dashing == true then
-		self.entity:setAnimation(8)
+	if updateE == true and self.releaseCharge == true then
+		self.releaseCharge = false
+		self.isAttacking = false
+		self.entity:setAnimation(1)
+		--self:setIdle()
 	end
-		
+
 	--Hp bar
 	self:updateHPBar()
 	
@@ -235,6 +285,7 @@ function Player:takeDamage(dmg)
 		self.timeSinceDamage = 0.0
 		self.entity.velocity.y = -1000
 		print "AJ!!!"
+		self:resetCharge()
 
 		self.entity:setAnimation(3)
 	end
