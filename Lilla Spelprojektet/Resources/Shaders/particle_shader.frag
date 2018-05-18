@@ -10,7 +10,15 @@ out vec4 fragColor;
 
 uniform sampler2D diffuseMap;   //diffuse map
 
-float random (vec2 st) {
+vec2 random2(vec2 st)
+{
+    st = vec2( dot(st,vec2(127.1,311.7)),
+              dot(st,vec2(269.5,183.3)) );
+    return -1.0 + 2.0*fract(sin(st)*43758.5453123);
+}
+
+float random (vec2 st)
+{
     return fract(sin(dot(st.xy,
                          vec2(12.9898,78.233)))*
         43758.5453123);
@@ -32,9 +40,6 @@ void main()
 
 	//fragColor = vec4(diffuseColor.rgb, diffuseColor.a);// * vec4(random(gl_FragCoord.xy), random(gl_FragCoord.xy), random(gl_FragCoord.xy), 1);
 
-	if(diffuseColor.a == 0)
-	{
-		fragColor = diffuseColor * vec4(c, 1);
-	}
+	fragColor = vec4(0.3, random2(st).x, 0.3, 1);
 
 }

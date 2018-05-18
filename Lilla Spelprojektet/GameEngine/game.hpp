@@ -31,6 +31,7 @@ struct ShaderStruct
 	Shader particle;
 	Shader trash;
 	Shader billboard;
+	Shader ed;
 };
 
 typedef std::vector<State> LuaVector;
