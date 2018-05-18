@@ -45,9 +45,6 @@
     <ClCompile Include="Renderer\billboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Resources\Scripts\projectile.lua">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\libs.h">

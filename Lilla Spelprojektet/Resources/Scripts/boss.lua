@@ -10,6 +10,8 @@ function Boss:create(posX, posY, sizeX, sizeY)
 		currentState = 0, -- 0 = idle, 1 = close attack, 2 = rangeAttack
 		idleTimer = 0.00,
 		stopIdleTimer = 2.00,
+		hasShot = false,
+		p = {},
     }
 
 	this.entity.x = posX
@@ -52,6 +54,10 @@ function Boss:update(deltaTime, player)
 		self:changeState(player)
 	end
 
+	for i = 1, #self.p, 1 do
+		self.p[i]:update(deltaTime)
+			print(self.p[i].x)
+	end
 end
 
 function Boss:stateHandler(deltaTime, player)
@@ -62,6 +68,9 @@ function Boss:stateHandler(deltaTime, player)
 		self.entity:setAnimation(2)
 	elseif self.currentState == 2 then
 		self.entity:setAnimation(3)
+		if self.hasShot == false then
+			self:createProjectile(player, deltaTime)
+		end
 	else
 		print("ERROR: Boss state not found")
 	end
@@ -74,7 +83,7 @@ function Boss:changeState(player)
 		local distance = math.abs(player.entity.x - self.entity.x)
 
 		if distance <= 500 then
-			self.currentState = 1
+			self.currentState = 2
 		elseif distance <= 1000 then
 			self.currentState = 2
 		else
@@ -82,7 +91,41 @@ function Boss:changeState(player)
 		end
 	else
 		self.currentState = 0
+		self.hasShot = false
 	end
+end
+
+function Boss:createProjectile(player, deltaTime)
+	table.insert(self.p, Entity:create())
+	self.p[#self.p].x = self.entity.x - 20
+	self.p[#self.p].y = self.entity.y + (self.entity.height / 3)
+	self.p[#self.p].collision_width = 48
+	self.p[#self.p].collision_height = 48
+	self.p[#self.p].offsetX = 0
+	self.p[#self.p].offsetY = 0
+	self.p[#self.p].width = 48
+	self.p[#self.p].height = 48
+	self.p[#self.p].maxSpeed.x = 700
+	self.p[#self.p].maxSpeed.y = 1000
+	self.p[#self.p].texture = newTexture("Resources/Sprites/npc/boss_sprite.png")
+	self.p[#self.p].normalMap = newTexture("Resources/Sprites/npc/boss_normals.png")
+	self.p[#self.p].spriteWidth = 192
+	self.p[#self.p].spriteHeight = 192
+	self.p[#self.p]:addAnimation(1,1)
+	self.p[#self.p].updateAnimationTime = 0.2
+	self.p[#self.p].sprite = newSprite(sizeX, sizeY, self.p[#self.p].normalMap, self.p[#self.p].texture)
+	spritePos(self.p[#self.p].sprite, self.p[#self.p].x, self.p[#self.p].y)
+	self.p[#self.p].constantMovement = false
+	self.p[#self.p].hasGravity = true
+	self.p[#self.p]:addWorld(self.entity.world)
+
+	local vector = {x = player.entity.x - self.p[#self.p].x, y = player.entity.y - self.p[#self.p].y}
+	local length = math.sqrt((vector.x * vector.x) + (vector.y * vector.y))
+	vector.x = vector.x / length
+	vector.y = vector.y / length
+	self.p[#self.p].velocity.x = vector.x * 1000
+	self.p[#self.p]:accelerate(vector.x * 1000,vector.y * 1000, deltaTime)
+	self.hasShot = true
 end
 
 function Boss:attack(player)
