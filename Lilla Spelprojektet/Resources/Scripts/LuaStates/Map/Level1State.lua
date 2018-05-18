@@ -21,11 +21,8 @@ local level2Portal = Portal:create(48 * 28, 48 * 6)
 local color = 1
 
 local light1 = PointLight:create(color, color, color, 3 * tileSize, tileSize * 1)
-
 local light2 = PointLight:create(color, color, color, 6 * tileSize, tileSize * 15)
-
 local light3 = PointLight:create(color, color, color, 13 * tileSize, tileSize * 10)
-
 local light4 = PointLight:create(color, color, color, 26 * tileSize, tileSize * 4)
 
 function update(deltaTime)

@@ -28,7 +28,7 @@ if p.entity.hasPowerUp[4] == false then
 end
 
 local health
-if loadData(10) == 0 then
+if loadData(12) == 0 then
 	health = Powerup:create("health", 48 * 2, 48 * 13.5)
 end
 
@@ -60,10 +60,10 @@ function updateEntitys(deltaTime)
 		power_highJump.entity:updateAnimation(deltaTime)
 	end
 
-	if loadData(10) == 0 then
+	if loadData(12) == 0 then
 		if health.entity:containsCollisionBox(p) then
 			if health.aquired == false then
-				saveData(10, 1)
+				saveData(12, 1)
 				p:healPlayer(20)
 				health:disablePowerup()
 			end
