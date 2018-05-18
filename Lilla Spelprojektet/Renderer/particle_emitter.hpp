@@ -43,7 +43,7 @@ private:
 
 	glm::mat4 model;
 
-	glm::vec2 translations[MAX_NUM_PARTICLES];
+	glm::vec2 offsets[MAX_NUM_PARTICLES];
 
 public:
 	//Temp, put it above

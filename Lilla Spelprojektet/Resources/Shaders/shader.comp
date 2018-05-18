@@ -31,9 +31,9 @@ void main()
 	float val = random(vec2(xVal, yVal));
 
 	//positions[index].xy = vec2(xVal,yVal);
-	positions[index].xy = (to_from);
+	positions[index].xy = (to_from) * index * 0.1;
 
-	positions[index].x -= 100;
+	//positions[index].x -= 100;
 
 
 
