@@ -39,7 +39,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
 
-	pixie = new PixieParticles(&shaders.particle, &textures[0]);
+	//pixie = new PixieParticles(&shaders.particle, &textures[0]);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -89,14 +89,14 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	}
 
 	
-	pixie->render(view, projection);
+	//pixie->render(view, projection);
 	
 	
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {	
-	pixie->update(glm::vec2(getPixie().x, getPixie().y));
+	//pixie->update(glm::vec2(getPixie().x, getPixie().y));
 	collinsLaser->updateLaser(0.00016f,
 		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
 
