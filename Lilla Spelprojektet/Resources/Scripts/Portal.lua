@@ -1,5 +1,3 @@
-require("Resources/Scripts/Entity")
-
 Portal = {}
 Portal.__index = Portal
 
