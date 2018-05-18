@@ -5,6 +5,7 @@
 #include "../GameEngine/game.hpp"
 #include "billboard.hpp"
 #include "temp_pixie.hpp"
+#include "ed.hpp"
 
 #include<vector>
 #include<glm/gtc/matrix_transform.hpp>
@@ -46,7 +47,7 @@ private:
 
 	ParticleEmitter* collinsLaser;
 	Billboard* billboards;
-	PixieParticles* pixie;
+	Ed* ed;
 
 	ShaderStruct& shaders;
 	std::vector<Texture2D> textures;

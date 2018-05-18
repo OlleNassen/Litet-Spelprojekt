@@ -24,21 +24,24 @@ ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* 
 	shader->setInt(0, "diffuseMap");
 
 	this->particles.globalVelocity = glm::vec2(5.f, 3.f);
-	/*
-		float offset = 0.1f;
-		for (int y = -10; y < 10; y += 2)
+	
+	float offset = 0.1f;
+	for (int y = -10; y < 10; y += 2)
+	{
+		for (int x = -10; x < 10; x += 2)
 		{
-			for (int x = -10; x < 10; x += 2)
-			{
-				glm::vec2 translation;
-				translation.x = (float)x / 10.0f + offset;
-				translation.y = (float)y / 10.0f + offset;
-
-				push(1, translation.x, translation.y);
-
-			}
+			glm::vec2 translation;
+			translation.x = (float)x / 10.0f + offset;
+			translation.y = (float)y / 10.0f + offset;
 		}
-	*/
+	}
+	
+	for (int i = 0; i < MAX_NUM_PARTICLES; i++)
+	{
+		offsets[i].x = i;
+		offsets[i].y = 0;
+	}
+
 	
 	initParticleEmitter();
 }
@@ -49,9 +52,15 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 {
+
 	this->shader->setMatrix4fv(model, "model");
 	this->shader->setMatrix4fv(view, "view");
 	this->shader->setMatrix4fv(projection, "projection");
+
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), (void*)offsets, GL_STATIC_DRAW);
 
 	texture->bind(0);
 
@@ -67,10 +76,16 @@ void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 
 void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const glm::vec2 pixiePos)
 {
-	particleStruct = computeShader.compute(position, pixiePos);
+	//particleStruct = computeShader.compute(position, pixiePos);
 
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), (void*)particleStruct, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	//glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &translations, GL_STATIC_DRAW);
+
+	for (int i = 0; i < MAX_NUM_PARTICLES; i++)
+	{
+		offsets[i] = (pixiePos - position) * (float)i / (float)MAX_NUM_PARTICLES;
+	}
+		//translations[i].y -= 0.1;
 
 	// Prepare transformations
 	model = glm::mat4(1.f);
@@ -144,18 +159,18 @@ void ParticleEmitter::initParticleEmitter()
 {
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, (void*)particleStruct, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, (void*)offsets, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	float quadVertices[] = {
 		// positions //Texcoords     // colors
-		0.f,  12.f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+		0.f,  12.f, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f,
 		12.f, 0.f, 1.0f, 0.0,  0.0f, 1.0f, 0.0f,
-		0.f, 0.f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f,
+		0.f, 0.f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
 
-		0.f,  12.f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f,
-		12.f, 0.f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
-		12.f,  12.f, 1.0f, 0.0f,  0.0f, 1.0f, 1.0f
+		0.f,  12.f, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		12.f, 12.f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		12.f,  0.f, 1.0f, 0.0f,  0.0f, 1.0f, 0.0f
 	};
 
 	glGenVertexArrays(1, &VAO);

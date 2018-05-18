@@ -9,7 +9,7 @@
 class PixieParticles
 {
 private:
-	ComputeShader compShader;
+	//ComputeShader compShader;
 	Shader* shader;
 	Texture2D* texture;
 
@@ -20,6 +20,8 @@ private:
 	glm::mat4 model;
 
 	ParticleStruct* particleStruct = nullptr;
+
+	glm::vec2 offsets[MAX_NUM_PARTICLES];
 
 public:
 	PixieParticles(Shader* shader, Texture2D* texture);

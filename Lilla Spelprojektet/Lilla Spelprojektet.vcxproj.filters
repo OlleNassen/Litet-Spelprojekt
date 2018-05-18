@@ -48,6 +48,9 @@
     <ClCompile Include="Renderer\temp_pixie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\ed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\libs.h">
@@ -92,6 +95,9 @@
     <ClInclude Include="Renderer\temp_pixie.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\ed.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />
@@ -125,5 +131,7 @@
     <None Include="Resources\Scripts\common.lua" />
     <None Include="Resources\Scripts\LuaStates\Map\Levels\bestlevel.lua" />
     <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
+    <None Include="Resources\Shaders\ed.frag" />
+    <None Include="Resources\Shaders\ed.vert" />
   </ItemGroup>
 </Project>
