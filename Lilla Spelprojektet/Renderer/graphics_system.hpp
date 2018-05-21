@@ -4,8 +4,7 @@
 #include "sprite.hpp"
 #include "../GameEngine/game.hpp"
 #include "billboard.hpp"
-#include "temp_pixie.hpp"
-#include "ed.hpp"
+#include "mouse_effect.hpp"
 
 #include<vector>
 #include<glm/gtc/matrix_transform.hpp>
@@ -45,9 +44,9 @@ private:
 	//Sprite background;
 	int numLights = 1;
 
-	ParticleEmitter* collinsLaser;
+	ParticleEmitter* laserEffect;
 	Billboard* billboards;
-	Ed* ed;
+	MouseEffect* mouseEffect;
 
 	ShaderStruct& shaders;
 	std::vector<Texture2D> textures;

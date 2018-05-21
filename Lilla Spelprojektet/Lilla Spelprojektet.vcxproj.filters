@@ -45,10 +45,7 @@
     <ClCompile Include="Renderer\billboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\temp_pixie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\ed.cpp">
+    <ClCompile Include="Renderer\mouse_effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,10 +89,7 @@
     <ClInclude Include="Renderer\billboard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\temp_pixie.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\ed.hpp">
+    <ClInclude Include="Renderer\mouse_effect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

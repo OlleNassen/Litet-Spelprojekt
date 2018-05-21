@@ -1,19 +1,19 @@
-#include "ed.hpp"
+#include "mouse_effect.hpp"
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
-Ed::Ed(Shader* shader, Texture2D* texture)
+MouseEffect::MouseEffect(Shader* shader, Texture2D* texture)
 {
 	this->shader = shader;
 	this->texture = texture;
 	initEd();
 }
 
-Ed::~Ed()
+MouseEffect::~MouseEffect()
 {
 
 }
 
-void Ed::render(const glm::mat4& view, const glm::mat4& projection)
+void MouseEffect::render(const glm::mat4& view, const glm::mat4& projection)
 {
 	this->shader->setMatrix4fv(model, "model");
 	this->shader->setMatrix4fv(view, "view");
@@ -30,7 +30,7 @@ void Ed::render(const glm::mat4& view, const glm::mat4& projection)
 	this->shader->unuse();
 }
 
-void Ed::update(const glm::vec2& pixiePos)
+void MouseEffect::update(const glm::vec2& pixiePos)
 {
 	shader->use();
 	static float temp = 0.0;
@@ -41,7 +41,7 @@ void Ed::update(const glm::vec2& pixiePos)
 	model = glm::translate(model, glm::vec3(pixiePos - glm::vec2(120, 120), 0.0f));
 }
 
-void Ed::initEd()
+void MouseEffect::initEd()
 {
 	const float size = 240.f;
 	float quadVertices[] = {

@@ -4,7 +4,7 @@
 #include "texture_2d.hpp"
 #include "sprite.hpp"
 
-class Ed
+class MouseEffect
 {
 private:
 	Shader * shader;
@@ -17,8 +17,8 @@ private:
 	glm::mat4 model;
 
 public:
-	Ed(Shader* shader, Texture2D* texture);
-	~Ed();
+	MouseEffect(Shader* shader, Texture2D* texture);
+	~MouseEffect();
 	void render(const glm::mat4& view, const glm::mat4& projection);
 	void update(const glm::vec2& pixiePos);
 
