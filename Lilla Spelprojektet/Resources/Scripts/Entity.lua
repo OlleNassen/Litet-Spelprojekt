@@ -61,6 +61,7 @@ function Entity:create()
 		table.insert(this.hasPowerUp, i, false)
 	end
 
+
     setmetatable(this, self)
     return this
 end
