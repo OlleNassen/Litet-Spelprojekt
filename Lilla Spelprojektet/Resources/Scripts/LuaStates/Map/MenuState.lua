@@ -11,8 +11,6 @@ local settexture = setTexture
 
 newMusic("Resources/Sound/darktimes.wav")
 
-require("Resources/Scripts/playerInput")
-
 --Min 28x15 tiles
 
 tileSize = 48
