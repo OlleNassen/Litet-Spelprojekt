@@ -54,11 +54,45 @@ function Boss:update(deltaTime, player)
 		self:changeState(player)
 	end
 
-	for i = 1, #self.p, 1 do
+	if player.isAttacking == true and player.entity.isGoingRight == true then
+		if self.entity:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
+			self:takeDamage(50)
+		end
+
+	elseif  player.isAttacking == true and player.entity.isGoingRight == false then
+		if self.entity:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
+			self:takeDamage(50)
+		end
+	end
+
+	-- Projectile loop
+	for i = #self.p, 1, -1 do
 		self.p[i]:update(deltaTime)
-			print(self.p[i].x)
+		self.p[i]:move(self.p[i].velocity.x * deltaTime, self.p[i].velocity.y * deltaTime)
+		if self.p[i].collision_left == true or self.p[i].collision_right == true or self.p[i].collision_top == true or self.p[i].collision_bottom == true then
+			self.p[i].velocity.y = 0
+			self.p[i].velocity.x = 0
+			self:pAttack(i, player)
+			self:pAttack(i, self)
+			-- Add check if expolsion animation is done
+			table.remove(self.p, i)
+		else
+			if player.isAttacking == true and player.entity.isGoingRight == true then
+				if self.p[i]:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:pInvertVelocity(i)
+				end
+
+			elseif  player.isAttacking == true and player.entity.isGoingRight == false then
+				if self.p[i]:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:pInvertVelocity(i)
+				end
+
+			end
+		end
 	end
 end
+
+----- STATE HANDLERS -----
 
 function Boss:stateHandler(deltaTime, player)
 	if self.currentState == 0 then
@@ -95,6 +129,19 @@ function Boss:changeState(player)
 	end
 end
 
+----- PROJECTILE HANDLERS -----
+
+function Boss:pInvertVelocity(index)
+	self.p[index].velocity.x = self.p[index].velocity.x * -1
+	self.p[index].velocity.y = self.p[index].velocity.y * -1
+end
+
+function Boss:pAttack(index, player)
+	if self.p[index]:containsCollisionBox(player) then
+		player:takeDamage(20)
+	end
+end
+
 function Boss:createProjectile(player, deltaTime)
 	table.insert(self.p, Entity:create())
 	self.p[#self.p].x = self.entity.x - 20
@@ -115,17 +162,31 @@ function Boss:createProjectile(player, deltaTime)
 	self.p[#self.p].updateAnimationTime = 0.2
 	self.p[#self.p].sprite = newSprite(sizeX, sizeY, self.p[#self.p].normalMap, self.p[#self.p].texture)
 	spritePos(self.p[#self.p].sprite, self.p[#self.p].x, self.p[#self.p].y)
-	self.p[#self.p].constantMovement = false
-	self.p[#self.p].hasGravity = true
+	self.p[#self.p].constantMovement = true
+	self.p[#self.p].hasGravity = false
 	self.p[#self.p]:addWorld(self.entity.world)
-
-	local vector = {x = player.entity.x - self.p[#self.p].x, y = player.entity.y - self.p[#self.p].y}
+	
+	self.p[#self.p]:setAnimation(1)
+	self.p[#self.p]:updateAnimation(1)
+	local vector = {x = player.entity.x - self.p[#self.p].x, y = (player.entity.y + (player.entity.height / 2)) - self.p[#self.p].y}
 	local length = math.sqrt((vector.x * vector.x) + (vector.y * vector.y))
 	vector.x = vector.x / length
 	vector.y = vector.y / length
-	self.p[#self.p].velocity.x = vector.x * 1000
-	self.p[#self.p]:accelerate(vector.x * 1000,vector.y * 1000, deltaTime)
+	self.p[#self.p].velocity.x = vector.x * 500
+	self.p[#self.p].velocity.y = vector.y * 500
+	self.p[#self.p]:accelerate(vector.x ,vector.y, deltaTime)
 	self.hasShot = true
+end
+
+function Boss:takeDamage(damage)
+	
+	self.entity:takeDamage(50,0,0)
+
+	if self.entity.health <= 0 then
+		self.entity.x = -5000
+	end
+
+	print("AAARRRGHHH!!")
 end
 
 function Boss:attack(player)
