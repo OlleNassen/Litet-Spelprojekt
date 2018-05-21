@@ -43,10 +43,15 @@ function mouse(x, y)
 end
 
 local bLaserOn = false
-local bLaserPressed = false
 
 function laser()
-	bLaserPressed = true
+	if bLaserOn == false then
+		laserOn()
+		bLaserOn = true
+	elseif bLaserOn then
+		laserOff()
+		bLaserOn = false	
+	end
 end
 
 -- PowerUps
@@ -100,15 +105,4 @@ function checkUpgrades(deltaTime)
 	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
 		p.jumpPower = -1500
 	end
-
-
-	if bLaserPressed and bLaserOn == false then
-		laserOn()
-		bLaserOn = true
-	elseif bLaserPressed == false and bLaserOn then
-		laserOff()
-		bLaserOn = false
-	end
-
-	--bLaserPressed = false
 end
