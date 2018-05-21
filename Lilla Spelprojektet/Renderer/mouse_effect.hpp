@@ -7,7 +7,7 @@
 class MouseEffect
 {
 private:
-	Shader * shader;
+	Shader* shader;
 	Texture2D* texture;
 
 	GLuint VAO;

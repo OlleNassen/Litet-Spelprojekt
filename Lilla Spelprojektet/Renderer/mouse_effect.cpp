@@ -38,7 +38,7 @@ void MouseEffect::update(const glm::vec2& pixiePos)
 	shader->unuse();
 
 	model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(pixiePos - glm::vec2(120, 120), 0.0f));
+	model = glm::translate(model, glm::vec3(pixiePos - glm::vec2(120, 120) + glm::vec2(60, 45), 0.0f));
 }
 
 void MouseEffect::initEd()
