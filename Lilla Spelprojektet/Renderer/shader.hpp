@@ -142,54 +142,32 @@ public:
 
 	inline void setInt(const int value, const GLchar* name)
 	{
-		this->use();
-
 		glUniform1i(glGetUniformLocation(this->id, name), value);
-
-		this->unuse();
 	}
 
 	inline void setFloat(const float value, const GLchar* name)
 	{
-		this->use();
-
 		glUniform1f(glGetUniformLocation(this->id, name), value);
-
-		this->unuse();
 	}
 
 	inline void setMatrix4fv(glm::mat4 value, const GLchar* name)
 	{
-		this->use();
-
 		glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, GL_FALSE, glm::value_ptr(value));
-
-		this->unuse();
 	}
 
 	inline void setVector4f(glm::vec4 value, const GLchar* name)
 	{
-		this->use();
-
 		glUniform4fv(glGetUniformLocation(this->id, name), 1, glm::value_ptr(value));
-
-		this->unuse();
 	}
 
 	inline void setVector3f(glm::vec3 value, const GLchar* name)
 	{
-		this->use();
-
 		glUniform3fv(glGetUniformLocation(this->id, name), 1, glm::value_ptr(value));
-
-		this->unuse();
 	}
 
 	inline void setVector2f(glm::vec2 value, const GLchar* name)
 	{
-		this->use();
 		glUniform2fv(glGetUniformLocation(this->id, name), 1, glm::value_ptr(value));
-		this->unuse();
 	}
 
 };
