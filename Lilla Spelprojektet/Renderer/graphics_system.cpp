@@ -185,6 +185,9 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 	lua_pushcfunction(luaState, newtexture);
 	lua_setglobal(luaState, "newTexture");
 
+	lua_pushcfunction(luaState, settexture);
+	lua_setglobal(luaState, "setTexture");
+
 	lua_pushcfunction(luaState, newsprite);
 	lua_setglobal(luaState, "newSprite");
 
@@ -337,6 +340,19 @@ int GraphicsSystem::newtexture(lua_State* luaState)
 	*id = ptr->textures.size() - 1;
 
 	return 1;
+}
+
+int GraphicsSystem::settexture(lua_State * luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	
+	int* texture_index = (int*)lua_touserdata(luaState, -2);
+	int* id = (int*)lua_touserdata(luaState, -3);
+
+	ptr->sprites[*id].setTexture(&ptr->textures[*texture_index]);
+
+	return 0;
 }
 
 int GraphicsSystem::newsprite(lua_State* luaState)

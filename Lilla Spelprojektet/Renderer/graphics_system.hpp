@@ -110,6 +110,7 @@ private:
 	static int reloadTile(lua_State* luaState);
 
 	static int newtexture(lua_State* luaState);
+	static int settexture(lua_State* luaState);
 	static int newsprite(lua_State* luaState);
 	static int newLight(lua_State* luaState);
 	static int spritesize(lua_State* luaState);
