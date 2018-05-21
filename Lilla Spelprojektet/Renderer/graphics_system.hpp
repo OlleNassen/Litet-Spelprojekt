@@ -58,6 +58,8 @@ private:
 	float tempY;
 	float lastT = -1;
 
+	bool drawLaser;
+
 public:
 	GraphicsSystem(ShaderStruct& shad);
 	~GraphicsSystem();
@@ -122,5 +124,8 @@ private:
 	static int clearTileMap(lua_State* luaState);
 	static int newbackground(lua_State* luaState);
 	static int backgroundpos(lua_State* luaState);
+
+	static int laseron(lua_State* luaState);
+	static int laseroff(lua_State* luaState);
 };
 

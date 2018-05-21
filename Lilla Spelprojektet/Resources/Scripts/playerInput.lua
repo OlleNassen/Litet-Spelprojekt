@@ -42,6 +42,13 @@ function mouse(x, y)
 	mY = mY + y
 end
 
+local bLaserOn = false
+local bLaserPressed = false
+
+function laser()
+	bLaserPressed = true
+end
+
 -- PowerUps
 -- Dash
 local towardsX = 0
@@ -93,4 +100,15 @@ function checkUpgrades(deltaTime)
 	if p.entity.hasPowerUp[4] == true then -- HIGH JUMP UPGRADE
 		p.jumpPower = -1500
 	end
+
+
+	if bLaserPressed and bLaserOn == false then
+		laserOn()
+		bLaserOn = true
+	elseif bLaserPressed == false and bLaserOn then
+		laserOff()
+		bLaserOn = false
+	end
+
+	--bLaserPressed = false
 end

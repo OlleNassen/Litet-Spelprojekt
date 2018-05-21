@@ -14,6 +14,8 @@
 GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	: shaders(shad)
 {
+	drawLaser = false;
+	
 	tileMap.reserve(sizeof(int) * 100);
 	visibleTiles.reserve(sizeof(bool) * 100);
 	tileTextures.reserve(sizeof(Texture2D) * 100);
@@ -81,10 +83,8 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	
 	//::.. Collins Laser ..:://
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
-	{
-		
-		
+	if (drawLaser)
+	{	
 		laserEffect->render(view, projection);
 	}
 	mouseEffect->render(view, projection);
@@ -214,6 +214,12 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, backgroundpos);
 	lua_setglobal(luaState, "backgroundPos");
+
+	lua_pushcfunction(luaState, laseron);
+	lua_setglobal(luaState, "laserOn");
+
+	lua_pushcfunction(luaState, laseroff);
+	lua_setglobal(luaState, "laserOff");
 }
 
 void GraphicsSystem::initShadows()
@@ -541,5 +547,22 @@ int GraphicsSystem::backgroundpos(lua_State* luaState)
 	ptr->backgrounds[i - 1].posX = x;
 	ptr->backgrounds[i - 1].posY = y;
 
+	return 0;
+}
+
+int GraphicsSystem::laseron(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->drawLaser = true;
+
+	return 0;
+}
+int GraphicsSystem::laseroff(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->drawLaser = false;
+	
 	return 0;
 }
