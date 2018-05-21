@@ -17,6 +17,5 @@ void main()
 	vs_position =  vec2(model * vec4(vertex_position.xy, 0, 1.0));
 	vs_texcoord = vertex_texcoord;
     vs_color = vertex_color;
-
     gl_Position = projection * view * model * vec4(vertex_position.xy + vertex_offset, 0.0, 1.0);
 }  

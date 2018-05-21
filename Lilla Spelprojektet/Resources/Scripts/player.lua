@@ -37,7 +37,7 @@ function Player:create()
 		standardAnimationTime = 0.05,
 
 		--Charge attack
-		chargeTimeMax = 0.7,
+		chargeTimeMax = 1,
 		chargeTime = 0,
 		startCharging = false,
 		releaseCharge = false,
@@ -65,6 +65,7 @@ function Player:create()
 	this.entity:addAnimation(15, 15) -- Jump in air = 5
 	this.entity:addAnimation(16, 16) -- Fall = 6
 	this.entity:addAnimation(5,7) -- Attack = 7
+	this.entity:addAnimation(33, 33) -- Dash = 8
 	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.05
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
@@ -97,8 +98,7 @@ end
 
 function Player:moveRight(directionX, deltaTime)
 	self.entity:accelerate(directionX, 0, deltaTime)
-	self:resetCharge()
-
+	
 	if self.isAttacking == false then
 		self.entity.updateAnimationTime = self.standardAnimationTime
 		self.entity:setAnimation(2)
@@ -120,8 +120,6 @@ function Player:moveRight(directionX, deltaTime)
 end
 
 function Player:moveUp(directionY, deltaTime)
-	self:resetCharge()
-
 	if self.entity.canFly == true then
 		self.entity:accelerate(0, directionY, deltaTime)
 	end
@@ -136,7 +134,6 @@ function Player:jump()
 		 self.entity.velocity.y = self.jumpPower
 		 self.nrOfJumps = self.nrOfJumps - 1
 		 self.isJumping = true
-		 self:resetCharge()
 	end
 
 	return false
@@ -269,6 +266,11 @@ function Player:update(deltaTime)
 		self.isAttacking = false
 		self.entity:setAnimation(1)
 		--self:setIdle()
+	end
+
+	--Dash animation
+	if self.dashing == true then
+		self.entity:setAnimation(8)
 	end
 
 	--Hp bar
