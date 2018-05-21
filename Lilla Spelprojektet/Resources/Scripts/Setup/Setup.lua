@@ -18,4 +18,4 @@ bindKeyboard("next", keyboard.E, keyboard.Q)
 bindKeyboard("save", keyboard.K, keyboard.None)
 bindKeyboard("load", keyboard.L, keyboard.None)
 
-newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
+newState("Resources/Scripts/LuaStates/Map/level1State.lua")
