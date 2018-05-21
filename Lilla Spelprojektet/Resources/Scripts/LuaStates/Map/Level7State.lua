@@ -7,7 +7,7 @@ if loadData(0) == 0 then
 	p.entity.x = 48 * 48
 	p.entity.y = 48 * 19
 	saveData(0, 0)
-	--p.entity.health = loadData(9)
+	p.entity.health = loadData(9)
 end
 
 local health
