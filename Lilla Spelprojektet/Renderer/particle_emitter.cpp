@@ -89,7 +89,7 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 
 	// Prepare transformations
 	model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(position, 0.0f));
+	model = glm::translate(model, glm::vec3(position + glm::vec2(60, 45), 0.0f));
 
 	//model = glm::scale(model, glm::vec3(48.f, 48.f, 1.0f));
 
