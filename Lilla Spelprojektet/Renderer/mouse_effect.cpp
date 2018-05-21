@@ -31,11 +31,11 @@ void MouseEffect::render(const glm::mat4& view, const glm::mat4& projection)
 	this->shader->unuse();
 }
 
-void MouseEffect::update(const glm::vec2& pixiePos)
+void MouseEffect::update(const glm::vec2& pixiePos, float deltaTime)
 {
 	shader->use();
 	static float temp = 0.0;
-	shader->setFloat(temp += 0.016f, "u_time");
+	shader->setFloat(temp += deltaTime, "u_time");
 	shader->unuse();
 
 	model = glm::mat4(1.f);

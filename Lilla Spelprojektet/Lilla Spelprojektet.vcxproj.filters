@@ -92,6 +92,9 @@
     <ClInclude Include="Renderer\mouse_effect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="External\stb\stb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />

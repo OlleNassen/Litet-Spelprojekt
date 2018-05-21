@@ -89,16 +89,11 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	}
 	mouseEffect->render(view, projection);
 
-	billboards->update(glm::vec2(getPlayerPos().x, getPlayerPos().y));
-	billboards->render(view, projection);
+
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {	
-	mouseEffect->update(glm::vec2(getPixie().x, getPixie().y));
-	laserEffect->updateLaser(0.00016f,
-		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
-
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
 		shaders.basic.use();
@@ -107,6 +102,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			backgrounds[i].posY), view, projection);
 	}
 
+	billboards->render(view, projection);
 
 	if (tileMap.size() > 0)
 	{	
@@ -132,6 +128,18 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 void GraphicsSystem::addCamera(Camera* cam)
 {
 	camera = cam;
+}
+
+void GraphicsSystem::update(float deltaTime)
+{
+	mouseEffect->update(glm::vec2(getPixie().x, getPixie().y), deltaTime);
+
+	laserEffect->updateLaser(0.00016f,
+		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
+
+	billboards->update(deltaTime);
+
+	updateCamera();
 }
 
 void GraphicsSystem::updateCamera()
@@ -211,68 +219,6 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, laseroff);
 	lua_setglobal(luaState, "laserOff");
-}
-
-void GraphicsSystem::initShadows()
-{
-	for (int i = 0; i < visibleTiles.size(); i++)
-	{
-		visibleTiles[i] = false;
-	}
-
-	for (int numLights = 0; numLights < NUM_LIGHTS - 1; numLights++)
-		for (int i = 0; i<360; i++)
-		{
-			float t = 10000;
-			int tilePtr = -1;
-
-			float dirX = cos((float)i*0.01745f);
-			float dirY = sin((float)i*0.01745f);
-
-			float range = 1000.f;
-
-			glm::vec2 rayDir{ dirX, dirY };
-
-			rayDir = glm::vec2(lights.positions[numLights]) + rayDir * range;
-
-			for (int y = (getPlayerPos().y - HEIGHT) / 48; y < (getPlayerPos().y + HEIGHT) / 48; y++)
-			{
-				for (int x = (getPlayerPos().x - WIDTH) / 48; x < (getPlayerPos().x + WIDTH) / 48; x++)
-				{
-					if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1]
-						&& tileMap[x + 2 + y * tileMap[0]] != 0)
-					{
-
-						int left = x * 48;
-						int top = y * 48;
-						int right = x * 48 + 48;
-						int bottom = y * 48 + 48;
-
-						if (get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, left, top, right, top) ||
-							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, left, top, left, bottom) ||
-							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, right, bottom, right, top) ||
-							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, right, bottom, left, bottom))
-						{
-							float value = glm::length(glm::vec2(lights.positions[numLights].x, lights.positions[numLights].y) - glm::vec2(tempX, tempY));
-							if (t > value)
-							{
-								t = value;
-								tilePtr = x + 2 + y * tileMap[0];
-							}
-
-							lastT = -1;
-						}
-
-					}
-				}
-			}
-
-			if (tilePtr != -1)
-			{
-				visibleTiles[tilePtr] = true;
-			}
-
-		}
 }
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const

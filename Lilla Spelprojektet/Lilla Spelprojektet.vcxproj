@@ -41,6 +41,7 @@
     <None Include="Resources\Shaders\mouse_effect.frag" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="External\stb\stb_truetype.h" />
     <ClInclude Include="GameEngine\compute_shader.hpp" />
     <ClInclude Include="GameEngine\audio_system.hpp" />
     <ClInclude Include="GameEngine\camera.hpp" />
@@ -152,7 +153,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Lilla Spelprojektet\External\glew-2.1.0\include;..\Lilla Spelprojektet\External\SFML-2.4.2\include;..\Lilla Spelprojektet\External\glm-0.9.9-a2;..\Lilla Spelprojektet\External\SOIL2\include;..\Lilla Spelprojektet\External\LuaJIT-2.0.5\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Lilla Spelprojektet\External\stb;..\Lilla Spelprojektet\External\glew-2.1.0\include;..\Lilla Spelprojektet\External\SFML-2.4.2\include;..\Lilla Spelprojektet\External\glm-0.9.9-a2;..\Lilla Spelprojektet\External\SOIL2\include;..\Lilla Spelprojektet\External\LuaJIT-2.0.5\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

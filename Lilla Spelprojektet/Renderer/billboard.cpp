@@ -8,10 +8,8 @@ Billboard::Billboard(Shader* shader, Texture2D* texture)
 {
 	this->shader = shader;
 	this->texture = texture;
-
-
-
 	srand(time(NULL));
+
 	/*
 	for (int i = 0; i < NUM_BILLBOARDS; i++)
 	{
@@ -22,8 +20,8 @@ Billboard::Billboard(Shader* shader, Texture2D* texture)
 
 	for (int i = 0; i < NUM_BILLBOARDS; i++)
 	{
-		positions[i].x = rand() % 1280;
-		positions[i].y = rand() % 720;
+		positions[i].x = rand() % 3000;
+		positions[i].y = rand() % 2000;
 	}
 
 	initBillboards();
@@ -46,9 +44,6 @@ void Billboard::render(const glm::mat4& view, const glm::mat4& projection)
 
 	this->texture->bind(0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, NUM_BILLBOARDS * sizeof(glm::vec2), &positions[0], GL_STATIC_DRAW);
-
 	glBindVertexArray(this->VAO);
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, NUM_BILLBOARDS); // 100 triangles of 6 vertices each
 	glBindVertexArray(0);
@@ -56,47 +51,34 @@ void Billboard::render(const glm::mat4& view, const glm::mat4& projection)
 	shader->unuse();
 }
 
-void Billboard::update(const glm::vec2& playerPos)
+void Billboard::update(float deltaTime)
 {
-
 	model = glm::mat4(1.f);
-	model = glm::translate(model, glm::vec3(playerPos, 0.0f));
+	model = glm::translate(model, glm::vec3(0,0, 0.0f));
 	
-
-	/*
+	float speed = 650;
 	for (int i = 0; i < NUM_BILLBOARDS; i++)
 	{
-		if (positions[i].y < -1.f)
+		if (positions[i].y > 2000.f)
 		{
-			positions[i].y = 1;
-			positions[i].x = ((rand() % 2000) / 1000.0f) - 1;
-		}
-		positions[i].y -= 0.01;
-	}
-	*/
-	
-	for (int i = 0; i < NUM_BILLBOARDS; i++)
-	{
-		if (positions[i].y > 720.f)
-		{
+			positions[i].x = rand() % 3000;
 			positions[i].y = -5;
-			positions[i].x = rand() % 1280;
-			//std::cout << test++ << '\n';
 		}
-		positions[i].y += 0.1;
+		positions[i].y += speed * deltaTime;
 	}
-	
+
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, NUM_BILLBOARDS * sizeof(glm::vec2), &positions[0], GL_STATIC_DRAW);
 }
 
 void Billboard::initBillboards()
 {
-
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * NUM_BILLBOARDS, &positions[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glm::vec2 size = glm::vec2(48.f, 48.f);
+	glm::vec2 size = glm::vec2(3.f, 9.f);
 
 	float quadVertices[] = {
 		// positions     // colors
@@ -128,7 +110,6 @@ void Billboard::initBillboards()
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), BUFFER_OFFSET(offset));
 	offset += sizeof(float) * 3;
-
 
 	// also set instance data
 	offset = 0;
