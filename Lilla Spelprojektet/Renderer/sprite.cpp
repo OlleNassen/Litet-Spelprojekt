@@ -109,7 +109,7 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 
-		this->shader->use();
+		this->shader->unuse();
 	}
 }
 
