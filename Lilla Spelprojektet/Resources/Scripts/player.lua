@@ -164,7 +164,6 @@ function Player:chargeAttack()
 	--Start charge timer
 	if self.startCharging == false then
 		self.startCharging = true
-		self.entity:setAnimation(9)
 	end
 
 end
@@ -174,6 +173,7 @@ function Player:updateChargeAttack(deltaTime)
 	--Update timer
 	if self.startCharging then
 		self.chargeTime = self.chargeTime + deltaTime
+		self.entity:setAnimation(9)
 	end	
 
 	--Check timer
