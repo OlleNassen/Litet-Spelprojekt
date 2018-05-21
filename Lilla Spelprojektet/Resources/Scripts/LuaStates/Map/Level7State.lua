@@ -44,15 +44,15 @@ function update(deltaTime)
 	if level6Portal.entity:containsCollisionBox(p) then
 		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
-		saveData(0, 0)
-		newState("Resources/Scripts/LuaStates/Map/Level2State.lua")
+		saveData(0, 1)
+		newState("Resources/Scripts/LuaStates/Map/Level6State.lua")
 	end
 
 	if level8Portal.entity:containsCollisionBox(p) then
 		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
-		saveData(0, 1)
-		newState("Resources/Scripts/LuaStates/gameOverState.lua")
+		saveData(0, 0)
+		newState("Resources/Scripts/LuaStates/Map/Level2State.lua")
 	end
 
 	updateEnemies(p, deltaTime)
