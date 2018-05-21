@@ -12,6 +12,7 @@ bindKeyboard("quit", keyboard.Escape, keyboard.None)
 bindKeyboard("selectGame", keyboard.Return, keyboard.None)
 bindKeyboard("selectEditor", keyboard.RShift, keyboard.None)
 bindMouse("mouseLeft", mouse.Left, mouse.None)
+bindMouse("mouseRight", mouse.Right, mouse.None)
 bindKeyboard("next", keyboard.E, keyboard.Q)
 
 bindKeyboard("save", keyboard.K, keyboard.None)

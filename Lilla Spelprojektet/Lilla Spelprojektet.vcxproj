@@ -25,11 +25,11 @@
     <ClCompile Include="GameEngine\game.cpp" />
     <ClCompile Include="GameEngine\event_system.cpp" />
     <ClCompile Include="Renderer\billboard.cpp" />
+    <ClCompile Include="Renderer\mouse_effect.cpp" />
     <ClCompile Include="Renderer\particle_emitter.cpp" />
     <ClCompile Include="Renderer\sprite.cpp" />
     <ClCompile Include="Renderer\graphics_system.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
-    <ClCompile Include="Renderer\temp_pixie.cpp" />
     <None Include="Resources\Scripts\enemyContainer.lua" />
     <None Include="Resources\Scripts\common.lua" />
     <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
@@ -38,6 +38,7 @@
     <None Include="Resources\Scripts\projectile.lua">
       <FileType>Document</FileType>
     </None>
+    <None Include="Resources\Shaders\mouse_effect.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\compute_shader.hpp" />
@@ -48,11 +49,11 @@
     <ClInclude Include="GameEngine\input.hpp" />
     <ClInclude Include="GameEngine\libs.h" />
     <ClInclude Include="Renderer\billboard.hpp" />
+    <ClInclude Include="Renderer\mouse_effect.hpp" />
     <ClInclude Include="Renderer\particle_emitter.hpp" />
     <ClInclude Include="Renderer\shader.hpp" />
     <ClInclude Include="Renderer\sprite.hpp" />
     <ClInclude Include="Renderer\graphics_system.hpp" />
-    <ClInclude Include="Renderer\temp_pixie.hpp" />
     <ClInclude Include="Renderer\texture_2d.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,7 @@
     <None Include="Resources\Shaders\amazing_shader.vert" />
     <None Include="Resources\Shaders\basicShader.frag" />
     <None Include="Resources\Shaders\basicShader.vert" />
+    <None Include="Resources\Shaders\mouse_effect.vert" />
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
     <None Include="Resources\Shaders\pixie.comp" />

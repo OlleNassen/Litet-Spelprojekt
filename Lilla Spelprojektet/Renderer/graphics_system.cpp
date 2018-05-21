@@ -35,11 +35,11 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	textures.back().loadFromFile("Resources/Sprites/starParticle_normal.png");
 
 	
-	collinsLaser = new ParticleEmitter(&shaders.particle, &textures[0]);
+	laserEffect = new ParticleEmitter(&shaders.particle, &textures[0]);
 	
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
 
-	pixie = new PixieParticles(&shaders.particle, &textures[0]);
+	mouseEffect = new MouseEffect(&shaders.mouseEffect, &textures[0]);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -85,19 +85,15 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	{
 		
 		
-		collinsLaser->render(view, projection);
+		laserEffect->render(view, projection);
 	}
-
-	
-	pixie->render(view, projection);
-	
-	
+	mouseEffect->render(view, projection);
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {	
-	pixie->update(glm::vec2(getPixie().x, getPixie().y));
-	collinsLaser->updateLaser(0.00016f,
+	mouseEffect->update(glm::vec2(getPixie().x, getPixie().y));
+	laserEffect->updateLaser(0.00016f,
 		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
 
 	for (int i = 0; i < this->backgrounds.size(); i++)

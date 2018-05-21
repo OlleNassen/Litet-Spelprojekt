@@ -45,7 +45,7 @@
     <ClCompile Include="Renderer\billboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\temp_pixie.cpp">
+    <ClCompile Include="Renderer\mouse_effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,7 +89,7 @@
     <ClInclude Include="Renderer\billboard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\temp_pixie.hpp">
+    <ClInclude Include="Renderer\mouse_effect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,5 +125,7 @@
     <None Include="Resources\Scripts\common.lua" />
     <None Include="Resources\Scripts\LuaStates\Map\Levels\bestlevel.lua" />
     <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
+    <None Include="Resources\Shaders\mouse_effect.frag" />
+    <None Include="Resources\Shaders\mouse_effect.vert" />
   </ItemGroup>
 </Project>

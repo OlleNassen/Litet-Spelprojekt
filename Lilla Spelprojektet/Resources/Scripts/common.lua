@@ -43,7 +43,7 @@ s.maxSpeed.x = 200
 s.maxSpeed.y = 200
 s.normalMap = textureFunc("Resources/Sprites/player.png")
 s.texture = textureFunc("Resources/Sprites/player.png")
-s.sprite = spriteFunc(s.normalMap, s.texture)
+s.sprite = spriteFunc(1, 1, s.normalMap, s.texture)
 s:addWorld(level)
 
 -- HP bar

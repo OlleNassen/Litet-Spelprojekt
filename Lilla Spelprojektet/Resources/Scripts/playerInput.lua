@@ -6,6 +6,10 @@ function mouseLeft()
 	return p:attack()
 end
 
+function mouseRight()
+	return p:chargeAttack()
+end
+
 function moveUp(direction, deltaTime)
 	return p:moveUp(direction, deltaTime)
 end

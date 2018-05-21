@@ -3,7 +3,7 @@
 #include "shader.hpp"
 #include "texture_2d.hpp"
 
-#define NUM_BILLBOARDS 100
+#define NUM_BILLBOARDS 1000
 
 class Billboard
 {

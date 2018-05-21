@@ -1,5 +1,3 @@
-require("Resources/Scripts/Entity")
-
 Saw = {}
 Saw.__index = Saw
 
