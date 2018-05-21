@@ -23,5 +23,5 @@ public:
 	void update(const glm::vec2& pixiePos);
 
 private:
-	void initEd();
+	void initMouseEffect();
 };

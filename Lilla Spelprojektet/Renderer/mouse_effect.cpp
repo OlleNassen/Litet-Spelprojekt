@@ -5,7 +5,7 @@ MouseEffect::MouseEffect(Shader* shader, Texture2D* texture)
 {
 	this->shader = shader;
 	this->texture = texture;
-	initEd();
+	initMouseEffect();
 }
 
 MouseEffect::~MouseEffect()
@@ -41,7 +41,7 @@ void MouseEffect::update(const glm::vec2& pixiePos)
 	model = glm::translate(model, glm::vec3(pixiePos - glm::vec2(120, 120) + glm::vec2(60, 45), 0.0f));
 }
 
-void MouseEffect::initEd()
+void MouseEffect::initMouseEffect()
 {
 	const float size = 240.f;
 	float quadVertices[] = {
