@@ -9,10 +9,15 @@ p.texture = textureFunc("Resources/Sprites/Player/playerDiffuse.png")
 
 local cam = newSprite(1, 1, 0, p.texture)
 
-local s = Entity:create()
-s.speed = 200
-s.texture = textureFunc("Resources/Sprites/mouseDiffuse.png")
-s.sprite = spriteFunc(0, s.texture)
+s = Entity:create() -- pixie
+s.x = 200
+s.y = 100
+s.maxSpeed.x = 200
+s.maxSpeed.y = 200
+s.normalMap = textureFunc("Resources/Sprites/player.png")
+s.texture = textureFunc("Resources/Sprites/player.png")
+s.sprite = spriteFunc(1, 1, s.normalMap, s.texture)
+s:addWorld(level)
 
 
 local play = Entity:create() 

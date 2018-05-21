@@ -1,5 +1,5 @@
 tilemap = require("Resources/Scripts/LuaStates/Map/Levels/LevelMenu")
---require("Resources/Scripts/common")
+require("Resources/Scripts/common")
 require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
 require("Resources/Scripts/background")
@@ -11,11 +11,6 @@ local settexture = setTexture
 
 newMusic("Resources/Sound/darktimes.wav")
 
-level = World:create()
-level:addMap(tilemap)
-level:loadGraphics()
-
-
 require("Resources/Scripts/playerInput")
 
 --Min 28x15 tiles
@@ -25,16 +20,6 @@ tileSize = 48
 local color = 1
 local light1 = PointLight:create(color, color, color, 4 * tileSize, tileSize * 5)
 local light2 = PointLight:create(color, color, color, 23 * tileSize, tileSize * 5)
-
-s = Entity:create() -- pixie
-s.x = 200
-s.y = 100
-s.maxSpeed.x = 200
-s.maxSpeed.y = 200
-s.normalMap = textureFunc("Resources/Sprites/mouseNormal.png")
-s.texture = textureFunc("Resources/Sprites/mouseDiffuse.png")
-s.sprite = spriteFunc(s.normalMap, s.texture)
-s:addWorld(level)
 
 local bgs = {}
 
