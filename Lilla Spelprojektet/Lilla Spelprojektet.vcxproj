@@ -38,7 +38,7 @@
     <None Include="Resources\Scripts\projectile.lua">
       <FileType>Document</FileType>
     </None>
-    <None Include="Resources\Shaders\ed.frag" />
+    <None Include="Resources\Shaders\mouse_effect.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\compute_shader.hpp" />
@@ -74,7 +74,7 @@
     <None Include="Resources\Shaders\amazing_shader.vert" />
     <None Include="Resources\Shaders\basicShader.frag" />
     <None Include="Resources\Shaders\basicShader.vert" />
-    <None Include="Resources\Shaders\ed.vert" />
+    <None Include="Resources\Shaders\mouse_effect.vert" />
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
     <None Include="Resources\Shaders\pixie.comp" />
