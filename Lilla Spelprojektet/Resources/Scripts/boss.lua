@@ -71,7 +71,6 @@ function Boss:update(deltaTime, player)
 	for i = #self.p, 1, -1 do
 		self.p[i]:update(deltaTime)
 		self:pAttack(i, player)
-		print("Attack")
 		self.p[i]:move(self.p[i].velocity.x * deltaTime, self.p[i].velocity.y * deltaTime)
 		if self.p[i].collision_left == true or self.p[i].collision_right == true or self.p[i].collision_top == true or self.p[i].collision_bottom == true then
 			self.p[i].velocity.y = 0
@@ -142,7 +141,6 @@ end
 function Boss:pAttack(index, player)
 	if self.p[index]:containsCollisionBox(player) then
 		player:takeDamage(20)
-		print("Aj Aj AJ")
 	end
 end
 
