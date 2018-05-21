@@ -221,7 +221,7 @@ void Game::initWindow()
 	shaders.particle.load("Resources/Shaders/particle_shader.vert", "Resources/Shaders/particle_shader.frag");
 	shaders.trash.load("Resources/Shaders/trash.vert", "Resources/Shaders/trash.frag");
 	shaders.billboard.load("Resources/Shaders/billboard.vert", "Resources/Shaders/billboard.frag");
-	shaders.ed.load("Resources/Shaders/ed.vert", "Resources/Shaders/ed.frag");
+	shaders.mouseEffect.load("Resources/Shaders/mouse_effect.vert", "Resources/Shaders/mouse_effect.frag");
 	//Set clearing color to red
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 }

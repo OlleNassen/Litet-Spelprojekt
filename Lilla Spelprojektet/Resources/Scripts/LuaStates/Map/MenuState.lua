@@ -1,5 +1,5 @@
 tilemap = require("Resources/Scripts/LuaStates/Map/Levels/LevelMenu")
---require("Resources/Scripts/common")
+require("Resources/Scripts/common")
 require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
 require("Resources/Scripts/background")
@@ -7,13 +7,9 @@ require("Resources/Scripts/point_light")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite
+local settexture = setTexture
 
 newMusic("Resources/Sound/darktimes.wav")
-
-level = World:create()
-level:addMap(tilemap)
-level:loadGraphics()
-
 
 require("Resources/Scripts/playerInput")
 
@@ -24,16 +20,6 @@ tileSize = 48
 local color = 1
 local light1 = PointLight:create(color, color, color, 4 * tileSize, tileSize * 5)
 local light2 = PointLight:create(color, color, color, 23 * tileSize, tileSize * 5)
-
-s = Entity:create() -- pixie
-s.x = 200
-s.y = 100
-s.maxSpeed.x = 200
-s.maxSpeed.y = 200
-s.normalMap = textureFunc("Resources/Sprites/mouseNormal.png")
-s.texture = textureFunc("Resources/Sprites/mouseDiffuse.png")
-s.sprite = spriteFunc(s.normalMap, s.texture)
-s:addWorld(level)
 
 local bgs = {}
 
@@ -60,22 +46,37 @@ bgs[6] = Background:create()
 bgs[6].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 
 local play = Entity:create() 
-play.texture = textureFunc("Resources/Sprites/play.png")
-play.sprite = spriteFunc(800,100, 0, play.texture)
-play.width = 800
+play.texture = textureFunc("Resources/Sprites/btn_play.png")
+texture2 = textureFunc("Resources/Sprites/btn_play_pressed.png")
+play.sprite = spriteFunc(400,100, 0, play.texture)
+play.width = 400
 play.height = 100
-play:setPosition(250,100)
+play:setPosition(450,200)
 
 local exit = Entity:create() 
-exit.texture = textureFunc("Resources/Sprites/quit.png")
-exit.sprite = spriteFunc(800,100, 0, exit.texture)
-exit.width = 800
+exit.texture = textureFunc("Resources/Sprites/btn_quit.png")
+texture3 = textureFunc("Resources/Sprites/btn_quit_pressed.png")
+exit.sprite = spriteFunc(400,100, 0, exit.texture)
+exit.width = 400
 exit.height = 100
-exit:setPosition(250, 500)
+exit:setPosition(450, 350)
 
 function update(deltaTime)
 	s:setPosition(mX, mY)
 	updateBackground()
+
+	if play:contains(s.x, s.y) then
+		settexture(play.sprite, texture2)
+	else
+		settexture(play.sprite, play.texture)
+	end
+
+	if exit:contains(s.x, s.y) then
+		settexture(exit.sprite, texture3)
+	else
+		settexture(exit.sprite, exit.texture)
+	end
+
 end
 
 function updateBackground()

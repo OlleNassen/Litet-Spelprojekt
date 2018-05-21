@@ -56,7 +56,7 @@ function Player:create()
 	this.entity.hasGravity = true
 	this.entity.canFly = false
 	this.entity.texture = newTexture("Resources/Sprites/Player/player_sprite.png")
-	this.entity.spriteWidth = 144
+	this.entity.spriteWidth = 164
 	this.entity.spriteHeight = 144
 	this.entity:addAnimation(1,4) -- Idle = 1
 	this.entity:addAnimation(19, 32) -- Run = 2

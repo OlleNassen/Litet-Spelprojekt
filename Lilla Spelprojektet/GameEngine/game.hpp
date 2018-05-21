@@ -29,9 +29,9 @@ struct ShaderStruct
 	Shader shader2d;
 	Shader amazing;
 	Shader particle;
-	Shader trash;
+	Shader trash; // Basic passthrough shader
 	Shader billboard;
-	Shader ed;
+	Shader mouseEffect;
 };
 
 typedef std::vector<State> LuaVector;

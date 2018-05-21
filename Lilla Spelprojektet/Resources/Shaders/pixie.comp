@@ -21,6 +21,6 @@ void main()
     uint x = gl_GlobalInvocationID.x;
     uint y = gl_GlobalInvocationID.y;
 
-	positions[x + y * 100].x = pixie.x;
-	positions[x + y * 100].y = pixie.y;
+	//positions[x + y * 100].x = pixie.x;
+	//positions[x + y * 100].y = pixie.y;
 }
