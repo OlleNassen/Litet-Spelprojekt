@@ -59,13 +59,15 @@ function Player:create()
 	this.entity.spriteWidth = 144
 	this.entity.spriteHeight = 144
 	this.entity:addAnimation(1,4) -- Idle = 1
-	this.entity:addAnimation(19, 31) -- Run = 2
+	this.entity:addAnimation(19, 32) -- Run = 2
 	this.entity:addAnimation(13, 13) -- Hurt = 3
 	this.entity:addAnimation(14, 14) -- Jump up = 4
 	this.entity:addAnimation(15, 15) -- Jump in air = 5
 	this.entity:addAnimation(16, 16) -- Fall = 6
 	this.entity:addAnimation(5,7) -- Attack = 7
 	this.entity:addAnimation(33, 33) -- Dash = 8
+	this.entity:addAnimation(34, 34) -- Charge attack start = 9
+	this.entity:addAnimation(35, 36) -- Charge attack slash = 10
 	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.05
 	this.entity.normalMap = newTexture("Resources/Sprites/Player/player_normals.png")
@@ -162,6 +164,7 @@ function Player:chargeAttack()
 	--Start charge timer
 	if self.startCharging == false then
 		self.startCharging = true
+		self.entity:setAnimation(9)
 	end
 
 end
@@ -180,7 +183,7 @@ function Player:updateChargeAttack(deltaTime)
 		self.releaseCharge = true
 		self.isAttacking = true
 		self.entity.updateAnimationTime = self.standardAnimationTime
-		self.entity:setAnimation(7)
+		self.entity:setAnimation(10)
 	end
 
 end
