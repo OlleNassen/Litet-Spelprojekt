@@ -15,13 +15,14 @@ MouseEffect::~MouseEffect()
 
 void MouseEffect::render(const glm::mat4& view, const glm::mat4& projection)
 {
+	this->shader->use();
+
 	this->shader->setMatrix4fv(model, "model");
 	this->shader->setMatrix4fv(view, "view");
 	this->shader->setMatrix4fv(projection, "projection");
 
 	this->texture->bind(0);
 
-	this->shader->use();
 
 	glBindVertexArray(this->VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);

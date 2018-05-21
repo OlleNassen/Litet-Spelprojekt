@@ -88,6 +88,9 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		laserEffect->render(view, projection);
 	}
 	mouseEffect->render(view, projection);
+
+	billboards->update(glm::vec2(getPlayerPos().x, getPlayerPos().y));
+	billboards->render(view, projection);
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
@@ -103,11 +106,14 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			backgrounds[i].posX,
 			backgrounds[i].posY), view, projection);
 	}
-	billboards->update(camera->getPosition());
-	billboards->render(projection);
+
 
 	if (tileMap.size() > 0)
 	{	
+		shaders.amazing.use();
+		glUniform3fv(glGetUniformLocation(shaders.amazing.getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
+		glUniform4fv(glGetUniformLocation(shaders.amazing.getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
+
 		for (int y = (camera->getPosition().y - HEIGHT/2) / 48 - 1; y < (camera->getPosition().y + HEIGHT/2) / 48; y++)
 		{
 			for (int x = (camera->getPosition().x - WIDTH/2) / 48 - 1; x < (camera->getPosition().x + WIDTH/2) / 48; x++)
@@ -115,27 +121,12 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
 					&& tileMap[x + 2 + y * tileMap[0]] != 0)
 				{
-
-					shaders.amazing.use();
-					glUniform3fv(glGetUniformLocation(shaders.amazing.getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
-					glUniform4fv(glGetUniformLocation(shaders.amazing.getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
-					shaders.amazing.unuse();
-
-					if (visibleTiles[x + 1 + y * tileMap[0]])
-					{
-						shaders.amazing.setVector3f(glm::vec3(1, 0, 0), "status");
-					}
-					else
-					{
-						shaders.amazing.setVector3f(glm::vec3(0, 0, 0), "status");
-					}
-
-					tiles[tileMap[x + 2 + y * tileMap[0]] - 1].draw(glm::vec2(x * 48, y * 48), view, projection);
+					tiles[tileMap[x + 2 + y * tileMap[0]] - 1].draw(glm::vec2(x * 48, y * 48), view, projection);					
 				}
 			}
 		}
+		shaders.amazing.unuse();
 	}
-	
 }
 
 void GraphicsSystem::addCamera(Camera* cam)
