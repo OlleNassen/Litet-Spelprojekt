@@ -36,10 +36,11 @@ s.sprite = spriteFunc(1, 1, s.normalMap, s.texture)
 s:addWorld(level)
 
 -- HP bar
-p.spriteHPBar = spriteFunc(500, 50, 0, p.textureHPBar)
-spritePos(p.spriteHPBar, 50, 50)
-p.spriteHPBarBack = spriteFunc(500, 50, 0, p.textureHPBarBack)
-spritePos(p.spriteHPBarBack, 50, 50)
+
+p.spriteHPBarBack = spriteFunc(400, 40, 0, p.textureHPBarBack)
+spritePos(p.spriteHPBarBack, 10, 20)
+p.spriteHPBar = spriteFunc(400, 25, 0, p.textureHPBar)
+spritePos(p.spriteHPBar, 10, 27.5)
 
 tileSize = 48
 

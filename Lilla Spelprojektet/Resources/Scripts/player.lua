@@ -212,7 +212,7 @@ function Player:fly()
 end
 
 function Player:updateHPBar()
-	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 500, 50)
+	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 400, 25)
 end
 
 function Player:update(deltaTime)
