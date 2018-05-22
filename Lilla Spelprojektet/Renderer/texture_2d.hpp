@@ -85,4 +85,35 @@ public:
 		glActiveTexture(0);
 		glBindTexture(target, 0);
 	}
+
+	inline void generate(int width, int height)
+	{
+		if (this->texture) //Already exists
+		{
+			glDeleteTextures(1, &this->texture);
+			this->texture = 0;
+		}
+
+		//load image
+		unsigned char* image = new unsigned char[width*height*4];
+
+		GLenum target = GL_TEXTURE_2D;
+
+		//generate
+		glGenTextures(1, &texture);
+		glBindTexture(target, texture);
+
+		//options
+		glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+		glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+
+
+		//cleanup
+		delete image;
+		glBindTexture(target, 0);
+	}
 };

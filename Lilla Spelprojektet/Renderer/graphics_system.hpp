@@ -5,6 +5,7 @@
 #include "../GameEngine/game.hpp"
 #include "billboard.hpp"
 #include "mouse_effect.hpp"
+#include "text.hpp"
 
 #include<vector>
 #include<glm/gtc/matrix_transform.hpp>
@@ -13,6 +14,8 @@
 #include<SFML/System/Vector2.hpp>
 
 #include"particle_emitter.hpp"
+
+#include "post_processor.hpp"
 
 
 #define NUM_LIGHTS 10 + 1 // pixie in back
@@ -47,6 +50,7 @@ private:
 	ParticleEmitter* laserEffect;
 	Billboard* billboards;
 	MouseEffect* mouseEffect;
+	PostProcessor* postProcessor;
 
 	ShaderStruct& shaders;
 	std::vector<Texture2D> textures;
@@ -55,12 +59,13 @@ private:
 
 	bool drawLaser;
 
+	Text temp;
+
 public:
 	GraphicsSystem(ShaderStruct& shad);
 	~GraphicsSystem();
 
-	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
-	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
+	void draw(float deltaTime, const glm::mat4& view, const glm::mat4& projection);
 
 	void addCamera(Camera* cam);
 
@@ -72,6 +77,9 @@ public:
 
 
 private:
+	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
+	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
+
 	void updateCamera();
 	
 	static int loadTileMap(lua_State* luaState);

@@ -42,6 +42,11 @@ addEnemy(34 * 48, 48 * 9, 120, 120, level)
 addEnemy(30 * 48, 48 * 9, 120, 120, level)
 addEnemy(26 * 48, 48 * 9, 120, 120, level)
 
+local power_laser 
+if p.entity.hasPowerUp[5] == false then
+	power_laser = Powerup:create("laser", 48 * 5, 48 * 5)
+end
+
 function update(deltaTime)
 	checkUpgrades(deltaTime)
 
@@ -75,5 +80,10 @@ function update(deltaTime)
 end
 
 function updateEntitys(deltaTime)
-	
+	if p.entity.hasPowerUp[5] == false then
+		if power_laser.entity:containsCollisionBox(p) then
+			power_laser:activatePowerUp(p.entity)
+		end
+		power_laser.entity:updateAnimation(deltaTime)
+	end
 end

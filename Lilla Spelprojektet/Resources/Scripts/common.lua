@@ -47,6 +47,13 @@ tileSize = 48
 -- Background
 local bgs = {}
 
+function Lerp(a, b, t)
+	pos = {x, y}
+	pos.x = a.x + (b.x - a.x) * t
+	pos.y = a.y + (b.y - a.y) * t
+	return pos
+end
+
 bgs[1] = Background:create()
 bgs[1].texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse_48.png")
 bgs[1].sprite = newBackground(50, 2400, 0, bgs[1].texture)

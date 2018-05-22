@@ -71,6 +71,7 @@ function update(deltaTime)
 	updateBackground()
 
 	if p.entity.y >= level.map.height * tileSize + 500 then
+		p:reset()
 		newState("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
 end
