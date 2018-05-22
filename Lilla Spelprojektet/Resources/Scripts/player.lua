@@ -105,6 +105,10 @@ function Player:reset()
 	savePowerup(self.powerTable)
 	self.entity.hasPowerUp = self.powerTable
 
+	for i = 11, 15, 1 do
+		saveData(i, 0)
+	end
+
 end
 
 function Player:moveRight(directionX, deltaTime)
@@ -212,7 +216,7 @@ function Player:fly()
 end
 
 function Player:updateHPBar()
-	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 500, 50)
+	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 400, 25)
 end
 
 function Player:update(deltaTime)

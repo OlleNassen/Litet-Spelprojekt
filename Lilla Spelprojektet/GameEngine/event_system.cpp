@@ -290,7 +290,7 @@ int EventSystem::saveData(lua_State* luaState)
 	int value = lua_tointeger(luaState, -2);
 	int index = lua_tointeger(luaState, -3);
 
-	if (ptr->saveVector.size() < index)
+	if (ptr->saveVector.size() <= index)
 	{
 		ptr->saveVector.resize(index + 1);
 	}
