@@ -24,6 +24,7 @@
     <ClCompile Include="GameEngine\camera.cpp" />
     <ClCompile Include="GameEngine\game.cpp" />
     <ClCompile Include="GameEngine\event_system.cpp" />
+    <ClCompile Include="Renderer\post_processor.cpp" />
     <ClCompile Include="Renderer\billboard.cpp" />
     <ClCompile Include="Renderer\mouse_effect.cpp" />
     <ClCompile Include="Renderer\particle_emitter.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="GameEngine\game.hpp" />
     <ClInclude Include="GameEngine\input.hpp" />
     <ClInclude Include="GameEngine\libs.h" />
+    <ClInclude Include="Renderer\post_processor.hpp" />
     <ClInclude Include="Renderer\billboard.hpp" />
     <ClInclude Include="Renderer\mouse_effect.hpp" />
     <ClInclude Include="Renderer\particle_emitter.hpp" />
@@ -78,6 +80,8 @@
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
     <None Include="Resources\Shaders\pixie.comp" />
+    <None Include="Resources\Shaders\post_processing.frag" />
+    <None Include="Resources\Shaders\post_processing.vert" />
     <None Include="Resources\Shaders\shader.comp" />
     <None Include="Resources\Shaders\trash.frag" />
     <None Include="Resources\Shaders\trash.vert" />

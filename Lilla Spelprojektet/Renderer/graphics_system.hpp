@@ -14,6 +14,8 @@
 
 #include"particle_emitter.hpp"
 
+#include "post_processor.hpp"
+
 
 #define NUM_LIGHTS 10 + 1 // pixie in back
 
@@ -47,6 +49,7 @@ private:
 	ParticleEmitter* laserEffect;
 	Billboard* billboards;
 	MouseEffect* mouseEffect;
+	PostProcessor* postProcessor;
 
 	ShaderStruct& shaders;
 	std::vector<Texture2D> textures;
@@ -59,8 +62,7 @@ public:
 	GraphicsSystem(ShaderStruct& shad);
 	~GraphicsSystem();
 
-	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
-	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
+	void draw(float deltaTime, const glm::mat4& view, const glm::mat4& projection);
 
 	void addCamera(Camera* cam);
 
@@ -72,6 +74,9 @@ public:
 
 
 private:
+	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
+	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
+
 	void updateCamera();
 	
 	static int loadTileMap(lua_State* luaState);

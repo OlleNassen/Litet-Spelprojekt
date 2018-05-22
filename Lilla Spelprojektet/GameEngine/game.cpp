@@ -65,17 +65,9 @@ void Game::run()
 			handleEvents();
 			update(timePerFrame.asSeconds());
 		}
-
-		// clear the buffers
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		// draw...
-		this->draw();
-
-		// end the current frame (internally swaps the front and back buffers)
-		window->display();
 		
-		glClearColor(0.05f, 0.1f, 0.15f, 1.0);
+		currentState.graphicsSystem->draw(timePerFrame.asSeconds(), camera->getView(), camera->getProjection());
+		window->display();// end the current frame (internally swaps the front and back buffers)
 
 		updateState();
 	}
@@ -181,13 +173,6 @@ void Game::update(float deltaTime)
 	currentState.graphicsSystem->update(deltaTime);
 }
 
-
-void Game::draw()
-{
-	currentState.graphicsSystem->drawTiles(camera->getView(), camera->getProjection());
-	currentState.graphicsSystem->drawSprites(camera->getView(), camera->getProjection());
-}
-
 void Game::initWindow()
 {
 	sf::ContextSettings settings;
@@ -222,8 +207,7 @@ void Game::initWindow()
 	shaders.trash.load("Resources/Shaders/trash.vert", "Resources/Shaders/trash.frag");
 	shaders.billboard.load("Resources/Shaders/billboard.vert", "Resources/Shaders/billboard.frag");
 	shaders.mouseEffect.load("Resources/Shaders/mouse_effect.vert", "Resources/Shaders/mouse_effect.frag");
-	//Set clearing color to red
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	shaders.postProcessing.load("Resources/Shaders/post_processing.vert", "Resources/Shaders/post_processing.frag");
 }
 
 void Game::addLuaLibraries(lua_State* luaState)

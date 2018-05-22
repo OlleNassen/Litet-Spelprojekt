@@ -45,10 +45,10 @@ int AudioSystem::newMusic(lua_State* luaState)
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
-	ptr->music.openFromFile(filePath);
-	ptr->music.setLoop(true);
-	ptr->music.play();
-	*id = 1;
+	//ptr->music.openFromFile(filePath);
+	//ptr->music.setLoop(true);
+	//ptr->music.play();
+	//*id = 1;
 
 	return 1;
 }
@@ -61,9 +61,9 @@ int AudioSystem::newSoundBuffer(lua_State* luaState)
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 
-	ptr->soundBuffers.push_back(sf::SoundBuffer());
-	ptr->soundBuffers.back().loadFromFile(filePath);
-	*id = ptr->soundBuffers.size() - 1;
+	//ptr->soundBuffers.push_back(sf::SoundBuffer());
+	//ptr->soundBuffers.back().loadFromFile(filePath);
+	//*id = ptr->soundBuffers.size() - 1;
 
 	return 1;
 }
@@ -76,10 +76,10 @@ int AudioSystem::newSound(lua_State* luaState)
 	lua_pop(luaState, 1);
 	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
 	
-	ptr->sounds.push_back(sf::Sound());
-	ptr->sounds.back().setBuffer(ptr->soundBuffers[*soundBuffer]);
+	//ptr->sounds.push_back(sf::Sound());
+	//ptr->sounds.back().setBuffer(ptr->soundBuffers[*soundBuffer]);
 	
-	*id = ptr->sounds.size() - 1;
+	//*id = ptr->sounds.size() - 1;
 
 	return 1;
 }
@@ -90,10 +90,10 @@ int AudioSystem::playSound(lua_State* luaState)
 	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
 	int* id = (int*)lua_touserdata(luaState, -2);
 
-	if (ptr->sounds[*id].getStatus() != sf::Sound::Playing)
-	{
-		ptr->sounds[*id].play();
-	}
+	//if (ptr->sounds[*id].getStatus() != sf::Sound::Playing)
+	//{
+	//	ptr->sounds[*id].play();
+	//}
 	
 
 	return 0;
@@ -105,7 +105,7 @@ int AudioSystem::stopSound(lua_State* luaState)
 	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
 	int* id = (int*)lua_touserdata(luaState, -2);
 
-	ptr->sounds[*id].stop();
+	//ptr->sounds[*id].stop();
 
 	return 0;
 }
@@ -116,7 +116,7 @@ int AudioSystem::pauseSound(lua_State* luaState)
 	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
 	int* id = (int*)lua_touserdata(luaState, -2);
 
-	ptr->sounds[*id].pause();
+	//ptr->sounds[*id].pause();
 
 	return 0;
 }

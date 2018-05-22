@@ -42,6 +42,8 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
 
 	mouseEffect = new MouseEffect(&shaders.mouseEffect, &textures[0]);
+
+	postProcessor = new PostProcessor(&shaders.postProcessing, WIDTH, HEIGHT);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -55,6 +57,15 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 GraphicsSystem::~GraphicsSystem()
 {
 
+}
+
+void GraphicsSystem::draw(float deltaTime, const glm::mat4& view, const glm::mat4& projection)
+{
+	postProcessor->beginRender();
+	drawTiles(camera->getView(), camera->getProjection());
+	drawSprites(camera->getView(), camera->getProjection());
+	postProcessor->endRender();
+	postProcessor->render(deltaTime);
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
@@ -88,12 +99,10 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		laserEffect->render(view, projection);
 	}
 	mouseEffect->render(view, projection);
-
-
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
-{	
+{		
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
 		shaders.basic.use();
