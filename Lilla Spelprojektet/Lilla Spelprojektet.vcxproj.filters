@@ -48,7 +48,7 @@
     <ClCompile Include="Renderer\mouse_effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\post_processor.cpp">
+    <ClCompile Include="Renderer\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,10 @@
     <ClInclude Include="External\stb\stb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\post_processor.hpp">
+    <ClInclude Include="Renderer\text.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ft2build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -135,7 +138,5 @@
     <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
     <None Include="Resources\Shaders\mouse_effect.frag" />
     <None Include="Resources\Shaders\mouse_effect.vert" />
-    <None Include="Resources\Shaders\post_processing.vert" />
-    <None Include="Resources\Shaders\post_processing.frag" />
   </ItemGroup>
 </Project>

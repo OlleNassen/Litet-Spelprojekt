@@ -12,7 +12,7 @@ if loadData(0) == 0 then
 end
 
 local health
-if loadData(13) == 0 then
+if loadData(15) == 0 then
 	health = Powerup:create("health", 48 * 2, 48 * 2)
 end
 
@@ -71,15 +71,16 @@ function update(deltaTime)
 	updateBackground()
 
 	if p.entity.y >= level.map.height * tileSize + 500 then
+		p:reset()
 		newState("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
 end
 
 function updateEntitys(deltaTime)
-	if loadData(13) == 0 then
+	if loadData(15) == 0 then
 		if health.entity:containsCollisionBox(p) then
 			if health.aquired == false then
-				saveData(13, 1)
+				saveData(15, 1)
 				p:healPlayer(20)
 				health:disablePowerup()
 			end

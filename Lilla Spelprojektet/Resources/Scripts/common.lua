@@ -36,15 +36,23 @@ s.sprite = spriteFunc(1, 1, s.normalMap, s.texture)
 s:addWorld(level)
 
 -- HP bar
-p.spriteHPBar = spriteFunc(500, 50, 0, p.textureHPBar)
-spritePos(p.spriteHPBar, 50, 50)
-p.spriteHPBarBack = spriteFunc(500, 50, 0, p.textureHPBarBack)
-spritePos(p.spriteHPBarBack, 50, 50)
+
+p.spriteHPBarBack = spriteFunc(400, 40, 0, p.textureHPBarBack)
+spritePos(p.spriteHPBarBack, 10, 20)
+p.spriteHPBar = spriteFunc(400, 25, 0, p.textureHPBar)
+spritePos(p.spriteHPBar, 10, 27.5)
 
 tileSize = 48
 
 -- Background
 local bgs = {}
+
+function Lerp(a, b, t)
+	pos = {x, y}
+	pos.x = a.x + (b.x - a.x) * t
+	pos.y = a.y + (b.y - a.y) * t
+	return pos
+end
 
 bgs[1] = Background:create()
 bgs[1].texture = textureFunc("Resources/Sprites/Background/Pillar_diffuse_48.png")

@@ -19,6 +19,7 @@ function Saw:create(posX, posY)
 	this.entity.offsetY = 8
 	this.entity.spriteWidth = 48
 	this.entity.spriteHeight = 48
+	this.entity.updateAnimationTime = 0.025
 	this.entity:addAnimation(1,24) 
 
 	this.entity.texture = newTexture("Resources/Sprites/Saw/saw_diffuse.png")

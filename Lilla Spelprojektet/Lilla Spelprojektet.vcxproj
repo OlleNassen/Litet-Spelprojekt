@@ -31,6 +31,7 @@
     <ClCompile Include="Renderer\sprite.cpp" />
     <ClCompile Include="Renderer\graphics_system.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
+    <ClCompile Include="Renderer\text.cpp" />
     <None Include="Resources\Scripts\enemyContainer.lua" />
     <None Include="Resources\Scripts\common.lua" />
     <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
@@ -42,6 +43,7 @@
     <None Include="Resources\Shaders\mouse_effect.frag" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="External\ft2build.h" />
     <ClInclude Include="External\stb\stb_truetype.h" />
     <ClInclude Include="GameEngine\compute_shader.hpp" />
     <ClInclude Include="GameEngine\audio_system.hpp" />
@@ -57,6 +59,7 @@
     <ClInclude Include="Renderer\shader.hpp" />
     <ClInclude Include="Renderer\sprite.hpp" />
     <ClInclude Include="Renderer\graphics_system.hpp" />
+    <ClInclude Include="Renderer\text.hpp" />
     <ClInclude Include="Renderer\texture_2d.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,13 +159,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Lilla Spelprojektet\External\stb;..\Lilla Spelprojektet\External\glew-2.1.0\include;..\Lilla Spelprojektet\External\SFML-2.4.2\include;..\Lilla Spelprojektet\External\glm-0.9.9-a2;..\Lilla Spelprojektet\External\SOIL2\include;..\Lilla Spelprojektet\External\LuaJIT-2.0.5\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Lilla Spelprojektet\External\stb;..\Lilla Spelprojektet\External\glew-2.1.0\include;..\Lilla Spelprojektet\External\SFML-2.4.2\include;..\Lilla Spelprojektet\External\glm-0.9.9-a2;..\Lilla Spelprojektet\External\SOIL2\include;..\Lilla Spelprojektet\External\LuaJIT-2.0.5\src;..\Lilla Spelprojektet\External\freetype-2.9.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>..\\Lilla Spelprojektet\External\\SFML-2.4.2\\lib\\;..\Lilla Spelprojektet\External\glew-2.1.0\lib\;..\Lilla Spelprojektet\External\glew-2.1.0\lib\Release\Win32\;..\Lilla Spelprojektet\External\SOIL2\lib;..\Lilla Spelprojektet\External\LuaJIT-2.0.5\src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glew32s.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;glu32.lib;lua51.lib;soil2-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\\Lilla Spelprojektet\External\\SFML-2.4.2\\lib\\;..\Lilla Spelprojektet\External\glew-2.1.0\lib\;..\Lilla Spelprojektet\External\glew-2.1.0\lib\Release\Win32\;..\Lilla Spelprojektet\External\SOIL2\lib;..\Lilla Spelprojektet\External\LuaJIT-2.0.5\src;..\Lilla Spelprojektet\External\freetype-2.9.1\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glew32s.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;glu32.lib;lua51.lib;soil2-debug.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

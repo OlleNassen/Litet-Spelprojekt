@@ -16,7 +16,7 @@ elseif loadData(0) == 1 then
 end
 
 local health
-if loadData(12) == 0 then
+if loadData(14) == 0 then
 	health = Powerup:create("health", 48 * 48, 48 * 9)
 end
 
@@ -68,10 +68,10 @@ function update(deltaTime)
 end
 
 function updateEntitys(deltaTime)
-	if loadData(12) == 0 then
+	if loadData(14) == 0 then
 		if health.entity:containsCollisionBox(p) then
 			if health.aquired == false then
-				saveData(12, 1)
+				saveData(14, 1)
 				p:healPlayer(20)
 				health:disablePowerup()
 			end
