@@ -2,11 +2,17 @@
 local walkBuffer = newSoundBuffer("Resources/Sound/walk.wav")
 local walkSound = newSound(walkBuffer)
 
-local jumpBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local jumpBuffer = newSoundBuffer("Resources/Sound/jumpland.wav")
 local jumpSound = newSound(jumpBuffer)
 
-local attackBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local attackBuffer = newSoundBuffer("Resources/Sound/swish-4.wav")
 local attackSound = newSound(attackBuffer)
+
+local attackBuffer2 = newSoundBuffer("Resources/Sound/swish-7.wav")
+local attackSound2 = newSound(attackBuffer2)
+
+local damageBuffer = newSoundBuffer("Resources/Sound/hit17.mp3.flac")
+local damageSound = newSound(damageBuffer)
 
 local soundFunc = playSound
 local offFunc = stopSound
@@ -196,8 +202,8 @@ function Player:updateChargeAttack(deltaTime)
 		self.startCharging = false
 		self.releaseCharge = true
 		self.isAttacking = true
-		self.entity.updateAnimationTime = self.standardAnimationTime
 		self.entity:setAnimation(10)
+		soundFunc(attackSound2)
 	end
 
 end
@@ -312,6 +318,7 @@ function Player:takeDamage(dmg)
 		self:resetCharge()
 
 		self.entity:setAnimation(3)
+		soundFunc(damageSound)
 	end
 end
 
