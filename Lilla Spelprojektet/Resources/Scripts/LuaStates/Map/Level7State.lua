@@ -8,6 +8,11 @@ if loadData(0) == 0 then
 	p.entity.y = 48 * 19
 	saveData(0, 0)
 	p.entity.health = loadData(9)
+elseif loadData(0) == 1 then
+	p.entity.x = 48 * 48.5
+	p.entity.y = 48 * 2
+	saveData(0, 0)
+	p.entity.health = loadData(9)
 end
 
 local health
@@ -16,7 +21,7 @@ if loadData(12) == 0 then
 end
 
 local level6Portal = Portal:create(48 * 50, 48 * 20)
-local level8Portal = Portal:create(48 * 50, 48 * 3)
+local levelBossPortal = Portal:create(48 * 50, 48 * 3)
 
 local color = 1
 local light1 = PointLight:create(color, color, color, 48 * tileSize, tileSize * 17)
@@ -48,11 +53,11 @@ function update(deltaTime)
 		newState("Resources/Scripts/LuaStates/Map/Level6State.lua")
 	end
 
-	if level8Portal.entity:containsCollisionBox(p) then
+	if levelBossPortal.entity:containsCollisionBox(p) then
 		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		saveData(0, 0)
-		newState("Resources/Scripts/LuaStates/Map/Level2State.lua")
+		newState("Resources/Scripts/LuaStates/Map/LevelBossState.lua")
 	end
 
 	updateEnemies(p, deltaTime)

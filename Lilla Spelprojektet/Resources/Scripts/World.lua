@@ -47,8 +47,10 @@ function World:canMove(newX, newY)
 
 	local result = true
 
-	if id ~= 0 then
-		result = self.map.tilesets[1].tiles[id].properties["ignore"]
+	if self.map.tilesets[1].tiles[id] ~= nil then
+		if id ~= 0 then
+			result = self.map.tilesets[1].tiles[id].properties["ignore"]
+		end
 	end
 
 	return result
