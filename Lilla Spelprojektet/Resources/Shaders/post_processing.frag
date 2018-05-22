@@ -18,14 +18,13 @@ void main()
     
 	// sample from texture offsets if using convolution matrix
     if(chaos || shake)
+	{
         for(int i = 0; i < 9; i++)
 		 {
 			sam[i] = vec3(texture(scene, TexCoords.st + offsets[i]));
 		 }
+	}
             
-
-    
-	
 	// process effects
     if(chaos)
     {           

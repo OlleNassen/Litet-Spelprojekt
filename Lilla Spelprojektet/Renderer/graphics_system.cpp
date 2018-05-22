@@ -56,7 +56,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	std::cout << "GS constructor done!" << std::endl;
 	
 	//postProcessor->chaos = true;
-	//postProcessor->confuse = true;
+	postProcessor->confuse = true;
 	//postProcessor->shake = true;
 }
 

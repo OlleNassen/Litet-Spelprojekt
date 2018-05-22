@@ -86,6 +86,34 @@ void PostProcessor::render(GLfloat time)
 	postProcessingShader->setInt(confuse,"confuse");
 	postProcessingShader->setInt(chaos, "chaos");
 	postProcessingShader->setInt(shake, "shake");
+
+
+	GLfloat offset = 1.0f / 300.0f;
+	GLfloat offsets[9][2] = {
+		{ -offset,  offset },  // top-left
+	{ 0.0f,    offset },  // top-center
+	{ offset,  offset },  // top-right
+	{ -offset,  0.0f },  // center-left
+	{ 0.0f,    0.0f },  // center-center
+	{ offset,  0.0f },  // center - right
+	{ -offset, -offset },  // bottom-left
+	{ 0.0f,   -offset },  // bottom-center
+	{ offset, -offset }   // bottom-right    
+	};
+	glUniform2fv(glGetUniformLocation(postProcessingShader->getID(), "offsets"), 9, (GLfloat*)offsets);
+	GLint edge_kernel[9] = {
+		-1, -1, -1,
+		-1,  8, -1,
+		-1, -1, -1
+	};
+	glUniform1iv(glGetUniformLocation(postProcessingShader->getID(), "edge_kernel"), 9, edge_kernel);
+	GLfloat blur_kernel[9] = {
+		1.0 / 16, 2.0 / 16, 1.0 / 16,
+		2.0 / 16, 4.0 / 16, 2.0 / 16,
+		1.0 / 16, 2.0 / 16, 1.0 / 16
+	};
+	glUniform1fv(glGetUniformLocation(postProcessingShader->getID(), "blur_kernel"), 9, blur_kernel);
+
 	// Render textured quad
 	glActiveTexture(GL_TEXTURE0);
 	texture.bind(0);
