@@ -66,7 +66,12 @@ void Game::run()
 			update(timePerFrame.asSeconds());
 		}
 		
-		currentState.graphicsSystem->draw(timePerFrame.asSeconds(), camera->getView(), camera->getProjection());
+		currentState.graphicsSystem->draw(
+			timePerFrame.asSeconds(), 
+			camera->getView(), 
+			camera->getProjection(), 
+			eventSystem.getLevel());
+
 		window->display();// end the current frame (internally swaps the front and back buffers)
 
 		updateState();
@@ -208,6 +213,7 @@ void Game::initWindow()
 	shaders.billboard.load("Resources/Shaders/billboard.vert", "Resources/Shaders/billboard.frag");
 	shaders.mouseEffect.load("Resources/Shaders/mouse_effect.vert", "Resources/Shaders/mouse_effect.frag");
 	shaders.postProcessing.load("Resources/Shaders/post_processing.vert", "Resources/Shaders/post_processing.frag");
+	shaders.text.load("Resources/Shaders/text.vert", "Resources/Shaders/text.frag");
 }
 
 void Game::addLuaLibraries(lua_State* luaState)

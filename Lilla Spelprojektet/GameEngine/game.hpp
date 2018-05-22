@@ -33,6 +33,7 @@ struct ShaderStruct
 	Shader billboard;
 	Shader mouseEffect;
 	Shader postProcessing;
+	Shader text;
 };
 
 typedef std::vector<State> LuaVector;

@@ -67,9 +67,11 @@ public:
 	GraphicsSystem(ShaderStruct& shad);
 	~GraphicsSystem();
 
-	void draw(float deltaTime, const glm::mat4& view, const glm::mat4& projection);
+	void draw(
+		float deltaTime, const glm::mat4& view,
+		const glm::mat4& projection, int level);
 
-	void drawLevel(const glm::mat4& projection, int level);
+	void drawLevelText(const glm::mat4& projection, int level);
 
 	void addCamera(Camera* cam);
 
