@@ -30,6 +30,7 @@
     <ClCompile Include="Renderer\sprite.cpp" />
     <ClCompile Include="Renderer\graphics_system.cpp" />
     <ClCompile Include="GameEngine\main.cpp" />
+    <ClCompile Include="Renderer\text.cpp" />
     <None Include="Resources\Scripts\enemyContainer.lua" />
     <None Include="Resources\Scripts\common.lua" />
     <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
@@ -55,6 +56,7 @@
     <ClInclude Include="Renderer\shader.hpp" />
     <ClInclude Include="Renderer\sprite.hpp" />
     <ClInclude Include="Renderer\graphics_system.hpp" />
+    <ClInclude Include="Renderer\text.hpp" />
     <ClInclude Include="Renderer\texture_2d.hpp" />
   </ItemGroup>
   <ItemGroup>
