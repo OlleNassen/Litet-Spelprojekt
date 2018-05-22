@@ -105,9 +105,9 @@ function Player:reset()
 	savePowerup(self.powerTable)
 	self.entity.hasPowerUp = self.powerTable
 
-	--for i = 11, 1, 15 do
-	--	saveData(i, 0)
-	--end
+	for i = 11, 15, 1 do
+		saveData(i, 0)
+	end
 
 end
 
