@@ -32,7 +32,7 @@ struct ShaderStruct
 	Shader trash; // Basic passthrough shader
 	Shader billboard;
 	Shader mouseEffect;
-	Shader text;
+	Shader postProcessing;
 };
 
 typedef std::vector<State> LuaVector;
@@ -60,7 +60,6 @@ private:
 	void handleEvents();
 	void update(float deltaTime);
 	void updateState();
-	void draw();
 
 	void initWindow();
 	

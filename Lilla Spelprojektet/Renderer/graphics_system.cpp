@@ -43,7 +43,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 
 	mouseEffect = new MouseEffect(&shaders.mouseEffect, &textures[0]);
 
-	currentLevel = new Text(&shaders.text);
+	postProcessor = new PostProcessor(&shaders.postProcessing, WIDTH, HEIGHT);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -52,11 +52,24 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	}
 
 	std::cout << "GS constructor done!" << std::endl;
+	
+	//postProcessor->chaos = true;
+	//postProcessor->confuse = true;
+	//postProcessor->shake = true;
 }
 
 GraphicsSystem::~GraphicsSystem()
 {
 
+}
+
+void GraphicsSystem::draw(float deltaTime, const glm::mat4& view, const glm::mat4& projection)
+{
+	postProcessor->beginRender();
+	drawTiles(camera->getView(), camera->getProjection());
+	drawSprites(camera->getView(), camera->getProjection());
+	postProcessor->endRender();
+	postProcessor->render(deltaTime);
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
@@ -90,11 +103,10 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 		laserEffect->render(view, projection);
 	}
 	mouseEffect->render(view, projection);
-
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
-{	
+{		
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
 		shaders.basic.use();
@@ -123,25 +135,6 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			}
 		}
 		shaders.amazing.unuse();
-	}
-}
-
-void GraphicsSystem::drawLevel(const glm::mat4 & projection, int level)
-{
-	if (textClock.getElapsedTime().asSeconds() < 2.f)
-	{
-		switch (level)
-		{
-		case 0:
-			break;
-		case 1:
-			currentLevel->RenderText("Prologue", 1280 / 2 - 200, 720 / 2, 2.0f, glm::vec3(0.0, 0.8f, 0.0f), projection);
-			break;
-
-		default:
-			currentLevel->RenderText("Level " + std::to_string(level), 1280 / 2, 720 / 2, 2.0f, glm::vec3(0.5, 0.8f, 0.2f), projection);
-			break;
-		}
 	}
 }
 

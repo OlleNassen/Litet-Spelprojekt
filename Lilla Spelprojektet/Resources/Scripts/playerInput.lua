@@ -43,14 +43,15 @@ function mouse(x, y)
 end
 
 local bLaserOn = false
-
 function laser()
-	if bLaserOn == false then
-		laserOn()
-		bLaserOn = true
-	elseif bLaserOn then
-		laserOff()
-		bLaserOn = false	
+	if p.entity.hasPowerUp[5] == true then
+		if bLaserOn == false then
+			laserOn()
+			bLaserOn = true
+		elseif bLaserOn then
+			laserOff()
+			bLaserOn = false	
+		end
 	end
 end
 
@@ -110,5 +111,33 @@ function checkUpgrades(deltaTime)
 		p.jumpPower = -1500
 	else
 		p.jumpPower = -1300
+	end
+	if p.entity.hasPowerUp[5] == true then
+		laserDamage(deltaTime)
+	end
+end
+
+local laserLerpTime = 0
+function laserDamage(deltaTime)
+	if bLaserOn and #enemies > 0 then
+		posFrom = {x, y}
+		posFrom.x = p.entity.x
+		posFrom.y = p.entity.y
+		posTo = {x, y}
+		posTo.x = s.x
+		posTo.y = s.y
+
+		laserPos = {x, y}
+		laserLerpTime = laserLerpTime + deltaTime
+		laserPos = Lerp(posFrom, posTo, laserLerpTime)
+		if laserLerpTime >= 1 then
+			laserLerpTime = 0
+		end
+
+		for i, enemy in ipairs(enemies) do
+			if enemy.entity:contains(laserPos.x, laserPos.y) == true then
+				enemy.entity:takeDamage(p.attackDamage, p.attackPushBack.x, p.attackPushBack.y, true)
+			end
+		end
 	end
 end
