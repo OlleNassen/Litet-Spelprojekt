@@ -75,7 +75,7 @@ function Player:create()
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 	setSpriteRect(this.entity.sprite,0,0,86,95)
 
-	powerTable = 
+	this.powerTable = 
 	{
 		false,	--Dash
 		false,	--Speed
@@ -84,9 +84,9 @@ function Player:create()
 		false	--Laser
 	}
 
-	loadPowerup(powerTable)
+	loadPowerup(this.powerTable)
 
-	this.entity.hasPowerUp = powerTable
+	this.entity.hasPowerUp = this.powerTable
 	
 	--Player Visible collision box
 	--[[this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
@@ -96,6 +96,15 @@ function Player:create()
 
     setmetatable(this, self)
     return this
+end
+
+function Player:reset()
+	for i, powerup in ipairs(self.powerTable) do
+		self.powerTable[i] = false
+	end
+	savePowerup(self.powerTable)
+	self.entity.hasPowerUp = self.powerTable
+
 end
 
 function Player:moveRight(directionX, deltaTime)
@@ -151,6 +160,7 @@ function Player:attack()
 		--Reset charge timer
 		self:resetCharge()
 	end
+
 end
 
 function Player:resetCharge()
@@ -202,7 +212,7 @@ function Player:fly()
 end
 
 function Player:updateHPBar()
-	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 500, 50)
+	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 400, 25)
 end
 
 function Player:update(deltaTime)
@@ -211,6 +221,7 @@ function Player:update(deltaTime)
 	
 	if self.entity.health <= 0 then
 		newState("Resources/Scripts/LuaStates/gameOverState.lua")
+		self:reset()
 	end
 
 	--Decelerate

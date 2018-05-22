@@ -178,7 +178,7 @@ void Game::update(float deltaTime)
 		system("pause");
 		stateName = "D";
 	}
-	currentState.graphicsSystem->updateCamera();
+	currentState.graphicsSystem->update(deltaTime);
 }
 
 

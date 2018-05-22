@@ -48,6 +48,9 @@
     <ClCompile Include="Renderer\mouse_effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\libs.h">
@@ -92,6 +95,12 @@
     <ClInclude Include="Renderer\mouse_effect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="External\stb\stb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\text.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />
@@ -109,7 +118,6 @@
     <None Include="Resources\Scripts\point_light.lua" />
     <None Include="Resources\Shaders\particle_shader.frag" />
     <None Include="Resources\Shaders\particle_shader.vert" />
-    <None Include="Resources\Scripts\olleTilemap.lua" />
     <None Include="Resources\Shaders\shader.comp" />
     <None Include="Resources\Scripts\LuaStates\victoryState.lua" />
     <None Include="Resources\Scripts\save.lua" />

@@ -56,7 +56,6 @@ public:
 	~ParticleEmitter();
 
 	void render(const glm::mat4& view, const glm::mat4& projection);
-	void update(float dt, const glm::vec2& position);
 
 	void updateLaser(float dt, const glm::vec2& position, const glm::vec2 pixiePos);
 

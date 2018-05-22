@@ -14,6 +14,8 @@
 GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	: shaders(shad)
 {
+	drawLaser = false;
+	
 	tileMap.reserve(sizeof(int) * 100);
 	visibleTiles.reserve(sizeof(bool) * 100);
 	tileTextures.reserve(sizeof(Texture2D) * 100);
@@ -81,21 +83,17 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	
 	//::.. Collins Laser ..:://
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
-	{
-		
-		
+	if (drawLaser)
+	{	
 		laserEffect->render(view, projection);
 	}
 	mouseEffect->render(view, projection);
+
+
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
 {	
-	mouseEffect->update(glm::vec2(getPixie().x, getPixie().y));
-	laserEffect->updateLaser(0.00016f,
-		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
-
 	for (int i = 0; i < this->backgrounds.size(); i++)
 	{
 		shaders.basic.use();
@@ -103,11 +101,15 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			backgrounds[i].posX,
 			backgrounds[i].posY), view, projection);
 	}
-	billboards->update(camera->getPosition());
-	billboards->render(projection);
+
+	billboards->render(view, projection);
 
 	if (tileMap.size() > 0)
 	{	
+		shaders.amazing.use();
+		glUniform3fv(glGetUniformLocation(shaders.amazing.getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
+		glUniform4fv(glGetUniformLocation(shaders.amazing.getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
+
 		for (int y = (camera->getPosition().y - HEIGHT/2) / 48 - 1; y < (camera->getPosition().y + HEIGHT/2) / 48; y++)
 		{
 			for (int x = (camera->getPosition().x - WIDTH/2) / 48 - 1; x < (camera->getPosition().x + WIDTH/2) / 48; x++)
@@ -115,32 +117,29 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 				if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1] 
 					&& tileMap[x + 2 + y * tileMap[0]] != 0)
 				{
-
-					shaders.amazing.use();
-					glUniform3fv(glGetUniformLocation(shaders.amazing.getID(), "lightPos"), NUM_LIGHTS, &lights.positions[0][0]);
-					glUniform4fv(glGetUniformLocation(shaders.amazing.getID(), "lightColor"), NUM_LIGHTS, &lights.colors[0][0]);
-					shaders.amazing.unuse();
-
-					if (visibleTiles[x + 1 + y * tileMap[0]])
-					{
-						shaders.amazing.setVector3f(glm::vec3(1, 0, 0), "status");
-					}
-					else
-					{
-						shaders.amazing.setVector3f(glm::vec3(0, 0, 0), "status");
-					}
-
-					tiles[tileMap[x + 2 + y * tileMap[0]] - 1].draw(glm::vec2(x * 48, y * 48), view, projection);
+					tiles[tileMap[x + 2 + y * tileMap[0]] - 1].draw(glm::vec2(x * 48, y * 48), view, projection);					
 				}
 			}
 		}
+		shaders.amazing.unuse();
 	}
-	
 }
 
 void GraphicsSystem::addCamera(Camera* cam)
 {
 	camera = cam;
+}
+
+void GraphicsSystem::update(float deltaTime)
+{
+	mouseEffect->update(glm::vec2(getPixie().x, getPixie().y), deltaTime);
+
+	laserEffect->updateLaser(0.00016f,
+		glm::vec2(sprites[0].posX, sprites[0].posY), glm::vec2(getPixie().x, getPixie().y));
+
+	billboards->update(deltaTime);
+
+	updateCamera();
 }
 
 void GraphicsSystem::updateCamera()
@@ -214,68 +213,12 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, backgroundpos);
 	lua_setglobal(luaState, "backgroundPos");
-}
 
-void GraphicsSystem::initShadows()
-{
-	for (int i = 0; i < visibleTiles.size(); i++)
-	{
-		visibleTiles[i] = false;
-	}
+	lua_pushcfunction(luaState, laseron);
+	lua_setglobal(luaState, "laserOn");
 
-	for (int numLights = 0; numLights < NUM_LIGHTS - 1; numLights++)
-		for (int i = 0; i<360; i++)
-		{
-			float t = 10000;
-			int tilePtr = -1;
-
-			float dirX = cos((float)i*0.01745f);
-			float dirY = sin((float)i*0.01745f);
-
-			float range = 1000.f;
-
-			glm::vec2 rayDir{ dirX, dirY };
-
-			rayDir = glm::vec2(lights.positions[numLights]) + rayDir * range;
-
-			for (int y = (getPlayerPos().y - HEIGHT) / 48; y < (getPlayerPos().y + HEIGHT) / 48; y++)
-			{
-				for (int x = (getPlayerPos().x - WIDTH) / 48; x < (getPlayerPos().x + WIDTH) / 48; x++)
-				{
-					if (x >= 0 && y >= 0 && x < tileMap[0] && y < tileMap[1]
-						&& tileMap[x + 2 + y * tileMap[0]] != 0)
-					{
-
-						int left = x * 48;
-						int top = y * 48;
-						int right = x * 48 + 48;
-						int bottom = y * 48 + 48;
-
-						if (get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, left, top, right, top) ||
-							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, left, top, left, bottom) ||
-							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, right, bottom, right, top) ||
-							get_line_intersection(lights.positions[numLights].x, lights.positions[numLights].y, rayDir.x, rayDir.y, right, bottom, left, bottom))
-						{
-							float value = glm::length(glm::vec2(lights.positions[numLights].x, lights.positions[numLights].y) - glm::vec2(tempX, tempY));
-							if (t > value)
-							{
-								t = value;
-								tilePtr = x + 2 + y * tileMap[0];
-							}
-
-							lastT = -1;
-						}
-
-					}
-				}
-			}
-
-			if (tilePtr != -1)
-			{
-				visibleTiles[tilePtr] = true;
-			}
-
-		}
+	lua_pushcfunction(luaState, laseroff);
+	lua_setglobal(luaState, "laserOff");
 }
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const
@@ -541,5 +484,23 @@ int GraphicsSystem::backgroundpos(lua_State* luaState)
 	ptr->backgrounds[i - 1].posX = x;
 	ptr->backgrounds[i - 1].posY = y;
 
+	return 0;
+}
+
+int GraphicsSystem::laseron(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->drawLaser = true;
+
+	return 0;
+}
+
+int GraphicsSystem::laseroff(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->drawLaser = false;
+	
 	return 0;
 }

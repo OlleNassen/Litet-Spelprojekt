@@ -12,6 +12,8 @@ function Boss:create(posX, posY, sizeX, sizeY)
 		stopIdleTimer = 2.00,
 		hasShot = false,
 		p = {},
+		pTexture = newTexture("Resources/Sprites/npc/boss_sprite.png"),
+		pNormal = newTexture("Resources/Sprites/npc/boss_normals.png"),
     }
 
 	this.entity.x = posX
@@ -68,12 +70,12 @@ function Boss:update(deltaTime, player)
 	-- Projectile loop
 	for i = #self.p, 1, -1 do
 		self.p[i]:update(deltaTime)
+		self:pAttack(i, player)
 		self.p[i]:move(self.p[i].velocity.x * deltaTime, self.p[i].velocity.y * deltaTime)
 		if self.p[i].collision_left == true or self.p[i].collision_right == true or self.p[i].collision_top == true or self.p[i].collision_bottom == true then
 			self.p[i].velocity.y = 0
 			self.p[i].velocity.x = 0
-			self:pAttack(i, player)
-			self:pAttack(i, self)
+			--self:pAttack(i, self)
 			-- Add check if expolsion animation is done
 			table.remove(self.p, i)
 		else
@@ -154,8 +156,8 @@ function Boss:createProjectile(player, deltaTime)
 	self.p[#self.p].height = 48
 	self.p[#self.p].maxSpeed.x = 700
 	self.p[#self.p].maxSpeed.y = 1000
-	self.p[#self.p].texture = newTexture("Resources/Sprites/npc/boss_sprite.png")
-	self.p[#self.p].normalMap = newTexture("Resources/Sprites/npc/boss_normals.png")
+	self.p[#self.p].texture = self.pTexture
+	self.p[#self.p].normalMap = self.pNormal
 	self.p[#self.p].spriteWidth = 192
 	self.p[#self.p].spriteHeight = 192
 	self.p[#self.p]:addAnimation(1,1)
@@ -168,7 +170,7 @@ function Boss:createProjectile(player, deltaTime)
 	
 	self.p[#self.p]:setAnimation(1)
 	self.p[#self.p]:updateAnimation(1)
-	local vector = {x = player.entity.x - self.p[#self.p].x, y = (player.entity.y + (player.entity.height / 2)) - self.p[#self.p].y}
+	local vector = {x = player.entity.x - self.p[#self.p].x, y = (player.entity.y) - self.p[#self.p].y}
 	local length = math.sqrt((vector.x * vector.x) + (vector.y * vector.y))
 	vector.x = vector.x / length
 	vector.y = vector.y / length
@@ -176,6 +178,9 @@ function Boss:createProjectile(player, deltaTime)
 	self.p[#self.p].velocity.y = vector.y * 500
 	self.p[#self.p]:accelerate(vector.x ,vector.y, deltaTime)
 	self.hasShot = true
+
+	--Player Visible collision box
+	
 end
 
 function Boss:takeDamage(damage)

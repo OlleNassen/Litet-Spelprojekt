@@ -85,29 +85,22 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 	update(position);
 	if (shader)
 	{
-		if (this->normalMap == nullptr)
+		this->shader->use();
+
+		this->shader->setMatrix4fv(model, "model");
+		this->shader->setMatrix4fv(view, "view");
+		this->shader->setMatrix4fv(projection, "projection");
+
+		if (!this->normalMap)
 		{
 			this->shader->setInt(0, "image");
+			texture->bind(0);
 		}
 		else
 		{
 			shader->setInt(0, "diffuseMap");
 			shader->setInt(1, "normalMap");
-		}
-		static int test = 0;
-		this->shader->setMatrix4fv(model, "model");
-		this->shader->setMatrix4fv(view, "view");
-		this->shader->setMatrix4fv(projection, "projection");
 
-		this->shader->use();
-
-		if (this->normalMap == nullptr)
-		{
-			texture->bind(0);
-
-		}
-		else //Fix texture class and avoid this
-		{
 			texture->bind(0);
 			normalMap->bind(1);
 		}
@@ -115,6 +108,8 @@ void Sprite::draw(const glm::vec2& position, const glm::mat4& view, const glm::m
 		glBindVertexArray(this->quadVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
+
+		this->shader->unuse();
 	}
 }
 

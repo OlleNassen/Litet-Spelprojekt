@@ -10,10 +10,10 @@
 ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* normalMap)
 {
 
-	computeShader.load("Resources/Shaders/shader.comp");
+	//computeShader.load("Resources/Shaders/shader.comp");
 
 	//init particleStruct
-	particleStruct = computeShader.compute(glm::vec2(0,0), glm::vec2(50,50));
+	//particleStruct = computeShader.compute(glm::vec2(0,0), glm::vec2(50,50));
 
 	this->shader = shader;
 
@@ -21,10 +21,8 @@ ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* 
 
 	this->normalMap = normalMap;
 
-	shader->setInt(0, "diffuseMap");
-
 	this->particles.globalVelocity = glm::vec2(5.f, 3.f);
-	
+	/*
 	float offset = 0.1f;
 	for (int y = -10; y < 10; y += 2)
 	{
@@ -35,7 +33,7 @@ ParticleEmitter::ParticleEmitter(Shader* shader, Texture2D* diffuse, Texture2D* 
 			translation.y = (float)y / 10.0f + offset;
 		}
 	}
-	
+	*/
 	for (int i = 0; i < MAX_NUM_PARTICLES; i++)
 	{
 		offsets[i].x = i;
@@ -52,26 +50,21 @@ ParticleEmitter::~ParticleEmitter()
 
 void ParticleEmitter::render(const glm::mat4& view, const glm::mat4& projection)
 {
+	shader->use();
 
 	this->shader->setMatrix4fv(model, "model");
 	this->shader->setMatrix4fv(view, "view");
 	this->shader->setMatrix4fv(projection, "projection");
 
-
-
-	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), (void*)offsets, GL_STATIC_DRAW);
+	shader->setInt(0, "diffuseMap");
 
 	texture->bind(0);
-
-	shader->use();
 
 	glBindVertexArray(VAO);
 	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, MAX_NUM_PARTICLES);
 	glBindVertexArray(0);
 
 	shader->unuse();
-
 }
 
 void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const glm::vec2 pixiePos)
@@ -80,11 +73,15 @@ void ParticleEmitter::updateLaser(float dt, const glm::vec2 & position, const gl
 
 	//glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
 	//glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), &translations, GL_STATIC_DRAW);
-
 	for (int i = 0; i < MAX_NUM_PARTICLES; i++)
 	{
 		offsets[i] = (pixiePos - position) * (float)i / (float)MAX_NUM_PARTICLES;
 	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, MAX_NUM_PARTICLES * sizeof(glm::vec2), (void*)offsets, GL_STATIC_DRAW);
+
+
 		//translations[i].y -= 0.1;
 
 	// Prepare transformations

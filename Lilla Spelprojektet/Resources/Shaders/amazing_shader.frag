@@ -16,8 +16,6 @@ uniform sampler2D normalMap;   //normal map
 uniform vec3 lightPos[NUM_LIGHTS];        //light position, normalized
 uniform vec4 lightColor[NUM_LIGHTS];      //light RGBA -- alpha is intensity
 
-uniform vec3 status;
-
 void main()
 {
 	float normalMapIntensity = 100.0;
@@ -56,10 +54,5 @@ void main()
 	}
 
 	fragColor = vec4(result, diffuseColor.a);
-
-	if(status.x == 0)
-	{
-		fragColor = fragColor * vec4(0.2, 0.2, 0.2, 1);
-	}
 
 }

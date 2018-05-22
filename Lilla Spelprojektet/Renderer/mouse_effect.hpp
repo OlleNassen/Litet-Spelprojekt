@@ -20,7 +20,7 @@ public:
 	MouseEffect(Shader* shader, Texture2D* texture);
 	~MouseEffect();
 	void render(const glm::mat4& view, const glm::mat4& projection);
-	void update(const glm::vec2& pixiePos);
+	void update(const glm::vec2& pixiePos, float deltaTime);
 
 private:
 	void initMouseEffect();

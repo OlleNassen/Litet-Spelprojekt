@@ -21,17 +21,6 @@ level:loadGraphics()
 
 p = Player:create() -- player
 
---[[if loadData(0) == 0 then
-	p.entity.x = 98
-	p.entity.y = 48 * 16
-	saveData(0, 0)
-
-elseif loadData(0) == 1 then 
-	p.entity.x = 48 * 45
-	p.entity.y = 48 * 3
-	saveData(0, 0)
-end]]
-
 p.entity:addWorld(level)
 
 require("Resources/Scripts/playerInput")
@@ -47,10 +36,11 @@ s.sprite = spriteFunc(1, 1, s.normalMap, s.texture)
 s:addWorld(level)
 
 -- HP bar
-p.spriteHPBar = spriteFunc(500, 50, 0, p.textureHPBar)
-spritePos(p.spriteHPBar, 50, 50)
-p.spriteHPBarBack = spriteFunc(500, 50, 0, p.textureHPBarBack)
-spritePos(p.spriteHPBarBack, 50, 50)
+
+p.spriteHPBarBack = spriteFunc(400, 40, 0, p.textureHPBarBack)
+spritePos(p.spriteHPBarBack, 10, 20)
+p.spriteHPBar = spriteFunc(400, 25, 0, p.textureHPBar)
+spritePos(p.spriteHPBar, 10, 27.5)
 
 tileSize = 48
 

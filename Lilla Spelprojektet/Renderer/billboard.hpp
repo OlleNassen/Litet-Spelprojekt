@@ -24,8 +24,8 @@ public:
 	Billboard(Shader* shader, Texture2D* texture);
 	~Billboard();
 
-	void render(const glm::mat4& projection);
-	void update(const glm::vec2& camPos);
+	void render(const glm::mat4& view, const glm::mat4& projection);
+	void update(float deltaTime);
 
 private:
 	void initBillboards();

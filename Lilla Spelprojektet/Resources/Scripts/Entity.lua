@@ -26,8 +26,8 @@ function Entity:create()
 		height = 48,
 		world = {},
 		maxSpeed = {x = 200, y = 200},
-		acceleration = {x = 3500, y = 3500},
-		deceletation = {x = 1500, y = 1500},
+		acceleration = {x = 3700, y = 3500},
+		deceletation = {x = 1800, y = 1500},
 		velocity = {x = 0, y = 0},
 		attackStrength = 5,
 		attackSpeed = 1,
@@ -60,6 +60,7 @@ function Entity:create()
 	for i=1,2,1 do 
 		table.insert(this.hasPowerUp, i, false)
 	end
+
 
     setmetatable(this, self)
     return this
