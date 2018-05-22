@@ -495,6 +495,7 @@ int GraphicsSystem::laseron(lua_State* luaState)
 
 	return 0;
 }
+
 int GraphicsSystem::laseroff(lua_State* luaState)
 {
 	lua_getglobal(luaState, "GraphicsSystem");

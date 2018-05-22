@@ -17,7 +17,7 @@ function update(deltaTime)
 	timer = timer + deltaTime
 	
 	if timer > 2.0 then
-		deleteState()
+		newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 	end
 
 	return true
