@@ -42,6 +42,8 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	billboards = new Billboard(&shaders.billboard, &textures[0]);
 
 	mouseEffect = new MouseEffect(&shaders.mouseEffect, &textures[0]);
+
+	currentLevel = new Text(&shaders.text);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
@@ -89,7 +91,6 @@ void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& project
 	}
 	mouseEffect->render(view, projection);
 
-
 }
 
 void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projection)
@@ -122,6 +123,25 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 			}
 		}
 		shaders.amazing.unuse();
+	}
+}
+
+void GraphicsSystem::drawLevel(const glm::mat4 & projection, int level)
+{
+	if (textClock.getElapsedTime().asSeconds() < 2.f)
+	{
+		switch (level)
+		{
+		case 0:
+			break;
+		case 1:
+			currentLevel->RenderText("Prologue", 1280 / 2 - 200, 720 / 2, 2.0f, glm::vec3(0.0, 0.8f, 0.0f), projection);
+			break;
+
+		default:
+			currentLevel->RenderText("Level " + std::to_string(level), 1280 / 2, 720 / 2, 2.0f, glm::vec3(0.5, 0.8f, 0.2f), projection);
+			break;
+		}
 	}
 }
 

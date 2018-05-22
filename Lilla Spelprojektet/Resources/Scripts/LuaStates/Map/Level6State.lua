@@ -2,7 +2,7 @@ tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level6")
 require("Resources/Scripts/common")
 
 --Min 28x15 tiles
-
+saveData(19, 6)
 if loadData(0) == 0 then
 	p.entity.x = 48 * 41
 	p.entity.y = 48 * 19

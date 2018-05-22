@@ -82,6 +82,8 @@
     <None Include="Resources\Shaders\particle_shader.vert" />
     <None Include="Resources\Shaders\pixie.comp" />
     <None Include="Resources\Shaders\shader.comp" />
+    <None Include="Resources\Shaders\text.frag" />
+    <None Include="Resources\Shaders\text.vert" />
     <None Include="Resources\Shaders\trash.frag" />
     <None Include="Resources\Shaders\trash.vert" />
   </ItemGroup>

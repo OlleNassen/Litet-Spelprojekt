@@ -245,6 +245,11 @@ void EventSystem::update(float deltaTime)
 	updateMouse();
 }
 
+int EventSystem::getLevel() const
+{
+	return (saveVector.size() > 19) ? saveVector[19] : 0;
+}
+
 float EventSystem::getAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
 {
 	float result = sf::Joystick::getAxisPosition(joystick, axis);	
@@ -289,6 +294,9 @@ int EventSystem::saveData(lua_State* luaState)
 	EventSystem* ptr = (EventSystem*)lua_touserdata(luaState, -1);
 	int value = lua_tointeger(luaState, -2);
 	int index = lua_tointeger(luaState, -3);
+
+	if (value == 19)
+		std::cout << index;
 
 	if (ptr->saveVector.size() <= index)
 	{

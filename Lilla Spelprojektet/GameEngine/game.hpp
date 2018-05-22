@@ -32,6 +32,7 @@ struct ShaderStruct
 	Shader trash; // Basic passthrough shader
 	Shader billboard;
 	Shader mouseEffect;
+	Shader text;
 };
 
 typedef std::vector<State> LuaVector;

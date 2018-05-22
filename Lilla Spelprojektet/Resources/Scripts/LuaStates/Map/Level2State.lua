@@ -1,7 +1,7 @@
 tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level2")
 require("Resources/Scripts/common")
 
-
+saveData(19, 2)
 
 if loadData(0) == 0 then
 	p.entity.x = 48 * 2

@@ -56,7 +56,9 @@ private:
 
 	bool drawLaser;
 
-	Text temp;
+	//Text stuff:
+	sf::Clock textClock;
+	Text* currentLevel;
 
 public:
 	GraphicsSystem(ShaderStruct& shad);
@@ -64,6 +66,8 @@ public:
 
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
+
+	void drawLevel(const glm::mat4& projection, int level);
 
 	void addCamera(Camera* cam);
 

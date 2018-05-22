@@ -186,6 +186,7 @@ void Game::draw()
 {
 	currentState.graphicsSystem->drawTiles(camera->getView(), camera->getProjection());
 	currentState.graphicsSystem->drawSprites(camera->getView(), camera->getProjection());
+	currentState.graphicsSystem->drawLevel(camera->getProjection(), eventSystem.getLevel());
 }
 
 void Game::initWindow()
@@ -222,6 +223,8 @@ void Game::initWindow()
 	shaders.trash.load("Resources/Shaders/trash.vert", "Resources/Shaders/trash.frag");
 	shaders.billboard.load("Resources/Shaders/billboard.vert", "Resources/Shaders/billboard.frag");
 	shaders.mouseEffect.load("Resources/Shaders/mouse_effect.vert", "Resources/Shaders/mouse_effect.frag");
+	shaders.text.load("Resources/Shaders/text.vert", "Resources/Shaders/text.frag");
+
 	//Set clearing color to red
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 }
