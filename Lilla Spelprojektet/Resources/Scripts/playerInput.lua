@@ -99,7 +99,7 @@ function checkUpgrades(deltaTime)
 	if p.entity.hasPowerUp[2] == true then -- SPEED UPGRADE
 		p.entity.maxSpeed.x = 800
 	else
-		p.entity.maxSpeed.x = 500
+		p.entity.maxSpeed.x = 1500
 	end
 	if p.entity.hasPowerUp[3] == true then -- DOUBLE JUMP UPGRADE
 		p.maxNrOfJumps = 2

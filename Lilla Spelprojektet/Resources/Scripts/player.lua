@@ -105,6 +105,10 @@ function Player:reset()
 	savePowerup(self.powerTable)
 	self.entity.hasPowerUp = self.powerTable
 
+	--for i = 11, 1, 15 do
+	--	saveData(i, 0)
+	--end
+
 end
 
 function Player:moveRight(directionX, deltaTime)
