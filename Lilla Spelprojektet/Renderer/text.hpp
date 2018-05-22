@@ -1,13 +1,13 @@
 #pragma once
-#include <../stb/stb_truetype.h>
 #include <string>
-#define STB_TRUETYPE_IMPLEMENTATION
+#include <ft2build.h>
+#include FT_FREETYPE_H 
 
 class Text
 {
 private:
-
+	FT_Library library;
 public:
-	Text(const std::string& text);
+	Text();
 	~Text();
 };

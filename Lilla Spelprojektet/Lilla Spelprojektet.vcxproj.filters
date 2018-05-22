@@ -101,6 +101,9 @@
     <ClInclude Include="Renderer\text.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="External\ft2build.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />

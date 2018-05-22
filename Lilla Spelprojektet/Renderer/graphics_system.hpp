@@ -5,6 +5,7 @@
 #include "../GameEngine/game.hpp"
 #include "billboard.hpp"
 #include "mouse_effect.hpp"
+#include "text.hpp"
 
 #include<vector>
 #include<glm/gtc/matrix_transform.hpp>
@@ -54,6 +55,8 @@ private:
 	PointLights lights;
 
 	bool drawLaser;
+
+	Text temp;
 
 public:
 	GraphicsSystem(ShaderStruct& shad);
