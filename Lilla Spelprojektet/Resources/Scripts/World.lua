@@ -55,3 +55,9 @@ function World:canMove(newX, newY)
 
 	return result
 end
+
+function World:changeTile(type, x, y)
+	index = x + y * self.map.width
+	self.map.layers[1].data[index + 1] = type
+	reloadTile(index, type)
+end

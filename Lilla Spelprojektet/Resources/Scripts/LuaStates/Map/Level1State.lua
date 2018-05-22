@@ -21,9 +21,6 @@ local level2Portal = Portal:create(48 * 28, 48 * 6)
 
 local color = 1
 
-local b = Boss:create(48*20, 48*6, 300, 300)
-b.entity:addWorld(level)
-
 local light1 = PointLight:create(color, color, color, 3 * tileSize, tileSize * 1)
 local light2 = PointLight:create(color, color, color, 6 * tileSize, tileSize * 15)
 local light3 = PointLight:create(color, color, color, 13 * tileSize, tileSize * 10)
@@ -33,7 +30,6 @@ function update(deltaTime)
 	checkUpgrades(deltaTime)
 
 	p:update(deltaTime)
-	b:update(deltaTime,p)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if level2Portal.entity:containsCollisionBox(p) then

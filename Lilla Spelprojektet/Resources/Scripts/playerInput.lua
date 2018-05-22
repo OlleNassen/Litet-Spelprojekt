@@ -1,5 +1,5 @@
 function quit()
-	deleteState()
+	newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 end
 
 function mouseLeft()
