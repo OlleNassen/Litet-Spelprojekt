@@ -107,5 +107,8 @@ private:
 
 	static int laseron(lua_State* luaState);
 	static int laseroff(lua_State* luaState);
+
+	static int flashon(lua_State* luaState);
+	static int flashoff(lua_State* luaState);
 };
 

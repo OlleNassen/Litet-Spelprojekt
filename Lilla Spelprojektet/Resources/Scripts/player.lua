@@ -240,6 +240,12 @@ end
 function Player:update(deltaTime)
 	
 	self.timeSinceDamage = self.timeSinceDamage + deltaTime
+
+	if self.timeSinceDamage < 0.02 then
+		flashOn()
+	else
+		flashOff()
+	end
 	
 	if self.entity.health <= 0 then
 		newState("Resources/Scripts/LuaStates/gameOverState.lua")

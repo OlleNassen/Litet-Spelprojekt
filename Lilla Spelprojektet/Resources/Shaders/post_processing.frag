@@ -10,6 +10,7 @@ uniform float     blur_kernel[9];
 uniform bool chaos;
 uniform bool confuse;
 uniform bool shake;
+uniform bool flash;
 
 void main()
 {
@@ -23,8 +24,9 @@ void main()
 		 {
 			sam[i] = vec3(texture(scene, TexCoords.st + offsets[i]));
 		 }
-	}
-            
+    }      
+    
+	
 	// process effects
     if(chaos)
     {           
@@ -45,6 +47,10 @@ void main()
 			color += vec4(sam[i] * blur_kernel[i], 0.0f);
 		}           
         color.a = 1.0f;
+    }
+	else if(flash)
+    {
+        color = texture(scene, TexCoords) + vec4(0.2, 0.0, 0.0, 0.0);
     }
     else
     {
