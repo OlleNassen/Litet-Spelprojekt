@@ -4,7 +4,7 @@ Ai.__index = Ai
 local walkBuffer = newSoundBuffer("Resources/Sound/walk.wav")
 local walkSound = newSound(walkBuffer)
 
-local randomBuffer = newSoundBuffer("Resources/Sound/canary.wav")
+local randomBuffer = newSoundBuffer("Resources/Sound/walk.wav")
 local randomSound = newSound(randomBuffer)
 
 function Ai:create(posX, posY, sizeX, sizeY)
