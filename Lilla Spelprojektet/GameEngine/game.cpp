@@ -122,12 +122,16 @@ void Game::updateState()
 
 			if (eventSystem.getLevel() == 1)
 			{
-				highScoreClock.restart();
+				highscoreClock.restart();
 			}
 
 			if (eventSystem.getLevel() == 9)
 			{
+				//Todo: Save highscore to lua:
 
+				//Todo: Get highscore from lua:
+
+				newState.graphicsSystem->setHighScore("LUA SHIT");
 			}
 
 			currentState = newState;

@@ -47,7 +47,7 @@ private:
 	State currentState;
 	ShaderStruct shaders;
 	std::string stateName;
-	sf::Clock highScoreClock;
+	sf::Clock highscoreClock;
 
 public:
 	Game();

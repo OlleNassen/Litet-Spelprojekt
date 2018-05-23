@@ -163,7 +163,7 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 	}
 }
 
-void GraphicsSystem::displayHighScore()
+void GraphicsSystem::displayHighscore()
 {
 
 }
