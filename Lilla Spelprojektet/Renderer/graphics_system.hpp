@@ -63,7 +63,7 @@ private:
 	sf::Clock textClock;
 	Text* currentLevel;
 
-	Text* HighScore;
+	Text* highScore;
 
 public:
 	GraphicsSystem(ShaderStruct& shad);

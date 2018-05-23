@@ -326,8 +326,6 @@ function Player:update(deltaTime)
 		self.entity:setAnimation(8)
 	end
 
-	print(self.timeSinceFall)
-
 	if lastYVelocity - self.entity.velocity.y > 900 and lastYVelocity - self.entity.velocity.y < 1000 and self.timeSinceFall > 0.6 then
 		self:takeDamage(20)
 	end
