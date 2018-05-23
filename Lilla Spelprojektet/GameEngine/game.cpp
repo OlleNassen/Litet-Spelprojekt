@@ -131,7 +131,7 @@ void Game::updateState()
 
 				//Todo: Get highscore from lua:
 
-				newState.graphicsSystem->setHighScore("LUA SHIT");
+				//newState.graphicsSystem->setHighScore("LUA SHIT");
 			}
 
 			currentState = newState;
