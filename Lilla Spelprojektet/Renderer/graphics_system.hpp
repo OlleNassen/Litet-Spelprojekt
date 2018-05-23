@@ -63,6 +63,8 @@ private:
 	sf::Clock textClock;
 	Text* currentLevel;
 
+	Text* displayHighScore;
+
 public:
 	GraphicsSystem(ShaderStruct& shad);
 	~GraphicsSystem();
@@ -85,6 +87,8 @@ public:
 private:
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
+
+	void displayHighScore();
 
 	void updateCamera();
 	

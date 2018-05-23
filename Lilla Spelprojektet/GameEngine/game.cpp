@@ -120,6 +120,16 @@ void Game::updateState()
 			std::cout << "Compiled: ";
 			std::cout << clock.restart().asSeconds() << std::endl;
 
+			if (eventSystem.getLevel() == 1)
+			{
+				highScoreClock.restart();
+			}
+
+			if (eventSystem.getLevel() == 9)
+			{
+
+			}
+
 			currentState = newState;
 
 			stateName = "";
