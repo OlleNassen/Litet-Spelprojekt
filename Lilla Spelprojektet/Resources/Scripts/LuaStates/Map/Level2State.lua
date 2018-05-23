@@ -83,6 +83,7 @@ function updateEntitys(deltaTime)
 	if p.entity.hasPowerUp[5] == false then
 		if power_laser.entity:containsCollisionBox(p) then
 			power_laser:activatePowerUp(p.entity)
+			addLaserBar()
 		end
 		power_laser.entity:updateAnimation(deltaTime)
 	end

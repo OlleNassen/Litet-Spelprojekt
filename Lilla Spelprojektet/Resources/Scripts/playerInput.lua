@@ -45,7 +45,7 @@ end
 local bLaserOn = false
 function laser()
 	if p.entity.hasPowerUp[5] == true then
-		if bLaserOn == false then
+		if bLaserOn == false and p.laserPower >= 20 then
 			laserOn()
 			bLaserOn = true
 		elseif bLaserOn then
@@ -119,6 +119,11 @@ end
 
 local laserLerpTime = 0
 function laserDamage(deltaTime)
+	if p.laserPower <= 0 then
+		bLaserOn = false
+		laserOff()
+	end
+
 	if bLaserOn and #enemies > 0 then
 		posFrom = {x, y}
 		posFrom.x = p.entity.x
@@ -137,6 +142,20 @@ function laserDamage(deltaTime)
 		for i, enemy in ipairs(enemies) do
 			if enemy.entity:contains(laserPos.x, laserPos.y) == true then
 				enemy.entity:takeDamage(p.attackDamage, p.attackPushBack.x, p.attackPushBack.y, true)
+			end
+		end
+
+		if p.laserPower > 0 then
+			p.laserPower = p.laserPower - (deltaTime * 20)
+			p:updateLaserBar()
+		end
+	elseif bLaserOn == false and p.entity.hasPowerUp[5] then
+		if p.laserPower < 100 then
+			p.laserPower = p.laserPower + (deltaTime * 4)
+			p:updateLaserBar()
+
+			if p.laserPower > 100 then
+				p.laserPower = 100
 			end
 		end
 	end

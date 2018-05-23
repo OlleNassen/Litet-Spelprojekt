@@ -48,14 +48,15 @@ void main()
 		}           
         color.a = 1.0f;
     }
-	else if(flash)
-    {
-        color = texture(scene, TexCoords) + vec4(0.2, 0.0, 0.0, 0.0);
-    }
     else
     {
-        color =  texture(scene, TexCoords);
+        color =  texture(scene, TexCoords);	
     }
+
+	if(flash)
+	{
+		color += vec4(0.8, 0.0, 0.0, 0.0);
+	}
 
 	/*color = texture(scene, TexCoords);
     float average = (color.r + color.g + color.b) / 3.0;
