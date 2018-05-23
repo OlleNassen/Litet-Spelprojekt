@@ -313,8 +313,8 @@ function Player:update(deltaTime)
 		self.entity:setAnimation(8)
 	end
 
-	if lastYVelocity - self.entity.velocity.y > 100 and lastYVelocity - self.entity.velocity.y < 1000 then
-		self.timeSinceShake = 0.0
+	if lastYVelocity - self.entity.velocity.y > 900 and lastYVelocity - self.entity.velocity.y < 1000 then
+		self:takeDamage(20)
 	end
 
 	lastYVelocity = self.entity.velocity.y
