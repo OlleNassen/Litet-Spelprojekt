@@ -348,12 +348,13 @@ function Player:getPosition()
 	return position
 end
 
-function Player:takeDamage(dmg)
+function Player:takeDamage(dmg, xVelocity)
 	if self.timeSinceDamage > 1.0 then
 		self.entity.health = self.entity.health - dmg
 		self.timeSinceDamage = 0.0
 		self.timeSinceShake = 0.0
 		self.entity.velocity.y = -1000
+		self.entity.velocity.x = xVelocity or self.entity.velocity.x
 		print "AJ!!!"
 		self:resetCharge()
 
