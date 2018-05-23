@@ -303,6 +303,10 @@ sf::Vector2f GraphicsSystem::getPixie() const
 	return vec;
 }
 
+void GraphicsSystem::setHighscore(const std::string & highscore)
+{
+}
+
 int GraphicsSystem::loadTileMap(lua_State * luaState)
 {
 	lua_getglobal(luaState, "GraphicsSystem");
