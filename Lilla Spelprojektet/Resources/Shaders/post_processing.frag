@@ -47,14 +47,20 @@ void main()
 			color += vec4(sam[i] * blur_kernel[i], 0.0f);
 		}           
         color.a = 1.0f;
-    }
-	else if(flash)
-    {
-        color = texture(scene, TexCoords) + vec4(0.2, 0.0, 0.0, 0.0);
+
+		if(flash)
+		{
+			color + vec4(0.8, 0.0, 0.0, 0.0);
+		}
     }
     else
     {
         color =  texture(scene, TexCoords);
+
+		if(flash)
+		{
+			color + vec4(0.8, 0.0, 0.0, 0.0);
+		}
     }
 
 	/*color = texture(scene, TexCoords);

@@ -51,6 +51,9 @@
     <ClCompile Include="Renderer\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\post_processor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine\libs.h">
@@ -104,6 +107,9 @@
     <ClInclude Include="External\ft2build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\post_processor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Scripts\dummy.lua" />
@@ -140,5 +146,7 @@
     <None Include="Resources\Shaders\mouse_effect.vert" />
     <None Include="Resources\Shaders\text.vert" />
     <None Include="Resources\Shaders\text.frag" />
+    <None Include="Resources\Shaders\post_processing.frag" />
+    <None Include="Resources\Shaders\post_processing.vert" />
   </ItemGroup>
 </Project>

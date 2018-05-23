@@ -36,7 +36,7 @@ function Player:create()
 		attackDamage = 10,
 		attackPushBack = {x = 100, y = -600},
 		timeSinceDamage = 0.0,
-		timeSinceShake = 0.0,
+		timeSinceShake = 1.0,
 		textureHPBarBack = newTexture("Resources/Sprites/Player/hpbarback.png"),
 		textureHPBar = newTexture("Resources/Sprites/Player/hpbar.png"),
 		spriteHPBarBack,
@@ -324,8 +324,8 @@ function Player:update(deltaTime)
 		self.entity:setAnimation(8)
 	end
 
-	if lastYVelocity - self.entity.velocity.y > 100 and lastYVelocity - self.entity.velocity.y < 1000 then
-		self.timeSinceShake = 0.0
+	if lastYVelocity - self.entity.velocity.y > 900 and lastYVelocity - self.entity.velocity.y < 1000 then
+		self:takeDamage(20)
 	end
 
 	lastYVelocity = self.entity.velocity.y
