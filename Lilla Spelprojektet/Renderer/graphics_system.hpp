@@ -83,7 +83,7 @@ public:
 	sf::Vector2f getPlayerPos() const;
 	sf::Vector2f getPixie() const;
 
-	void setHighScore(const std::string& highscore)
+	void setHighscore(const std::string& highscore)
 private:
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
