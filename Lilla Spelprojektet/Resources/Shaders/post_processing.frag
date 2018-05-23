@@ -47,6 +47,11 @@ void main()
 			color += vec4(sam[i] * blur_kernel[i], 0.0f);
 		}           
         color.a = 1.0f;
+
+		if(flash)
+		{
+			color + vec4(0.8, 0.0, 0.0, 0.0);
+		}
     }
     else
     {
@@ -54,7 +59,7 @@ void main()
 
 		if(flash)
 		{
-			color + vec4(1.2, 0.0, 0.0, 0.0);
+			color + vec4(0.8, 0.0, 0.0, 0.0);
 		}
     }
 

@@ -36,7 +36,7 @@ function Player:create()
 		attackDamage = 10,
 		attackPushBack = {x = 100, y = -600},
 		timeSinceDamage = 0.0,
-		timeSinceShake = 0.0,
+		timeSinceShake = 1.0,
 		textureHPBarBack = newTexture("Resources/Sprites/Player/hpbarback.png"),
 		textureHPBar = newTexture("Resources/Sprites/Player/hpbar.png"),
 		spriteHPBarBack,
