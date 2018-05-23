@@ -56,6 +56,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	//postProcessor->chaos = true;
 	//postProcessor->confuse = true;
 	//postProcessor->shake = true;
+	//postProcessor->flash = true;
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -153,6 +154,9 @@ void GraphicsSystem::update(float deltaTime)
 	billboards->update(deltaTime);
 
 	updateCamera();
+
+	//postProcessor->flash = sf::Keyboard::isKeyPressed(sf::Keyboard::K);
+
 }
 
 void GraphicsSystem::updateCamera()
@@ -232,6 +236,12 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, laseroff);
 	lua_setglobal(luaState, "laserOff");
+
+	lua_pushcfunction(luaState, flashon);
+	lua_setglobal(luaState, "flashOn");
+
+	lua_pushcfunction(luaState, flashoff);
+	lua_setglobal(luaState, "flashOff");
 }
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const
@@ -515,5 +525,23 @@ int GraphicsSystem::laseroff(lua_State* luaState)
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
 	ptr->drawLaser = false;
 	
+	return 0;
+}
+
+int GraphicsSystem::flashon(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->postProcessor->flash = true;
+	
+	return 0;
+}
+
+int GraphicsSystem::flashoff(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->postProcessor->flash = false;
+
 	return 0;
 }

@@ -17,7 +17,7 @@ public:
 	unsigned int height;
 	
 	// Options
-	GLboolean confuse, chaos, shake;
+	GLboolean confuse, chaos, shake, flash;
 	
 	// Constructor
 	PostProcessor(Shader* shader, unsigned int width, unsigned int height);

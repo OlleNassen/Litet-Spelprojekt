@@ -9,6 +9,7 @@ PostProcessor::PostProcessor(Shader* shader, unsigned int width, unsigned int he
 	, confuse(GL_FALSE)
 	, chaos(GL_FALSE)
 	, shake(GL_FALSE)
+	, flash(GL_FALSE)
 {
 	// Initialize renderbuffer/framebuffer object
 	glGenFramebuffers(1, &MSFBO);
@@ -86,6 +87,7 @@ void PostProcessor::render(GLfloat time)
 	postProcessingShader->setInt(confuse,"confuse");
 	postProcessingShader->setInt(chaos, "chaos");
 	postProcessingShader->setInt(shake, "shake");
+	postProcessingShader->setInt(flash, "flash");
 	// Render textured quad
 	glActiveTexture(GL_TEXTURE0);
 	texture.bind(0);
