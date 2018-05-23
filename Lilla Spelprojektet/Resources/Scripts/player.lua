@@ -263,7 +263,7 @@ function Player:update(deltaTime)
 	
 	if self.entity.health <= 0 then
 		self:reset()
-		newState("Resources/Scripts/LuaStates/gameOverState.lua")
+		newState("Resources/Scripts/LuaStates/Map/gameOverState.lua")
 	end
 
 	--Decelerate

@@ -148,7 +148,7 @@ void Game::updateState()
 			std::cout << clock.restart().asSeconds() << std::endl;
 
 			float tempHighscore = highscoreClock.getElapsedTime().asSeconds();
-			if (eventSystem.getLevel() == 8055)
+			if (eventSystem.getLevel() == 1337)
 			{
 				for (int i = 0; i < NUM_SCORES; i++)
 				{

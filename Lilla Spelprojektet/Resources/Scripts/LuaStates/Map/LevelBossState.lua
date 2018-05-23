@@ -69,7 +69,7 @@ function update(deltaTime)
 		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		saveData(0, 1)
-		newState("Resources/Scripts/LuaStates/victoryState.lua")
+		newState("Resources/Scripts/LuaStates/Map/victoryState.lua")
 	end
 
 	--updateEnemies(p, deltaTime)
@@ -80,7 +80,7 @@ function update(deltaTime)
 
 	if p.entity.y >= level.map.height * tileSize + 500 then
 		p:reset()
-		newState("Resources/Scripts/LuaStates/gameOverState.lua")
+		newState("Resources/Scripts/LuaStates/Map/gameOverState.lua")
 	end
 end
 

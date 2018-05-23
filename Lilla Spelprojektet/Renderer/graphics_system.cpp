@@ -96,6 +96,12 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 		case 0:
 			break;
 
+		case 1337:
+			break;
+
+		case 420:
+			break;
+
 		default:
 			currentLevel->RenderText(
 				"Welcome To Level " + std::to_string(level), 

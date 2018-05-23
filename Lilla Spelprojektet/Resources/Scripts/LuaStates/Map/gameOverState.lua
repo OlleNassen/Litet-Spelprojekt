@@ -1,6 +1,8 @@
 require("Resources/Scripts/Entity")
 require("Resources/Scripts/save")
 
+saveData(19,420)
+
 local p = Entity:create() -- player
 p.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
 

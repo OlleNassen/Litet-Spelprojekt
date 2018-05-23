@@ -1,5 +1,7 @@
 require("Resources/Scripts/Entity")
 
+saveData(19, 1337)
+
 local p = Entity:create() -- player
 p.texture = newTexture("Resources/Sprites/Player/playerDiffuse.png")
 
@@ -16,7 +18,7 @@ function update(deltaTime)
 
 	timer = timer + deltaTime
 	
-	if timer > 2.0 then
+	if timer > 5.0 then
 		newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 	end
 
