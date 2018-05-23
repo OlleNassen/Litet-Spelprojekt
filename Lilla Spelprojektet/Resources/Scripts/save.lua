@@ -4,6 +4,18 @@ Save.__index = Save
 local localLoad = loadData
 local localSave = saveData
 
+function highscore(newScore)
+	local continue = true
+	
+	for i = 20, 30, 1 do
+		if newScore < localLoad(i) and continue then
+			localSave(i, newScore)
+			continue = false
+		end
+	end
+
+end
+
 function loadPowerup(powerupTable)
 	
 	for k, v in pairs(powerupTable) do

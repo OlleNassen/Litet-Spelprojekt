@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+const static int NUM_SCORES = 10;
 
 namespace sf
 {
@@ -48,6 +49,8 @@ private:
 	ShaderStruct shaders;
 	std::string stateName;
 	sf::Clock highscoreClock;
+
+	float highscoreList[NUM_SCORES];
 
 public:
 	Game();

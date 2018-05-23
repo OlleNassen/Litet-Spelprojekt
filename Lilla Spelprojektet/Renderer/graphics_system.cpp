@@ -14,6 +14,7 @@
 GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	: shaders(shad)
 {
+	highscore = nullptr;
 	drawLaser = false;
 	
 	tileMap.reserve(sizeof(int) * 100);
@@ -68,14 +69,22 @@ GraphicsSystem::~GraphicsSystem()
 
 void GraphicsSystem::draw(
 	float deltaTime, const glm::mat4& view, 
-	const glm::mat4& projection, int level)
+	const glm::mat4& projection, int level, float scores[], int numScores)
 {
 	postProcessor->beginRender();
 	drawTiles(camera->getView(), camera->getProjection());
 	drawSprites(camera->getView(), camera->getProjection());
 	drawLevelText(projection, level);
+	if (highscore)
+	{
+		displayHighscore(projection, scores, numScores);
+	}
+
 	postProcessor->endRender();
 	postProcessor->render(deltaTime);
+
+	
+
 }
 
 void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
@@ -163,9 +172,15 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 	}
 }
 
-void GraphicsSystem::displayHighscore()
+void GraphicsSystem::displayHighscore(const glm::mat4& projection, float scores[], int numScores)
 {
-
+	if (highscore)
+	{
+		for (int i = 0; i < numScores; i++)
+		{
+			highscore->RenderHighscore(std::to_string(scores[i]), 0, i * 50, 1, glm::vec3(1, 0, 0), projection);
+		}
+	}
 }
 
 void GraphicsSystem::addCamera(Camera* cam)
@@ -303,8 +318,9 @@ sf::Vector2f GraphicsSystem::getPixie() const
 	return vec;
 }
 
-void GraphicsSystem::setHighscore(const std::string & highscore)
+void GraphicsSystem::setHighscore(float* highscoreText, int numScores)
 {
+	highscore = new Text(&shaders.text);
 }
 
 int GraphicsSystem::loadTileMap(lua_State * luaState)

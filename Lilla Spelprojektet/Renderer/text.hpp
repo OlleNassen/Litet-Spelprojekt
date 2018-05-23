@@ -20,11 +20,12 @@ private:
 	FT_Library library;
 	Shader* shader;
 	GLuint VAO, VBO;
-std::map <GLchar, Character> Characters;
+	std::map <GLchar, Character> Characters;
 
 public:
 	Text(Shader* shader);
 	~Text();
-
 	void RenderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, const glm::mat4& projection);
+	void RenderHighscore(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, const glm::mat4& projection);
+
 };
