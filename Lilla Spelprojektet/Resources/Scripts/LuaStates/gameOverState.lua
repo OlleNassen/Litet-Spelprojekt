@@ -12,7 +12,6 @@ s.texture = newTexture("Resources/Sprites/gameover.png")
 s.sprite = newSprite(1280,720, 0, s.texture)
 
 timer = 0.0
-
 function update(deltaTime)
 
 	timer = timer + deltaTime
