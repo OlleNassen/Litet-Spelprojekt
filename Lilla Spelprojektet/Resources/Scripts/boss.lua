@@ -18,8 +18,8 @@ function Boss:create(posX, posY, sizeX, sizeY)
 
 	this.entity.x = posX
 	this.entity.y = posY
-	this.entity.collision_width = 13
-	this.entity.collision_height = 72
+	this.entity.collision_width = sizeX
+	this.entity.collision_height = sizeY
 	this.entity.offsetX = 58
 	this.entity.offsetY = 48
 	this.entity.width = sizeX
@@ -33,7 +33,7 @@ function Boss:create(posX, posY, sizeX, sizeY)
 	this.entity:addAnimation(1,4) -- idle = 1
 	this.entity:addAnimation(5,8) -- close attack = 2
 	this.entity:addAnimation(9,11) -- range attack = 3
-	this.entity:setAnimation(2)
+	this.entity:setAnimation(1)
 	this.entity.updateAnimationTime = 0.2
 	this.entity.sprite = newSprite(sizeX, sizeY, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
@@ -146,7 +146,7 @@ end
 
 function Boss:createProjectile(player, deltaTime)
 	table.insert(self.p, Entity:create())
-	self.p[#self.p].x = self.entity.x - 20
+	self.p[#self.p].x = self.entity.x + (self.entity.width / 5)
 	self.p[#self.p].y = self.entity.y + (self.entity.height / 3)
 	self.p[#self.p].collision_width = 48
 	self.p[#self.p].collision_height = 48
