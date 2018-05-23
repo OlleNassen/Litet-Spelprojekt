@@ -1,4 +1,5 @@
 function quit()
+	p:reset()
 	newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 end
 
