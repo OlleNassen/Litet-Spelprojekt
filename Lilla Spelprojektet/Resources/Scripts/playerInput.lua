@@ -38,6 +38,9 @@ function mouse(x, y)
 	mY = mY + y
 end
 
+local laserBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local laserSound = newSound(laserBuffer)
+
 local bLaserOn = false
 function laser()
 	if p.entity.hasPowerUp[5] == true then
@@ -58,6 +61,10 @@ local towardsY = 0
 local hasFoundPosition = false
 
 function checkUpgrades(deltaTime)
+	if bLaserOn then
+		playSound(laserSound)
+	end
+	
 	if p.entity.hasPowerUp[1] == true then -- DASH UPGRADE
 	
 		--[[if p.entity.collision_bottom == true then --Cant dash until on ground

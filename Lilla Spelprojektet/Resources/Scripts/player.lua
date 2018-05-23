@@ -14,6 +14,9 @@ local attackSound2 = newSound(attackBuffer2)
 local damageBuffer = newSoundBuffer("Resources/Sound/hit17.mp3.flac")
 local damageSound = newSound(damageBuffer)
 
+local laserBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local laserSound = newSound(damageBuffer)
+
 local soundFunc = playSound
 local offFunc = stopSound
 
