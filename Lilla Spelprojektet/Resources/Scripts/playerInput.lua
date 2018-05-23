@@ -1,8 +1,3 @@
-function quit()
-	p:reset()
-	newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
-end
-
 function mouseLeft()
 	return p:attack()
 end
