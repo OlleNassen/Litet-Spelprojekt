@@ -7,6 +7,7 @@ function Boss:create(posX, posY, sizeX, sizeY)
     local this =
     {
 		entity = Entity:create(),
+		hitBoxClose = Entity:create(),
 		currentState = 0, -- 0 = idle, 1 = close attack, 2 = rangeAttack
 		idleTimer = 0.00,
 		stopIdleTimer = 2.00,
@@ -38,11 +39,16 @@ function Boss:create(posX, posY, sizeX, sizeY)
 	this.entity.sprite = newSprite(sizeX, sizeY, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
+	this.hitBoxClose.x = self.entity.x
+	this.hitBoxClose.y = self.entity.y + self.height - 48
+	this.hitBoxClose.collision_width = sizeX
+	this.entity.collision_height = sizeY
+
 	--Entity Visible collision box
-	--[[this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
-	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
-	this.entity.spriteHB = newSprite(this.entity.collision_width, this.entity.collision_height, this.entity.normalHB, this.entity.textureHB)
-	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)]]
+	this.hitBoxClose.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	this.hitBoxClose.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
+	this.hitBoxClose.spriteHB = newSprite(this.hitBoxClose.collision_width, this.hitBoxClose.collision_height, this.hitBoxClose.normalHB, this.hitBoxClose.textureHB)
+	spritePos(this.hitBoxClose.spriteHB, this.hitBoxClose.x + this.hitBoxClose.offsetX, this.hitBoxClose.y + this.hitBoxClose.offsetY)
 
     setmetatable(this, self)
     return this
@@ -104,7 +110,7 @@ function Boss:stateHandler(deltaTime, player)
 		self.entity:setAnimation(2)
 	elseif self.currentState == 2 then
 		self.entity:setAnimation(3)
-		if self.hasShot == false then
+		if self.hasShot == false and self.entity.currentAnimationIndex == 11 then
 			self:createProjectile(player, deltaTime)
 		end
 	else
@@ -118,8 +124,8 @@ function Boss:changeState(player)
 	if self.currentState == 0 then
 		local distance = math.abs(player.entity.x - self.entity.x)
 
-		if distance <= 500 then
-			self.currentState = 2
+		if distance <= 48 then
+			self.currentState = 1
 		elseif distance <= 1000 then
 			self.currentState = 2
 		else
