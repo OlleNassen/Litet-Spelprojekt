@@ -138,5 +138,7 @@
     <None Include="Resources\Scripts\LuaStates\Map\Level4State.lua" />
     <None Include="Resources\Shaders\mouse_effect.frag" />
     <None Include="Resources\Shaders\mouse_effect.vert" />
+    <None Include="Resources\Shaders\text.vert" />
+    <None Include="Resources\Shaders\text.frag" />
   </ItemGroup>
 </Project>

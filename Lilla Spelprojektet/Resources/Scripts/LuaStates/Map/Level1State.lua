@@ -3,7 +3,7 @@ require("Resources/Scripts/common")
 require("Resources/Scripts/boss")
 
 --Min 28x15 tiles
-
+saveData(19, 1)
 if loadData(0) == 0 then
 	p.entity.x = 48 * 1
 	p.entity.y = 48 * 1

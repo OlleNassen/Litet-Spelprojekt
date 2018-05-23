@@ -21,7 +21,9 @@ public:
 	void setEvent(sf::Event newEvent);
 	
 	/** Called every tick */
-	void update(float deltaTime); 
+	void update(float deltaTime);
+
+	int getLevel()const;
 
 private:
 	/** Temporary lua state */

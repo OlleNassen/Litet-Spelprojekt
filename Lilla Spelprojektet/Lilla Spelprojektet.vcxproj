@@ -86,6 +86,8 @@
     <None Include="Resources\Shaders\post_processing.frag" />
     <None Include="Resources\Shaders\post_processing.vert" />
     <None Include="Resources\Shaders\shader.comp" />
+    <None Include="Resources\Shaders\text.frag" />
+    <None Include="Resources\Shaders\text.vert" />
     <None Include="Resources\Shaders\trash.frag" />
     <None Include="Resources\Shaders\trash.vert" />
   </ItemGroup>

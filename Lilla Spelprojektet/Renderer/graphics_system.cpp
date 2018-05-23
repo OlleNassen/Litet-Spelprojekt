@@ -43,6 +43,8 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 
 	mouseEffect = new MouseEffect(&shaders.mouseEffect, &textures[0]);
 
+	currentLevel = new Text(&shaders.text);
+
 	postProcessor = new PostProcessor(&shaders.postProcessing, WIDTH, HEIGHT);
 	
 	for (int i = 0; i < NUM_LIGHTS; i++)
@@ -64,13 +66,35 @@ GraphicsSystem::~GraphicsSystem()
 
 }
 
-void GraphicsSystem::draw(float deltaTime, const glm::mat4& view, const glm::mat4& projection)
+void GraphicsSystem::draw(
+	float deltaTime, const glm::mat4& view, 
+	const glm::mat4& projection, int level)
 {
 	postProcessor->beginRender();
 	drawTiles(camera->getView(), camera->getProjection());
 	drawSprites(camera->getView(), camera->getProjection());
+	drawLevelText(projection, level);
 	postProcessor->endRender();
 	postProcessor->render(deltaTime);
+}
+
+void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
+{
+	if (textClock.getElapsedTime().asSeconds() < 3)
+	{
+		switch (level)
+		{
+		case 0:
+			break;
+
+		default:
+			currentLevel->RenderText(
+				"Welcome To Level " + std::to_string(level), 
+				400, 100, 1, glm::vec3(1, 0, 0), projection);
+			break;
+		}
+	}
+
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
