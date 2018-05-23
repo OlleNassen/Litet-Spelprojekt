@@ -313,9 +313,6 @@ function Player:update(deltaTime)
 		self.entity:setAnimation(8)
 	end
 
-	print (self.entity.velocity.y)
-		print (lastYVelocity)
-
 	if lastYVelocity - self.entity.velocity.y > 100 and lastYVelocity - self.entity.velocity.y < 1000 then
 		self.timeSinceShake = 0.0
 	end
