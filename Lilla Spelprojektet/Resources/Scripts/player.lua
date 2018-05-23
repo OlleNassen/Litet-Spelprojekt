@@ -36,10 +36,18 @@ function Player:create()
 		attackDamage = 10,
 		attackPushBack = {x = 100, y = -600},
 		timeSinceDamage = 0.0,
+
 		textureHPBarBack = newTexture("Resources/Sprites/Player/hpbarback.png"),
 		textureHPBar = newTexture("Resources/Sprites/Player/hpbar.png"),
 		spriteHPBarBack,
 		spriteHPBar,
+		
+		textureLaserBarBack = newTexture("Resources/Sprites/Player/hpbarback.png"),
+		textureLaserBar = newTexture("Resources/Sprites/Player/laserbar.png"),
+		spriteLaserBarBack,
+		spriteLaserBar,
+		laserPower = 100,
+
 		standardAnimationTime = 0.05,
 
 		--Charge attack
@@ -223,6 +231,10 @@ end
 
 function Player:updateHPBar()
 	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 400, 25)
+end
+
+function Player:updateLaserBar()
+	spriteSize(self.spriteLaserBar, (self.laserPower / 100) * 400, 7.5)
 end
 
 function Player:update(deltaTime)

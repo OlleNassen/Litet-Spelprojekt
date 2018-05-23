@@ -42,6 +42,16 @@ spritePos(p.spriteHPBarBack, 10, 20)
 p.spriteHPBar = spriteFunc(400, 25, 0, p.textureHPBar)
 spritePos(p.spriteHPBar, 10, 27.5)
 
+function addLaserBar()
+	if p.entity.hasPowerUp[5] then
+		p.spriteLaserBarBack = spriteFunc(400, 15, 0, p.textureLaserBarBack)
+		spritePos(p.spriteLaserBarBack, 10, 60)
+		p.spriteLaserBar = spriteFunc(400, 7.5, 0, p.textureLaserBar)
+		spritePos(p.spriteLaserBar, 9.5, 64)
+	end
+end
+addLaserBar()
+
 tileSize = 48
 
 -- Background
