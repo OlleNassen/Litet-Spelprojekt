@@ -10,6 +10,11 @@ require("Resources/Scripts/point_light")
 require("Resources/Scripts/save")
 require("Resources/Scripts/enemyContainer")
 
+function quit()
+	p:reset()
+	newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
+end
+
 local textureFunc = newTexture
 local spriteFunc = newSprite
 

@@ -120,6 +120,20 @@ void Game::updateState()
 			std::cout << "Compiled: ";
 			std::cout << clock.restart().asSeconds() << std::endl;
 
+			if (eventSystem.getLevel() == 1)
+			{
+				highscoreClock.restart();
+			}
+
+			if (eventSystem.getLevel() == 9)
+			{
+				//Todo: Save highscore to lua:
+
+				//Todo: Get highscore from lua:
+
+				newState.graphicsSystem->setHighScore("LUA SHIT");
+			}
+
 			currentState = newState;
 
 			stateName = "";

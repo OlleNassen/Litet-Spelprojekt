@@ -63,6 +63,8 @@ private:
 	sf::Clock textClock;
 	Text* currentLevel;
 
+	Text* highscore;
+
 public:
 	GraphicsSystem(ShaderStruct& shad);
 	~GraphicsSystem();
@@ -81,10 +83,12 @@ public:
 	sf::Vector2f getPlayerPos() const;
 	sf::Vector2f getPixie() const;
 
-
+	void setHighscore(const std::string& highscore)
 private:
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
+
+	void displayHighscore();
 
 	void updateCamera();
 	

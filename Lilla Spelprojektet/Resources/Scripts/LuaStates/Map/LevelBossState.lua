@@ -2,6 +2,9 @@ tilemap = require("Resources/Scripts/LuaStates/Map/Levels/LevelBoss")
 require("Resources/Scripts/common")
 require("Resources/Scripts/boss")
 
+local textureFunc = newTexture
+local spriteFunc = newSprite
+
 --Min 28x15 tiles
 saveData(19,8055)
 if loadData(0) == 0 then
@@ -22,6 +25,11 @@ b.entity:addWorld(level)
 local level7Portal = Portal:create(48 * 1, 48 * 8)
 
 local levelWinPortal = Portal:create(48 * 50, 48 * 10)
+
+b.spriteBossHPBarBack = spriteFunc(-400, 40, 0, b.textureBossHPBarBack)
+spritePos(b.spriteBossHPBarBack, 1270, 20)
+b.spriteBossHPBar = spriteFunc(-400, 25, 0, b.textureBossHPBar)
+spritePos(b.spriteBossHPBar, 1270, 27.5)
 
 local color = 1
 local light1 = PointLight:create(color, color, color, 5 * tileSize, tileSize * 5)

@@ -9,6 +9,11 @@ local textureFunc = newTexture
 local spriteFunc = newSprite
 local settexture = setTexture
 
+function quit()
+	print("Quitting")
+	deleteState()
+end
+
 newMusic("Resources/Sound/darktimes.wav")
 
 saveData(19, 0)

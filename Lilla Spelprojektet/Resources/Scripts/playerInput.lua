@@ -1,8 +1,3 @@
-function quit()
-	p:reset()
-	newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
-end
-
 function mouseLeft()
 	return p:attack()
 end
@@ -65,7 +60,7 @@ local hasFoundPosition = false
 function checkUpgrades(deltaTime)
 	if p.entity.hasPowerUp[1] == true then -- DASH UPGRADE
 	
-		if p.entity.collision_bottom == true then --Cant dash until on ground
+		--[[if p.entity.collision_bottom == true then --Cant dash until on ground
 			p.canDash = true
 		end
 
@@ -90,6 +85,43 @@ function checkUpgrades(deltaTime)
 
 			--Dashing ends
 			if length < 30 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
+				p.dashing = false
+				p.entity.hasGravity = true
+				hasFoundPosition = false
+				p.entity.velocity.x = p.entity.velocity.x / 5
+				p.entity.velocity.y = p.entity.velocity.y / 5
+			end
+		end]]
+
+		if p.entity.collision_bottom == true then --Cant dash until on ground
+			p.canDash = true
+		end
+
+		if p.dashing == true then --Dashing
+			p.entity.hasGravity = false
+			p.canDash = false
+
+			if hasFoundPosition == false then
+				posFrom = {x, y}
+				posFrom.x = p.entity.x
+				posFrom.y = p.entity.y
+				posTo = {x, y}
+				posTo.x = s.x
+				posTo.y = s.y
+				hasFoundPosition = true
+			end
+			
+			local distance = math.sqrt((posFrom.x - posTo.x) * (posFrom.x - posTo.x) + (posFrom.y - posTo.y) * (posFrom.y - posTo.y))
+			movePos = {x, y}
+			movePos.x = (posTo.x - posFrom.x) / distance
+			movePos.y = (posTo.y - posFrom.y) / distance
+			print(movePos.x, movePos.y)
+
+			p.entity.velocity.x = movePos.x * 100000 * deltaTime
+			p.entity.velocity.y = movePos.y * 100000 * deltaTime
+
+			distance = math.sqrt((posFrom.x - p.entity.x) * (posFrom.x - p.entity.x) + (posFrom.y - p.entity.y) * (posFrom.y - p.entity.y))
+			if distance > 200 or p.entity.collision_top == true or  p.entity.collision_left == true or p.entity.collision_right == true or p.entity.collision_bottom == true then
 				p.dashing = false
 				p.entity.hasGravity = true
 				hasFoundPosition = false

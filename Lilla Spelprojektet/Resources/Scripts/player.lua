@@ -259,8 +259,8 @@ function Player:update(deltaTime)
 	end
 	
 	if self.entity.health <= 0 then
-		newState("Resources/Scripts/LuaStates/gameOverState.lua")
 		self:reset()
+		newState("Resources/Scripts/LuaStates/gameOverState.lua")
 	end
 
 	--Decelerate
@@ -325,8 +325,6 @@ function Player:update(deltaTime)
 	if self.dashing == true then
 		self.entity:setAnimation(8)
 	end
-
-	print(self.timeSinceFall)
 
 	if lastYVelocity - self.entity.velocity.y > 900 and lastYVelocity - self.entity.velocity.y < 1000 and self.timeSinceFall > 0.6 then
 		self:takeDamage(20)
