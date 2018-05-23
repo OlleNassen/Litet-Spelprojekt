@@ -48,13 +48,14 @@ void main()
 		}           
         color.a = 1.0f;
     }
-	else if(flash)
-    {
-        color = texture(scene, TexCoords) + vec4(0.2, 0.0, 0.0, 0.0);
-    }
     else
     {
         color =  texture(scene, TexCoords);
+
+		if(flash)
+		{
+			color + vec4(1.2, 0.0, 0.0, 0.0);
+		}
     }
 
 	/*color = texture(scene, TexCoords);
