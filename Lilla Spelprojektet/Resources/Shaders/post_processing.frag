@@ -47,21 +47,16 @@ void main()
 			color += vec4(sam[i] * blur_kernel[i], 0.0f);
 		}           
         color.a = 1.0f;
-
-		if(flash)
-		{
-			color + vec4(0.8, 0.0, 0.0, 0.0);
-		}
     }
     else
     {
-        color =  texture(scene, TexCoords);
-
-		if(flash)
-		{
-			color + vec4(0.8, 0.0, 0.0, 0.0);
-		}
+        color =  texture(scene, TexCoords);	
     }
+
+	if(flash)
+	{
+		color += vec4(0.8, 0.0, 0.0, 0.0);
+	}
 
 	/*color = texture(scene, TexCoords);
     float average = (color.r + color.g + color.b) / 3.0;
