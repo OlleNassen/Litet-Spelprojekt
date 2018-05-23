@@ -31,8 +31,9 @@ Game::Game()
 
 	}
 	lua_close(L);
-
 	
+	for (int i = 0; i < 10; i++)
+		highscoreList[i] = 50.0f;
 
 	//camera->zoom(0.5);
 	window->setMouseCursorVisible(false);
@@ -47,17 +48,35 @@ Game::~Game()
 
 void Game::run()
 {	
+	std::ifstream is;
+	is.open("Resources/highscore.olle");
+	for(int i = 0; i < NUM_SCORES; i++)
+	{
+		is >> highscoreList[i];
+	}
+	is.close();
+	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	float lastTime = 0.f;
 
 	updateState();
 
+	sf::Music music;
+	music.openFromFile("Resources/Sound/malicious.wav");
+	music.setLoop(true);
+	music.play();
+
 	while (currentState.luaState)
 	{		
 		handleEvents();
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
+
+		if (eventSystem.getLevel() == 0)
+		{
+			highscoreClock.restart();
+		}
 		
 		while (currentState.luaState && timeSinceLastUpdate > timePerFrame)
 		{
@@ -70,12 +89,20 @@ void Game::run()
 			timePerFrame.asSeconds(), 
 			camera->getView(), 
 			camera->getProjection(), 
-			eventSystem.getLevel());
+			eventSystem.getLevel(), highscoreList, NUM_SCORES);
 
 		window->display();// end the current frame (internally swaps the front and back buffers)
 
 		updateState();
 	}
+
+	std::ofstream os;
+	os.open("Resources/highscore.olle");
+	for (int i = 0; i < NUM_SCORES; i++)
+	{
+		os << highscoreList[i] << std::endl;
+	}
+	os.close();
 		
 	// release resources...
 }
@@ -120,20 +147,24 @@ void Game::updateState()
 			std::cout << "Compiled: ";
 			std::cout << clock.restart().asSeconds() << std::endl;
 
-			if (eventSystem.getLevel() == 1)
+			float tempHighscore = highscoreClock.getElapsedTime().asSeconds();
+			if (eventSystem.getLevel() == 1337)
 			{
-				highscoreClock.restart();
+				for (int i = 0; i < NUM_SCORES; i++)
+				{
+					bool shouldBreak = false;
+					if (tempHighscore < highscoreList[i])
+					{
+						highscoreList[i] = tempHighscore;
+						shouldBreak = true;
+					}
+					if (shouldBreak)
+					{
+						break;
+					}
+				}
+				newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
 			}
-
-			if (eventSystem.getLevel() == 9)
-			{
-				//Todo: Save highscore to lua:
-
-				//Todo: Get highscore from lua:
-
-				newState.graphicsSystem->setHighScore("LUA SHIT");
-			}
-
 			currentState = newState;
 
 			stateName = "";

@@ -2,6 +2,7 @@
 
 #include <SFML/Window/Event.hpp>
 #include <vector>
+#include <string>
 struct lua_State;
 class State;
 
@@ -24,6 +25,8 @@ public:
 	void update(float deltaTime);
 
 	int getLevel()const;
+
+	std::string getHighscore()const;
 
 private:
 	/** Temporary lua state */

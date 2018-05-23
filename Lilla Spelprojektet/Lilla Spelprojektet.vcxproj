@@ -66,8 +66,8 @@
     <None Include="Resources\Scripts\ai.lua" />
     <None Include="Resources\Scripts\background.lua" />
     <None Include="Resources\Scripts\dummy.lua" />
-    <None Include="Resources\Scripts\LuaStates\gameOverState.lua" />
-    <None Include="Resources\Scripts\LuaStates\victoryState.lua" />
+    <None Include="Resources\Scripts\LuaStates\Map\gameOverState.lua" />
+    <None Include="Resources\Scripts\LuaStates\Map\victoryState.lua" />
     <None Include="Resources\Scripts\object.lua" />
     <None Include="Resources\Scripts\point_light.lua" />
     <None Include="Resources\Scripts\save.lua" />

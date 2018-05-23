@@ -250,6 +250,20 @@ int EventSystem::getLevel() const
 	return (saveVector.size() > 19) ? saveVector[19] : 0;
 }
 
+std::string EventSystem::getHighscore() const
+{
+	if (saveVector.size() < 30)
+	{
+		return "NOT WORKING";
+	}
+	std::string temp;
+	for (int i = 20; i < 30; i++)
+	{
+		temp += std::to_string(i) + ": " + std::to_string(saveVector[i]) + "'\n";
+	}
+	return temp;
+}
+
 float EventSystem::getAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
 {
 	float result = sf::Joystick::getAxisPosition(joystick, axis);	

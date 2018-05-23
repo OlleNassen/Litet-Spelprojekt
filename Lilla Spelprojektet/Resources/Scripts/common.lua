@@ -18,7 +18,7 @@ end
 local textureFunc = newTexture
 local spriteFunc = newSprite
 
-newMusic("Resources/Sound/darktimes.wav")
+--newMusic("Resources/Sound/darktimes.wav")
 
 level = World:create()
 level:addMap(tilemap)

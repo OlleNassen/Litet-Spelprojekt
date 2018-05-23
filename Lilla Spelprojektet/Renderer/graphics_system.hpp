@@ -71,7 +71,7 @@ public:
 
 	void draw(
 		float deltaTime, const glm::mat4& view,
-		const glm::mat4& projection, int level);
+		const glm::mat4& projection, int level, float scores[], int numScores);
 
 	void drawLevelText(const glm::mat4& projection, int level);
 
@@ -83,12 +83,12 @@ public:
 	sf::Vector2f getPlayerPos() const;
 	sf::Vector2f getPixie() const;
 
-	void setHighscore(const std::string& highscore)
+	void setHighscore(float* highscoreText, int numScores);
 private:
 	void drawSprites(const glm::mat4& view, const glm::mat4& projection);
 	void drawTiles(const glm::mat4& view, const glm::mat4& projection);
 
-	void displayHighscore();
+	void displayHighscore(const glm::mat4& projection, float scores[], int numScores);
 
 	void updateCamera();
 	
