@@ -45,7 +45,7 @@ end
 local bLaserOn = false
 function laser()
 	if p.entity.hasPowerUp[5] == true then
-		if bLaserOn == false then
+		if bLaserOn == false and p.laserPower >= 20 then
 			laserOn()
 			bLaserOn = true
 		elseif bLaserOn then
