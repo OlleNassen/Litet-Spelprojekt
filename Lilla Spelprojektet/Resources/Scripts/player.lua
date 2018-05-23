@@ -36,6 +36,7 @@ function Player:create()
 		attackDamage = 10,
 		attackPushBack = {x = 100, y = -600},
 		timeSinceDamage = 0.0,
+		timeSinceShake = 0.0,
 		textureHPBarBack = newTexture("Resources/Sprites/Player/hpbarback.png"),
 		textureHPBar = newTexture("Resources/Sprites/Player/hpbar.png"),
 		spriteHPBarBack,
@@ -225,9 +226,18 @@ function Player:updateHPBar()
 	spriteSize(self.spriteHPBar, (self.entity.health / 100) * 400, 25)
 end
 
+local lastYVelocity = 0
+
 function Player:update(deltaTime)
 	
 	self.timeSinceDamage = self.timeSinceDamage + deltaTime
+	self.timeSinceShake = self.timeSinceShake + deltaTime
+
+	if self.timeSinceShake < 0.02 then
+		shakeOn()
+	else
+		shakeOff()
+	end
 
 	if self.timeSinceDamage < 0.02 then
 		flashOn()
@@ -303,6 +313,15 @@ function Player:update(deltaTime)
 		self.entity:setAnimation(8)
 	end
 
+	print (self.entity.velocity.y)
+		print (lastYVelocity)
+
+	if lastYVelocity - self.entity.velocity.y > 100 and lastYVelocity - self.entity.velocity.y < 1000 then
+		self.timeSinceShake = 0.0
+	end
+
+	lastYVelocity = self.entity.velocity.y
+
 	--Hp bar
 	self:updateHPBar()
 	
@@ -319,6 +338,7 @@ function Player:takeDamage(dmg)
 	if self.timeSinceDamage > 1.0 then
 		self.entity.health = self.entity.health - dmg
 		self.timeSinceDamage = 0.0
+		self.timeSinceShake = 0.0
 		self.entity.velocity.y = -1000
 		print "AJ!!!"
 		self:resetCharge()

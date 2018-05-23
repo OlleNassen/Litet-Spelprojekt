@@ -179,7 +179,7 @@ void GraphicsSystem::update(float deltaTime)
 
 	updateCamera();
 
-	//postProcessor->flash = sf::Keyboard::isKeyPressed(sf::Keyboard::K);
+	//postProcessor->shake = sf::Keyboard::isKeyPressed(sf::Keyboard::K);
 
 }
 
@@ -266,6 +266,12 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, flashoff);
 	lua_setglobal(luaState, "flashOff");
+
+	lua_pushcfunction(luaState, shakeon);
+	lua_setglobal(luaState, "shakeOn");
+
+	lua_pushcfunction(luaState, shakeoff);
+	lua_setglobal(luaState, "shakeOff");
 }
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const
@@ -566,6 +572,25 @@ int GraphicsSystem::flashoff(lua_State* luaState)
 	lua_getglobal(luaState, "GraphicsSystem");
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
 	ptr->postProcessor->flash = false;
+
+	return 0;
+}
+
+
+int GraphicsSystem::shakeon(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->postProcessor->shake = true;
+
+	return 0;
+}
+
+int GraphicsSystem::shakeoff(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->postProcessor->shake = false;
 
 	return 0;
 }

@@ -110,5 +110,8 @@ private:
 
 	static int flashon(lua_State* luaState);
 	static int flashoff(lua_State* luaState);
+
+	static int shakeon(lua_State* luaState);
+	static int shakeoff(lua_State* luaState);
 };
 
