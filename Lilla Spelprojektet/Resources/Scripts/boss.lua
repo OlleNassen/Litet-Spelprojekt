@@ -14,6 +14,11 @@ function Boss:create(posX, posY, sizeX, sizeY)
 		p = {},
 		pTexture = newTexture("Resources/Sprites/npc/boss_sprite.png"),
 		pNormal = newTexture("Resources/Sprites/npc/boss_normals.png"),
+
+		textureBossHPBarBack = newTexture("Resources/Sprites/Player/hpbarback.png"),
+		textureBossHPBar = newTexture("Resources/Sprites/Player/bossHPbar.png"),
+		spriteBossHPBarBack,
+		spriteBossHPBar,
     }
 
 	this.entity.x = posX
@@ -183,9 +188,14 @@ function Boss:createProjectile(player, deltaTime)
 	
 end
 
+function Boss:updateHpBar()
+	spriteSize(self.spriteBossHPBar, (self.entity.health / 100) * -400, 25)
+end
+
 function Boss:takeDamage(damage)
 	
-	self.entity:takeDamage(50,0,0)
+	self.entity:takeDamage(10, 0, 0)
+	self:updateHpBar()
 
 	if self.entity.health <= 0 then
 		self.entity.x = -5000
