@@ -26,13 +26,13 @@ function Boss:create(posX, posY, sizeX, sizeY)
 	this.entity.height = sizeY
 	this.entity.maxSpeed.x = 700
 	this.entity.maxSpeed.y = 1000
-	this.entity.texture = newTexture("Resources/Sprites/npc/boss_sprite.png")
-	this.entity.normalMap = newTexture("Resources/Sprites/npc/boss_normals.png")
+	this.entity.texture = newTexture("Resources/Sprites/npc/boss_sprite_new.png")
+	this.entity.normalMap = newTexture("Resources/Sprites/npc/boss_normals_new.png")
 	this.entity.spriteWidth = 192
 	this.entity.spriteHeight = 192
-	this.entity:addAnimation(1,1) -- idle = 1
-	this.entity:addAnimation(2,5) -- close attack = 2
-	this.entity:addAnimation(6,6) -- range attack = 3
+	this.entity:addAnimation(1,4) -- idle = 1
+	this.entity:addAnimation(5,8) -- close attack = 2
+	this.entity:addAnimation(9,11) -- range attack = 3
 	this.entity:setAnimation(2)
 	this.entity.updateAnimationTime = 0.2
 	this.entity.sprite = newSprite(sizeX, sizeY, this.entity.normalMap, this.entity.texture)
