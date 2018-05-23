@@ -62,6 +62,11 @@ void Game::run()
 
 	updateState();
 
+	sf::Music music;
+	music.openFromFile("Resources/Sound/malicious.wav");
+	music.setLoop(true);
+	music.play();
+
 	while (currentState.luaState)
 	{		
 		handleEvents();
