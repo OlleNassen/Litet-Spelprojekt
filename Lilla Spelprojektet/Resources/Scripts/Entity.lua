@@ -70,6 +70,7 @@ function Entity:setAnimation(animation)
 	if self.currentAnimation ~= animation then
 		self.currentAnimation = animation
 		self.currentAnimationIndex = self.animationList[(animation * 2) - 1]
+		self:updateAnimation(30)
 	end
 end
 
