@@ -66,8 +66,8 @@ play.height = 100
 play:setPosition(450,150)
 
 local highscore = Entity:create() 
-highscore.texture = textureFunc("Resources/Sprites/btn_quit.png")
-texture3 = textureFunc("Resources/Sprites/btn_quit_pressed.png")
+highscore.texture = textureFunc("Resources/Sprites/btn_hs.png")
+texture3 = textureFunc("Resources/Sprites/btn_hs_pressed.png")
 highscore.sprite = spriteFunc(400,100, 0, highscore.texture)
 highscore.width = 400
 highscore.height = 100
@@ -75,7 +75,7 @@ highscore:setPosition(450, 300)
 
 local exit = Entity:create() 
 exit.texture = textureFunc("Resources/Sprites/btn_quit.png")
-texture3 = textureFunc("Resources/Sprites/btn_quit_pressed.png")
+texture4 = textureFunc("Resources/Sprites/btn_quit_pressed.png")
 exit.sprite = spriteFunc(400,100, 0, exit.texture)
 exit.width = 400
 exit.height = 100
@@ -98,7 +98,7 @@ function update(deltaTime)
 	end
 
 	if exit:contains(s.x, s.y) then
-		settexture(exit.sprite, texture3)
+		settexture(exit.sprite, texture4)
 	else
 		settexture(exit.sprite, exit.texture)
 	end
@@ -106,7 +106,7 @@ function update(deltaTime)
 end
 
 function updateBackground()
-	pX, pY = getCameraPosition()	
+	pX, pY = getCameraPosition()
 	for k, v in pairs(bgs) do
 		if k <= totalFurthestSprites then
 			v:setPosition(pX * 0.01  + (400 * k - 1), pY * -0.05 - 100, k)
