@@ -26,8 +26,6 @@ public:
 
 	int getLevel()const;
 
-	std::string getHighscore()const;
-
 private:
 	/** Temporary lua state */
 	lua_State* luaState; 
