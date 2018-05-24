@@ -106,7 +106,7 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 		default:
 			currentLevel->RenderText(
 				"Welcome To Level " + std::to_string(level), 
-				400, 100, 1, glm::vec3(1, 0, 0), projection);
+				400, 100, 1, glm::vec3(1, 1, 1), projection);
 			break;
 		}
 	}
@@ -185,7 +185,7 @@ void GraphicsSystem::displayHighscore(const glm::mat4& projection, float scores[
 	{
 		for (int i = 0; i < numScores; i++)
 		{
-			highscore->RenderHighscore(std::to_string(scores[i]), 0, i * 50, 1, glm::vec3(1, 0, 0), projection);
+			highscore->RenderHighscore(std::to_string(scores[i]), 0, i * 50, 1, glm::vec3(1, 1, 1), projection);
 		}
 	}
 }
