@@ -218,13 +218,15 @@ void Game::handleEvents()
 
 	if (changedWindow)
 	{
+		sf::ContextSettings settings = window->getSettings();
+
 		if (fullscreen)
 		{
-			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, window->getSettings());
+			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
 		}
 		else
 		{
-			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, window->getSettings());
+			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
 		}
 		fullscreen = !fullscreen;
 	}
