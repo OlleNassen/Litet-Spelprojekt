@@ -31,9 +31,6 @@ Game::Game()
 
 	}
 	lua_close(L);
-	
-	for (int i = 0; i < 10; i++)
-		highscoreList[i] = 50.0f;
 
 	//camera->zoom(0.5);
 	window->setMouseCursorVisible(false);
@@ -167,6 +164,12 @@ void Game::updateState()
 			}
 			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
 		}
+
+		if (eventSystem.getLevel() == 1338)
+		{
+			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
+		}
+
 		currentState = newState;
 	
 		stateName = "";
