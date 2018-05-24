@@ -225,22 +225,15 @@ void Game::handleEvents()
 
 	if (changedWindow)
 	{
-		sf::ContextSettings settings;
-		settings.depthBits = 24;
-		settings.stencilBits = 8;
-		settings.antialiasingLevel = 4;
-		settings.majorVersion = 4;
-		settings.minorVersion = 4;
-		delete window;
+		sf::ContextSettings settings = window->getSettings();
+
 		if (fullscreen)
 		{
-			window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
-			this->window->setActive(true);
+			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
 		}
 		else
 		{
-			window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
-			window->setActive(true);
+			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
 		}
 		fullscreen = !fullscreen;
 	}
