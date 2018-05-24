@@ -93,7 +93,11 @@ void Game::run()
 
 		window->display();// end the current frame (internally swaps the front and back buffers)
 
-		updateState();
+		if (!stateName.empty())
+		{
+			updateState();
+			clock.restart();
+		}
 	}
 
 	std::ofstream os;
@@ -109,66 +113,65 @@ void Game::run()
 
 void Game::updateState()
 {
-	if (!stateName.empty())
+	if (currentState.luaState)
 	{
-		if (currentState.luaState)
+		lua_close(currentState.luaState);
+		delete currentState.graphicsSystem;
+		delete currentState.audioSystem;
+		currentState.luaState = nullptr;
+		currentState.graphicsSystem = nullptr;
+		currentState.audioSystem = nullptr;
+	}
+	
+	if (stateName[0] != 'D')
+	{
+		lua_State* newLua = luaL_newstate();
+		luaL_openlibs(newLua);
+		addLuaLibraries(newLua);
+	
+		State newState;
+		newState.luaState = newLua;
+		newState.graphicsSystem = new GraphicsSystem(shaders);
+		newState.graphicsSystem->addLuaFunctions(newLua);
+		newState.graphicsSystem->addCamera(camera);
+		newState.audioSystem = new AudioSystem();
+		newState.audioSystem->addLuaFunctions(newLua);
+	
+		sf::Clock clock;
+		std::cout << "Compiling..." << std::endl;
+		clock.restart();
+	
+		if (luaL_loadfile(newLua, stateName.c_str()) || lua_pcall(newLua, 0, 0, 0))
 		{
-			lua_close(currentState.luaState);
-			delete currentState.graphicsSystem;
-			delete currentState.audioSystem;
-			currentState.luaState = nullptr;
-			currentState.graphicsSystem = nullptr;
-			currentState.audioSystem = nullptr;
+			fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(newLua, -1));
+	
 		}
-		
-		if (stateName[0] != 'D')
+		std::cout << "Compiled: ";
+		std::cout << clock.restart().asSeconds() << std::endl;
+	
+		float tempHighscore = highscoreClock.getElapsedTime().asSeconds();
+		if (eventSystem.getLevel() == 1337)
 		{
-			lua_State* newLua = luaL_newstate();
-			luaL_openlibs(newLua);
-			addLuaLibraries(newLua);
-
-			State newState;
-			newState.luaState = newLua;
-			newState.graphicsSystem = new GraphicsSystem(shaders);
-			newState.graphicsSystem->addLuaFunctions(newLua);
-			newState.graphicsSystem->addCamera(camera);
-			newState.audioSystem = new AudioSystem();
-			newState.audioSystem->addLuaFunctions(newLua);
-
-			sf::Clock clock;
-			std::cout << "Compiling..." << std::endl;
-			clock.restart();
-
-			if (luaL_loadfile(newLua, stateName.c_str()) || lua_pcall(newLua, 0, 0, 0))
+			for (int i = 0; i < NUM_SCORES; i++)
 			{
-				fprintf(stderr, "Couldn't load file: %s\n", lua_tostring(newLua, -1));
-
-			}
-			std::cout << "Compiled: ";
-			std::cout << clock.restart().asSeconds() << std::endl;
-
-			float tempHighscore = highscoreClock.getElapsedTime().asSeconds();
-			if (eventSystem.getLevel() == 1337)
-			{
-				for (int i = 0; i < NUM_SCORES; i++)
+				bool shouldBreak = false;
+				if (tempHighscore < highscoreList[i])
 				{
-					bool shouldBreak = false;
-					if (tempHighscore < highscoreList[i])
-					{
-						highscoreList[i] = tempHighscore;
-						shouldBreak = true;
-					}
-					if (shouldBreak)
-					{
-						break;
-					}
+					highscoreList[i] = tempHighscore;
+					shouldBreak = true;
 				}
-				newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
+				if (shouldBreak)
+				{
+					break;
+				}
 			}
-			currentState = newState;
-
-			stateName = "";
+			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
 		}
+		currentState = newState;
+	
+		stateName = "";
+	
+	
 	}
 }
 

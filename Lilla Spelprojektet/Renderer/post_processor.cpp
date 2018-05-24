@@ -10,6 +10,7 @@ PostProcessor::PostProcessor(Shader* shader, unsigned int width, unsigned int he
 	, chaos(GL_FALSE)
 	, shake(GL_FALSE)
 	, flash(GL_FALSE)
+	, curtain(0.0, 0.0)
 {
 	// Initialize renderbuffer/framebuffer object
 	glGenFramebuffers(1, &MSFBO);
@@ -88,6 +89,7 @@ void PostProcessor::render(GLfloat time)
 	postProcessingShader->setInt(chaos, "chaos");
 	postProcessingShader->setInt(shake, "shake");
 	postProcessingShader->setInt(flash, "flash");
+	postProcessingShader->setVector2f(curtain, "curtain");
 
 
 	postProcessingShader->setInt(0, "scene");

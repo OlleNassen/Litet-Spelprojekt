@@ -11,6 +11,7 @@ uniform bool chaos;
 uniform bool confuse;
 uniform bool shake;
 uniform bool flash;
+uniform vec2 curtain;
 
 void main()
 {
@@ -56,6 +57,11 @@ void main()
 	if(flash)
 	{
 		color += vec4(0.8, 0.0, 0.0, 0.0);
+	}
+
+	if(TexCoords.x > curtain.x && TexCoords.y > curtain.y)
+	{
+		color = vec4(0.0, 0.0, 0.0, 1.0);
 	}
 
 	/*color = texture(scene, TexCoords);
