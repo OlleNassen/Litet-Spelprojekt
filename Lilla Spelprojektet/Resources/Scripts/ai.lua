@@ -21,9 +21,9 @@ function Ai:create(posX, posY, sizeX, sizeY)
 	this.entity.health = 60
 	this.entity.x = posX
 	this.entity.y = posY
-	this.entity.collision_width = 13
+	this.entity.collision_width = 35
 	this.entity.collision_height = 72
-	this.entity.offsetX = 58
+	this.entity.offsetX = 43
 	this.entity.offsetY = 48
 	this.entity.width = sizeX
 	this.entity.height = sizeY

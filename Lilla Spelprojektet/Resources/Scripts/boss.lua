@@ -52,10 +52,10 @@ function Boss:create(posX, posY, sizeX, sizeY)
 	this.hitBoxClose.collision_height = 48 * 2
 
 	--Entity Visible collision box
-	this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	--[[this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
 	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
 	this.entity.spriteHB = newSprite(this.entity.collision_width, this.entity.collision_height, this.entity.normalHB, this.entity.textureHB)
-	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)
+	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)]]
 
     setmetatable(this, self)
     return this
@@ -72,25 +72,12 @@ function Boss:update(deltaTime, player)
 		self.firstFrame = false
 	end
 	
-	if self.entity:containsCollisionBox(player) then
-		player:takeDamage(15, -500)
-	end
-	
+	self:attack(player)
+	self:playerAttack(player)
 	hasFinished = self.entity:update(deltaTime)
 	self:stateHandler(deltaTime, player)
 	if self.idleTimer >= self.stopIdleTimer or (hasFinished == true and self.currentState ~= 0) then
 		self:changeState(player)
-	end
-
-	if player.isAttacking == true and player.entity.isGoingRight == true then
-		if self.entity:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
-			self:takeDamage(player.attackDamage)
-		end
-
-	elseif  player.isAttacking == true and player.entity.isGoingRight == false then
-		if self.entity:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
-			self:takeDamage(50)
-		end
 	end
 
 	-- Projectile loop
@@ -106,24 +93,46 @@ function Boss:update(deltaTime, player)
 			--self:pAttack(i, self)
 			-- Add check if expolsion animation is done
 		else
-			if player.isAttacking == true and player.entity.isGoingRight == true then
-				if self.p[i]:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
-					self:pInvertVelocity(i)
+			self:pPlayerAttack(i, player)
+		end
+
+		if pDone == true and self.p[i].currentAnimation == 2 then
+			self:removeProjectile(i)
+		end
+	end
+end
+
+
+function Boss:playerAttack(player)
+		if player.isAttacking and player.releaseCharge == false then
+			if player.entity.isGoingRight == true then
+				if self.entity:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:takeDamage(player.attackDamage)
 				end
 
-			elseif  player.isAttacking == true and player.entity.isGoingRight == false then
-				if self.p[i]:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
-					self:pInvertVelocity(i)
+			elseif player.entity.isGoingRight == false then
+				if self.entity:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:takeDamage(player.attackDamage)
 				end
 
 			end
 		end
 
-		if pDone == true and self.p[i].currentAnimation == 2 then
-			print("done")
-			self:removeProjectile(i)
+		--Charge attack (right and left resp.)
+		if player.isAttacking and player.releaseCharge then
+
+			if player.isAttacking == true and player.entity.isGoingRight == true then
+				if self.entity:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:takeDamage(player.attackDamage * 3)
+				end
+
+			elseif  player.isAttacking == true and player.entity.isGoingRight == false then
+				if self.entity:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:takeDamage(player.attackDamage * 3)
+				end
+
+			end
 		end
-	end
 end
 
 ----- STATE HANDLERS -----
@@ -137,7 +146,7 @@ function Boss:stateHandler(deltaTime, player)
 
 		if self.entity.currentAnimationIndex == 6 or self.entity.currentAnimationIndex == 8 then
 			if self.hitBoxClose:containsCollisionBox(player) then
-				player:takeDamage(20, -1000)
+				player:takeDamage(20, -2000)
 			end
 		end
 	elseif self.currentState == 2 then
@@ -171,9 +180,42 @@ end
 
 ----- PROJECTILE HANDLERS -----
 
-function Boss:pInvertVelocity(index)
-	self.p[index].velocity.x = self.p[index].velocity.x * -1
-	self.p[index].velocity.y = self.p[index].velocity.y * -1
+function Boss:pInvertVelocity(index, multi)
+	self.p[index].velocity.x = self.p[index].velocity.x * -1 * (multi or 1)
+	self.p[index].velocity.y = self.p[index].velocity.y * -1 * (multi or 1)
+end
+
+function Boss:pPlayerAttack(index, player)
+
+		if player.isAttacking and player.releaseCharge == false then
+			if player.entity.isGoingRight == true then
+				if self.p[index]:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:pInvertVelocity(index)
+				end
+
+			elseif player.entity.isGoingRight == false then
+				if self.p[index]:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:pInvertVelocity(index)
+				end
+
+			end
+		end
+
+		--Charge attack (right and left resp.)
+		if player.isAttacking and player.releaseCharge then
+
+			if player.isAttacking == true and player.entity.isGoingRight == true then
+				if self.p[index]:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:pInvertVelocity(index, 2)
+				end
+
+			elseif  player.isAttacking == true and player.entity.isGoingRight == false then
+				if self.p[index]:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
+					self:pInvertVelocity(index, 2)
+				end
+
+			end
+		end
 end
 
 function Boss:pAttack(index, player)
@@ -202,9 +244,9 @@ function Boss:createProjectile()
 	self.idleProjectiles[#self.idleProjectiles].spriteWidth = 144
 	self.idleProjectiles[#self.idleProjectiles].spriteHeight = 144
 	self.idleProjectiles[#self.idleProjectiles]:addAnimation(1,1)
-	self.idleProjectiles[#self.idleProjectiles]:addAnimation(1,3)
+	self.idleProjectiles[#self.idleProjectiles]:addAnimation(1,4)
 	self.idleProjectiles[#self.idleProjectiles]:setAnimation(1)
-	self.idleProjectiles[#self.idleProjectiles].updateAnimationTime = 0.2
+	self.idleProjectiles[#self.idleProjectiles].updateAnimationTime = 0.05
 	self.idleProjectiles[#self.idleProjectiles].sprite = newSprite(self.idleProjectiles[#self.idleProjectiles].width, self.idleProjectiles[#self.idleProjectiles].height, self.idleProjectiles[#self.idleProjectiles].normalMap, self.idleProjectiles[#self.idleProjectiles].texture)
 	spritePos(self.idleProjectiles[#self.idleProjectiles].sprite, self.idleProjectiles[#self.idleProjectiles].x, self.idleProjectiles[#self.idleProjectiles].y)
 	self.idleProjectiles[#self.idleProjectiles].constantMovement = true
@@ -270,6 +312,6 @@ function Boss:attack(player)
 		self.entity:containsCollisionBox(player.entity.x + player.entity.offsetX + player.entity.collision_width, player.entity.y + player.entity.offsetY + player.entity.collision_height) then]] --bottom right
 
 	if self.entity:containsCollisionBox(player) then
-		player:takeDamage(20)
+		player:takeDamage(20, -1000)
 	end
 end

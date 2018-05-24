@@ -159,15 +159,17 @@ void ParticleEmitter::initParticleEmitter()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * MAX_NUM_PARTICLES, (void*)offsets, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	float size = 3.f;
+
 	float quadVertices[] = {
 		// positions //Texcoords     // colors
-		0.f,  12.f, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f,
-		12.f, 0.f, 1.0f, 0.0,  0.0f, 1.0f, 0.0f,
+		0.f,  size, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		size, 0.f, 1.0f, 0.0,  0.0f, 1.0f, 0.0f,
 		0.f, 0.f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
 
-		0.f,  12.f, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f,
-		12.f, 12.f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
-		12.f,  0.f, 1.0f, 0.0f,  0.0f, 1.0f, 0.0f
+		0.f,  size, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		size, size, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f,
+		size,  0.f, 1.0f, 0.0f,  0.0f, 1.0f, 0.0f
 	};
 
 	glGenVertexArrays(1, &VAO);
