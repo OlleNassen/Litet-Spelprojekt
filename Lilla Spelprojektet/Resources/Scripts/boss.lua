@@ -236,6 +236,9 @@ function Boss:removeProjectile(index)
 end
 
 function Boss:updateHpBar()
+	if self.entity.health < 0 then
+		self.entity.health = 0
+	end
 	spriteSize(self.spriteBossHPBar, (self.entity.health / 100) * -400, 25)
 end
 

@@ -9,6 +9,7 @@ local textureFunc = newTexture
 local spriteFunc = newSprite
 local settexture = setTexture
 
+
 function quit()
 	deleteState()
 end
@@ -57,45 +58,19 @@ bgs[5].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 bgs[6] = Background:create()
 bgs[6].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 
-local play = Entity:create() 
-play.texture = textureFunc("Resources/Sprites/btn_play.png")
-texture2 = textureFunc("Resources/Sprites/btn_play_pressed.png")
-play.sprite = spriteFunc(400,100, 0, play.texture)
-play.width = 400
-play.height = 100
-play:setPosition(450,150)
-
-local highscore = Entity:create() 
-highscore.texture = textureFunc("Resources/Sprites/btn_quit.png")
-texture3 = textureFunc("Resources/Sprites/btn_quit_pressed.png")
-highscore.sprite = spriteFunc(400,100, 0, highscore.texture)
-highscore.width = 400
-highscore.height = 100
-highscore:setPosition(450, 300)
-
 local exit = Entity:create() 
 exit.texture = textureFunc("Resources/Sprites/btn_quit.png")
 texture3 = textureFunc("Resources/Sprites/btn_quit_pressed.png")
 exit.sprite = spriteFunc(400,100, 0, exit.texture)
 exit.width = 400
 exit.height = 100
-exit:setPosition(450, 450)
+exit:setPosition(850, 600)
+
+saveData(19, 1338)
 
 function update(deltaTime)
 	s:setPosition(mX, mY)
 	updateBackground()
-
-	if play:contains(s.x, s.y) then
-		settexture(play.sprite, texture2)
-	else
-		settexture(play.sprite, play.texture)
-	end
-
-	if highscore:contains(s.x, s.y) then
-		settexture(highscore.sprite, texture3)
-	else
-		settexture(highscore.sprite, highscore.texture)
-	end
 
 	if exit:contains(s.x, s.y) then
 		settexture(exit.sprite, texture3)
@@ -118,14 +93,6 @@ function updateBackground()
 end
 
 function mouseLeft()
-	if play:contains(s.x, s.y) then
-		newState("Resources/Scripts/LuaStates/Map/Level1State.lua")
-	end
-
-	if highscore:contains(s.x, s.y) then
-		newState("Resources/Scripts/LuaStates/Map/highscoreState.lua")
-	end
-
 	if exit:contains(s.x, s.y) then
 		deleteState()
 	end
