@@ -65,7 +65,7 @@ void Game::run()
 	music.play();
 
 	while (currentState.luaState)
-	{		
+	{
 		handleEvents();
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
@@ -154,6 +154,13 @@ void Game::updateState()
 				bool shouldBreak = false;
 				if (tempHighscore < highscoreList[i])
 				{
+					if (i < NUM_SCORES)
+					{
+						for (int k = i; k < NUM_SCORES; k++)
+						{
+							highscoreList[k + 1] = highscoreList[k];
+						}
+					}
 					highscoreList[i] = tempHighscore;
 					shouldBreak = true;
 				}
@@ -228,6 +235,11 @@ void Game::handleEvents()
 		{
 			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
 		}
+		window->setActive(true);
+		glewExperimental = GL_TRUE;
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+
 		fullscreen = !fullscreen;
 	}
 }
