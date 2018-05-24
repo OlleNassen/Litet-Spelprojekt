@@ -49,6 +49,7 @@ private:
 	ShaderStruct shaders;
 	std::string stateName;
 	sf::Clock highscoreClock;
+	bool fullscreen;
 
 	float highscoreList[NUM_SCORES];
 

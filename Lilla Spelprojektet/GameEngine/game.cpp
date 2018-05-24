@@ -12,7 +12,7 @@ Game::Game()
 	currentState.luaState = nullptr;
 	currentState.graphicsSystem = nullptr;
 	currentState.audioSystem = nullptr;
-	
+	fullscreen = false;
 	timePerFrame = sf::seconds(1.f / 60.f);
 	//initializes window and glew
 	initWindow();
@@ -204,6 +204,25 @@ void Game::handleEvents()
 		else if (event.type == sf::Event::LostFocus)
 		{
 			window->setMouseCursorVisible(true);
+		}
+		else if (event.key.code == sf::Keyboard::Return && event.key.alt == sf::Event::KeyPressed)
+		{
+			/*fullscreen = !fullscreen;
+			sf::ContextSettings settings;
+			settings.depthBits = 24;
+			settings.stencilBits = 8;
+			settings.antialiasingLevel = 4;
+			settings.majorVersion = 4;
+			settings.minorVersion = 4;
+			delete window;
+			if (fullscreen)
+			{
+				window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+			}
+			else
+			{
+				window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+			}*/			
 		}
 	}
 }
