@@ -15,7 +15,7 @@ Game::Game()
 	fullscreen = false;
 	timePerFrame = sf::seconds(1.f / 60.f);
 	//initializes window and glew
-	initWindow();
+	
 
 	//Get width and height from lua
 	camera = new Camera(WIDTH, HEIGHT);
@@ -31,6 +31,8 @@ Game::Game()
 
 	}
 	lua_close(L);
+
+	initWindow();
 
 	//camera->zoom(0.5);
 	window->setMouseCursorVisible(false);
@@ -191,9 +193,7 @@ void Game::changeResolution(int width, int height)
 }
 
 void Game::handleEvents()
-{
-	bool changedWindow = false;
-	
+{	
 	sf::Event event;
 	while (window->pollEvent(event))
 	{
@@ -217,30 +217,6 @@ void Game::handleEvents()
 		{
 			window->setMouseCursorVisible(true);
 		}
-		else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::P))
-		{		
-			changedWindow = true;
-		}
-	}
-
-	if (changedWindow)
-	{
-		sf::ContextSettings settings = window->getSettings();
-
-		if (fullscreen)
-		{
-			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
-		}
-		else
-		{
-			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
-		}
-		window->setActive(true);
-		glewExperimental = GL_TRUE;
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-
-		fullscreen = !fullscreen;
 	}
 }
 
@@ -271,7 +247,14 @@ void Game::initWindow()
 	settings.majorVersion = 4;
 	settings.minorVersion = 4;
 
-	window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+	if (fullscreen)
+	{
+		window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
+	}
+	else
+	{
+		window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+	}
 
 	//*** Somewhat fixes mouse problem **/
 	sf::Mouse::setPosition(sf::Vector2i(window->getPosition().x + (WIDTH / 2), window->getPosition().y + (HEIGHT / 2)));
@@ -355,10 +338,10 @@ int Game::setResolution(lua_State* luaState)
 {
 	lua_getglobal(luaState, "Game");
 	Game* game = (Game*)lua_touserdata(luaState, -1);
-	int height = lua_tointeger(luaState, -2);
-	int width = lua_tointeger(luaState, -3);
+	bool fullscreen = lua_toboolean(luaState, -2);
 
-	game->changeResolution(width, height);
+
+	game->fullscreen = fullscreen;
 
 	return 0;
 }
