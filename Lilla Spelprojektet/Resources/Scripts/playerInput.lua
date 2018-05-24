@@ -164,7 +164,7 @@ function laserDamage(deltaTime)
 		laserOff()
 	end
 
-	if bLaserOn and #enemies > 0 then
+	if bLaserOn then
 		posFrom = {x, y}
 		posFrom.x = p.entity.x
 		posFrom.y = p.entity.y
