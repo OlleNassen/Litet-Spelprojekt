@@ -65,7 +65,7 @@ void Game::run()
 	music.play();
 
 	while (currentState.luaState)
-	{		
+	{
 		handleEvents();
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
@@ -154,6 +154,13 @@ void Game::updateState()
 				bool shouldBreak = false;
 				if (tempHighscore < highscoreList[i])
 				{
+					if (i < NUM_SCORES)
+					{
+						for (int k = i; k < NUM_SCORES; k++)
+						{
+							highscoreList[k + 1] = highscoreList[i];
+						}
+					}
 					highscoreList[i] = tempHighscore;
 					shouldBreak = true;
 				}
