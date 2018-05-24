@@ -65,7 +65,14 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 
 GraphicsSystem::~GraphicsSystem()
 {
+	delete laserEffect;
+	delete billboards;
+	delete mouseEffect;
+	delete postProcessor;
+	delete currentLevel;
 
+	if (highscore)
+		delete highscore;
 }
 
 void GraphicsSystem::draw(
