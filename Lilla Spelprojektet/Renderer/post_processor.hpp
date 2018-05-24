@@ -18,6 +18,7 @@ public:
 	
 	// Options
 	GLboolean confuse, chaos, shake, flash;
+	glm::vec2 curtain;
 	
 	// Constructor
 	PostProcessor(Shader* shader, unsigned int width, unsigned int height);

@@ -60,6 +60,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 	//postProcessor->confuse = true;
 	//postProcessor->shake = true;
 	//postProcessor->flash = true;
+	//postProcessor->curtain = glm::vec2(1, 0);
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -206,7 +207,10 @@ void GraphicsSystem::update(float deltaTime)
 	updateCamera();
 
 	//postProcessor->shake = sf::Keyboard::isKeyPressed(sf::Keyboard::K);
-
+	if (postProcessor->curtain.x < 2)
+	{
+		postProcessor->curtain.x += deltaTime;
+	}	
 }
 
 void GraphicsSystem::updateCamera()
