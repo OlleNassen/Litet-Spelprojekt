@@ -14,11 +14,15 @@ function moveRight(direction, deltaTime)
 	return p:moveRight(direction, deltaTime)
 end
 
+local dashBuffer = newSoundBuffer("Resources/Sound/cloth.wav")
+local dashSound = newSound(dashBuffer)
+
 function dash()
 	if p.canDash == true and p.entity.hasPowerUp[1] == true then --Activate dash
 		p.entity.collision_bottom = false
 		p.dashing = true
 		p.canDash = false
+		playSound(dashBuffer)
 	end
 end
 
@@ -38,7 +42,7 @@ function mouse(x, y)
 	mY = mY + y
 end
 
-local laserBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local laserBuffer = newSoundBuffer("Resources/Sound/laser10.wav")
 local laserSound = newSound(laserBuffer)
 
 local bLaserOn = false

@@ -6,7 +6,7 @@ function addEnemy(posX, posY, sizeX, sizeY, level)
 	table.insert(enemies, enemy)
 end
 
-local enemyHitBuffer = newSoundBuffer("Resources/Sound/ball.wav")
+local enemyHitBuffer = newSoundBuffer("Resources/Sound/hit34.mp3.flac")
 local enemyHitSound = newSound(enemyHitBuffer)
 
 function updateEnemies(player, deltaTime)
