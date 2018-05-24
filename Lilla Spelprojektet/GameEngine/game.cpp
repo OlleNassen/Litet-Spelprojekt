@@ -158,9 +158,9 @@ void Game::updateState()
 				{
 					if (i < NUM_SCORES)
 					{
-						for (int k = i; k < NUM_SCORES; k++)
+						for (int k = NUM_SCORES; k > i; k--)
 						{
-							highscoreList[k + 1] = highscoreList[k];
+							highscoreList[k] = highscoreList[k - 1];
 						}
 					}
 					highscoreList[i] = tempHighscore;
