@@ -122,7 +122,6 @@ function checkUpgrades(deltaTime)
 			movePos = {x, y}
 			movePos.x = (posTo.x - posFrom.x) / distance
 			movePos.y = (posTo.y - posFrom.y) / distance
-			print(movePos.x, movePos.y)
 
 			p.entity.velocity.x = movePos.x * 100000 * deltaTime
 			p.entity.velocity.y = movePos.y * 100000 * deltaTime

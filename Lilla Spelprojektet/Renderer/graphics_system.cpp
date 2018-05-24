@@ -65,7 +65,14 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 
 GraphicsSystem::~GraphicsSystem()
 {
+	delete laserEffect;
+	delete billboards;
+	delete mouseEffect;
+	delete postProcessor;
+	delete currentLevel;
 
+	if (highscore)
+		delete highscore;
 }
 
 void GraphicsSystem::draw(
@@ -98,6 +105,9 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 			break;
 
 		case 1337:
+			break;
+
+		case 1338:
 			break;
 
 		case 420:

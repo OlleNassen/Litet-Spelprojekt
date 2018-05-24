@@ -12,7 +12,7 @@ Game::Game()
 	currentState.luaState = nullptr;
 	currentState.graphicsSystem = nullptr;
 	currentState.audioSystem = nullptr;
-	
+	fullscreen = false;
 	timePerFrame = sf::seconds(1.f / 60.f);
 	//initializes window and glew
 	initWindow();
@@ -31,9 +31,6 @@ Game::Game()
 
 	}
 	lua_close(L);
-	
-	for (int i = 0; i < 10; i++)
-		highscoreList[i] = 50.0f;
 
 	//camera->zoom(0.5);
 	window->setMouseCursorVisible(false);
@@ -167,6 +164,12 @@ void Game::updateState()
 			}
 			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
 		}
+
+		if (eventSystem.getLevel() == 1338)
+		{
+			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
+		}
+
 		currentState = newState;
 	
 		stateName = "";
@@ -182,6 +185,8 @@ void Game::changeResolution(int width, int height)
 
 void Game::handleEvents()
 {
+	bool changedWindow = false;
+	
 	sf::Event event;
 	while (window->pollEvent(event))
 	{
@@ -205,6 +210,25 @@ void Game::handleEvents()
 		{
 			window->setMouseCursorVisible(true);
 		}
+		else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::P))
+		{		
+			changedWindow = true;
+		}
+	}
+
+	if (changedWindow)
+	{
+		sf::ContextSettings settings = window->getSettings();
+
+		if (fullscreen)
+		{
+			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+		}
+		else
+		{
+			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
+		}
+		fullscreen = !fullscreen;
 	}
 }
 
