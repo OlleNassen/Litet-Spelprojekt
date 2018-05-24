@@ -185,6 +185,8 @@ void Game::changeResolution(int width, int height)
 
 void Game::handleEvents()
 {
+	bool changedWindow = false;
+	
 	sf::Event event;
 	while (window->pollEvent(event))
 	{
@@ -208,25 +210,32 @@ void Game::handleEvents()
 		{
 			window->setMouseCursorVisible(true);
 		}
-		else if (event.key.code == sf::Keyboard::Return && event.key.alt == sf::Event::KeyPressed)
-		{
-			/*fullscreen = !fullscreen;
-			sf::ContextSettings settings;
-			settings.depthBits = 24;
-			settings.stencilBits = 8;
-			settings.antialiasingLevel = 4;
-			settings.majorVersion = 4;
-			settings.minorVersion = 4;
-			delete window;
-			if (fullscreen)
-			{
-				window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
-			}
-			else
-			{
-				window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
-			}*/			
+		else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::P))
+		{		
+			changedWindow = true;
 		}
+	}
+
+	if (changedWindow)
+	{
+		sf::ContextSettings settings;
+		settings.depthBits = 24;
+		settings.stencilBits = 8;
+		settings.antialiasingLevel = 4;
+		settings.majorVersion = 4;
+		settings.minorVersion = 4;
+		delete window;
+		if (fullscreen)
+		{
+			window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+			this->window->setActive(true);
+		}
+		else
+		{
+			window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
+			window->setActive(true);
+		}
+		fullscreen = !fullscreen;
 	}
 }
 
