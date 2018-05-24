@@ -10,7 +10,7 @@ PostProcessor::PostProcessor(Shader* shader, unsigned int width, unsigned int he
 	, chaos(GL_FALSE)
 	, shake(GL_FALSE)
 	, flash(GL_FALSE)
-	, curtain(-0.5, 0.0)
+	, curtain(0.0, 0.0)
 {
 	// Initialize renderbuffer/framebuffer object
 	glGenFramebuffers(1, &MSFBO);
