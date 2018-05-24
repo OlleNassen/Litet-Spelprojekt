@@ -107,6 +107,9 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 		case 1337:
 			break;
 
+		case 1338:
+			break;
+
 		case 420:
 			break;
 

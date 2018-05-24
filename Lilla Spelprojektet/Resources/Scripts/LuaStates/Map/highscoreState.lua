@@ -11,7 +11,7 @@ local settexture = setTexture
 
 
 function quit()
-	deleteState()
+	newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 end
 
 spritePos(p.spriteHPBarBack, 10000, 20)
@@ -93,7 +93,7 @@ function updateBackground()
 end
 
 function mouseLeft()
-	if exit:contains(s.x, s.y) then
-		deleteState()
+	if exit:contains(s.x, s.y) then	
+		newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 	end
 end
