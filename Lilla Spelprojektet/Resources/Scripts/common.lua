@@ -11,7 +11,6 @@ require("Resources/Scripts/save")
 require("Resources/Scripts/enemyContainer")
 
 function quit()
-	p:reset()
 	newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 end
 

@@ -14,6 +14,14 @@ function quit()
 	deleteState()
 end
 
+spritePos(p.spriteHPBarBack, 10000, 20)
+spritePos(p.spriteHPBar, 10000, 27.5)
+if p.entity.hasPowerUp[5] then
+	spritePos(p.spriteLaserBarBack, 10000, 60)
+	spritePos(p.spriteLaserBar, 10000, 64)
+end
+p:reset()
+
 newMusic("Resources/Sound/darktimes.wav")
 
 saveData(19, 0)
