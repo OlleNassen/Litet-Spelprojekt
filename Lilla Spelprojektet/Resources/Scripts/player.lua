@@ -277,8 +277,8 @@ function Player:update(deltaTime)
 		self.nrOfJumps = self.maxNrOfJumps 
 		
 		if self.entity.velocity.x == 0 and self.isAttacking == false then
-			self.entity:setAnimation(1)
-			--self:setIdle()
+			--self.entity:setAnimation(1)
+			self:setIdle()
 		end
 	end
 
@@ -313,15 +313,15 @@ function Player:update(deltaTime)
 	--Attack animation
 	if updateE == true and self.isAttacking == true then
 		self.isAttacking = false
-		self.entity:setAnimation(1)
-		--self:setIdle()
+		--self.entity:setAnimation(1)
+		self:setIdle()
 	end
 
 	if updateE == true and self.releaseCharge == true then
 		self.releaseCharge = false
 		self.isAttacking = false
-		self.entity:setAnimation(1)
-		--self:setIdle()
+		--self.entity:setAnimation(1)
+		self:setIdle()
 	end
 
 	--Dash animation
