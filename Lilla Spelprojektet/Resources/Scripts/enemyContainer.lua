@@ -19,13 +19,13 @@ function updateEnemies(player, deltaTime)
 		--Regular attack (right and left resp.)
 		if player.isAttacking and player.releaseCharge == false then
 			if player.entity.isGoingRight == true then
-				if enemy.entity:contains(player.entity.x + player.entity.width - 95, player.entity.y + (player.entity.height / 2)) == true then
+				if enemy.entity:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
 					enemy.entity:takeDamage(player.attackDamage, player.attackPushBack.x, player.attackPushBack.y, true)
 					playSound(enemyHitSound)
 				end
 
 			elseif player.entity.isGoingRight == false then
-				if enemy.entity:contains(player.entity.x + 95, player.entity.y + (player.entity.height / 2)) == true then
+				if enemy.entity:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
 					enemy.entity:takeDamage(player.attackDamage, player.attackPushBack.x, player.attackPushBack.y, true)
 					playSound(enemyHitSound)
 				end
@@ -37,13 +37,13 @@ function updateEnemies(player, deltaTime)
 		if player.isAttacking and player.releaseCharge then
 
 			if player.isAttacking == true and player.entity.isGoingRight == true then
-				if enemy.entity:contains(player.entity.x + player.entity.width - 95, player.entity.y + (player.entity.height / 2)) == true then
+				if enemy.entity:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
 					enemy.entity:takeDamage(player.attackDamage * 5, player.attackPushBack.x, player.attackPushBack.y, true)
 					playSound(enemyHitSound)
 				end
 
 			elseif  player.isAttacking == true and player.entity.isGoingRight == false then
-				if enemy.entity:contains(player.entity.x + 95, player.entity.y + (player.entity.height / 2)) == true then
+				if enemy.entity:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
 					enemy.entity:takeDamage(player.attackDamage * 5, player.attackPushBack.x, player.attackPushBack.y, true)
 					playSound(enemyHitSound)
 				end
