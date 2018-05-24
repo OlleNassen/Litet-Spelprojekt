@@ -28,8 +28,8 @@ function Boss:create(posX, posY, sizeX, sizeY)
 	this.entity.y = posY
 	this.entity.collision_width = sizeX
 	this.entity.collision_height = sizeY
-	this.entity.offsetX = 58
-	this.entity.offsetY = 48
+	this.entity.offsetX = 100
+	this.entity.offsetY = 100
 	this.entity.width = sizeX
 	this.entity.height = sizeY
 	this.entity.maxSpeed.x = 700
@@ -52,10 +52,10 @@ function Boss:create(posX, posY, sizeX, sizeY)
 	this.hitBoxClose.collision_height = 48 * 2
 
 	--Entity Visible collision box
-	--[[this.hitBoxClose.textureHB = newTexture("Resources/Sprites/hitbox.png")
-	this.hitBoxClose.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
-	this.hitBoxClose.spriteHB = newSprite(this.hitBoxClose.collision_width, this.hitBoxClose.collision_height, this.hitBoxClose.normalHB, this.hitBoxClose.textureHB)
-	spritePos(this.hitBoxClose.spriteHB, this.hitBoxClose.x + this.hitBoxClose.offsetX, this.hitBoxClose.y + this.hitBoxClose.offsetY)]]
+	this.entity.textureHB = newTexture("Resources/Sprites/hitbox.png")
+	this.entity.normalHB = newTexture("Resources/Sprites/hitbox_normal.png")
+	this.entity.spriteHB = newSprite(this.entity.collision_width, this.entity.collision_height, this.entity.normalHB, this.entity.textureHB)
+	spritePos(this.entity.spriteHB, this.entity.x + this.entity.offsetX, this.entity.y + this.entity.offsetY)
 
     setmetatable(this, self)
     return this
@@ -70,6 +70,10 @@ function Boss:update(deltaTime, player)
 		end
 		
 		self.firstFrame = false
+	end
+	
+	if self.entity:containsCollisionBox(player) then
+		player:takeDamage(15, -500)
 	end
 	
 	hasFinished = self.entity:update(deltaTime)
@@ -173,7 +177,7 @@ function Boss:pInvertVelocity(index)
 end
 
 function Boss:pAttack(index, player)
-	if self.p[index]:containsCollisionBox(player) then
+	if self.p[index]:containsCollisionBox(player) and self.p[index].velocity.x ~= 0 and self.p[index].velocity.y ~= 0 then
 		player:takeDamage(10)
 	elseif self.p[index]:containsCollisionBox(self) and self.p[index].velocity.x > 1 then
 		self:takeDamage(10)
