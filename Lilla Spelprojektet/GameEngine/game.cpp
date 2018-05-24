@@ -158,7 +158,7 @@ void Game::updateState()
 					{
 						for (int k = i; k < NUM_SCORES; k++)
 						{
-							highscoreList[k + 1] = highscoreList[i];
+							highscoreList[k + 1] = highscoreList[k];
 						}
 					}
 					highscoreList[i] = tempHighscore;
