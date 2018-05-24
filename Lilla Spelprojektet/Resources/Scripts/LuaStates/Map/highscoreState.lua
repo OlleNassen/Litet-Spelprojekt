@@ -59,8 +59,8 @@ bgs[6] = Background:create()
 bgs[6].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 
 local exit = Entity:create() 
-exit.texture = textureFunc("Resources/Sprites/btn_quit.png")
-texture3 = textureFunc("Resources/Sprites/btn_quit_pressed.png")
+exit.texture = textureFunc("Resources/Sprites/btn_back.png")
+texture3 = textureFunc("Resources/Sprites/btn_back_pressed.png")
 exit.sprite = spriteFunc(400,100, 0, exit.texture)
 exit.width = 400
 exit.height = 100
