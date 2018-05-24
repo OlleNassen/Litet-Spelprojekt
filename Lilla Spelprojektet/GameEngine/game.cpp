@@ -31,9 +31,6 @@ Game::Game()
 
 	}
 	lua_close(L);
-	
-	for (int i = 0; i < 10; i++)
-		highscoreList[i] = 50.0f;
 
 	//camera->zoom(0.5);
 	window->setMouseCursorVisible(false);
@@ -68,7 +65,7 @@ void Game::run()
 	music.play();
 
 	while (currentState.luaState)
-	{		
+	{
 		handleEvents();
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
@@ -157,6 +154,13 @@ void Game::updateState()
 				bool shouldBreak = false;
 				if (tempHighscore < highscoreList[i])
 				{
+					if (i < NUM_SCORES)
+					{
+						for (int k = i; k < NUM_SCORES; k++)
+						{
+							highscoreList[k + 1] = highscoreList[i];
+						}
+					}
 					highscoreList[i] = tempHighscore;
 					shouldBreak = true;
 				}
@@ -167,6 +171,12 @@ void Game::updateState()
 			}
 			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
 		}
+
+		if (eventSystem.getLevel() == 1338)
+		{
+			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
+		}
+
 		currentState = newState;
 	
 		stateName = "";
@@ -182,6 +192,8 @@ void Game::changeResolution(int width, int height)
 
 void Game::handleEvents()
 {
+	bool changedWindow = false;
+	
 	sf::Event event;
 	while (window->pollEvent(event))
 	{
@@ -205,25 +217,25 @@ void Game::handleEvents()
 		{
 			window->setMouseCursorVisible(true);
 		}
-		else if (event.key.code == sf::Keyboard::Return && event.key.alt == sf::Event::KeyPressed)
-		{
-			/*fullscreen = !fullscreen;
-			sf::ContextSettings settings;
-			settings.depthBits = 24;
-			settings.stencilBits = 8;
-			settings.antialiasingLevel = 4;
-			settings.majorVersion = 4;
-			settings.minorVersion = 4;
-			delete window;
-			if (fullscreen)
-			{
-				window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
-			}
-			else
-			{
-				window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
-			}*/			
+		else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::P))
+		{		
+			changedWindow = true;
 		}
+	}
+
+	if (changedWindow)
+	{
+		sf::ContextSettings settings = window->getSettings();
+
+		if (fullscreen)
+		{
+			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+		}
+		else
+		{
+			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
+		}
+		fullscreen = !fullscreen;
 	}
 }
 
