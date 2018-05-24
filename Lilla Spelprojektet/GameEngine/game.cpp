@@ -228,6 +228,11 @@ void Game::handleEvents()
 		{
 			window->create(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
 		}
+		window->setActive(true);
+		glewExperimental = GL_TRUE;
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+
 		fullscreen = !fullscreen;
 	}
 }
