@@ -66,7 +66,6 @@ function update(deltaTime)
 
 	if levelWinPortal.entity:containsCollisionBox(p) then
 		newMusic("Resources/Sound/burntspirit.wav")
-		p:reset()
 		newState("Resources/Scripts/LuaStates/Map/victoryState.lua")
 	end
 

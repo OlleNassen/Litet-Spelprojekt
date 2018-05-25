@@ -98,6 +98,7 @@ end
 
 function mouseLeft()
 	if back:contains(s.x, s.y) then
+		p:reset()
 		newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 	end
 end
