@@ -36,7 +36,7 @@ function update(deltaTime)
 	if level2Portal.entity:containsCollisionBox(p) then
 		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
-		newState("Resources/Scripts/LuaStates/Map/victoryState.lua")
+		newState("Resources/Scripts/LuaStates/Map/Level2State.lua")
 	end
 
 	updateEntitys(deltaTime)
