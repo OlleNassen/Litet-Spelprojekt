@@ -56,7 +56,7 @@ GraphicsSystem::GraphicsSystem(ShaderStruct& shad)
 
 	std::cout << "GS constructor done!" << std::endl;
 	
-	//postProcessor->chaos = true;
+	//postProcessor->lowHealth = true;
 	//postProcessor->confuse = true;
 	//postProcessor->shake = true;
 	//postProcessor->flash = true;
@@ -312,6 +312,12 @@ void GraphicsSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, shakeoff);
 	lua_setglobal(luaState, "shakeOff");
+
+	lua_pushcfunction(luaState, lowhealthon);
+	lua_setglobal(luaState, "lowHealthOn");
+
+	lua_pushcfunction(luaState, lowhealthoff);
+	lua_setglobal(luaState, "lowHealthOff");
 }
 
 sf::Vector2f GraphicsSystem::getPlayerPos() const
@@ -636,6 +642,24 @@ int GraphicsSystem::shakeoff(lua_State* luaState)
 	lua_getglobal(luaState, "GraphicsSystem");
 	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
 	ptr->postProcessor->shake = false;
+
+	return 0;
+}
+
+int GraphicsSystem::lowhealthon(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->postProcessor->lowHealth = true;
+
+	return 0;
+}
+
+int GraphicsSystem::lowhealthoff(lua_State* luaState)
+{
+	lua_getglobal(luaState, "GraphicsSystem");
+	GraphicsSystem* ptr = (GraphicsSystem*)lua_touserdata(luaState, -1);
+	ptr->postProcessor->lowHealth = false;
 
 	return 0;
 }

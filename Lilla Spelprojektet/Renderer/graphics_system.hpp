@@ -117,5 +117,8 @@ private:
 
 	static int shakeon(lua_State* luaState);
 	static int shakeoff(lua_State* luaState);
+
+	static int lowhealthon(lua_State* luaState);
+	static int lowhealthoff(lua_State* luaState);
 };
 

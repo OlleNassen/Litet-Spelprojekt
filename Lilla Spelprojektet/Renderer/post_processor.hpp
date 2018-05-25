@@ -17,7 +17,7 @@ public:
 	unsigned int height;
 	
 	// Options
-	GLboolean confuse, chaos, shake, flash;
+	GLboolean confuse, lowHealth, shake, flash;
 	glm::vec2 curtain;
 	
 	// Constructor

@@ -7,7 +7,7 @@ PostProcessor::PostProcessor(Shader* shader, unsigned int width, unsigned int he
 	, width(width)
 	, height(height)
 	, confuse(GL_FALSE)
-	, chaos(GL_FALSE)
+	, lowHealth(GL_FALSE)
 	, shake(GL_FALSE)
 	, flash(GL_FALSE)
 	, curtain(0.0, 0.0)
@@ -50,13 +50,6 @@ PostProcessor::PostProcessor(Shader* shader, unsigned int width, unsigned int he
 	{ 0.0f,   -offset },  // bottom-center
 	{ offset, -offset }   // bottom-right    
 	};
-	glUniform2fv(glGetUniformLocation(postProcessingShader->getID(), "offsets"), 9, (GLfloat*)offsets);
-	GLint edge_kernel[9] = {
-		-1, -1, -1,
-		-1,  8, -1,
-		-1, -1, -1
-	};
-	glUniform1iv(glGetUniformLocation(postProcessingShader->getID(), "edge_kernel"), 9, edge_kernel);
 	GLfloat blur_kernel[9] = {
 		1.0 / 16, 2.0 / 16, 1.0 / 16,
 		2.0 / 16, 4.0 / 16, 2.0 / 16,
@@ -86,7 +79,7 @@ void PostProcessor::render(GLfloat time)
 	postProcessingShader->use();
 	postProcessingShader->setFloat(time, "time");
 	postProcessingShader->setInt(confuse,"confuse");
-	postProcessingShader->setInt(chaos, "chaos");
+	postProcessingShader->setInt(lowHealth, "lowHealth");
 	postProcessingShader->setInt(shake, "shake");
 	postProcessingShader->setInt(flash, "flash");
 	postProcessingShader->setVector2f(curtain, "curtain");
@@ -106,12 +99,6 @@ void PostProcessor::render(GLfloat time)
 	{ offset, -offset }   // bottom-right    
 	};
 	glUniform2fv(glGetUniformLocation(postProcessingShader->getID(), "offsets"), 9, (GLfloat*)offsets);
-	GLint edge_kernel[9] = {
-		-1, -1, -1,
-		-1,  8, -1,
-		-1, -1, -1
-	};
-	glUniform1iv(glGetUniformLocation(postProcessingShader->getID(), "edge_kernel"), 9, edge_kernel);
 	GLfloat blur_kernel[9] = {
 		1.0 / 16, 2.0 / 16, 1.0 / 16,
 		2.0 / 16, 4.0 / 16, 2.0 / 16,

@@ -249,6 +249,12 @@ function Player:update(deltaTime)
 	self.timeSinceShake = self.timeSinceShake + deltaTime
 	self.timeSinceFall = self.timeSinceFall + deltaTime
 
+	if self.entity.health < 25 then
+		lowHealthOn()
+	else
+		lowHealthOff()
+	end
+
 	if self.timeSinceShake < 0.02 then
 		shakeOn()
 	else

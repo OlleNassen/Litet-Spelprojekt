@@ -21,8 +21,6 @@ if p.entity.hasPowerUp[5] then
 end
 p:reset()
 
-newMusic("Resources/Sound/darktimes.wav")
-
 saveData(19, 0)
 
 --Min 28x15 tiles
