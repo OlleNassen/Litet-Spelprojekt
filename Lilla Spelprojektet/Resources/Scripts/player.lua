@@ -193,6 +193,8 @@ function Player:resetCharge()
 	self.chargeTime = 0
 	self.startCharging = false
 	self.releaseCharge = false
+	self.entity.updateAnimationTime = 0.05
+
 end
 
 function Player:chargeAttack()
@@ -208,12 +210,14 @@ function Player:updateChargeAttack(deltaTime)
 
 	--Update timer
 	if self.startCharging then
+		self.entity.updateAnimationTime = 0.04
 		self.chargeTime = self.chargeTime + deltaTime
 		self.entity:setAnimation(9)
 	end	
 
 	--Check timer
 	if self.chargeTime >= self.chargeTimeMax then
+		self.entity.updateAnimationTime = 0.05
 		self.chargeTime = 0
 		self.startCharging = false
 		self.releaseCharge = true
