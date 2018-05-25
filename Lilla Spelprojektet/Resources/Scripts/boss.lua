@@ -237,6 +237,8 @@ function Boss:pAttack(index, player)
 	elseif self.p[index]:containsCollisionBox(self) and self.p[index].velocity.x > 1 then
 		if 	math.sqrt((self.p[index].velocity.x * self.p[index].velocity.x) + (self.p[index].velocity.y * self.p[index].velocity.y)) >= 1500 then
 			self:takeDamage(30)
+		else
+			self:takeDamage(10)
 		end
 	end
 end
