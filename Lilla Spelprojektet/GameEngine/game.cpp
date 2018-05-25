@@ -252,6 +252,7 @@ void Game::initWindow()
 	else
 	{
 		window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+		window->setVerticalSyncEnabled(false);
 	}
 
 	//*** Somewhat fixes mouse problem **/
