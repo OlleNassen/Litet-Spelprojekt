@@ -43,8 +43,6 @@ local bossDefeated = false
 function update(deltaTime)
 	checkUpgrades(deltaTime)
 
-	p:update(deltaTime)
-	b:update(deltaTime,p)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if level7Portal.entity:containsCollisionBox(p) then
@@ -82,6 +80,9 @@ function update(deltaTime)
 		p:reset()
 		newState("Resources/Scripts/LuaStates/Map/gameOverState.lua")
 	end
+
+	p:update(deltaTime)
+	b:update(deltaTime,p)
 end
 
 function updateEntitys(deltaTime)

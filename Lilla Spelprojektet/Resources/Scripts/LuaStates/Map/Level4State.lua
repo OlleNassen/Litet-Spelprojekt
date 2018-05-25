@@ -35,7 +35,6 @@ end
 function update(deltaTime)
 	checkUpgrades(deltaTime)
 
-	p:update(deltaTime)
 	s:setPosition(p.entity.x + mX, p.entity.y + mY)
 
 	if level3Portal.entity:containsCollisionBox(p) then
@@ -48,6 +47,7 @@ function update(deltaTime)
 	updateEnemies(p, deltaTime)
 
 	updateEntitys(deltaTime)
+	p:update(deltaTime)
 
 	updateBackground()
 end
