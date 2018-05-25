@@ -9,6 +9,9 @@ local textureFunc = newTexture
 local spriteFunc = newSprite
 local settexture = setTexture
 
+p.entity.x = 0
+p.entity.y = 0
+
 saveData(19,420)
 
 spritePos(p.spriteHPBarBack, 10000, 20)
@@ -59,14 +62,23 @@ gameOver.width = 500
 gameOver.height = 100
 gameOver:setPosition(400, 300)
 
-timer = 0.0
+local back = Entity:create() 
+back.texture = textureFunc("Resources/Sprites/btn_back.png")
+texture4 = textureFunc("Resources/Sprites/btn_back_pressed.png")
+back.sprite = spriteFunc(400,100, 0, back.texture)
+back.width = 400
+back.height = 100
+back:setPosition(450, 450)
+
 function update(deltaTime)
 	s:setPosition(mX, mY)
-	timer = timer + deltaTime
 	
-	if timer > 2.0 then
-		newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
+	if back:contains(s.x, s.y) then
+		settexture(back.sprite, texture4)
+	else
+		settexture(back.sprite, back.texture)
 	end
+
 	updateBackground()
 end
 
@@ -79,5 +91,11 @@ function updateBackground()
 			index = k - totalFurthestSprites
 			v:setPosition(pX * 0.1 + (index * 600), pY * -0.2, k)
 		end
+	end
+end
+
+function mouseLeft()
+	if back:contains(s.x, s.y) then
+		newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 	end
 end
