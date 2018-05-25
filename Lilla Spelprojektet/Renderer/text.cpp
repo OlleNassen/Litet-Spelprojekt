@@ -145,9 +145,9 @@ void Text::RenderHighscore(std::string text, GLfloat x, GLfloat y, GLfloat scale
 	GLfloat xpos;
 	GLfloat ypos;
 
-	for (c = text.begin(); c != text.end(); c++)
+	for (auto& character: text)
 	{
-		Character ch = Characters[*c];
+		Character ch = Characters[character];
 
 		xpos = x + ch.Bearing.x * scale;
 		ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
@@ -181,4 +181,68 @@ void Text::RenderHighscore(std::string text, GLfloat x, GLfloat y, GLfloat scale
 
 	shader->unuse();
 
+}
+
+void Text::RenderHighscore(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, int index, const glm::mat4 & projection)
+{
+	// Activate corresponding render state	
+	shader->use();
+	this->shader->setMatrix4fv(projection, "projection");
+	if (index == playerScore)
+	{
+		glUniform3f(glGetUniformLocation(shader->getID(), "textColor"), 1.f,0.f,0.f);
+	}
+	else
+	{
+		glUniform3f(glGetUniformLocation(shader->getID(), "textColor"), color.x, color.y, color.z);
+	}
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(VAO);
+
+	// Iterate through all characters
+	std::string::const_iterator c;
+
+	GLfloat xpos;
+	GLfloat ypos;
+
+	for (auto& character : text)
+	{
+		Character ch = Characters[character];
+
+		xpos = x + ch.Bearing.x * scale;
+		ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+
+		GLfloat w = ch.Size.x * scale;
+		GLfloat h = ch.Size.y * scale;
+		// Update VBO for each character
+		GLfloat vertices[6][4] = {
+			{ xpos,     ypos + h,   0.0, 1.0 },
+		{ xpos,     ypos,       0.0, 0.0 },
+		{ xpos + w, ypos,       1.0, 0.0 },
+
+		{ xpos,     ypos + h,   0.0, 1.0 },
+		{ xpos + w, ypos,       1.0, 0.0 },
+		{ xpos + w, ypos + h,   1.0, 1.0 }
+		};
+		// Render glyph texture over quad
+		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+		// Update content of VBO memory
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// Render quad
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64)
+
+	}
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	shader->unuse();
+}
+
+void Text::setPlayerScore(int index)
+{
+	playerScore = index;
 }

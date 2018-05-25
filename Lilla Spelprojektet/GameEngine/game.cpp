@@ -144,6 +144,7 @@ void Game::updateState()
 		std::cout << clock.restart().asSeconds() << std::endl;
 	
 		float tempHighscore = highscoreClock.getElapsedTime().asSeconds();
+		int index = -1;
 		if (eventSystem.getLevel() == 1337)
 		{
 			for (int i = 0; i < NUM_SCORES; i++)
@@ -159,6 +160,7 @@ void Game::updateState()
 						}
 					}
 					highscoreList[i] = tempHighscore;
+					index = i;
 					shouldBreak = true;
 				}
 				if (shouldBreak)
@@ -166,12 +168,12 @@ void Game::updateState()
 					break;
 				}
 			}
-			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
+			newState.graphicsSystem->setHighscore(highscoreList, index);
 		}
 
 		if (eventSystem.getLevel() == 1338)
 		{
-			newState.graphicsSystem->setHighscore(highscoreList, NUM_SCORES);
+			newState.graphicsSystem->setHighscore(highscoreList, -1);
 		}
 
 		currentState = newState;

@@ -113,6 +113,12 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 		case 420:
 			break;
 
+		case 8055:
+			currentLevel->RenderText(
+				"Boss Room",
+				400, 100, 1, glm::vec3(1, 1, 1), projection);
+			break;
+
 		default:
 			currentLevel->RenderText(
 				"Welcome To Level " + std::to_string(level), 
@@ -191,12 +197,9 @@ void GraphicsSystem::drawTiles(const glm::mat4& view, const glm::mat4& projectio
 
 void GraphicsSystem::displayHighscore(const glm::mat4& projection, float scores[], int numScores)
 {
-	if (highscore)
+	for (int i = 0; i < numScores; i++)
 	{
-		for (int i = 0; i < numScores; i++)
-		{
-			highscore->RenderHighscore(std::to_string(scores[i]), 0, i * 50, 1, glm::vec3(1, 1, 1), projection);
-		}
+		highscore->RenderHighscore(std::to_string(scores[i]), 0, i * 50, 1, glm::vec3(1, 1, 1), i, projection);
 	}
 }
 
@@ -344,9 +347,13 @@ sf::Vector2f GraphicsSystem::getPixie() const
 	return vec;
 }
 
-void GraphicsSystem::setHighscore(float* highscoreText, int numScores)
+void GraphicsSystem::setHighscore(float* highscoreText, int index)
 {
 	highscore = new Text(&shaders.text);
+	if (index != -1)
+	{
+		highscore->setPlayerScore(index);
+	}
 }
 
 int GraphicsSystem::loadTileMap(lua_State * luaState)
