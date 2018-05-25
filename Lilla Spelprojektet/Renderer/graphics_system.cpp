@@ -97,6 +97,12 @@ void GraphicsSystem::draw(
 
 void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 {
+	if (level == 0)
+	{
+		currentLevel->RenderText(
+			"DON.T FALL!",
+			400, 80, 1, glm::vec3(0.7, 0.7, 0.7), projection);
+	}
 	if (textClock.getElapsedTime().asSeconds() < 3)
 	{
 		switch (level)
@@ -128,7 +134,6 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 			break;
 		}
 	}
-
 }
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
