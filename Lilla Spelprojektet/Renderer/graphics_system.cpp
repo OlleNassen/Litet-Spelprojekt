@@ -101,7 +101,7 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 	{
 		currentLevel->RenderText(
 			"DON.T FALL!",
-			400, 80, 1, glm::vec3(0.7, 0.7, 0.7), projection);
+			400, 80, 1, glm::vec3(0.6, 0.6, 0.6), projection);
 	}
 	if (textClock.getElapsedTime().asSeconds() < 3)
 	{
