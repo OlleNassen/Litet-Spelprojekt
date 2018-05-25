@@ -11,13 +11,9 @@ public:
 
 	void addLuaFunctions(lua_State* luaState);
 
-private:
-	sf::Music music;
-	
+private:	
 	std::vector<sf::SoundBuffer> soundBuffers;
 	std::vector<sf::Sound> sounds;
-
-	static int newMusic(lua_State* luaState);
 
 	static int newSoundBuffer(lua_State* luaState);
 	static int newSound(lua_State* luaState);

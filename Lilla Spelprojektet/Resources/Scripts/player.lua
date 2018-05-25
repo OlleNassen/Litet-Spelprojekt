@@ -268,6 +268,7 @@ function Player:update(deltaTime)
 	end
 	
 	if self.entity.health <= 0 then
+		newMusic("Resources/Sound/darktimes.wav")
 		timer = os.clock()
 		while os.clock() < (timer + 1) do
 		end

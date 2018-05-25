@@ -49,6 +49,7 @@ private:
 	ShaderStruct shaders;
 	std::string stateName;
 	sf::Clock highscoreClock;
+	sf::Music music;
 	bool fullscreen;
 
 	float highscoreList[NUM_SCORES];
@@ -76,4 +77,5 @@ private:
 	static int setFramerate(lua_State* luaState);
 	static int setResolution(lua_State* luaState);
 	static int getCameraPosition(lua_State* luaState);
+	static int newMusic(lua_State* luaState);
 };
