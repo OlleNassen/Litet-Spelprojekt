@@ -55,7 +55,7 @@ function Player:create()
 		standardAnimationTime = 0.05,
 
 		--Charge attack
-		chargeTimeMax = 1,
+		chargeTimeMax = 0.5,
 		chargeTime = 0,
 		startCharging = false,
 		releaseCharge = false,
@@ -133,7 +133,7 @@ end
 
 function Player:moveRight(directionX, deltaTime)
 	self.entity:accelerate(directionX, 0, deltaTime)
-	
+	self:resetCharge()
 	if self.isAttacking == false then
 		self.entity.updateAnimationTime = self.standardAnimationTime
 		self.entity:setAnimation(2)
@@ -169,6 +169,8 @@ function Player:jump()
 		 self.entity.velocity.y = self.jumpPower
 		 self.nrOfJumps = self.nrOfJumps - 1
 		 self.isJumping = true
+
+		 self:resetCharge()
 	end
 
 	return false

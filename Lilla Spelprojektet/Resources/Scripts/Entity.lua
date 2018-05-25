@@ -70,7 +70,12 @@ function Entity:setAnimation(animation)
 	if self.currentAnimation ~= animation then
 		self.currentAnimation = animation
 		self.currentAnimationIndex = self.animationList[(animation * 2) - 1]
-		self:updateAnimation(30)
+		self.currentAnimationTime = 0
+		if self.isGoingRight == false then
+			rectFunc(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1), 0, self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, self.spriteHeight)
+		else
+			rectFunc(self.sprite,self.spriteWidth * (self.currentAnimationIndex - 1) + self.spriteWidth, 0,self.spriteWidth * (self.currentAnimationIndex - 1), self.spriteHeight)
+		end
 	end
 end
 
