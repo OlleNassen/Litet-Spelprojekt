@@ -1,5 +1,17 @@
 require("Resources/Scripts/Entity")
 
+local dieBuffer = newSoundBuffer("Resources/Sound/giant2.wav")
+local dieSound = newSound(dieBuffer)
+
+local shootBuffer = newSoundBuffer("Resources/Sound/mnstr1.wav")
+local shootSound = newSound(shootBuffer)
+
+local meleeBuffer = newSoundBuffer("Resources/Sound/mnstr9.wav")
+local meleeSound = newSound(meleeBuffer)
+
+local splashBuffer = newSoundBuffer("Resources/Sound/slime9.wav")
+local splashSound = newSound(splashBuffer)
+
 Boss = {}
 Boss.__index = Boss
 
@@ -145,6 +157,8 @@ function Boss:stateHandler(deltaTime, player)
 		self.entity:setAnimation(2)
 
 		if self.entity.currentAnimationIndex == 6 or self.entity.currentAnimationIndex == 8 then
+			playSound(meleeSound)
+
 			if self.hitBoxClose:containsCollisionBox(player) then
 				player:takeDamage(20, -2000)
 			end
@@ -271,6 +285,7 @@ function Boss:addProjectile(player, deltaTime)
 	self.p[#self.p].velocity.y = vector.y
 	print(self.p[#self.p].velocity.y)
 	self.hasShot = true
+	playSound(shootSound)
 
 	--Player Visible collision box
 end
@@ -279,6 +294,7 @@ function Boss:removeProjectile(index)
 	table.insert(self.idleProjectiles, self.p[index])
 	table.remove(self.p, index)
 	self.idleProjectiles[#self.idleProjectiles]:setPosition(-1000, 0)
+	playSound(splashSound)
 end
 
 function Boss:updateHpBar()
@@ -295,6 +311,7 @@ function Boss:takeDamage(damage)
 
 	if self.entity.health <= 0 then
 		self.entity.x = -5000
+		playSound(dieSound)
 	end
 
 	print("AAARRRGHHH!!")
