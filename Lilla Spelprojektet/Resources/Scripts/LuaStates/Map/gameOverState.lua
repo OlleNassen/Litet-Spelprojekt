@@ -52,12 +52,12 @@ bgs[6] = Background:create()
 bgs[6].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 
 local gameOver = Entity:create() 
-gameOver.texture = textureFunc("Resources/Sprites/btn_hs.png")
+gameOver.texture = textureFunc("Resources/Sprites/gameovertext.png")
 texture3 = textureFunc("Resources/Sprites/btn_hs_pressed.png")
-gameOver.sprite = spriteFunc(400,100, 0, gameOver.texture)
-gameOver.width = 400
+gameOver.sprite = spriteFunc(500,100, 0, gameOver.texture)
+gameOver.width = 500
 gameOver.height = 100
-gameOver:setPosition(450, 300)
+gameOver:setPosition(400, 300)
 
 timer = 0.0
 function update(deltaTime)

@@ -52,7 +52,7 @@ function Ai:randomizeDirection()
 	dir = 0
 	if math.random() >= 0.5 then
 	dir = 1
-	playSound(randomSound)
+	--playSound(randomSound)
 	self.entity.isGoingRight = true
 	else
 	dir = -1
@@ -75,7 +75,7 @@ function Ai:update(deltaTime)
 		end
 	end
 	self.entity:move(self.entity.velocity.x * deltaTime, self.entity.velocity.y * deltaTime)
-	playSound(walkSound)
+	--playSound(walkSound)
 end
 
 function Ai:attack(player)
