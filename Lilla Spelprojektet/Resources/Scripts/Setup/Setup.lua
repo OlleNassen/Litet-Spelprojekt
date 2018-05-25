@@ -1,6 +1,6 @@
 require ("/Resources/Scripts/Setup/Input")
 
-setResolution(false) -- fullscreen true / false
+setResolution(true) -- fullscreen true / false
 setFramerate(60)
 
 bindKeyboard("moveUp", keyboard.S, keyboard.W)

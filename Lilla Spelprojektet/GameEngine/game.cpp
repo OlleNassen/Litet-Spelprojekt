@@ -247,6 +247,7 @@ void Game::initWindow()
 	if (fullscreen)
 	{
 		window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
+		window->setVerticalSyncEnabled(true);
 	}
 	else
 	{
