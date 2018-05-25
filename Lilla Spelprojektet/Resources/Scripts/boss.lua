@@ -42,7 +42,7 @@ function Boss:create(posX, posY, sizeX, sizeY)
 	this.entity:addAnimation(5,8) -- close attack = 2
 	this.entity:addAnimation(9,11) -- range attack = 3
 	this.entity:setAnimation(1)
-	this.entity.updateAnimationTime = 0.2
+	this.entity.updateAnimationTime = 0.25
 	this.entity.sprite = newSprite(sizeX, sizeY, this.entity.normalMap, this.entity.texture)
 	spritePos(this.entity.sprite, this.entity.x, this.entity.y)
 
