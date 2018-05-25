@@ -1,6 +1,7 @@
 tilemap = require("Resources/Scripts/LuaStates/Map/Levels/LevelBoss")
 require("Resources/Scripts/common")
 require("Resources/Scripts/boss")
+newMusic("Resources/Sound/outfoxingthefox.wav")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite

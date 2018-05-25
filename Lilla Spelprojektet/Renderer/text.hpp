@@ -22,10 +22,14 @@ private:
 	GLuint VAO, VBO;
 	std::map <GLchar, Character> Characters;
 
+	int playerScore = -1;
+
 public:
 	Text(Shader* shader);
 	~Text();
 	void RenderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, const glm::mat4& projection);
 	void RenderHighscore(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, const glm::mat4& projection);
+	void RenderHighscore(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, int index, const glm::mat4& projection);
 
+	void setPlayerScore(int index);
 };
