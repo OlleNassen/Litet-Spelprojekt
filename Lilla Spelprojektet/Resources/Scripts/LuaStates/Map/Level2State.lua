@@ -21,7 +21,6 @@ local spriteFunc = newSprite
 
 local level3Portal = Portal:create(48 * 48, 48 * 4)
 local level1Portal = Portal:create(48 * 1, 48 * 17)
-local discoPortal = Portal:create(48 * 48, 48 * 17)
 
 local color = 1
 
@@ -64,12 +63,6 @@ function update(deltaTime)
 		saveData(9, p.entity.health)
 		savePowerup(p.entity.hasPowerUp)
 		newState("Resources/Scripts/LuaStates/Map/Level3State.lua")
-	end	
-
-	if discoPortal.entity:containsCollisionBox(p) then
-		saveData(9, p.entity.health)
-		savePowerup(p.entity.hasPowerUp)
-		newState("Resources/Scripts/LuaStates/Map/discoState.lua")
 	end	
 
 	updateEnemies(p, deltaTime)

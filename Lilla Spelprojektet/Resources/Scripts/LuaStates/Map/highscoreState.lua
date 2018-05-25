@@ -9,6 +9,8 @@ local textureFunc = newTexture
 local spriteFunc = newSprite
 local settexture = setTexture
 
+p.entity.x = 0
+p.entity.y = 0
 
 function quit()
 	newState("Resources/Scripts/LuaStates/Map/MenuState.lua")

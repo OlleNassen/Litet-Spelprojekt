@@ -40,6 +40,33 @@ mY = 0.0
 function mouse(x, y)
 	mX = mX + x
 	mY = mY + y
+	
+	pX, pY = getCameraPosition()	
+	--1280x720
+
+	--Left
+	local mouseTo = -30
+	if mX + p.entity.x - (pX - 640) < mouseTo then
+		mX = mouseTo - p.entity.x + (pX - 640)
+	end
+
+	--Right
+	mouseTo = 1200
+	if mX + p.entity.x - (pX - 640) > mouseTo then
+		mX = mouseTo - p.entity.x + (pX - 640)
+	end
+
+	--Top
+	mouseTo = -10
+	if mY + p.entity.y - (pY - 360) < mouseTo then
+		mY = mouseTo - p.entity.y + (pY - 360)
+	end
+
+	--Bottom
+	mouseTo = 650
+	if mY + p.entity.y - (pY - 360) > mouseTo then
+		mY = mouseTo - p.entity.y + (pY - 360)
+	end
 end
 
 local laserBuffer = newSoundBuffer("Resources/Sound/laser10.wav")
