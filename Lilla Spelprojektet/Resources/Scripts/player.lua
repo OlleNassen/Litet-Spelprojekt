@@ -268,6 +268,9 @@ function Player:update(deltaTime)
 	end
 	
 	if self.entity.health <= 0 then
+		timer = os.clock()
+		while os.clock() < (timer + 1) do
+		end
 		self:reset()
 		newState("Resources/Scripts/LuaStates/Map/gameOverState.lua")
 	end
