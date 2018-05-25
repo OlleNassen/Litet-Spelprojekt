@@ -200,7 +200,18 @@ void GraphicsSystem::displayHighscore(const glm::mat4& projection, float scores[
 {
 	for (int i = 0; i < numScores; i++)
 	{
-		highscore->RenderHighscore(std::to_string(scores[i]), 0, i * 50, 1, glm::vec3(1, 1, 1), i, projection);
+		if (i != 9)
+		{
+			highscore->RenderHighscore(" " + std::to_string(i + 1) + ": " +
+				std::to_string(scores[i]).substr(0, 7), 0, i * 50, 1,
+				glm::vec3(1, 1, 1), i, projection);
+		}
+		else
+		{
+			highscore->RenderHighscore(std::to_string(i + 1) + ": " +
+				std::to_string(scores[i]).substr(0, 7), 0, i * 50, 1,
+				glm::vec3(1, 1, 1), i, projection);
+		}
 	}
 }
 

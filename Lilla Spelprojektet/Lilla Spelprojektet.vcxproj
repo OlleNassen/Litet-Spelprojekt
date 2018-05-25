@@ -164,7 +164,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>..\Lilla Spelprojektet\External\LuaJIT-2.0.5\src;..\Lilla Spelprojektet\External\SFML-2.5.0\lib;..\Lilla Spelprojektet\External\freetype-2.9.1\libs;..\Lilla Spelprojektet\External\glew-2.1.0\lib\Release\Win32;..\Lilla Spelprojektet\External\SOIL2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;glew32s.lib;glu32.lib;lua51.lib;soil2-debug.lib;freetype.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib</AdditionalDependencies>
     </Link>
