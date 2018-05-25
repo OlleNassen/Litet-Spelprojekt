@@ -61,11 +61,6 @@ void Game::run()
 
 	updateState();
 
-	sf::Music music;
-	music.openFromFile("Resources/Sound/malicious.wav");
-	music.setLoop(true);
-	music.play();
-
 	while (currentState.luaState)
 	{
 		handleEvents();
@@ -301,6 +296,9 @@ void Game::addLuaLibraries(lua_State* luaState)
 	lua_pushcfunction(luaState, getCameraPosition);
 	lua_setglobal(luaState, "getCameraPosition");
 
+	lua_pushcfunction(luaState, newMusic);
+	lua_setglobal(luaState, "newMusic");
+
 	eventSystem.addLuaRebind(luaState);
 }
 
@@ -355,4 +353,16 @@ int Game::getCameraPosition(lua_State* luaState)
 	lua_pushnumber(luaState, game->camera->getCenter().y);
 
 	return 2;
+}
+
+int Game::newMusic(lua_State* luaState)
+{
+	lua_getglobal(luaState, "Game");
+	Game* ptr = (Game*)lua_touserdata(luaState, -1);
+	const char* filePath = lua_tostring(luaState, -2);
+	ptr->music.openFromFile(filePath);
+	ptr->music.setLoop(true);
+	ptr->music.play();
+
+	return 0;
 }

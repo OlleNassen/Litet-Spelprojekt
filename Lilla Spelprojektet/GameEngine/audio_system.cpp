@@ -18,9 +18,6 @@ void AudioSystem::addLuaFunctions(lua_State* luaState)
 	lua_pushlightuserdata(luaState, this);
 	lua_setglobal(luaState, "AudioSystem");
 
-	lua_pushcfunction(luaState, newMusic);
-	lua_setglobal(luaState, "newMusic");
-
 	lua_pushcfunction(luaState, newSoundBuffer);
 	lua_setglobal(luaState, "newSoundBuffer");
 
@@ -35,22 +32,6 @@ void AudioSystem::addLuaFunctions(lua_State* luaState)
 
 	lua_pushcfunction(luaState, pauseSound);
 	lua_setglobal(luaState, "pauseSound");
-}
-
-int AudioSystem::newMusic(lua_State* luaState)
-{
-	lua_getglobal(luaState, "AudioSystem");
-	AudioSystem* ptr = (AudioSystem*)lua_touserdata(luaState, -1);
-	const char* filePath = lua_tostring(luaState, -2);
-	lua_pop(luaState, 1);
-	int* id = (int*)lua_newuserdata(luaState, sizeof(int*));
-
-	ptr->music.openFromFile(filePath);
-	ptr->music.setLoop(true);
-	ptr->music.play();
-	*id = 1;
-
-	return 1;
 }
 
 int AudioSystem::newSoundBuffer(lua_State* luaState)

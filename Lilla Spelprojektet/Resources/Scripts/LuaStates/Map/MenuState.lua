@@ -4,6 +4,7 @@ require("Resources/Scripts/Entity")
 require("Resources/Scripts/World")
 require("Resources/Scripts/background")
 require("Resources/Scripts/point_light")
+newMusic("Resources/Sound/darktimes.wav")
 
 local textureFunc = newTexture
 local spriteFunc = newSprite
