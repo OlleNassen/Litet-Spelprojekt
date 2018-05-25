@@ -105,14 +105,15 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 			break;
 
 		case 1337:
+			billboards->setColor(glm::vec4(1, 1, 0, 1));
 			break;
 
 		case 1338:
 			break;
 
 		case 420:
+			billboards->setColor(glm::vec4(1, 0, 0, 1));
 			break;
-
 		case 8055:
 			currentLevel->RenderText(
 				"Boss Room",
@@ -120,6 +121,7 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 			break;
 
 		default:
+			billboards->setColor(glm::vec4(0.1, 0.2, 0.8, 0.5));
 			currentLevel->RenderText(
 				"Welcome To Level " + std::to_string(level), 
 				400, 100, 1, glm::vec3(1, 1, 1), projection);
@@ -131,7 +133,6 @@ void GraphicsSystem::drawLevelText(const glm::mat4 & projection, int level)
 
 void GraphicsSystem::drawSprites(const glm::mat4& view, const glm::mat4& projection)
 {	
-	
 	if (sprites.size() > 0)
 	{
 		for (int itr = sprites.size() - 1; itr >= 0; itr--)

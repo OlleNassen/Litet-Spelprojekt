@@ -18,7 +18,7 @@ private:
 	GLuint instanceVBO;
 
 	glm::vec2 positions[NUM_BILLBOARDS];
-
+	glm::vec4 color;
 
 public:
 	Billboard(Shader* shader, Texture2D* texture);
@@ -26,6 +26,7 @@ public:
 
 	void render(const glm::mat4& view, const glm::mat4& projection);
 	void update(float deltaTime);
+	void setColor(const glm::vec4& color);
 
 private:
 	void initBillboards();

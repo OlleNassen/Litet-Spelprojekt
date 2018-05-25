@@ -10,6 +10,8 @@ Billboard::Billboard(Shader* shader, Texture2D* texture)
 	this->texture = texture;
 	srand(time(NULL));
 
+	color = glm::vec4(0.1, 0.2, 0.8, 0.5);
+
 	/*
 	for (int i = 0; i < NUM_BILLBOARDS; i++)
 	{
@@ -41,6 +43,7 @@ void Billboard::render(const glm::mat4& view, const glm::mat4& projection)
 	this->shader->setMatrix4fv(view, "view");
 	this->shader->setMatrix4fv(projection, "projection");
 	this->shader->setInt(0, "image");
+	this->shader->setVector4f(this->color, "color");
 
 	this->texture->bind(0);
 
@@ -69,6 +72,11 @@ void Billboard::update(float deltaTime)
 
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
 	glBufferData(GL_ARRAY_BUFFER, NUM_BILLBOARDS * sizeof(glm::vec2), &positions[0], GL_STATIC_DRAW);
+}
+
+void Billboard::setColor(const glm::vec4 & color)
+{
+	this->color = color;
 }
 
 void Billboard::initBillboards()

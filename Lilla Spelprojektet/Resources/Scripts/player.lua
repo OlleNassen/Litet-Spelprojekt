@@ -124,7 +124,9 @@ function Player:reset()
 	self.entity.hasPowerUp = self.powerTable
 
 	for i = 1, 20, 1 do
-		saveData(i, 0)
+		if i ~= 19 then
+			saveData(i, 0)
+		end
 	end
 
 end
