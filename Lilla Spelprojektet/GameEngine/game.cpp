@@ -246,11 +246,13 @@ void Game::initWindow()
 
 	if (fullscreen)
 	{
-		window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Fullscreen, settings);
+		window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Don't Fall!", sf::Style::Fullscreen, settings);
+		window->setVerticalSyncEnabled(true);
 	}
 	else
 	{
-		window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Game", sf::Style::Default, settings);
+		window = new sf::Window(sf::VideoMode(WIDTH, HEIGHT), "Don't Fall!", sf::Style::Default, settings);
+		window->setVerticalSyncEnabled(false);
 	}
 
 	//*** Somewhat fixes mouse problem **/
