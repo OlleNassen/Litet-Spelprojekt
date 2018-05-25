@@ -1,6 +1,7 @@
 tilemap = require("Resources/Scripts/LuaStates/Map/Levels/Level1")
 require("Resources/Scripts/common")
 require("Resources/Scripts/boss")
+newMusic("Resources/Sound/malicious.wav")
 
 --Min 28x15 tiles
 saveData(19, 1)
