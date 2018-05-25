@@ -66,9 +66,7 @@ function update(deltaTime)
 	end
 
 	if levelWinPortal.entity:containsCollisionBox(p) then
-		saveData(9, p.entity.health)
-		savePowerup(p.entity.hasPowerUp)
-		saveData(0, 1)
+		p:reset()
 		newState("Resources/Scripts/LuaStates/Map/victoryState.lua")
 	end
 
