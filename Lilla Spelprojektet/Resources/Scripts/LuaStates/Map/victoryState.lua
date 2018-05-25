@@ -50,12 +50,12 @@ bgs[6] = Background:create()
 bgs[6].sprite = newBackground(100, 3200, 0, bgs[4].texture)
 
 local victory = Entity:create() 
-victory.texture = textureFunc("Resources/Sprites/btn_hs.png")
+victory.texture = textureFunc("Resources/Sprites/victorytext.png")
 texture3 = textureFunc("Resources/Sprites/btn_hs_pressed.png")
-victory.sprite = spriteFunc(400,100, 0, victory.texture)
-victory.width = 400
+victory.sprite = spriteFunc(500,100, 0, victory.texture)
+victory.width = 500
 victory.height = 100
-victory:setPosition(450, 300)
+victory:setPosition(600, 300)
 
 saveData(19, 1337)
 
