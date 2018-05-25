@@ -187,7 +187,7 @@ end
 
 function Boss:pPlayerAttack(index, player)
 
-		if player.isAttacking and player.releaseCharge == false then
+		if player.isAttacking and player.releaseCharge == false and player.entity.currentAnimationIndex == 6 then
 			if player.entity.isGoingRight == true then
 				if self.p[index]:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
 					self:pInvertVelocity(index)
@@ -202,8 +202,7 @@ function Boss:pPlayerAttack(index, player)
 		end
 
 		--Charge attack (right and left resp.)
-		if player.isAttacking and player.releaseCharge then
-
+		if player.isAttacking and player.releaseCharge and player.entity.currentAnimationIndex == 35 then
 			if player.isAttacking == true and player.entity.isGoingRight == true then
 				if self.p[index]:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
 					self:pInvertVelocity(index, 2)
@@ -264,8 +263,8 @@ function Boss:addProjectile(player, deltaTime)
 	self.p[#self.p]:updateAnimation(1)
 	local vector = {x = player.entity.x - self.p[#self.p].x, y = (player.entity.y + 24) - self.p[#self.p].y + 24}
 	local length = math.sqrt((vector.x * vector.x) + (vector.y * vector.y))
-	vector.x = (vector.x / length) * 500
-	vector.y = (vector.y / length) * 500
+	vector.x = (vector.x / length) * 1000
+	vector.y = (vector.y / length) * 1000
 
 	self.p[#self.p].velocity.x = vector.x
 	self.p[#self.p].velocity.y = vector.y
