@@ -37,13 +37,13 @@ function updateEnemies(player, deltaTime)
 		if player.isAttacking and player.releaseCharge and player.entity.currentAnimationIndex == 35  then
 
 			if player.isAttacking == true and player.entity.isGoingRight == true then
-				if enemy.entity:contains(player.entity.x + player.entity.width - 60, player.entity.y + (player.entity.height / 2)) == true then
+				if enemy.entity:contains(player.entity.x + player.entity.width - 40, player.entity.y + (player.entity.height / 2)) == true then
 					enemy.entity:takeDamage(player.attackDamage * 5, player.attackPushBack.x, player.attackPushBack.y, true)
 					playSound(enemyHitSound)
 				end
 
 			elseif  player.isAttacking == true and player.entity.isGoingRight == false then
-				if enemy.entity:contains(player.entity.x + 60, player.entity.y + (player.entity.height / 2)) == true then
+				if enemy.entity:contains(player.entity.x + 40, player.entity.y + (player.entity.height / 2)) == true then
 					enemy.entity:takeDamage(player.attackDamage * 5, player.attackPushBack.x, player.attackPushBack.y, true)
 					playSound(enemyHitSound)
 				end

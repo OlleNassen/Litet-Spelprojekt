@@ -134,12 +134,12 @@ function Boss:playerAttack(player)
 		if player.isAttacking and player.releaseCharge then
 
 			if player.isAttacking == true and player.entity.isGoingRight == true then
-				if self.entity:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
+				if self.entity:contains(player.entity.x + player.entity.width - 40, player.entity.y + (player.entity.height / 2)) == true then
 					self:takeDamage(player.attackDamage * 3)
 				end
 
 			elseif  player.isAttacking == true and player.entity.isGoingRight == false then
-				if self.entity:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
+				if self.entity:contains(player.entity.x + 40, player.entity.y + (player.entity.height / 2)) == true then
 					self:takeDamage(player.attackDamage * 3)
 				end
 
@@ -218,12 +218,12 @@ function Boss:pPlayerAttack(index, player)
 		--Charge attack (right and left resp.)
 		if player.isAttacking and player.releaseCharge and player.entity.currentAnimationIndex == 35 then
 			if player.isAttacking == true and player.entity.isGoingRight == true then
-				if self.p[index]:contains(player.entity.x + player.entity.width - 50, player.entity.y + (player.entity.height / 2)) == true then
+				if self.p[index]:contains(player.entity.x + player.entity.width - 40, player.entity.y + (player.entity.height / 2)) == true then
 					self:pInvertVelocity(index, 2)
 				end
 
 			elseif  player.isAttacking == true and player.entity.isGoingRight == false then
-				if self.p[index]:contains(player.entity.x + 50, player.entity.y + (player.entity.height / 2)) == true then
+				if self.p[index]:contains(player.entity.x + 40, player.entity.y + (player.entity.height / 2)) == true then
 					self:pInvertVelocity(index, 2)
 				end
 
