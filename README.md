@@ -4,7 +4,7 @@ Litet Spelprojekt - Gruppuppgift på Blekinge Tekniska Högskola
 
 Vi har gjort ett 2D Metroidvania spel i C++(Spelmotorn) och Lua(Spellogik). Vi använde OpenGL som 3D-API, glm(Matematik), SOIL(Texturhantering) och SFML för fönsterhantering, input och ljud.
 
-Glöm inte att köra 32-bitars versionen(x86)
+Glöm inte att köra 32-bitars versionen om du vill köra projektet(x86)
 
 1.01:
 
