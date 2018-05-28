@@ -87,19 +87,19 @@ function update(deltaTime)
 	s:setPosition(mX, mY)
 	updateBackground()
 
-	if play:contains(s.x, s.y) then
+	if play:contains(s.x + 40, s.y + 30) then
 		settexture(play.sprite, texture2)
 	else
 		settexture(play.sprite, play.texture)
 	end
 
-	if highscore:contains(s.x, s.y) then
+	if highscore:contains(s.x + 40, s.y + 30) then
 		settexture(highscore.sprite, texture3)
 	else
 		settexture(highscore.sprite, highscore.texture)
 	end
 
-	if exit:contains(s.x, s.y) then
+	if exit:contains(s.x + 40, s.y + 30) then
 		settexture(exit.sprite, texture4)
 	else
 		settexture(exit.sprite, exit.texture)
@@ -120,15 +120,15 @@ function updateBackground()
 end
 
 function mouseLeft()
-	if play:contains(s.x, s.y) then
+	if play:contains(s.x + 40, s.y + 30) then
 		newState("Resources/Scripts/LuaStates/Map/Level1State.lua")
 	end
 
-	if highscore:contains(s.x, s.y) then
+	if highscore:contains(s.x + 40, s.y + 30) then
 		newState("Resources/Scripts/LuaStates/Map/highscoreState.lua")
 	end
 
-	if exit:contains(s.x, s.y) then
+	if exit:contains(s.x + 40, s.y + 30) then
 		deleteState()
 	end
 end

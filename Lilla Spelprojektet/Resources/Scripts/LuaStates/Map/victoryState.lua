@@ -75,7 +75,7 @@ saveData(19, 1337)
 function update(deltaTime)
 	s:setPosition(mX, mY)
 	
-	if back:contains(s.x, s.y) then
+	if back:contains(s.x + 40, s.y + 30) then
 		settexture(back.sprite, texture4)
 	else
 		settexture(back.sprite, back.texture)
@@ -97,7 +97,7 @@ function updateBackground()
 end
 
 function mouseLeft()
-	if back:contains(s.x, s.y) then
+	if back:contains(s.x + 40, s.y + 30) then
 		p:reset()
 		newState("Resources/Scripts/LuaStates/Map/MenuState.lua")
 	end
