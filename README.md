@@ -6,8 +6,8 @@ Olle Nässén,
 Edvard Leiborn,
 Fu Keung Tu,
 Vincent Månsson,
-Suraj Sharma,
-Collin Jarl,
+Suraj Sharma\n
+Collin Jarl\n
 
 Vi har gjort ett 2D Metroidvania spel i C++(Spelmotorn) och Lua(Spellogik). Vi använde OpenGL som 3D-API, glm(Matematik), SOIL(Texturhantering) och SFML för fönsterhantering, input och ljud.
 
